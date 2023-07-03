@@ -241,7 +241,7 @@ public class CombatCharacter : MonoBehaviour
     {
         if (Dead && start)
         {
-            Status.NextPlayer();
+            BattleManager.NextPlayer();
             return;
         }
 
@@ -354,7 +354,7 @@ public class CombatCharacter : MonoBehaviour
                     equipment[3].BoostArmor();
                     break;*/
             }
-            HP += (int)(EN / Status.Difficulty);
+            HP += (int)(EN / BattleManager.Difficulty);
             print(charName + " " + leveuUpText);
             OverheadText.ShowGreen(leveuUpText);
         }
@@ -460,7 +460,7 @@ public class CombatCharacter : MonoBehaviour
 
     public void BoostSkill(string skillname)
     {
-        float difficalty = 0.1f*Status.Difficulty; //<1 - much easier to train; >1 - much more difficult; 0-always trains
+        float difficalty = 0.1f*BattleManager.Difficulty; //<1 - much easier to train; >1 - much more difficult; 0-always trains
         
         if ((skillname == "") || (!skills.ContainsKey(skillname)))
             return;

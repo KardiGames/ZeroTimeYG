@@ -7,7 +7,7 @@ public class HotKeys : MonoBehaviour
 {
     private void Update()
     {
-        if (Status.Current != "planning" || CombatCharacter.cCList[Status.Player].ai!="")
+        if (BattleManager.Status != "planning" || CombatCharacter.cCList[BattleManager.Player].ai!="")
             return;
         if (Input.GetKeyDown(KeyCode.E))
             UserInterface.Instance.EndTurn();

@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
                     winnerName += cChar.charName;
                 else
                     winnerName += " & " + cChar.charName;
-                winnerScore += cChar.Experience*(int)Status.Difficulty;
+                winnerScore += cChar.Experience*(int)BattleManager.Difficulty;
             }
             Destroy(cChar.gameObject);
         }
@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour
     }
     public void StartGame()
     {
-        Status.FirstTurn();
+        BattleManager.FirstTurn();
         NonPlayerCharacter.SpawnMiner(1);
         
         bool readyCheck = true;
@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour
         }
         if (readyCheck)
         {
-            CombatCharacter.cCList[Status.Player].StartPlanning();
+            CombatCharacter.cCList[BattleManager.Player].StartPlanning();
         } else
         {
             print("ERROR!!! Something wrong with Starting game. Game stopped. Investigate this");

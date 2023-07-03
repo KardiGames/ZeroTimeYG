@@ -2,17 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Status : MonoBehaviour
+public class BattleManager : MonoBehaviour
 {
     //Combat logs
     public static List<CombatAction> planningList = new List<CombatAction>();
     public static List<CombatAction> combatLog = new List<CombatAction>();
 
-    public static string Current { get; private set; } = "starting";
+    public static string Status { get; private set; } = "starting";
     private static float _difficulty=1;
     public static float Difficulty { get=>_difficulty; set 
         {
-            if (Current == "starting" && value >= 1 && value <= 3)
+            if (Status == "starting" && value >= 1 && value <= 3)
                 _difficulty = value;
         } 
     }
@@ -34,12 +34,12 @@ public class Status : MonoBehaviour
 
     public static void NextMovieAct ()
     {
-        if (Current == "movie")
+        if (Status == "movie")
         {
             MovieAct++;
             if (MovieAct >= combatLog.Count)
             {
-                Status.NextTurn();
+                BattleManager.NextTurn();
             }
         }
     }
@@ -57,13 +57,13 @@ public class Status : MonoBehaviour
             Player--;
 
             UserInterface.Instance.SetPlaningButtons(false);
-            Current = "performing";
+            Status = "performing";
 
             CombatAction.CreatePlanningList(planningList);
 
             CombatAction.Perform(planningList);
 
-            Current = "movie";
+            Status = "movie";
 
         }
     }
@@ -75,7 +75,7 @@ public class Status : MonoBehaviour
         Turn = 0;
         Player = 0;
         MovieAct = 0;
-        Current = "planning";
+        Status = "planning";
         UserInterface.Instance.SetPlaningButtons(true);
     }
     private static void NextTurn()
@@ -89,7 +89,7 @@ public class Status : MonoBehaviour
         int deadSouls = CleanDeadBodies();
         if (totalPlayersLevel == 0)
         {
-            Current = "starting";
+            Status = "starting";
             gameManager.GameOver();
             return;
         }
@@ -105,7 +105,7 @@ public class Status : MonoBehaviour
         }
 
         Player = 0;
-        Current = "planning";
+        Status = "planning";
         UserInterface.Instance.SetPlaningButtons(true);
 
         CombatCharacter.cCList[Player].StartPlanning();

@@ -27,7 +27,7 @@ public class CombatAction
             place[0] = x;
             place[1] = y;
             subject = subj;
-            turn = Status.Turn;
+            turn = BattleManager.Turn;
             return true;
         }
         else
@@ -49,7 +49,7 @@ public class CombatAction
         if (subj.SpendAP(weapon.apCost, true))
         {
             CombatAction thisAttack = new CombatAction();
-            thisAttack.turn = Status.Turn;
+            thisAttack.turn = BattleManager.Turn;
             thisAttack.action = "attack";
             thisAttack.subject = subj;
             thisAttack.target = obj;
@@ -71,7 +71,7 @@ public class CombatAction
         if (subj.SpendAP(apCost, true))
         {
             CombatAction thisAction = new CombatAction();
-            thisAction.turn = Status.Turn;
+            thisAction.turn = BattleManager.Turn;
             thisAction.apCost = apCost;
             thisAction.action = "wait";
             thisAction.subject = subj;
@@ -160,11 +160,11 @@ public class CombatAction
 
     public static void Perform(List<CombatAction> pList)
     {
-        List<CombatAction> log = Status.combatLog;
+        List<CombatAction> log = BattleManager.combatLog;
 
-        if ((log.Count != 0)&&(log[(log.Count - 1)].turn >= Status.Turn))
+        if ((log.Count != 0)&&(log[(log.Count - 1)].turn >= BattleManager.Turn))
         {
-            Debug.Log("ERROR! Previous turn " + log[(log.Count - 1)].turn + ">= current turn " + Status.Turn);
+            Debug.Log("ERROR! Previous turn " + log[(log.Count - 1)].turn + ">= current turn " + BattleManager.Turn);
             return;
         }
         else

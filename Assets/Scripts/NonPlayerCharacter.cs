@@ -47,13 +47,13 @@ public class NonPlayerCharacter : CombatCharacter
 
     public override void StartPlanning(bool start = true)
     {
-        if (start && Status.Current=="planning")
+        if (start && BattleManager.Status=="planning")
         {
             if (!Dead)
             {
                 Scripts.Ai(this);
             }
-            Status.NextPlayer();
+            BattleManager.NextPlayer();
         }
     }
 
@@ -127,7 +127,7 @@ public class NonPlayerCharacter : CombatCharacter
             npc.skills.Add(attack.skillname, 0);
         npc.skills[attack.skillname] = 75;
 
-        for (int i=1; i<level*Status.Difficulty; i++)
+        for (int i=1; i<level*BattleManager.Difficulty; i++)
         {
             npc.MaxHP += maxHP/2;
             int randomStart = 0;

@@ -25,7 +25,7 @@ public class ClickArea : MonoBehaviour
     {
         if (action=="attack")
         {
-            combatCharacter.OverheadText.Show("To hit: "+ Scripts.HitChanse(CombatCharacter.cCList[Status.Player], combatCharacter)+"%");
+            combatCharacter.OverheadText.Show("To hit: "+ Scripts.HitChanse(CombatCharacter.cCList[BattleManager.Player], combatCharacter)+"%");
             UserInterface.Instance.ShowEnemyInfo((NonPlayerCharacter)combatCharacter);
         }
     }
@@ -39,7 +39,7 @@ public class ClickArea : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (Status.Current != "planning")
+        if (BattleManager.Status != "planning")
             return;
         
         //Start move action
@@ -57,7 +57,7 @@ public class ClickArea : MonoBehaviour
             //Check for and perform move action
             if (Input.GetKey(KeyCode.LeftControl) == true || Input.GetKey(KeyCode.RightControl) == true)
             {
-                CombatCharacter planningCharacter = CombatCharacter.cCList[Status.Player];
+                CombatCharacter planningCharacter = CombatCharacter.cCList[BattleManager.Player];
                 xPlace = combatCharacter.planningPos[0];
                 yPlace = combatCharacter.planningPos[1];
                 planningCharacter.MovePlan(xPlace, yPlace);
@@ -65,16 +65,16 @@ public class ClickArea : MonoBehaviour
             }
             else
             {
-                if (CombatAction.Attack(CombatCharacter.cCList[Status.Player], combatCharacter))
+                if (CombatAction.Attack(CombatCharacter.cCList[BattleManager.Player], combatCharacter))
                 {
                     combatCharacter.OverheadText.ShowHP();
                 }
             }
         }
 
-        if (CombatCharacter.cCList[Status.Player].PlanningAP == 0)
+        if (CombatCharacter.cCList[BattleManager.Player].PlanningAP == 0)
         {
-            Status.NextPlayer();
+            BattleManager.NextPlayer();
         }
     }
 

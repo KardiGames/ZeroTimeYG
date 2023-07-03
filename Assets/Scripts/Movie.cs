@@ -5,7 +5,7 @@ using UnityEngine;
 public class Movie : MonoBehaviour
 {
     //Loading prepetaions
-    List<CombatAction> combatLog = Status.combatLog;
+    List<CombatAction> combatLog = BattleManager.combatLog;
     public GameObject bulletPrefab;
     [SerializeField] AudioClip shootSound;
     [SerializeField] AudioClip hitSound;
@@ -31,16 +31,16 @@ public class Movie : MonoBehaviour
     void Update()
     {
 
-        if (Status.Current != "movie") return;
-        CombatAction thisAction = combatLog[Status.MovieAct];
+        if (BattleManager.Status != "movie") return;
+        CombatAction thisAction = combatLog[BattleManager.MovieAct];
 
         if (thisAction.action == "move")
         {
 
             if (summator == Vector3.zero)
             {
-                summator.x = (CoordArray.cArray[(combatLog[Status.MovieAct].place[0]), (combatLog[Status.MovieAct].place[1]), 0] - combatLog[Status.MovieAct].subject.transform.position.x) / divider;
-                summator.y = (CoordArray.cArray[(combatLog[Status.MovieAct].place[0]), (combatLog[Status.MovieAct].place[1]), 1] - combatLog[Status.MovieAct].subject.transform.position.y) / divider;
+                summator.x = (CoordArray.cArray[(combatLog[BattleManager.MovieAct].place[0]), (combatLog[BattleManager.MovieAct].place[1]), 0] - combatLog[BattleManager.MovieAct].subject.transform.position.x) / divider;
+                summator.y = (CoordArray.cArray[(combatLog[BattleManager.MovieAct].place[0]), (combatLog[BattleManager.MovieAct].place[1]), 1] - combatLog[BattleManager.MovieAct].subject.transform.position.y) / divider;
 
                 //TODO - edit crutch with choosing sound
                 if (thisAction.subject.ai=="")
@@ -58,19 +58,19 @@ public class Movie : MonoBehaviour
 
             }
 
-            combatLog[Status.MovieAct].subject.transform.position += summator;
+            combatLog[BattleManager.MovieAct].subject.transform.position += summator;
 
             if (++numenator == divider)
             {
-                if (thisAction.subject.characterAnimator != null && !(Status.MovieAct < (combatLog.Count - 1) && combatLog[Status.MovieAct + 1].subject == thisAction.subject && combatLog[Status.MovieAct + 1].action == "move"))
+                if (thisAction.subject.characterAnimator != null && !(BattleManager.MovieAct < (combatLog.Count - 1) && combatLog[BattleManager.MovieAct + 1].subject == thisAction.subject && combatLog[BattleManager.MovieAct + 1].action == "move"))
                     thisAction.subject.characterAnimator.SetBool("Run", false);
 
-                if (!(Status.MovieAct < (combatLog.Count - 1) && combatLog[Status.MovieAct + 1].subject == thisAction.subject && combatLog[Status.MovieAct + 1].action == "move"))
+                if (!(BattleManager.MovieAct < (combatLog.Count - 1) && combatLog[BattleManager.MovieAct + 1].subject == thisAction.subject && combatLog[BattleManager.MovieAct + 1].action == "move"))
                     thisAction.subject.characterSound.Stop();
 
                 numenator = 0;
                 summator = Vector3.zero;
-                Status.NextMovieAct();
+                BattleManager.NextMovieAct();
             }
 
         }
@@ -153,13 +153,13 @@ public class Movie : MonoBehaviour
                 numenator = 0;
                 summator = Vector3.zero;
 
-                Status.NextMovieAct();
+                BattleManager.NextMovieAct();
             }
         }
         else if (thisAction.action == "wait")
         {
             thisAction.subject.OverheadText.ShowGreen("+" + thisAction.apCost + " temporal AC");
-            Status.NextMovieAct();
+            BattleManager.NextMovieAct();
         }
 
         void TurnAnimatedObject(CombatCharacter animatedObject, float positiveToTheRight)
@@ -181,7 +181,7 @@ public class Movie : MonoBehaviour
         IEnumerator PauseAndNextAct(float seconds)
         {
             yield return new WaitForSeconds(seconds);
-            Status.NextMovieAct();
+            BattleManager.NextMovieAct();
         }
 
     }

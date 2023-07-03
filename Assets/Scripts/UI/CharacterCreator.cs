@@ -58,7 +58,7 @@ public class CharacterCreator : MonoBehaviour
     // Update is called once per frame
     public void CreateCharacter()
     {
-        if (Status.Current != "starting")
+        if (BattleManager.Status != "starting")
             return;
         
         if (nameField.text=="")

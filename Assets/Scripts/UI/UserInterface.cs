@@ -30,7 +30,7 @@ public class UserInterface : MonoBehaviour
     public void ShowMainMenu()
     {
         mainMenu.SetActive(true);
-        if (Status.Current == "starting")
+        if (BattleManager.Status == "starting")
             gameObject.GetComponentInChildren<CharacterCreator>(true).ResetMainMenu();
     }
 
@@ -38,14 +38,14 @@ public class UserInterface : MonoBehaviour
 
     public void ChangeWeapon()
     {
-        if (Status.Current == "planning")
+        if (BattleManager.Status == "planning")
         {
-            CombatCharacter.cCList[Status.Player].usesOffHand = !CombatCharacter.cCList[Status.Player].usesOffHand;
+            CombatCharacter.cCList[BattleManager.Player].usesOffHand = !CombatCharacter.cCList[BattleManager.Player].usesOffHand;
             ShowWeaponStats();
         }
     }
 
-    public void ShowWeaponStats() => ShowWeaponStats(CombatCharacter.cCList[Status.Player]);
+    public void ShowWeaponStats() => ShowWeaponStats(CombatCharacter.cCList[BattleManager.Player]);
 
     public void ShowWeaponStats(CombatCharacter attacker)
     {
@@ -65,7 +65,7 @@ public class UserInterface : MonoBehaviour
             weaponText += "Range: "+weapon.Range + "\n";
         else
             weaponText += "Melee\n";
-        weaponText += "Skill: " + CombatCharacter.cCList[Status.Player].skills[weapon.skillname]+" %";
+        weaponText += "Skill: " + CombatCharacter.cCList[BattleManager.Player].skills[weapon.skillname]+" %";
         weaponInfoField.text = weaponText;
     }
 
@@ -98,7 +98,7 @@ public class UserInterface : MonoBehaviour
             bestScoreText += currentNode.Item2 + " - " + currentNode.Item1+"\n";
         bestScoreField.text = bestScoreText;
     }
-    public void RefreshCharInfo() => RefreshCharInfo(CombatCharacter.cCList[Status.Player]);
+    public void RefreshCharInfo() => RefreshCharInfo(CombatCharacter.cCList[BattleManager.Player]);
     public void RefreshCharInfo(CombatCharacter player)
     {
         string charInfoText = $"{player.charName} [ {player.level} lvl ]\n"
@@ -135,21 +135,21 @@ public class UserInterface : MonoBehaviour
 
     public void EndTurn()
     {
-        if (Status.Current != "planning")
+        if (BattleManager.Status != "planning")
             return;
-        CombatCharacter activeCharacter = CombatCharacter.cCList[Status.Player];
+        CombatCharacter activeCharacter = CombatCharacter.cCList[BattleManager.Player];
         if (activeCharacter.PlanningAP > 0)
             CombatAction.Wait(activeCharacter, activeCharacter.PlanningAP);
-        Status.NextPlayer();
+        BattleManager.NextPlayer();
     }
     public void Wait()
     {
-        if (Status.Current != "planning")
+        if (BattleManager.Status != "planning")
             return;
-        CombatAction.Wait(CombatCharacter.cCList[Status.Player]);
-        if (CombatCharacter.cCList[Status.Player].PlanningAP == 0)
+        CombatAction.Wait(CombatCharacter.cCList[BattleManager.Player]);
+        if (CombatCharacter.cCList[BattleManager.Player].PlanningAP == 0)
         {
-            Status.NextPlayer();
+            BattleManager.NextPlayer();
         }
     }
 
@@ -198,7 +198,7 @@ public class UserInterface : MonoBehaviour
     }
     public void StartButtonAction ()
     {
-        if (Status.Current != "starting")
+        if (BattleManager.Status != "starting")
             return;
 
         if (CombatCharacter.cCList.Count < 1 || CombatCharacter.cCList.Count > 2)
