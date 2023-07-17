@@ -94,6 +94,10 @@ public class CombatCharacter : MonoBehaviour
 
     private void Start()
     {
+        //Part to easy move char to scene
+        //FulfillCharacter("TEMP name", 5, 5, 5, 5, Item.GetItem("Rifle"), Item.GetItem("Fist"));
+
+
         if (!isCreated)
         {
             print("ERROR!!! Start() for CombatCharacter started too early");

@@ -209,7 +209,7 @@ public class UserInterface : MonoBehaviour
                 return;
 
         mainMenu.SetActive(false);
-        gameManager.StartGame();
+        gameManager.StartBattle();
 
     }
 }

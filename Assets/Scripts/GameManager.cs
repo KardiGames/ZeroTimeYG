@@ -12,12 +12,6 @@ public class GameManager : MonoBehaviour
         Item.LoadItems();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void GameOver()
     {
         string winnerName="";
@@ -53,7 +47,7 @@ public class GameManager : MonoBehaviour
 
         
     }
-    public void StartGame()
+    public void StartBattle()
     {
         BattleManager.FirstTurn();
         NonPlayerCharacter.SpawnMiner(1);
