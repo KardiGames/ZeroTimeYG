@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         Item.LoadItems();
+        Location.LoadMap();
     }
 
     public void GameOver()

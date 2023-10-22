@@ -24,7 +24,7 @@ public class CharacterCreator : MonoBehaviour
     [SerializeField] private Button createAddCharacterButton;
     [SerializeField] private Button startGameButton;
 
-    List<string> weaponOptions = new();
+    private List<string> weaponOptions = new();
 
     private string[] nameList = { "Jessie", "Lenee", "Sights", "Shay", "Shaw", "Stylez", 
         "Jennings", "Sindee", "Lomeli", "Stella", "Sophie", "Summer", "Stevie", "Lee", "Sins", 

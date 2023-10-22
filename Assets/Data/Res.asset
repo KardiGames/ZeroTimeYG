@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af871b096d856db4db76b3dcc3f9ef31, type: 3}
   m_Name: Res
   m_EditorClassIdentifier: 
-  itemName: Pistol
+  itemName: Res
   stackable: 0
-  _stackSize: 1
+  _amount: 1
   rangedAttack: 1
   damageRandomMultipler: 1
   damageRandomTo: 6

@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu (fileName = "Weapon", menuName = "Items/Weapon")]
 public class Weapon : ScriptableItem
 {
-    [SerializeField]private bool rangedAttack = true;
+    [SerializeField] private bool rangedAttack = true;
     [SerializeField] private int damageRandomMultipler = 1; //3 for 3d6
     [SerializeField] private int damageRandomTo = 6; //1dX (10 for 1d10)
     [SerializeField] private int damageAddition = 0; //5 for 2d8+5
@@ -13,7 +13,7 @@ public class Weapon : ScriptableItem
     [SerializeField] private int apCost = 5;
     [SerializeField] private string skillname = "";
 
-    public long Amount { get => 1; }
+    public new long Amount { get => 1; }
 
     public string FormDamageDiapason(int flatBonus = 0)
     {

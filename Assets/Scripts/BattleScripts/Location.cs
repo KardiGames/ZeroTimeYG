@@ -4,10 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class Location : MonoBehaviour
+public class Location
 {
     //General MAP SIZE
-    public static int xSize = 15; 
+    public static int xSize = 15;
     public static int ySize = 13;
 
     //Static Array to get Map information
@@ -17,28 +17,31 @@ public class Location : MonoBehaviour
     int X {get;}
 	int Y { get; }
 	
-	int moveAP = 2;
+	private int _moveAP = 2;
 
     public int X3d {get => X-(Y-(Y&1))/2;}
 	public int Y3d {get => Y;}
 	public int Z3d {get => -X3d-Y3d;}
-	
-	public int AP
-    {
-        get
-        {
-            return moveAP;
-        }
-    }
+
+    public int AP => _moveAP;
 	
 	public Location (int x, int y) {
 		X=x;
 		Y=y;
 	}
 
-    // Start is called before the first frame update
-    void Awake()
+    public Location (int x, int y, int moveApCost)
     {
+        X = x;
+        Y = y;
+        _moveAP = moveApCost;
+    }
+
+    // Start is called before the first frame update
+    public static void LoadMap()
+    {
+        if (map[0, 0] == null)
+            return;
         //Fulfilling map
         for (int i =0; i<xSize; i++)
         {
@@ -46,26 +49,9 @@ public class Location : MonoBehaviour
             {
                 map[i, j] = new Location(i, j);
             }
-
         }
-
     }
-	
-    private void DrawCoordinates () {
-		Transform canvas = GetComponentInChildren<Canvas>().transform;
-        GameObject newCoordinatesGO;
-        for (int x = 0; x < xSize; x++)
-        {
-            for (int y = 0; y < ySize; y++)
-            {
-                newCoordinatesGO=Instantiate(PrefabsList.instance.coordinatesText, CoordArray.HexCenter(x,y), PrefabsList.instance.coordinatesText.transform.rotation, canvas);
-                newCoordinatesGO.GetComponent<TextMeshProUGUI>().text = x + " "+y;
-            }
-
-        }
-	}
-	
-public static Vector2Int Calc3dCoordinates (int x3d, int y3d, int z3d) => new Vector2Int (x3d + (y3d - (y3d&1)) / 2, y3d);
+public static Vector2Int Calc3dCoordinates (int x3d, int y3d, int z3d) => new (x3d + (y3d - (y3d&1)) / 2, y3d);
 
 public static int Distance (Location from, Location to) {
 

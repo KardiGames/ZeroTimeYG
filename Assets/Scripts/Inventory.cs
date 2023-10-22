@@ -19,10 +19,14 @@ public class Inventory : MonoBehaviour
 		return inventoryItems.ToArray();	
 	}
 	
-	
 	public ScriptableItem[] GetAllItems(string itemName) {
 		return inventoryItems.FindAll(item => item.name == itemName).ToArray();
 	}
+
+	public ScriptableItem[] GetAllItems (ScriptableItem itemOfType)
+    {
+		return inventoryItems.FindAll(item => item.IsTheSameItem(itemOfType)).ToArray();
+    }
 	
 	public long  GetItemAmount (string itemName) {
 		long amount =0;
@@ -34,7 +38,7 @@ public class Inventory : MonoBehaviour
 
 	public void TransferTo(object sender, Inventory toInventory, ScriptableItem item, long amount = 1)
     {
-		if (amount < 1 || item.Amount<amount || !inventoryItems.Contains(item))
+		if (item == null || amount < 1 || item.Amount<amount || !inventoryItems.Contains(item))
 			return;
 		
 		if (!item.Stackable || item.Amount==amount)
@@ -44,44 +48,41 @@ public class Inventory : MonoBehaviour
 				inventoryItems.Remove(item);
         } else
         {
-			ScriptableItem partOfStack = Instantiate(item);
-			partOfStack.Amount = amount;
+			ScriptableItem partOfStack = item.Split(amount);
 
 			bool check = toInventory.TryToAdd(sender, partOfStack);
-			if (check)
-				item.Amount -= amount;
+			if (!check)
+				item.TryToUnite(partOfStack);
         }
 		OnInventoryContentChanged?.Invoke();
 	}
-	
-	public bool TryToAdd (object sender, ScriptableItem item) {
+
+    public bool TryToAdd (object sender, ScriptableItem item) {
 		if (!item.Stackable)
         {
-			inventoryItems.Add(item); //TODO think about adding item.Clone()
-			OnInventoryItemAddedEvent?.Invoke(sender, item, item.Amount);
-			OnInventoryContentChanged?.Invoke();
-			return true;
-        }
-
-		var itemInInventory = inventoryItems.Find(existingItem => existingItem.ItemName == item.ItemName);
-		if (itemInInventory == null)
-			inventoryItems.Add(item); //TODO think about adding item.Clone()
-		else
-			itemInInventory.Amount += item.Amount;
-
+			inventoryItems.Add(item);
+        } else {
+			var itemInInventory = inventoryItems.Find(existingItem => existingItem.ItemName == item.ItemName);
+			if (itemInInventory == null || !itemInInventory.IsTheSameItem(item))
+				inventoryItems.Add(item);
+			else
+				itemInInventory.TryToUnite(item);
+		}
 		OnInventoryItemAddedEvent?.Invoke(sender, item, item.Amount);
 		OnInventoryContentChanged?.Invoke();
 		return true;
 	}
-	
-	public void Remove (object sender, string itemName, long amount=1) {
-		var foundItems = GetAllItems(itemName);
-		if (foundItems.Length == 0)
+
+	public void Remove(object sender, string itemName, long amount = 1) => RemoveByArray(sender, GetAllItems(itemName), amount);
+	public void Remove(object sender, ScriptableItem itemOfType, long amount = 1) => RemoveByArray(sender, GetAllItems(itemOfType), amount);
+
+	private void RemoveByArray (object sender, ScriptableItem[] items, long amount) {
+		if (items.Length == 0)
 			return;
 
-		if (!foundItems[0].Stackable)
+		if (!items[0].Stackable)
 		{
-			inventoryItems.Remove(foundItems[0]);
+			inventoryItems.Remove(items[0]);
 			OnInventoryContentChanged?.Invoke();
 			return;
 		}
@@ -89,21 +90,21 @@ public class Inventory : MonoBehaviour
 			return;
 
 
-		int count = foundItems.Length;
+		int count = items.Length;
 		for (int i=count-1; i>=0; i--)
         {
-			if (foundItems[i].Amount>=amount)
+			if (items[i].Amount>=amount)
             {
-				foundItems[i].Amount -= amount;
-				if (foundItems[i].Amount <= 0)
-					inventoryItems.Remove(foundItems[i]);
-				OnInventoryItemRemovedEvent?.Invoke(sender, foundItems[i], amount);
+				items[i].Amount -= amount;
+				if (items[i].Amount <= 0)
+					inventoryItems.Remove(items[i]);
+				OnInventoryItemRemovedEvent?.Invoke(sender, items[i], amount);
 				break;
             }
 
-			amount -= foundItems[i].Amount;
-			inventoryItems.Remove(foundItems[i]);
-			OnInventoryItemRemovedEvent?.Invoke(sender, foundItems[i], foundItems[i].Amount);
+			amount -= items[i].Amount;
+			inventoryItems.Remove(items[i]);
+			OnInventoryItemRemovedEvent?.Invoke(sender, items[i], items[i].Amount);
 			OnInventoryContentChanged?.Invoke();
 		}
 	}
@@ -112,5 +113,15 @@ public class Inventory : MonoBehaviour
 		item = GetItem(itemName);
 		return item != null;
 	}
-	
+
+	public void FromJson(string jsonString)
+	{
+		JsonUtility.FromJsonOverwrite(jsonString, this);
+	}
+
+	internal string ToJson()
+	{
+		string returnableJsonString = JsonUtility.ToJson(this);
+		return returnableJsonString;
+	}
 }

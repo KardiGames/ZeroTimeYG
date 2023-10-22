@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public class Item : ICloneable
 {
     static private float rangeBalansingParametr = 1; //Multiplies max ranges of weapons & characters. Basicly 2 for FalloutPNP. 
@@ -11,9 +12,9 @@ public class Item : ICloneable
 
     public string itemName;
     public bool rangedAttack = true;
-    private int damageRandomTo = 6; //1dX (10 for 1d10)
-    private int damageRandomMultipler = 1; //3 for 3d6
-    private int damageAddition = 0; //5 for 2d8+5
+    [SerializeField] private int damageRandomTo = 6; //1dX (10 for 1d10)
+    [SerializeField] private int damageRandomMultipler = 1; //3 for 3d6
+    [SerializeField] private int damageAddition = 0; //5 for 2d8+5
 
     public int _range = 2;
     public int Range
@@ -178,5 +179,5 @@ public class Item : ICloneable
         return null;
     }
 
-    public object Clone() => MemberwiseClone();
+    public object Clone() => (Item)MemberwiseClone();
 }
