@@ -3,27 +3,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "Item", menuName = "Items/Item")]
 public class ScriptableItem : ScriptableObject
 {
     
-    [SerializeField] private string itemName = "ScriptItem";
-    [SerializeField] private bool stackable=false;
+    [SerializeField] protected string _itemName = "ErrorItem";
+    [SerializeField] private bool _stackable=false;
     [SerializeField] private long _amount = 1;
 
-
-    public string ItemName => itemName;
-    public bool Stackable { get => stackable; }
+    public string ItemName => _itemName;
+    public bool Stackable { get => _stackable; }
     public long Amount
     {
         get => _amount;
         set //TODO delete setter
         {
-            if (stackable && value > 0)
+            if (_stackable && value > 0)
                 _amount = value;
         }
     }
 	
-	private ScriptableItem Clone()
+	public ScriptableItem Clone()
     {
         return Instantiate(this);
     }
@@ -59,8 +59,26 @@ public class ScriptableItem : ScriptableObject
         return (itemToAdd==null);
     }
 
-    public virtual bool IsTheSameItem(ScriptableItem itemToCompare) //TODO check logic, m.b. make abstract
+    public virtual bool IsTheSameItem(ScriptableItem itemToCompare)
     {
-        return this.itemName == itemToCompare.itemName;
+        return this._itemName == itemToCompare._itemName && this.GetType()==itemToCompare.GetType();
+        //TODO make test if the same name but diff types
+    }
+
+    public virtual string ToJson ()
+    {
+        return JsonUtility.ToJson(this);
+    }
+
+    public virtual void FromJson (string jsonString)
+    {
+        JsonUtility.FromJsonOverwrite(jsonString, this);
+        if (this.ItemName == "ErrorItem")
+            Destroy(this);
+    }
+
+    protected static ScriptableItem GetItem(string itemName)
+    {
+        throw new NotImplementedException();
     }
 }

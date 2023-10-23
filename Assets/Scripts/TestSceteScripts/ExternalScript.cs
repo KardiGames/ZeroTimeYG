@@ -9,22 +9,24 @@ public class ExternalScript : MonoBehaviour
     {
         TestSceneChar character = GetComponent<TestSceneChar>();
         Item.LoadItems();
-        character.SerializList.Add((Item)Item.GetItem("Sniper rifle").Clone());
-        character.SerializList.Add(Item.GetItem("Sniper rifle"));
+        /*
         character.SerializList.Add((Item)Item.GetItem("Pistol").Clone());
+        character.SerializList.Add(Item.GetItem("Plate"));
+        character.SerializList.Add((Armor)Item.GetItem("Plate").Clone());
+        */
 
+        character.ItemChange();
 
         print ("External String:"+JsonUtility.ToJson(character));
 
         string jsonString = character.ToJson();
         print("Internal String:" + jsonString);
 
-        character.SerializList.Add(Item.GetItem("Sniper rifle"));
-        character.SerializList.RemoveAt(1);
-        character.Inventory.Remove(this, "Res");
-        character.Inventory.Remove(this, "Res");
-        
-        character.FromJson(jsonString);
+        //character.FromJson(jsonString);
+
+
+
+        //character.FromJson("{ \"Name\":\"Alex\",\"HP\":25,\"currentHP\":15,\"inventoryJsonTempString\":\"{\\\"inventoryItems\\\":[{\\\"instanceID\\\":25910},{\\\"instanceID\\\":25912},{\\\"instanceID\\\":25916},{\\\"instanceID\\\":25916}]}\"}");
         //print(character.CurrentHP);
         /*
         

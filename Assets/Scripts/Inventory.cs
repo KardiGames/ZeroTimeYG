@@ -62,8 +62,8 @@ public class Inventory : MonoBehaviour
         {
 			inventoryItems.Add(item);
         } else {
-			var itemInInventory = inventoryItems.Find(existingItem => existingItem.ItemName == item.ItemName);
-			if (itemInInventory == null || !itemInInventory.IsTheSameItem(item))
+			var itemInInventory = inventoryItems.Find(existingItem => existingItem.IsTheSameItem(item));
+			if (itemInInventory == null)
 				inventoryItems.Add(item);
 			else
 				itemInInventory.TryToUnite(item);
@@ -116,12 +116,38 @@ public class Inventory : MonoBehaviour
 
 	public void FromJson(string jsonString)
 	{
-		JsonUtility.FromJsonOverwrite(jsonString, this);
+		inventoryItems.Clear();
+		InventoryJsonData jsonInventory = JsonUtility.FromJson<InventoryJsonData>(jsonString);
+		if (jsonInventory == null)
+			return;
+		ScriptableItem itemToAdd;
+		for (int i=0; i<jsonInventory.inventory.Count; i++)
+        {
+			itemToAdd = (ScriptableItem)ScriptableObject.CreateInstance(Type.GetType(jsonInventory.inventory[i++]));
+			if (itemToAdd == null)
+				continue;
+			itemToAdd.FromJson(jsonInventory.inventory[i]);
+			if (itemToAdd!=null)
+				inventoryItems.Add(itemToAdd); //TODO Make test if deserialization error
+        }
 	}
 
-	internal string ToJson()
+	public string ToJson()
 	{
-		string returnableJsonString = JsonUtility.ToJson(this);
-		return returnableJsonString;
+		InventoryJsonData jsonInventory = new();
+		for (int i=0; i<inventoryItems.Count; i++)
+        {
+			jsonInventory.inventory.Add(inventoryItems[i].GetType().Name);
+			jsonInventory.inventory.Add(inventoryItems[i].ToJson());
+        }
+		
+		return JsonUtility.ToJson(jsonInventory);
+
+	}
+
+	[Serializable]
+	private class InventoryJsonData
+	{
+		public List<string> inventory=new();
 	}
 }

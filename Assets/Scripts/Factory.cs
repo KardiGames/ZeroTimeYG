@@ -18,7 +18,7 @@ public class Factory : MonoBehaviour, ITimerable
 			return;
 		}
 		
-		bool check = storage.TryToAdd(this, factoryLines[action]);
+		bool check = storage.TryToAdd(this, factoryLines[action].Clone());
 		if (check) 
 			factoryLines.Remove(action);
     }

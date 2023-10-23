@@ -107,7 +107,13 @@ public class Item : ICloneable
         thisItem.skillname = "guns";
         items.Add(thisItem);
 
-
+        thisItem = new Armor(8);
+        thisItem.itemName = "Plate";
+        thisItem.SetDamage(0, 0, 0);
+        thisItem.Range = 0;
+        thisItem.apCost = 0;
+        thisItem.skillname = "PlateArmor";
+        items.Add(thisItem);
     }
 
     public int Damage
@@ -180,4 +186,16 @@ public class Item : ICloneable
     }
 
     public object Clone() => (Item)MemberwiseClone();
+}
+
+[Serializable]
+public class Armor:Item
+{
+    [SerializeField] private int _armorClass = 2;
+    public int ArmorClass => _armorClass;
+
+    public Armor (int ac=2)
+    {
+        _armorClass = ac;
+    }
 }

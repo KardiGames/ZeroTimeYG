@@ -10,11 +10,12 @@ public class TestSceneChar : MonoBehaviour
     public int HP;
     [SerializeField] private int currentHP = 15;
     [SerializeField] private string inventoryJsonTempString;
-    //public string SerializString = "{\"Name\":\"AlexKardi\",\"HP\":25,\"CurrentHP\":25}";
-    [SerializeField] private List<Item> serializList = new List<Item>();
+    private List<Item> serializList = new List<Item>();
+    private Armor serItem;
 
     public Inventory Inventory => inventory;
     public List<Item> SerializList => serializList;
+    public Armor SerItem => serItem;
     public int CurrentHP { get => currentHP; set => currentHP = value; }
 
     public void Start()
@@ -22,6 +23,10 @@ public class TestSceneChar : MonoBehaviour
         inventory = GetComponent<Inventory>();
     }
 
+    public void ItemChange ()
+    {
+        serItem = (Armor)Item.GetItem("Plate");
+    }
     public void FromJson(string jsonString)
     {
         JsonUtility.FromJsonOverwrite(jsonString, this);

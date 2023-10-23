@@ -172,8 +172,7 @@ MonoBehaviour:
   Name: Alex
   HP: 25
   currentHP: 15
-  inventory: {fileID: 513362999}
-  SerializList: []
+  inventoryJsonTempString: 
 --- !u!114 &513362998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -199,10 +198,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventoryItems:
-  - {fileID: 11400000, guid: 4d8f51b4ea3024c4ebe7e272dea29e43, type: 2}
-  - {fileID: 11400000, guid: 8ebc3ef699bbbc147bb0729238a67d21, type: 2}
-  - {fileID: 11400000, guid: 725b2fe96700afe4fb5cef1cd1aad886, type: 2}
-  - {fileID: 11400000, guid: 8ebc3ef699bbbc147bb0729238a67d21, type: 2}
+  - {fileID: 11400000, guid: 674c2ef4ba8b43049a76c4b417b2bd92, type: 2}
 --- !u!1 &2103668336
 GameObject:
   m_ObjectHideFlags: 0

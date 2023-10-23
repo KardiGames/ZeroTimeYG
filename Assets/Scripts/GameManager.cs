@@ -7,10 +7,13 @@ public class GameManager : MonoBehaviour
 
     private LinkedList<(string, int)> winners = new();
 
+    [SerializeField] private RewardManager rewardManager;
+
     void Awake()
     {
         Item.LoadItems();
         Location.LoadMap();
+        
     }
 
     public void GameOver()
