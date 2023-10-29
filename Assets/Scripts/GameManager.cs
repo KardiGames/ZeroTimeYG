@@ -4,20 +4,28 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-
-    private LinkedList<(string, int)> winners = new();
-
-    [SerializeField] private RewardManager rewardManager;
+    private WorldUserInterface worldUI;
+    private RewardManager rewardManager=new();
 
     void Awake()
     {
         Item.LoadItems();
+		ScriptableItem.LoadItems();
         Location.LoadMap();
-        
+
+        worldUI = GameObject.Find("World UI").GetComponent<WorldUserInterface>();
     }
 
     public void GameOver()
     {
+        Inventory inventoryForReward = GameObject.Find("Mine").GetComponent<Inventory>();
+        if (worldUI.transform.Find("TargetInventory").gameObject.activeSelf == true)
+        {
+            inventoryForReward.ClearInventory(this);
+            worldUI.transform.Find("TargetInventory").gameObject.SetActive(false);
+            return;
+        }
+            
         string winnerName="";
         int winnerScore=0;
         foreach (CombatCharacter cChar in CombatCharacter.cCList) {
@@ -32,24 +40,16 @@ public class GameManager : MonoBehaviour
             Destroy(cChar.gameObject);
         }
 
-        if (winners.Count == 0)
-            winners.AddFirst((winnerName, winnerScore));
-        else
-        {
-            LinkedListNode<(string, int)> currentNode = winners.First;
-            while (currentNode!=null && winnerScore < currentNode.Value.Item2)
-                currentNode = currentNode.Next;
-            if (currentNode == null)
-                winners.AddLast((winnerName, winnerScore));
-            else
-                winners.AddBefore(currentNode, (winnerName, winnerScore));
-        }
+        if (winnerScore == 0)
+            winnerScore = Random.Range(1, (int)(1.5 * rewardManager.RewardCount));
 
-        UserInterface.Instance.ShowBestScore(winners);
-        UserInterface.Instance.ShowBigMessage("Game Over");
-        UserInterface.Instance.ShowMainMenu();
+        ScriptableItem[] currentReward = rewardManager.GetReward(winnerScore);
 
-        
+        print($"Winner Score : {winnerScore} Reward Count : {currentReward.Length}");
+
+        worldUI.OpenTargetInventory(inventoryForReward);
+        rewardManager.GiveReward(currentReward, inventoryForReward);
+        worldUI.ShowBigMessage("Game Over");
     }
     public void StartBattle()
     {

@@ -249,9 +249,9 @@ public class CombatCharacter : MonoBehaviour
             return;
         }
 
-        UserInterface.Instance.UpdateAP(this);
-        UserInterface.Instance.ShowWeaponStats();
-        UserInterface.Instance.RefreshCharInfo();
+        BattleUserInterface.Instance.UpdateAP(this);
+        BattleUserInterface.Instance.ShowWeaponStats();
+        BattleUserInterface.Instance.RefreshCharInfo();
         
         for (int i = 0; i < clickZones.Count; i++)
         {
@@ -362,7 +362,7 @@ public class CombatCharacter : MonoBehaviour
             print(charName + " " + leveuUpText);
             OverheadText.ShowGreen(leveuUpText);
         }
-        UserInterface.Instance.RefreshCharInfo(this);
+        BattleUserInterface.Instance.RefreshCharInfo(this);
     }
 
     public void ResetAP()
@@ -391,7 +391,7 @@ public class CombatCharacter : MonoBehaviour
             else
             {
                 PlanningAP -= cost;
-                UserInterface.Instance.UpdateAP(this);
+                BattleUserInterface.Instance.UpdateAP(this);
                 return true;
             }
         }

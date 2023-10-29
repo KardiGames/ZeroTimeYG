@@ -26,14 +26,14 @@ public class ClickArea : MonoBehaviour
         if (action=="attack")
         {
             combatCharacter.OverheadText.Show("To hit: "+ Scripts.HitChanse(CombatCharacter.cCList[BattleManager.Player], combatCharacter)+"%");
-            UserInterface.Instance.ShowEnemyInfo((NonPlayerCharacter)combatCharacter);
+            BattleUserInterface.Instance.ShowEnemyInfo((NonPlayerCharacter)combatCharacter);
         }
     }
 
     private void OnMouseExit()
     {
         combatCharacter.OverheadText.ShowHP();
-        UserInterface.Instance.RefreshCharInfo();
+        BattleUserInterface.Instance.RefreshCharInfo();
     }
 
 

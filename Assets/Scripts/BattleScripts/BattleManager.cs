@@ -56,7 +56,7 @@ public class BattleManager : MonoBehaviour
         {
             Player--;
 
-            UserInterface.Instance.SetPlaningButtons(false);
+            BattleUserInterface.Instance.SetPlaningButtons(false);
             Status = "performing";
 
             CombatAction.CreatePlanningList(planningList);
@@ -76,7 +76,7 @@ public class BattleManager : MonoBehaviour
         Player = 0;
         MovieAct = 0;
         Status = "planning";
-        UserInterface.Instance.SetPlaningButtons(true);
+        BattleUserInterface.Instance.SetPlaningButtons(true);
     }
     private static void NextTurn()
     {
@@ -95,7 +95,7 @@ public class BattleManager : MonoBehaviour
         }
 
         SpawnEnemies(deadSouls);
-        UserInterface.Instance.RefreshLevelInfo();
+        BattleUserInterface.Instance.RefreshLevelInfo();
         Turn++;
 
         foreach (CombatCharacter cC in CombatCharacter.cCList)
@@ -106,7 +106,7 @@ public class BattleManager : MonoBehaviour
 
         Player = 0;
         Status = "planning";
-        UserInterface.Instance.SetPlaningButtons(true);
+        BattleUserInterface.Instance.SetPlaningButtons(true);
 
         CombatCharacter.cCList[Player].StartPlanning();
 

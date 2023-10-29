@@ -10,8 +10,8 @@ public class HotKeys : MonoBehaviour
         if (BattleManager.Status != "planning" || CombatCharacter.cCList[BattleManager.Player].ai!="")
             return;
         if (Input.GetKeyDown(KeyCode.E))
-            UserInterface.Instance.EndTurn();
+            BattleUserInterface.Instance.EndTurn();
         else if (Input.GetKeyDown(KeyCode.Space))
-            UserInterface.Instance.ChangeWeapon();
+            BattleUserInterface.Instance.ChangeWeapon();
     }
 }

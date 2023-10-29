@@ -9,16 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af871b096d856db4db76b3dcc3f9ef31, type: 3}
-  m_Name: Fist
+  m_Script: {fileID: 11500000, guid: 72622bb58b60ff140a47c3d3bd70cd35, type: 3}
+  m_Name: Res
   m_EditorClassIdentifier: 
-  itemName: Fist
-  stackable: 0
-  _amount: 1
-  rangedAttack: 0
-  damageRandomMultipler: 1
-  damageRandomTo: 4
-  damageAddition: 0
-  range: 1
-  apCost: 3
-  skillname: unarmed
+  _itemName: Resource
+  _stackable: 0
+  _amount: 2

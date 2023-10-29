@@ -1,13 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Item", menuName = "Items/Item")]
 public class ScriptableItem : ScriptableObject
 {
-    
-    [SerializeField] protected string _itemName = "ErrorItem";
+    private static List<ScriptableItem> allItems=new();    
+	
+	[SerializeField] protected string _itemName = "ErrorItem";
     [SerializeField] private bool _stackable=false;
     [SerializeField] private long _amount = 1;
 
@@ -22,6 +24,16 @@ public class ScriptableItem : ScriptableObject
                 _amount = value;
         }
     }
+	
+	public static void LoadItems() {
+		foreach (object tempObject in Resources.LoadAll("", Type.GetType("ScriptableItem", false, true)))
+			if (tempObject is ScriptableItem tempItem)
+				if (allItems.Find(item => item.ItemName == tempItem.ItemName) == null)
+					allItems.Add(tempItem);
+				else
+					Debug.Log("Error! Have tryed to load items with same name");
+			
+	}
 	
 	public ScriptableItem Clone()
     {
@@ -79,6 +91,11 @@ public class ScriptableItem : ScriptableObject
 
     protected static ScriptableItem GetItem(string itemName)
     {
-        throw new NotImplementedException();
+        return allItems.Find (item => item.ItemName == itemName).Clone();
+    }
+
+    public static ScriptableItem[] GetAllItems()
+    {
+        return allItems.Select(item => item.Clone()).ToArray();
     }
 }

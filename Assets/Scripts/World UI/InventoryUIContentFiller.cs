@@ -5,10 +5,10 @@ using UnityEngine.UI;
 
 public class InventoryUIContentFiller : MonoBehaviour
 {
-    
+
     [SerializeField] private Inventory inventory;
     [SerializeField] private InventoryUIContentFiller targetInventoryUI;
-    
+
     [SerializeField] private GameObject objectToFill;
     private RectTransform contentTransform;
 
@@ -16,7 +16,18 @@ public class InventoryUIContentFiller : MonoBehaviour
     private float scrollableObjectHeight;
     private List<GameObject> children = new();
 
-    public Inventory Invetory { get => inventory; }
+    public Inventory Invetory
+    {
+        get => inventory; set
+        {
+            if (inventory!=value)
+            {
+                Unsubscribe();
+            }
+            inventory = value;
+            SubscribeAndRefresh();
+        }
+    }
     public Inventory TargetInventory { get => targetInventoryUI.Invetory; }
 
 
@@ -31,11 +42,36 @@ public class InventoryUIContentFiller : MonoBehaviour
             for (int i = 0; i < contentTransform.childCount; i++)
                 children.Add(contentTransform.GetChild(i).gameObject);
         }
+        SubscribeAndRefresh();
+        print("Start is completed.");
+    }
 
-        inventory.OnInventoryContentChanged += Clear;
-        inventory.OnInventoryContentChanged += Fill;
-        Clear();
-        Fill(inventory.GetAllItems());
+    private void SubscribeAndRefresh()
+    {
+        if (inventory != null && contentTransform!=null)
+        {
+            print("subscribing, refreshing.");
+            inventory.OnInventoryContentChanged += Clear;
+            inventory.OnInventoryContentChanged += Fill;
+            Clear();
+            Fill(inventory.GetAllItems());
+        }
+    }
+
+    private void Unsubscribe()
+    {
+        if (inventory != null)
+        {
+            inventory.OnInventoryContentChanged -= Clear;
+            inventory.OnInventoryContentChanged -= Fill;
+        }
+    }
+
+    private void OnDisable()
+    {
+        print("Disable is started. unsubscribing");
+        Unsubscribe();
+        inventory=null;
     }
 
     private void Clear()

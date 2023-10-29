@@ -10,58 +10,58 @@ public class Inventory : MonoBehaviour
 	public event Action OnInventoryContentChanged;
 
 	[SerializeField] private List<ScriptableItem> inventoryItems = new();
-	
+
 	public ScriptableItem GetItem(string itemName) {
 		return inventoryItems.Find(item => item.ItemName == itemName);
 	}
-	
-	public ScriptableItem[] GetAllItems () {
-		return inventoryItems.ToArray();	
+
+	public ScriptableItem[] GetAllItems() {
+		return inventoryItems.ToArray();
 	}
-	
+
 	public ScriptableItem[] GetAllItems(string itemName) {
 		return inventoryItems.FindAll(item => item.name == itemName).ToArray();
 	}
 
-	public ScriptableItem[] GetAllItems (ScriptableItem itemOfType)
-    {
+	public ScriptableItem[] GetAllItems(ScriptableItem itemOfType)
+	{
 		return inventoryItems.FindAll(item => item.IsTheSameItem(itemOfType)).ToArray();
-    }
-	
-	public long  GetItemAmount (string itemName) {
-		long amount =0;
+	}
+
+	public long GetItemAmount(string itemName) {
+		long amount = 0;
 		foreach (ScriptableItem item in GetAllItems(itemName)) {
-			amount+= item.Amount;
+			amount += item.Amount;
 		}
 		return amount;
 	}
 
 	public void TransferTo(object sender, Inventory toInventory, ScriptableItem item, long amount = 1)
-    {
-		if (item == null || amount < 1 || item.Amount<amount || !inventoryItems.Contains(item))
+	{
+		if (item == null || amount < 1 || item.Amount < amount || !inventoryItems.Contains(item))
 			return;
-		
-		if (!item.Stackable || item.Amount==amount)
-        {
+
+		if (!item.Stackable || item.Amount == amount)
+		{
 			bool check = toInventory.TryToAdd(sender, item);
 			if (check)
 				inventoryItems.Remove(item);
-        } else
-        {
+		} else
+		{
 			ScriptableItem partOfStack = item.Split(amount);
 
 			bool check = toInventory.TryToAdd(sender, partOfStack);
 			if (!check)
 				item.TryToUnite(partOfStack);
-        }
+		}
 		OnInventoryContentChanged?.Invoke();
 	}
 
-    public bool TryToAdd (object sender, ScriptableItem item) {
+	public bool TryToAdd(object sender, ScriptableItem item) {
 		if (!item.Stackable)
-        {
+		{
 			inventoryItems.Add(item);
-        } else {
+		} else {
 			var itemInInventory = inventoryItems.Find(existingItem => existingItem.IsTheSameItem(item));
 			if (itemInInventory == null)
 				inventoryItems.Add(item);
@@ -76,7 +76,7 @@ public class Inventory : MonoBehaviour
 	public void Remove(object sender, string itemName, long amount = 1) => RemoveByArray(sender, GetAllItems(itemName), amount);
 	public void Remove(object sender, ScriptableItem itemOfType, long amount = 1) => RemoveByArray(sender, GetAllItems(itemOfType), amount);
 
-	private void RemoveByArray (object sender, ScriptableItem[] items, long amount) {
+	private void RemoveByArray(object sender, ScriptableItem[] items, long amount) {
 		if (items.Length == 0)
 			return;
 
@@ -91,16 +91,16 @@ public class Inventory : MonoBehaviour
 
 
 		int count = items.Length;
-		for (int i=count-1; i>=0; i--)
-        {
-			if (items[i].Amount>=amount)
-            {
+		for (int i = count - 1; i >= 0; i--)
+		{
+			if (items[i].Amount >= amount)
+			{
 				items[i].Amount -= amount;
 				if (items[i].Amount <= 0)
 					inventoryItems.Remove(items[i]);
 				OnInventoryItemRemovedEvent?.Invoke(sender, items[i], amount);
 				break;
-            }
+			}
 
 			amount -= items[i].Amount;
 			inventoryItems.Remove(items[i]);
@@ -108,6 +108,14 @@ public class Inventory : MonoBehaviour
 			OnInventoryContentChanged?.Invoke();
 		}
 	}
+
+	public void ClearInventory(object sender) {
+        if (OnInventoryItemRemovedEvent != null)
+            foreach (var item in inventoryItems)
+                OnInventoryItemRemovedEvent.Invoke(sender, item, item.Amount);
+        inventoryItems.Clear();
+        OnInventoryContentChanged?.Invoke();
+    } 
 	
 	public bool HasItem (string itemName, out ScriptableItem item) {
 		item = GetItem(itemName);

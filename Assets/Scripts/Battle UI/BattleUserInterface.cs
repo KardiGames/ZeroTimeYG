@@ -4,11 +4,11 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class UserInterface : MonoBehaviour
+public class BattleUserInterface : MonoBehaviour
 {
     private float bigMessageVisionTime = 8f;
 
-    public static UserInterface Instance { get; private set; }
+    public static BattleUserInterface Instance { get; private set; }
     [SerializeField] private TextMeshProUGUI actionPointsText;
     [SerializeField] private TextMeshProUGUI weaponInfoField;
     [SerializeField] private TextMeshProUGUI scoreInfoField;
