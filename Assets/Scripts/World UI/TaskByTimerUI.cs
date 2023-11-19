@@ -16,12 +16,6 @@ public class TaskByTimerUI : MonoBehaviour
     private TimeSpan countdown;
 
     private TaskByTimer task;
-    //private InventoryUIContentFiller inventoryUI;
-
-    private void Start()
-    {
-
-    }
 
     private void Texting() => print("Texting is started");
     public void Setup(TaskByTimer task)
@@ -96,8 +90,7 @@ public class TaskByTimerUI : MonoBehaviour
     {
         if (task == null)
             return;
-        task.StartTask();
-        if (task.IsStarted())
+        if (task.TryToStartTask())
         {
             Timer.Instance.EverySecondAction += UpdateSec;
             Timer.Instance.EveryMinuteAction += UpdateTimer;
@@ -112,7 +105,8 @@ public class TaskByTimerUI : MonoBehaviour
         if (task.OnPause)
         {
             StartTask();
-            pauseUnpauseText.text = "Pause";
+			if (task.IsStarted())
+				pauseUnpauseText.text = "Pause";
         }
         else
         {
@@ -123,10 +117,5 @@ public class TaskByTimerUI : MonoBehaviour
             Timer.Instance.EveryMinuteAction -= UpdateTimer;
             pauseUnpauseText.text = "Unpause";
         }
-
-
-    }
-
-
-
+	}
 }

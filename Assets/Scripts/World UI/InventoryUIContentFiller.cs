@@ -16,24 +16,30 @@ public class InventoryUIContentFiller : MonoBehaviour
     private float scrollableObjectHeight;
     private List<GameObject> children = new();
 
-    public Inventory Invetory
+    public Inventory Inventory
     {
         get => inventory; set
         {
-            if (inventory!=value)
+            if (inventory!= value || value == null)
             {
                 Unsubscribe();
+                inventory = value;
+                SubscribeAndRefresh();
+            } else
+            {
+                Clear();
+                Fill();
             }
-            inventory = value;
-            SubscribeAndRefresh();
+            
         }
     }
-    public Inventory TargetInventory { get => targetInventoryUI.Invetory; }
-
+    public Inventory TargetInventory { get => targetInventoryUI.Inventory; }
 
 
     private void Start()
     {
+        if (contentTransform != null)
+            return;
         contentTransform = gameObject.GetComponent<ScrollRect>().content;
         scrollableObjectHeight = objectToFill.GetComponent<RectTransform>().sizeDelta.y;
 
@@ -43,18 +49,16 @@ public class InventoryUIContentFiller : MonoBehaviour
                 children.Add(contentTransform.GetChild(i).gameObject);
         }
         SubscribeAndRefresh();
-        print("Start is completed.");
     }
 
     private void SubscribeAndRefresh()
     {
         if (inventory != null && contentTransform!=null)
         {
-            print("subscribing, refreshing.");
             inventory.OnInventoryContentChanged += Clear;
             inventory.OnInventoryContentChanged += Fill;
             Clear();
-            Fill(inventory.GetAllItems());
+            Fill();
         }
     }
 
@@ -69,9 +73,7 @@ public class InventoryUIContentFiller : MonoBehaviour
 
     private void OnDisable()
     {
-        print("Disable is started. unsubscribing");
-        Unsubscribe();
-        inventory=null;
+        Inventory = null;
     }
 
     private void Clear()
@@ -81,12 +83,25 @@ public class InventoryUIContentFiller : MonoBehaviour
         children.Clear();
     }
 
-    public void Fill() => Fill(inventory.GetAllItems());
+    public void Fill() { 
+        if (inventory != null ) 
+            Fill(inventory.GetAllItems());
+    }
+
     
     public void Fill (IEnumerable<ScriptableItem> list)
     {
-        float nextYPosition = 0;
+        if (contentTransform == null)
+            Start();
 
+        if (list==null)
+        {
+            print("Error. Fill is called, but there is no inventory to fill");
+            return;
+        }
+
+        
+        float nextYPosition = 0;
 
         foreach (var scrollableItem in list)
         {

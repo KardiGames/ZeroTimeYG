@@ -9,9 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72622bb58b60ff140a47c3d3bd70cd35, type: 3}
-  m_Name: Res
+  m_Script: {fileID: 11500000, guid: 309bdb5ecf15b604983cf48771a54223, type: 3}
+  m_Name: SteelArmor
   m_EditorClassIdentifier: 
-  _itemName: Resource
-  _stackable: 1
+  _itemName: Steel Armor
+  _stackable: 0
   _amount: 1
+  _ac: 3
+  _slot: 2

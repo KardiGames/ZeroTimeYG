@@ -14,8 +14,8 @@ public class ScriptableItem : ScriptableObject
     [SerializeField] private long _amount = 1;
 
     public string ItemName => _itemName;
-    public bool Stackable { get => _stackable; }
-    public long Amount
+    public virtual bool Stackable { get => _stackable; }
+    public virtual long Amount
     {
         get => _amount;
         set //TODO delete setter
@@ -89,7 +89,7 @@ public class ScriptableItem : ScriptableObject
             Destroy(this);
     }
 
-    protected static ScriptableItem GetItem(string itemName)
+    public static ScriptableItem GetItem(string itemName)
     {
         return allItems.Find (item => item.ItemName == itemName).Clone();
     }

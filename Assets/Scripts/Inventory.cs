@@ -20,7 +20,7 @@ public class Inventory : MonoBehaviour
 	}
 
 	public ScriptableItem[] GetAllItems(string itemName) {
-		return inventoryItems.FindAll(item => item.name == itemName).ToArray();
+		return inventoryItems.FindAll(item => item.ItemName == itemName).ToArray();
 	}
 
 	public ScriptableItem[] GetAllItems(ScriptableItem itemOfType)
@@ -75,6 +75,7 @@ public class Inventory : MonoBehaviour
 
 	public void Remove(object sender, string itemName, long amount = 1) => RemoveByArray(sender, GetAllItems(itemName), amount);
 	public void Remove(object sender, ScriptableItem itemOfType, long amount = 1) => RemoveByArray(sender, GetAllItems(itemOfType), amount);
+	public void RemoveThisItem(object sender, ScriptableItem item) => RemoveByArray(sender, new ScriptableItem[] { item }, item.Amount);
 
 	private void RemoveByArray(object sender, ScriptableItem[] items, long amount) {
 		if (items.Length == 0)
@@ -121,6 +122,7 @@ public class Inventory : MonoBehaviour
 		item = GetItem(itemName);
 		return item != null;
 	}
+	public bool Contains(ScriptableItem item) => inventoryItems.Contains(item);
 
 	public void FromJson(string jsonString)
 	{
@@ -154,7 +156,7 @@ public class Inventory : MonoBehaviour
 	}
 
 	[Serializable]
-	private class InventoryJsonData
+	protected class InventoryJsonData
 	{
 		public List<string> inventory=new();
 	}

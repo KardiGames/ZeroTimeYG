@@ -25,7 +25,7 @@ public class RewardManager
         
         while (rewardPoints>0)
         {
-            chosenRewardNumber=Random.Range(0, potentialReward.Count - 1);
+            chosenRewardNumber=Random.Range(0, potentialReward.Count);
             reward.Add(potentialReward[chosenRewardNumber].Clone());
             rewardPoints -= chosenRewardNumber+1;
         }

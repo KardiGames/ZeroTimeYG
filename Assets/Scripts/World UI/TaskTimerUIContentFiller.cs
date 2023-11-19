@@ -15,10 +15,29 @@ public class TaskTimerUIContentFiller : MonoBehaviour
     private float scrollableObjectHeight;
     private List<GameObject> children = new();
 
-    public TaskTimer TaskTimer { get => taskTimer; }
+    public TaskTimer TaskTimer 
+	{
+		get => taskTimer; set
+        {
+            if (taskTimer!=value || value==null)
+            {
+                Unsubscribe();
+                taskTimer = value;
+                SubscribeAndRefresh();
+            } else
+            {
+                Clear();
+                Fill();
+            }
+       
+        }
+	
+	}
 
     private void Start()
     {
+        if (contentTransform != null)
+            return;
         contentTransform = gameObject.GetComponent<ScrollRect>().content;
         scrollableObjectHeight = objectToFill.GetComponent<RectTransform>().sizeDelta.y;
 
@@ -28,10 +47,12 @@ public class TaskTimerUIContentFiller : MonoBehaviour
                 children.Add(contentTransform.GetChild(i).gameObject);
         }
 
-        taskTimer.OnTaskOrTimerChanged += Clear;
-        taskTimer.OnTaskOrTimerChanged += Fill;
-        Clear();
-        Fill(taskTimer.GetAllItems());
+        SubscribeAndRefresh();
+    }
+	
+	    private void OnDisable()
+    {
+        TaskTimer=null;
     }
 
     private void Clear()
@@ -45,8 +66,9 @@ public class TaskTimerUIContentFiller : MonoBehaviour
     
     public void Fill (IEnumerable<TaskByTimer> list)
     {
+        if (contentTransform == null)
+            Start();
         float nextYPosition = 0;
-
 
         foreach (var scrollableItem in list)
         {
@@ -63,5 +85,25 @@ public class TaskTimerUIContentFiller : MonoBehaviour
 
         }
         contentTransform.sizeDelta = new Vector2(contentTransform.sizeDelta.x, nextYPosition);
+    }
+	
+	private void SubscribeAndRefresh()
+    {
+        if (taskTimer != null && contentTransform!=null)
+        {
+            taskTimer.OnTaskOrTimerChanged += Clear;
+            taskTimer.OnTaskOrTimerChanged += Fill;
+            Clear();
+            Fill(taskTimer.GetAllItems());
+        }
+    }
+
+    private void Unsubscribe()
+    {
+        if (taskTimer != null)
+        {
+            taskTimer.OnTaskOrTimerChanged -= Clear;
+            taskTimer.OnTaskOrTimerChanged -= Fill;
+        }
     }
 }

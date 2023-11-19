@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: af6a67d6e5a10954ab9e9c335c2f25b9, type: 3}
-  m_Name: PistolBlueprint
+  m_Name: SteelArmorBlueprint
   m_EditorClassIdentifier: 
-  _itemName: Pistol Blueprint
+  _itemName: Steel Armor Blueprint
   _stackable: 0
   _amount: 1
-  _itemToCreate: {fileID: 11400000, guid: 725b2fe96700afe4fb5cef1cd1aad886, type: 2}
-  _secondsToFinish: 8
+  _itemToCreate: {fileID: 11400000, guid: fb12f0ca43c88c849922bed278c0e0ec, type: 2}
+  _secondsToFinish: 150
   _listOfResourses:
   - {fileID: 11400000, guid: 8ebc3ef699bbbc147bb0729238a67d21, type: 2}
-  _amountOfResourses: 0100000000000000
+  - {fileID: 11400000, guid: 725b2fe96700afe4fb5cef1cd1aad886, type: 2}
+  _amountOfResourses: 02000000000000000100000000000000

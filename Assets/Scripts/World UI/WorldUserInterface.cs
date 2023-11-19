@@ -7,12 +7,13 @@ public class WorldUserInterface : MonoBehaviour
 {
     [SerializeField] private WorldCharacter playerCharacter;
     [SerializeField] private GameObject targetUIInventory;
-
+    [SerializeField] private GameObject taskTimer;
+ 
     [SerializeField] private TextMeshProUGUI bigMessage;
 
     private void Start()
     {
-        playerCharacter.Equipment.TryToEquip(Instantiate(playerCharacter.Equipment[0]), 0);
+
     }
     public void ShowDamage ()
     {
@@ -26,7 +27,20 @@ public class WorldUserInterface : MonoBehaviour
         if (inventory == null)
             return;
         targetUIInventory.SetActive(true);
-        targetUIInventory.GetComponent<InventoryUIContentFiller>().Invetory=inventory;
+        targetUIInventory.GetComponent<InventoryUIContentFiller>().Inventory=inventory;
+    }
+
+    public void ToggleTaskTimer (TaskTimer timerToSet)
+    {
+        if (taskTimer.activeSelf)
+        {
+            taskTimer.SetActive(false);
+        } else if (timerToSet!=null)
+        {
+            taskTimer.SetActive(true);
+            taskTimer.GetComponent<TaskTimerUIContentFiller>().TaskTimer = timerToSet;
+            
+        }
     }
 
     public void ShowBigMessage(string message)

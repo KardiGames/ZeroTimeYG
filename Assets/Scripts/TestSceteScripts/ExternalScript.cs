@@ -15,8 +15,6 @@ public class ExternalScript : MonoBehaviour
         character.SerializList.Add((Armor)Item.GetItem("Plate").Clone());
         */
 
-        character.ItemChange();
-
         print ("External String:"+JsonUtility.ToJson(character));
 
         string jsonString = character.ToJson();

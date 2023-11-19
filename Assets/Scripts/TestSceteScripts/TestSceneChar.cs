@@ -23,10 +23,6 @@ public class TestSceneChar : MonoBehaviour
         inventory = GetComponent<Inventory>();
     }
 
-    public void ItemChange ()
-    {
-        serItem = (Armor)Item.GetItem("Plate");
-    }
     public void FromJson(string jsonString)
     {
         JsonUtility.FromJsonOverwrite(jsonString, this);

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8634076132226382011}
   - component: {fileID: 7878751883673235217}
   m_Layer: 5
-  m_Name: Equip Button
+  m_Name: Third Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1051,4 +1051,4 @@ MonoBehaviour:
   itemName: {fileID: 8117479024032698296}
   transferAllButton: {fileID: 8117479024554318677}
   transferPartButton: {fileID: 9053617175992996937}
-  equipButton: {fileID: 7878751883673235217}
+  thirdButton: {fileID: 7878751883673235217}

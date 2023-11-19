@@ -9,12 +9,12 @@ public class InventoryItemUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI itemName;
     [SerializeField] private Button transferAllButton;
     [SerializeField] private Button transferPartButton;
-    [SerializeField] private Button equipButton;
+    [SerializeField] private Button thirdButton;
 
     private ScriptableItem item;
     private InventoryUIContentFiller inventoryUI;
 
-    public void Set (ScriptableItem item, InventoryUIContentFiller inventoryUI)
+    public void Set(ScriptableItem item, InventoryUIContentFiller inventoryUI)
     {
         if (this.item == null)
             this.item = item;
@@ -30,23 +30,43 @@ public class InventoryItemUI : MonoBehaviour
         if (true && item.Stackable)
             transferPartButton.gameObject.SetActive(true);
 
-        if (true && item is Weapon) //TODO add here condition if it is Players's inventory
-            equipButton.gameObject.SetActive(true);
+        if ((item is Weapon || item is Armor) && inventoryUI.Inventory.gameObject.name == "PlayerCharacter")
+        {
+            thirdButton.gameObject.SetActive(true);
+            thirdButton.GetComponentInChildren<TextMeshProUGUI>().text = "Equip";
+            if (inventoryUI.Inventory.gameObject.GetComponent<Equipment>().IsAbleToEquip(item, false))
+                thirdButton.onClick.AddListener(Equip);
+            else
+                thirdButton.interactable = false;
+        } else if (item is Blueprint && inventoryUI.Inventory.gameObject.name == "Factory")
+        {
+            thirdButton.gameObject.SetActive(true);
+            thirdButton.GetComponentInChildren<TextMeshProUGUI>().text = "Produce";
+            thirdButton.onClick.AddListener(StartProductionInFactory);
+        }
     }
 
     public void TransferAll ()
     {
-        if (inventoryUI == null || inventoryUI.Invetory == null || inventoryUI.TargetInventory == null)
+        if (inventoryUI == null || inventoryUI.Inventory == null || inventoryUI.TargetInventory == null)
             return;
 
-        inventoryUI.Invetory.TransferTo(inventoryUI.Invetory, inventoryUI.TargetInventory, item, item.Amount);
+        inventoryUI.Inventory.TransferTo(inventoryUI.Inventory, inventoryUI.TargetInventory, item, item.Amount);
     }
 
     public void TransferPart(long amount)
     {
-        if (inventoryUI == null || inventoryUI.Invetory == null || inventoryUI.TargetInventory == null || amount > item.Amount)
+        if (inventoryUI == null || inventoryUI.Inventory == null || inventoryUI.TargetInventory == null || amount > item.Amount)
             return;
 
-        inventoryUI.Invetory.TransferTo(inventoryUI.Invetory, inventoryUI.TargetInventory, item, amount);
+        inventoryUI.Inventory.TransferTo(inventoryUI.Inventory, inventoryUI.TargetInventory, item, amount);
     }
+
+    private void StartProductionInFactory ()
+    {
+        Factory activeFactory = inventoryUI.Inventory.gameObject.GetComponent<Factory>();
+        activeFactory.AddFactoryLine(item as Blueprint);
+    }
+
+    private void Equip() => inventoryUI.Inventory.gameObject.GetComponent<Equipment>().Equip(inventoryUI.Inventory, item);
 }

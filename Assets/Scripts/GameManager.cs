@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] private SaveData saveData;
     private WorldUserInterface worldUI;
     private RewardManager rewardManager=new();
 
@@ -12,6 +13,7 @@ public class GameManager : MonoBehaviour
         Item.LoadItems();
 		ScriptableItem.LoadItems();
         Location.LoadMap();
+        saveData.LoadSaveSystem();
 
         worldUI = GameObject.Find("World UI").GetComponent<WorldUserInterface>();
     }
