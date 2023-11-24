@@ -17,13 +17,10 @@ public class TaskByTimerUI : MonoBehaviour
 
     private TaskByTimer task;
 
-    private void Texting() => print("Texting is started");
     public void Setup(TaskByTimer task)
     {
         if (this.task == null)
             this.task = task;
-        //this.inventoryUI = inventoryUI;
-
         taskName.text = task.TaskName;
 
         if (task.IsStarted())
@@ -95,6 +92,7 @@ public class TaskByTimerUI : MonoBehaviour
             Timer.Instance.EverySecondAction += UpdateSec;
             Timer.Instance.EveryMinuteAction += UpdateTimer;
             pauseUnpauseButton.gameObject.SetActive(true);
+            startTaskButton.gameObject.SetActive(false);
         }
     }
 

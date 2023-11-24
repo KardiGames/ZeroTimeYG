@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class RewardManager
@@ -15,7 +16,12 @@ public class RewardManager
             return potentialReward.Count;
         }
     }
-
+    public ScriptableItem[] GetTestReward(int winnerScore)
+    {
+        if (potentialReward == null)
+            LoadReward();
+        return potentialReward.Select(r => r.Clone()).ToArray();
+    }
     public ScriptableItem[] GetReward (int rewardPoints)
     {
         if (potentialReward == null)
@@ -45,5 +51,6 @@ public class RewardManager
         if (potentialReward==null)
             potentialReward = new List<ScriptableItem>(ScriptableItem.GetAllItems());
     }
-    
+
+
 }

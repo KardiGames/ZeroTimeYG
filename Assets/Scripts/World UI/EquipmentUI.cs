@@ -26,10 +26,6 @@ public class EquipmentUI : MonoBehaviour
             }
         }
     }
-    private void Start()
-    {
-        SubscribeAndRefresh();
-    }
 
     private void SubscribeAndRefresh()
     {

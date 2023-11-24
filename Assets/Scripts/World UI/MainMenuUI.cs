@@ -60,6 +60,7 @@ public class MainMenuUI : MonoBehaviour
         string[] buildingNames = _saveData.BuildingsOfTypeOnLocation(CurrentCoordinates.x, CurrentCoordinates.y, _factoryOnGameObject);
 		if (buildingNames.Length==0)
 			return;
+        _factoryDropdown.options.Clear();
 		_factoryDropdown.AddOptions(new List <string> (buildingNames));
 		EnterFactory(buildingNames[0]);
     }

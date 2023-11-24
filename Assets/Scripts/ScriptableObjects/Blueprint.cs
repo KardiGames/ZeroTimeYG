@@ -59,6 +59,7 @@ public class Blueprint : ScriptableItem
 		BlueprintJsonData jsonBlueprint = new();
 		jsonBlueprint.itemName = _itemName;
 		jsonBlueprint.itemToCreateJsonString = _itemToCreate.ToJson();
+		jsonBlueprint.itemToCreateType=_itemToCreate.GetType().Name;
 		jsonBlueprint.secondsToFinish = _secondsToFinish;
 
 		for (int i = 0; i < _listOfResourses.Count; i++)
@@ -67,6 +68,7 @@ public class Blueprint : ScriptableItem
 
 		return JsonUtility.ToJson(jsonBlueprint);
 	}
+
 	public override void FromJson(string jsonString)
 	{
 		
@@ -74,15 +76,20 @@ public class Blueprint : ScriptableItem
 		_itemName = jsonBlueprint.itemName;
 		_secondsToFinish = jsonBlueprint.secondsToFinish;
 		_amountOfResourses = jsonBlueprint.amounts;
+		if (_listOfResourses==null)
+			_listOfResourses=new(_amountOfResourses.Count);
 		_listOfResourses.Clear();
 
 		for (int i = 0; i < jsonBlueprint.resourses.Count; i++)
 			_listOfResourses.Add(ScriptableItem.GetItem(jsonBlueprint.resourses[i]));
+		
+		_itemToCreate=(ScriptableItem)ScriptableObject.CreateInstance(Type.GetType(jsonBlueprint.itemToCreateType));
+		_itemToCreate.FromJson(jsonBlueprint.itemToCreateJsonString);
 				
 		if (this._itemName == "ErrorItem" || _itemToCreate==null || _listOfResourses.Count!=_amountOfResourses.Count)
         {
+			Debug.Log ("Error! Mistake on FromJson() in Blueprint (item is destroying)");
 			Destroy(this);
-
         }
 	}
 
@@ -91,6 +98,7 @@ public class Blueprint : ScriptableItem
 	{
 		public string itemName = "ErrorItem";
 		public string itemToCreateJsonString;
+		public string itemToCreateType;
 		public float secondsToFinish;
 		public List<string> resourses = new();
 		public List<long> amounts;

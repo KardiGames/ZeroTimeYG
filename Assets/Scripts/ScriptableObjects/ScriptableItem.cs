@@ -85,8 +85,10 @@ public class ScriptableItem : ScriptableObject
     public virtual void FromJson (string jsonString)
     {
         JsonUtility.FromJsonOverwrite(jsonString, this);
-        if (this.ItemName == "ErrorItem")
+        if (this.ItemName == "ErrorItem"){
+			Debug.Log ("Error! Mistake on FromJson() in SrcItem (item is destroying)");
             Destroy(this);
+		}
     }
 
     public static ScriptableItem GetItem(string itemName)

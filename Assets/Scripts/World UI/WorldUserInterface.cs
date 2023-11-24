@@ -30,19 +30,6 @@ public class WorldUserInterface : MonoBehaviour
         targetUIInventory.GetComponent<InventoryUIContentFiller>().Inventory=inventory;
     }
 
-    public void ToggleTaskTimer (TaskTimer timerToSet)
-    {
-        if (taskTimer.activeSelf)
-        {
-            taskTimer.SetActive(false);
-        } else if (timerToSet!=null)
-        {
-            taskTimer.SetActive(true);
-            taskTimer.GetComponent<TaskTimerUIContentFiller>().TaskTimer = timerToSet;
-            
-        }
-    }
-
     public void ShowBigMessage(string message)
     {
         if (bigMessage.gameObject.activeSelf)

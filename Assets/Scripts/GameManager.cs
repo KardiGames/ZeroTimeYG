@@ -45,13 +45,14 @@ public class GameManager : MonoBehaviour
         if (winnerScore == 0)
             winnerScore = Random.Range(1, (int)(1.5 * rewardManager.RewardCount));
 
-        ScriptableItem[] currentReward = rewardManager.GetReward(winnerScore);
-
-        print($"Winner Score : {winnerScore} Reward Count : {currentReward.Length}");
+        //TODO delete test realization & make normal
+        //ScriptableItem[] currentReward = rewardManager.GetReward(winnerScore);
+        //print($"Winner Score : {winnerScore} Reward Count : {currentReward.Length}");
+        ScriptableItem[] currentReward = rewardManager.GetTestReward(winnerScore);
+        worldUI.ShowBigMessage("Test Reward");
 
         worldUI.OpenTargetInventory(inventoryForReward);
         rewardManager.GiveReward(currentReward, inventoryForReward);
-        worldUI.ShowBigMessage("Game Over");
     }
     public void StartBattle()
     {
