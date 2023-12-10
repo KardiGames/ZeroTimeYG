@@ -9,7 +9,7 @@ public class Equipment : MonoBehaviour
     public enum Slot {RightHand = 0, LeftHand = 1, Body=2};
 		
 	[SerializeField] private ScriptableItem[] equipment = new ScriptableItem[3];
-    //TODO Actual sizi (is 3) is set by Inspector. Think if you need to delete [SerializeField] and set it in code
+    //TODO Actual size (is 3) is set by Inspector. Think if you need to delete [SerializeField] and set it in code
 
     public ScriptableItem this [int index]
     {

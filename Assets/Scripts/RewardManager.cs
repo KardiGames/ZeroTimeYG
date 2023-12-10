@@ -3,38 +3,31 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class RewardManager
+public class RewardManager: MonoBehaviour
 {
-    List<ScriptableItem> potentialReward;
-    public int RewardCount
-    {
-        get
-        {
-            if (potentialReward == null)
-                LoadReward();
-
-            return potentialReward.Count;
-        }
-    }
+    [SerializeField] private MineNpcRewardData _rewardData;
+    [SerializeField] private Mine mine;
+    
     public ScriptableItem[] GetTestReward(int winnerScore)
     {
-        if (potentialReward == null)
-            LoadReward();
-        return potentialReward.Select(r => r.Clone()).ToArray();
+        return ScriptableItem.GetAllItems().Select(r => r.Clone()).ToArray();
     }
-    public ScriptableItem[] GetReward (int rewardPoints)
+    public ScriptableItem[] GetReward (float rewardPoints)
     {
-        if (potentialReward == null)
-            LoadReward();
+        Dictionary<ScriptableItem, float> potentialReward = _rewardData.GetItemsDictionary(0, "Junk");
         List<ScriptableItem> reward = new();
-        int chosenRewardNumber;
-        
+        List<ScriptableItem> keys = new List<ScriptableItem>(potentialReward.Keys);
+        ScriptableItem chosenRewardItem;
+
         while (rewardPoints>0)
         {
-            chosenRewardNumber=Random.Range(0, potentialReward.Count);
-            reward.Add(potentialReward[chosenRewardNumber].Clone());
-            rewardPoints -= chosenRewardNumber+1;
+
+            chosenRewardItem = keys[Random.Range(0, keys.Count)];
+            rewardPoints -= potentialReward[chosenRewardItem];
+            if (rewardPoints>0)
+                reward.Add(chosenRewardItem.Clone());
         }
+
         return reward.ToArray();
     }
 
@@ -46,11 +39,4 @@ public class RewardManager
             inventoryForReward.TryToAdd(this, item);
         }
     }
-    private void LoadReward ()
-    {
-        if (potentialReward==null)
-            potentialReward = new List<ScriptableItem>(ScriptableItem.GetAllItems());
-    }
-
-
 }

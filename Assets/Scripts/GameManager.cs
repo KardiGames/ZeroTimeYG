@@ -42,8 +42,6 @@ public class GameManager : MonoBehaviour
             Destroy(cChar.gameObject);
         }
 
-        if (winnerScore == 0)
-            winnerScore = Random.Range(1, (int)(1.5 * rewardManager.RewardCount));
 
         //TODO delete test realization & make normal
         //ScriptableItem[] currentReward = rewardManager.GetReward(winnerScore);

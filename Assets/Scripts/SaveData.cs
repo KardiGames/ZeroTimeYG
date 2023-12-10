@@ -67,23 +67,13 @@ public class SaveData : MonoBehaviour
 		return BuildingTypeByName(buildingOfType.GetType().Name);
 	}
 
-    private WorldBuildingData FindBuildingOnMap(IWorldBuilding building) => globalMapBuildings.
-        Find(b => (b.X == building.X && b.Y == building.Y && b.Name == building.Name));
+    private WorldBuildingData FindBuildingOnMap(IWorldBuilding building) => globalMapBuildings
+        .Find(b => (b.X == building.X && b.Y == building.Y && b.Name == building.Name));
 
     internal void LoadSaveSystem()
     {
         if (globalMapBuildings.Count != 0)
             return;
-        
-        //TODO this is temporal part. detete it!
-        WorldBuildingData newBuilding = new WorldBuildingData()
-        {
-            Name = "Factory 1",
-            type = WorldBuildingData.BuildingType.Factory,
-            jSonString = ""
-        };
-
-        globalMapBuildings.Add(newBuilding);
     }
 
     public void LoadFromFile()
