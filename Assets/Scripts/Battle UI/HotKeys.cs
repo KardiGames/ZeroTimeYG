@@ -5,9 +5,11 @@ using UnityEngine.Events;
 
 public class HotKeys : MonoBehaviour
 {
+    [SerializeField] BattleManager _battleManager;
+
     private void Update()
     {
-        if (BattleManager.Status != "planning" || CombatCharacter.cCList[BattleManager.Player].ai!="")
+        if (_battleManager.Status != "planning" || _battleManager.AllCombatCharacters[_battleManager.Player].ai!="")
             return;
         if (Input.GetKeyDown(KeyCode.E))
             BattleUserInterface.Instance.EndTurn();

@@ -8,22 +8,25 @@ public class Equipment : MonoBehaviour
     public event Action OnEquipmentContentChanged;
     public enum Slot {RightHand = 0, LeftHand = 1, Body=2};
 		
-	[SerializeField] private ScriptableItem[] equipment = new ScriptableItem[3];
+	[SerializeField] private Item[] equipment = new Item[3];
+
+    public int AC { get => throw new NotImplementedException(); }
+
     //TODO Actual size (is 3) is set by Inspector. Think if you need to delete [SerializeField] and set it in code
 
-    public ScriptableItem this [int index]
+    public Item this [int index]
     {
         get =>equipment[index];
     }
 
     public int SlotsCount() => equipment.Length;
 	
-	public ScriptableItem this [Slot slotIndex]
+	public Item this [Slot slotIndex]
     {
         get =>equipment[(int) slotIndex];
     }
 
-    public bool IsAbleToEquip(ScriptableItem item, bool replaceInSlot)
+    public bool IsAbleToEquip(Item item, bool replaceInSlot)
     {
         if (item is Weapon weapon)
         {
@@ -55,7 +58,7 @@ public class Equipment : MonoBehaviour
 
     public void Unequip (Slot slot, Inventory inventoryTo)
     {
-        ScriptableItem itemInSlot = equipment[(int)slot];
+        Item itemInSlot = equipment[(int)slot];
 
         if (itemInSlot is Weapon weapon && weapon.TwoHanded)
         {
@@ -74,7 +77,7 @@ public class Equipment : MonoBehaviour
 
         OnEquipmentContentChanged?.Invoke();
     }
-    public void Equip (Inventory inventoryFrom, ScriptableItem item, bool replaceInSlot=false)
+    public void Equip (Inventory inventoryFrom, Item item, bool replaceInSlot=false)
     {
         if (!IsAbleToEquip(item, replaceInSlot))
             return;
@@ -82,7 +85,7 @@ public class Equipment : MonoBehaviour
         if (TryToEquip(inventoryFrom, item, replaceInSlot))
             inventoryFrom.RemoveThisItem(this, item);
     }
-    private bool TryToEquip (object sender, ScriptableItem item, bool replaceInSlot)
+    private bool TryToEquip (object sender, Item item, bool replaceInSlot)
     {
         int slotNumber = 0;
         if (item is Armor armor)

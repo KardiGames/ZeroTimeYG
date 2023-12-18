@@ -20,7 +20,7 @@ public class MineNpcRewardData : ScriptableObject
     private class RewardData
     {
         public int minMineLevel;
-        public ScriptableItem rewardItem;
+        public Item rewardItem;
         public float rewardCost;
     }
 
@@ -32,9 +32,9 @@ public class MineNpcRewardData : ScriptableObject
             .ToArray();
     }
 
-    public Dictionary<ScriptableItem, float> GetItemsDictionary(int mineLevel, string mineType)
+    public Dictionary<Item, float> GetItemsDictionary(int mineLevel, string mineType)
     {
-        Dictionary<ScriptableItem, float> reward = new();
+        Dictionary<Item, float> reward = new();
 
         foreach (RewardData item in Get2ListsByMineType(mineType).Item2)
         {

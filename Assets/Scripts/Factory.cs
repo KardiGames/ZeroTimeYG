@@ -16,7 +16,7 @@ public class Factory : MonoBehaviour, ITimerable, IWorldBuilding
 	[SerializeField] private string _name;
 	
 
-	private Dictionary<TaskByTimer, ScriptableItem> factoryLines = new();
+	private Dictionary<TaskByTimer, Item> _factoryLines = new();
 		
 	public TaskTimer TaskTimer => _taskTimer;
 	public string Name => _name;
@@ -28,9 +28,9 @@ public class Factory : MonoBehaviour, ITimerable, IWorldBuilding
 			return;
 		}
 		
-		bool check = _storage.TryToAdd(this, factoryLines[action].Clone());
+		bool check = _storage.TryToAdd(this, _factoryLines[action].Clone());
 		if (check) 
-			factoryLines.Remove(action);
+			_factoryLines.Remove(action);
     }
 
     // Start is called before the first frame update
@@ -39,10 +39,10 @@ public class Factory : MonoBehaviour, ITimerable, IWorldBuilding
         _taskTimer = GetComponent<TaskTimer>();
 		_taskTimer.SetupTaskTimer(5, 2);
 		for (int i=0; i<8;i++)
-			_storage.TryToAdd(this, ScriptableItem.GetItem("Resource"));
-		_storage.TryToAdd(this, ScriptableItem.GetItem("Pistol Blueprint"));
-		GameObject.Find("PlayerCharacter").GetComponent<Inventory>().TryToAdd(this, ScriptableItem.GetItem("Pistol Blueprint"));
-		GameObject.Find("PlayerCharacter").GetComponent<Inventory>().TryToAdd(this, ScriptableItem.GetItem("Steel Armor"));
+			_storage.TryToAdd(this, Item.GetItem("Resource"));
+		_storage.TryToAdd(this, Item.GetItem("Pistol Blueprint"));
+		GameObject.Find("PlayerCharacter").GetComponent<Inventory>().TryToAdd(this, Item.GetItem("Pistol Blueprint"));
+		GameObject.Find("PlayerCharacter").GetComponent<Inventory>().TryToAdd(this, Item.GetItem("Steel Armor"));
 	}
 
     public void AddFactoryLine(Blueprint blueprint, bool startProductionImmediately = false)
@@ -56,11 +56,11 @@ public class Factory : MonoBehaviour, ITimerable, IWorldBuilding
 		if (productionTask==null)
 			return;
         
-		TaskTimer.AddTask(productionTask);
-		if (TaskTimer.Contains(productionTask))
+		_taskTimer.AddTask(productionTask);
+		if (_taskTimer.Contains(productionTask))
         {
 			SpendResources(blueprint);
-			factoryLines.Add(productionTask, blueprint.ItemToCreate);
+			_factoryLines.Add(productionTask, blueprint.ItemToCreate);
 			_storage.RemoveThisItem(this, blueprint);
 			Destroy(blueprint);
 		} else
@@ -74,7 +74,7 @@ public class Factory : MonoBehaviour, ITimerable, IWorldBuilding
 	{
 		//TODO think. m.b. check IsAnoughResourses
 
-		List<ScriptableItem> resoursesList = blueprint.ListOfResourses;
+		List<Item> resoursesList = blueprint.ListOfResourses;
 		List<long> resoursesAmounts = blueprint.AmountsOfResourses;
 		for (int i = 0; i < resoursesList.Count; i++)
 		{
@@ -87,7 +87,7 @@ public class Factory : MonoBehaviour, ITimerable, IWorldBuilding
 		_saveSystem.SaveBuilding(this);
 		_storage.ClearInventory(this);
 		_taskTimer.ClearTaskTimer();
-		factoryLines.Clear();
+		_factoryLines.Clear();
 		_name="";
 	}
 
@@ -97,16 +97,16 @@ public class Factory : MonoBehaviour, ITimerable, IWorldBuilding
 		jsonFactory.storageJsonString=_storage.ToJson();
 
 		TaskByTimer[] taskTimerArray = _taskTimer.GetAllItems();
-		if (taskTimerArray.Any(tt => tt.Source != this) || taskTimerArray.Length != factoryLines.Count)
+		if (taskTimerArray.Any(tt => tt.Source != this) || taskTimerArray.Length != _factoryLines.Count)
 			return JsonUtility.ToJson(new { _name = "Error Factory Data 1" });
 
 		jsonFactory.taskTimerJsonString = _taskTimer.ToJson(this);
 
 		for (int i = 0; i < taskTimerArray.Length; i++)
-			if (factoryLines.ContainsKey(taskTimerArray[i]))
+			if (_factoryLines.ContainsKey(taskTimerArray[i]))
             {
-				jsonFactory.factoryJsonLines.Add(factoryLines[taskTimerArray[i]].ToJson());
-				jsonFactory.factoryLinesTypes.Add(factoryLines[taskTimerArray[i]].GetType().Name);
+				jsonFactory.factoryJsonLines.Add(_factoryLines[taskTimerArray[i]].ToJson());
+				jsonFactory.factoryLinesTypes.Add(_factoryLines[taskTimerArray[i]].GetType().Name);
 			}
 				
 			else
@@ -116,7 +116,7 @@ public class Factory : MonoBehaviour, ITimerable, IWorldBuilding
 
     public void FromJson(string jsonString)
     {
-		factoryLines.Clear();
+		_factoryLines.Clear();
 		
 		FactoryJsonData jsonFactory = JsonUtility.FromJson<FactoryJsonData>(jsonString);
 		X = jsonFactory.x;
@@ -126,15 +126,15 @@ public class Factory : MonoBehaviour, ITimerable, IWorldBuilding
 		_taskTimer.FromJson(jsonFactory.taskTimerJsonString, this);
 
 		TaskByTimer[] taskTimerArray = _taskTimer.GetAllItems();
-		ScriptableItem itemToLine;
+		Item itemToLine;
 		for (int i=0; i<taskTimerArray.Length; i++)
         {
-			itemToLine = (ScriptableItem)ScriptableObject.CreateInstance(Type.GetType(jsonFactory.factoryLinesTypes[i]));
+			itemToLine = (Item)ScriptableObject.CreateInstance(Type.GetType(jsonFactory.factoryLinesTypes[i]));
 			if (itemToLine == null)
 				continue;
 			itemToLine.FromJson(jsonFactory.factoryJsonLines[i]);
 			if (itemToLine != null)
-				factoryLines.Add(taskTimerArray[i], itemToLine); //TODO Make test if deserialization error
+				_factoryLines.Add(taskTimerArray[i], itemToLine); //TODO Make test if deserialization error
         }
 	}
 	

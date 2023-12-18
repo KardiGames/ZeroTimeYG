@@ -4,54 +4,45 @@ using UnityEngine;
 
 public class BattleManager : MonoBehaviour
 {
-    //Combat logs
-    public static List<CombatAction> planningList = new List<CombatAction>();
-    public static List<CombatAction> combatLog = new List<CombatAction>();
+    //List of all Combat Characters in the scenes
+    public List<CombatUnit> AllCombatCharacters= new(); //TODO Change list type to ICombatCharacter
 
-    public static string Status { get; private set; } = "starting";
-    private static float _difficulty=1;
-    public static float Difficulty { get=>_difficulty; set 
-        {
-            if (Status == "starting" && value >= 1 && value <= 3)
-                _difficulty = value;
-        } 
-    }
+    //Combat logs
+    public List<CombatAction> _planningList = new List<CombatAction>();
+    public List<CombatAction> _combatLog = new List<CombatAction>();
+
+    public string Status { get; private set; } = "starting";
 
     //Variables for "movie" status
-    public static int MovieAct { get; private set; } = 0;
+    public int MovieAct { get; private set; } = 0;
 
     //Variables for "planning" status
-    public static int Turn { get; private set; } = 0;
-    public static int Player { get; private set; } = 0;
+    public int Turn { get; private set; } = 0;
+    public int Player { get; private set; } = 0;
 
     //Technical use variables
-    private static GameManager gameManager;
+    [SerializeField] private GameManager gameManager; //TODO delete this as soon as possible. Or not?
 
-    void Awake()
-    {
-        gameManager = GetComponent<GameManager>();
-    }
-
-    public static void NextMovieAct ()
+    public void NextMovieAct ()
     {
         if (Status == "movie")
         {
             MovieAct++;
-            if (MovieAct >= combatLog.Count)
+            if (MovieAct >= _combatLog.Count)
             {
-                BattleManager.NextTurn();
+                NextTurn();
             }
         }
     }
-    public static void NextPlayer()
+    public void NextPlayer()
     {
-        CombatCharacter.cCList[Player].ResetPlanning();
-        CombatCharacter.cCList[Player].StartPlanning(false);
+        AllCombatCharacters[Player].ResetPlanning();
+        AllCombatCharacters[Player].StartPlanning(false);
         Player++;
         
-        if (Player<CombatCharacter.cCList.Count)
+        if (Player< AllCombatCharacters.Count)
         {
-            CombatCharacter.cCList[Player].StartPlanning();
+            AllCombatCharacters[Player].StartPlanning();
         } else
         {
             Player--;
@@ -59,26 +50,26 @@ public class BattleManager : MonoBehaviour
             BattleUserInterface.Instance.SetPlaningButtons(false);
             Status = "performing";
 
-            CombatAction.CreatePlanningList(planningList);
+            CreatePlanningList();
 
-            CombatAction.Perform(planningList);
+            CombatAction.Perform(_planningList);
 
             Status = "movie";
 
         }
     }
 
-    public static void FirstTurn()
+    public void FirstTurn()
     {
-        planningList.Clear();
-        combatLog.Clear();
+        _planningList.Clear();
+        _combatLog.Clear();
         Turn = 0;
         Player = 0;
         MovieAct = 0;
         Status = "planning";
         BattleUserInterface.Instance.SetPlaningButtons(true);
     }
-    private static void NextTurn()
+    private void NextTurn()
     {
         print("TURN IS FINISHED. Starting turn "+(Turn+1));
 
@@ -98,7 +89,7 @@ public class BattleManager : MonoBehaviour
         BattleUserInterface.Instance.RefreshLevelInfo();
         Turn++;
 
-        foreach (CombatCharacter cC in CombatCharacter.cCList)
+        foreach (CombatUnit cC in AllCombatCharacters)
         {
             cC.ResetAP();
             cC.ResetPlanning();
@@ -108,7 +99,7 @@ public class BattleManager : MonoBehaviour
         Status = "planning";
         BattleUserInterface.Instance.SetPlaningButtons(true);
 
-        CombatCharacter.cCList[Player].StartPlanning();
+        AllCombatCharacters[Player].StartPlanning();
 
         void SpawnEnemies(int minSpawnNumber)
         {
@@ -127,7 +118,7 @@ public class BattleManager : MonoBehaviour
             {
                 int npcSpawnLevel = Mathf.Min(Random.Range(1, (totalPlayersLevel - totalEnemiesLevel + 1)), maxSpawnLevel);
                 totalEnemiesLevel += npcSpawnLevel;
-                NonPlayerCharacter.SpawnMiner(npcSpawnLevel);
+                NonPlayerCharacter.SpawnMiner(this, npcSpawnLevel);
             }
 
             if (totalEnemiesLevel < totalPlayersLevel)
@@ -137,7 +128,7 @@ public class BattleManager : MonoBehaviour
                 if (spawnRandom < additionalSpawnChanse)
                 {
                     int npcSpawnLevel = Mathf.Min(Random.Range(1, (totalPlayersLevel - totalEnemiesLevel + 1)), maxSpawnLevel);
-                    NonPlayerCharacter.SpawnMiner(npcSpawnLevel);
+                    NonPlayerCharacter.SpawnMiner(this, npcSpawnLevel);
                     print($"Was spawned additional NPC. Chanse was {additionalSpawnChanse}, random rolled {spawnRandom}");
                 }
                 else
@@ -148,7 +139,7 @@ public class BattleManager : MonoBehaviour
         int CleanDeadBodies()
         {
             int cleanedBodies = 0;
-            foreach (CombatCharacter cChar in CombatCharacter.cCList)
+            foreach (CombatUnit cChar in AllCombatCharacters)
             {
                 if (cChar.ai == "")
                 {
@@ -171,5 +162,55 @@ public class BattleManager : MonoBehaviour
             return cleanedBodies;
         }
     }
+
+    public void CreatePlanningList()
+    {
+        _planningList.Clear();
+        List<ActionToCompare> listToSort = new();
+
+        int spentAP = 0;
+        int subjectTotalAp;
+        foreach (CombatUnit cC in AllCombatCharacters)
+        {
+            spentAP = 0;
+            foreach (CombatAction plannedAction in cC.personalPlanningList)
+            {
+                spentAP += plannedAction.apCost;
+                subjectTotalAp = plannedAction.subject.TotalAP;
+                listToSort.Add(new(plannedAction, (float)spentAP / subjectTotalAp, subjectTotalAp));
+            }
+        }
+
+        listToSort.Sort();
+
+        for (int i = 0; i < listToSort.Count; i++)
+            _planningList.Add(listToSort[i].Action);
+
+        foreach (CombatUnit cChar in AllCombatCharacters)
+            cChar.personalPlanningList.Clear();
+    }
+    private class ActionToCompare : System.IComparable<ActionToCompare>
+    {
+        public CombatAction Action { get; private set; }
+        private float placeInTurn;
+        private int totalAP;
+        public ActionToCompare(CombatAction action, float placeInTurn, int totalAP)
+        {
+            Action = action;
+            this.placeInTurn = placeInTurn;
+            this.totalAP = totalAP;
+        }
+        public int CompareTo(ActionToCompare compAction)
+        {
+            if (compAction == null)
+                return 1;
+            if (placeInTurn > compAction.placeInTurn)
+                return 1;
+            if (placeInTurn < compAction.placeInTurn)
+                return -1;
+            return totalAP - compAction.totalAP;
+        }
+    }
+
 }
 

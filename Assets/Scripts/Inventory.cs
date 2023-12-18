@@ -5,38 +5,38 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-	public event Action<object, ScriptableItem, long> OnInventoryItemAddedEvent;
-	public event Action<object, ScriptableItem, long> OnInventoryItemRemovedEvent;
+	public event Action<object, Item, long> OnInventoryItemAddedEvent;
+	public event Action<object, Item, long> OnInventoryItemRemovedEvent;
 	public event Action OnInventoryContentChanged;
 
-	[SerializeField] private List<ScriptableItem> inventoryItems = new();
+	[SerializeField] private List<Item> inventoryItems = new();
 
-	public ScriptableItem GetItem(string itemName) {
+	public Item GetItem(string itemName) {
 		return inventoryItems.Find(item => item.ItemName == itemName);
 	}
 
-	public ScriptableItem[] GetAllItems() {
+	public Item[] GetAllItems() {
 		return inventoryItems.ToArray();
 	}
 
-	public ScriptableItem[] GetAllItems(string itemName) {
+	public Item[] GetAllItems(string itemName) {
 		return inventoryItems.FindAll(item => item.ItemName == itemName).ToArray();
 	}
 
-	public ScriptableItem[] GetAllItems(ScriptableItem itemOfType)
+	public Item[] GetAllItems(Item itemOfType)
 	{
 		return inventoryItems.FindAll(item => item.IsTheSameItem(itemOfType)).ToArray();
 	}
 
 	public long GetItemAmount(string itemName) {
 		long amount = 0;
-		foreach (ScriptableItem item in GetAllItems(itemName)) {
+		foreach (Item item in GetAllItems(itemName)) {
 			amount += item.Amount;
 		}
 		return amount;
 	}
 
-	public void TransferTo(object sender, Inventory toInventory, ScriptableItem item, long amount = 1)
+	public void TransferTo(object sender, Inventory toInventory, Item item, long amount = 1)
 	{
 		if (item == null || amount < 1 || item.Amount < amount || !inventoryItems.Contains(item))
 			return;
@@ -48,7 +48,7 @@ public class Inventory : MonoBehaviour
 				inventoryItems.Remove(item);
 		} else
 		{
-			ScriptableItem partOfStack = item.Split(amount);
+			Item partOfStack = item.Split(amount);
 
 			bool check = toInventory.TryToAdd(sender, partOfStack);
 			if (!check)
@@ -57,7 +57,7 @@ public class Inventory : MonoBehaviour
 		OnInventoryContentChanged?.Invoke();
 	}
 
-	public bool TryToAdd(object sender, ScriptableItem item) {
+	public bool TryToAdd(object sender, Item item) {
 		if (!item.Stackable)
 		{
 			inventoryItems.Add(item);
@@ -74,10 +74,10 @@ public class Inventory : MonoBehaviour
 	}
 
 	public void Remove(object sender, string itemName, long amount = 1) => RemoveByArray(sender, GetAllItems(itemName), amount);
-	public void Remove(object sender, ScriptableItem itemOfType, long amount = 1) => RemoveByArray(sender, GetAllItems(itemOfType), amount);
-	public void RemoveThisItem(object sender, ScriptableItem item) => RemoveByArray(sender, new ScriptableItem[] { item }, item.Amount);
+	public void Remove(object sender, Item itemOfType, long amount = 1) => RemoveByArray(sender, GetAllItems(itemOfType), amount);
+	public void RemoveThisItem(object sender, Item item) => RemoveByArray(sender, new Item[] { item }, item.Amount);
 
-	private void RemoveByArray(object sender, ScriptableItem[] items, long amount) {
+	private void RemoveByArray(object sender, Item[] items, long amount) {
 		if (items.Length == 0)
 			return;
 
@@ -118,11 +118,11 @@ public class Inventory : MonoBehaviour
         OnInventoryContentChanged?.Invoke();
     } 
 	
-	public bool HasItem (string itemName, out ScriptableItem item) {
+	public bool HasItem (string itemName, out Item item) {
 		item = GetItem(itemName);
 		return item != null;
 	}
-	public bool Contains(ScriptableItem item) => inventoryItems.Contains(item);
+	public bool Contains(Item item) => inventoryItems.Contains(item);
 
 	public void FromJson(string jsonString)
 	{
@@ -130,10 +130,10 @@ public class Inventory : MonoBehaviour
 		InventoryJsonData jsonInventory = JsonUtility.FromJson<InventoryJsonData>(jsonString);
 		if (jsonInventory == null)
 			return;
-		ScriptableItem itemToAdd;
+		Item itemToAdd;
 		for (int i=0; i<jsonInventory.inventory.Count; i++)
         {
-			itemToAdd = (ScriptableItem)ScriptableObject.CreateInstance(Type.GetType(jsonInventory.inventory[i++]));
+			itemToAdd = (Item)ScriptableObject.CreateInstance(Type.GetType(jsonInventory.inventory[i++]));
 			if (itemToAdd == null)
 				continue;
 			itemToAdd.FromJson(jsonInventory.inventory[i]);

@@ -87,11 +87,11 @@ public class Scripts : MonoBehaviour
         return distance;
     }
 
-    public static void Ai (CombatCharacter bot, string ai="rat")
+    public static void Ai (NonPlayerCharacter bot, string ai="rat")
     {
-        CombatCharacter enemy=null;
+        CombatUnit enemy=null;
         float priority = 0f;
-        foreach (CombatCharacter cC in CombatCharacter.cCList) {
+        foreach (CombatUnit cC in BattleUserInterface.Instance.BattleManager.AllCombatCharacters) {
             if (cC.ai != ""||cC.Dead) continue;
             float currentPriority = (float)Location.Distance(bot.pos, cC.pos)*cC.HP/cC.MaxHP;
             if (enemy==null || currentPriority<priority) {
@@ -116,10 +116,10 @@ public class Scripts : MonoBehaviour
             else if (distanceToTarget == 1)
             {
                 //TODO make AI more universal with switching weapons
-                int attacksWithoutMove = bot.PlanningAP / bot.equipment[0].apCost;
+                int attacksWithoutMove = bot.PlanningAP / bot.RightHandWeapon.APCost;
                 if (attacksWithoutMove > 0)
                 {
-                    int attacksAfterMove = (bot.PlanningAP - Location.map[enemy.pos[0], enemy.pos[1]].AP) / bot.equipment[0].apCost;
+                    int attacksAfterMove = (bot.PlanningAP - Location.map[enemy.pos[0], enemy.pos[1]].AP) / bot.RightHandWeapon.APCost;
                     float chanseToMove = (float)attacksAfterMove / attacksWithoutMove;
                     if (Random.value < chanseToMove)
                     {
@@ -145,7 +145,7 @@ public class Scripts : MonoBehaviour
             if (i > 20) break;  
         }
 		
-		bool Move (CombatCharacter bot, int x, int y) {
+		bool Move (NonPlayerCharacter bot, int x, int y) {
 			    
 				bot.personalPlanningList.Add(new CombatAction());
                 bool movePlanned = bot.personalPlanningList[(bot.personalPlanningList.Count - 1)].Move(bot, x, y);
@@ -160,14 +160,14 @@ public class Scripts : MonoBehaviour
 		}
     }
 
-    public static int HitChanse (CombatCharacter subject, CombatCharacter target, Item weapon)
+    public static int HitChanse (CombatUnit subject, CombatUnit target, Weapon weapon)
     {
         int overPerceptionHitChenseDecrease = 10;
         /*if (subject.loc == null || target.loc == null) //TODO turn it back after repair Location class
             return 0;*/
 
         int range;
-		if (weapon.rangedAttack)
+		if (weapon.RangedAttack)
         {
             range = weapon.Range;
         }
@@ -175,12 +175,14 @@ public class Scripts : MonoBehaviour
             range = 1;
 
         int distance = Location.Distance(subject.planningPos, target.pos);
-		int perseptionLenght = subject.PE-1;
+        int perseptionLenght = int.MaxValue;
+        if (subject is CombatCharacter player)    
+            perseptionLenght= player.PE-1;
 		
         if (distance > range)
             return 0;
 		
-        int hitChanse = subject.skills[weapon.skillname];
+        int hitChanse = subject.GetSkillValue(weapon.SkillName);
         // ADD if (cA.target.ai != "") cA.target.CheckAC();
         hitChanse -= target.AC;
         hitChanse -= target.bonusAC;
@@ -192,6 +194,6 @@ public class Scripts : MonoBehaviour
         return hitChanse;
     }
 	
-	public static int HitChanse (CombatCharacter subject, CombatCharacter target) => subject.usesOffHand ? HitChanse (subject, target, subject.equipment[1]) : HitChanse (subject, target, subject.equipment[0]);
+	public static int HitChanse (CombatUnit subject, CombatUnit target) => subject.usesOffHand ? HitChanse (subject, target, subject.LeftHandWeapon) : HitChanse (subject, target, subject.RightHandWeapon);
         
 }

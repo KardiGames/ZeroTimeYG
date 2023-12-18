@@ -2,18 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NonPlayerCharacter : CombatCharacter
+public class NonPlayerCharacter : CombatUnit
 {
     //Variables for NPC
     private int _maxHP;
-    public new int MaxHP { get => _maxHP; private set => _maxHP=value;}
-    public override int HP
+    private int _totalAP; 
+    private int _ac;
+    private NpcAttack _npcAttack;
+    private Dictionary<string, int> _skillValues = new Dictionary<string, int>();
+
+    //Secondary stats properties
+    public override int MaxHP { get => _maxHP;}
+    public override int TotalAP { get => _totalAP; }
+    public override int AC
     {
-        get => _hp; protected set
-        {
-            _hp = value;
-            if (_hp > MaxHP) _hp = MaxHP;
-        }
+        get => _ac + bonusAC;
+    }
+
+    public override int MeleeDamageBonus => 0;
+
+    public override Weapon RightHandWeapon => _npcAttack;
+
+    public override Weapon LeftHandWeapon => _npcAttack;
+
+    public override int GetSkillValue(string skillName)
+    {
+        int skillValue = 0;
+        _skillValues.TryGetValue(skillName, out skillValue);
+        return skillValue;
     }
     // Start is called before the first frame update
     private void Start()
@@ -47,13 +63,13 @@ public class NonPlayerCharacter : CombatCharacter
 
     public override void StartPlanning(bool start = true)
     {
-        if (start && BattleManager.Status=="planning")
+        if (start && _battleManager.Status=="planning")
         {
             if (!Dead)
             {
                 Scripts.Ai(this);
             }
-            BattleManager.NextPlayer();
+            _battleManager.NextPlayer();
         }
     }
 
@@ -84,10 +100,9 @@ public class NonPlayerCharacter : CombatCharacter
             return SpawnPosition();
         else
             return position;
-
     }
 
-    public static void SpawnMiner(int level = 1)
+    public static void SpawnMiner(BattleManager manager, int level = 1)
     {
         if (level < 1) return;
         
@@ -105,53 +120,44 @@ public class NonPlayerCharacter : CombatCharacter
 
         GameObject npcGameObj = Instantiate(PrefabsList.instance.ratPrefab);
         NonPlayerCharacter npc = npcGameObj.GetComponent<NonPlayerCharacter>();
+        npc._battleManager = manager;
         npc.ai = ai;
         npc.charName = "Miner";
-        npc.MaxHP = maxHP;
-        npc.totalAP = totalAP;
-        npc.AC = AC;
+        npc._maxHP = maxHP;
+        npc._totalAP = totalAP;
+        npc._ac = AC;
         npc.level = level;
 
-        Item attack = new Item();
-        attack.itemName = "Plasma Cutter";
-        attack.Range = damageRange;
-        attack.apCost = attackAP;
-        attack.rangedAttack = rangedAttack;
+        NpcAttack attack = (NpcAttack)ScriptableObject.CreateInstance(System.Type.GetType("NpcAttack"));
+        attack.SetValues("Plasma Cutter", damageRange, attackAP, rangedAttack, "NpcAttack");
         attack.SetDamage(damageMultipler, damageDise, damagePlus);
-        attack.skillname = "npcattack";
-        npc.equipment.Add(attack);
-        npc.equipment.Add(attack);
+        npc._npcAttack =attack;
 
 
-        if (!npc.skills.ContainsKey(attack.skillname))
-            npc.skills.Add(attack.skillname, 0);
-        npc.skills[attack.skillname] = 75;
+        if (!npc._skillValues.ContainsKey(attack.SkillName))
+            npc._skillValues.Add(attack.SkillName, 0);
+        npc._skillValues[attack.SkillName] = 75;
 
-        for (int i=1; i<level*BattleManager.Difficulty; i++)
+        for (int i=1; i<level; i++)
         {
-            npc.MaxHP += maxHP/2;
+            npc._maxHP += maxHP/2;
             int randomStart = 0;
-            if (npc.totalAP >= (totalAP * 2))
+            if (npc.TotalAP >= (totalAP * 2))
                 randomStart = 1;
             switch (Random.Range(randomStart, 3))
             {
                 case 0:
-                    npc.totalAP++;
+                    npc._totalAP++;
                     break;
                 case 1:
                     attack.BoostDamage();
                     break;
                 case 2:
-                    npc.AC+=AC/2;
+                    npc._ac+=npc._ac/2;
                     break;
             }
         }
 
         npc.Start();
-    }
-
-    public void DeathProtocol ()
-    {
-        
     }
 }

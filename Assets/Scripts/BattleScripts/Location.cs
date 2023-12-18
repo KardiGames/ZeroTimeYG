@@ -81,7 +81,7 @@ public static int Distance (Location from, Location to) {
 
     public static bool IsBusy(int x, int y)
     {
-        foreach (CombatCharacter cC in CombatCharacter.cCList)
+        foreach (CombatUnit cC in BattleUserInterface.Instance.BattleManager.AllCombatCharacters)
         {
             if (cC.pos[0] == x && cC.pos[1] == y)
                 return true;

@@ -8,7 +8,7 @@ public class ClickArea : MonoBehaviour
     
     public int xCorrection;
     public int yCorrection;
-    public CombatCharacter combatCharacter; //Subject for MOVE & target (object) for ATTACK
+    public CombatUnit combatCharacter; //Subject for MOVE & target (object) for ATTACK
     public int costAP; //for MOVE only
     public KeyCode hotKey = KeyCode.None;
 
@@ -25,7 +25,7 @@ public class ClickArea : MonoBehaviour
     {
         if (action=="attack")
         {
-            combatCharacter.OverheadText.Show("To hit: "+ Scripts.HitChanse(CombatCharacter.cCList[BattleManager.Player], combatCharacter)+"%");
+            combatCharacter.OverheadText.Show("To hit: "+ Scripts.HitChanse(BattleUserInterface.Instance.BattleManager.AllCombatCharacters[BattleUserInterface.Instance.BattleManager.Player], combatCharacter)+"%");
             BattleUserInterface.Instance.ShowEnemyInfo((NonPlayerCharacter)combatCharacter);
         }
     }
@@ -39,7 +39,7 @@ public class ClickArea : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (BattleManager.Status != "planning")
+        if (BattleUserInterface.Instance.BattleManager.Status != "planning")
             return;
         
         //Start move action
@@ -49,7 +49,7 @@ public class ClickArea : MonoBehaviour
             {
                 xPlace = combatCharacter.planningPos[0] + xCorrection;
                 yPlace = combatCharacter.planningPos[1] + yCorrection;
-                combatCharacter.MovePlan(xPlace, yPlace);
+                (combatCharacter as CombatCharacter).MovePlan(xPlace, yPlace);
             }
         }
         else if (action == "attack")
@@ -57,7 +57,7 @@ public class ClickArea : MonoBehaviour
             //Check for and perform move action
             if (Input.GetKey(KeyCode.LeftControl) == true || Input.GetKey(KeyCode.RightControl) == true)
             {
-                CombatCharacter planningCharacter = CombatCharacter.cCList[BattleManager.Player];
+                CombatCharacter planningCharacter = BattleUserInterface.Instance.BattleManager.AllCombatCharacters[BattleUserInterface.Instance.BattleManager.Player] as CombatCharacter;
                 xPlace = combatCharacter.planningPos[0];
                 yPlace = combatCharacter.planningPos[1];
                 planningCharacter.MovePlan(xPlace, yPlace);
@@ -65,16 +65,11 @@ public class ClickArea : MonoBehaviour
             }
             else
             {
-                if (CombatAction.Attack(CombatCharacter.cCList[BattleManager.Player], combatCharacter))
+                if (CombatAction.Attack(BattleUserInterface.Instance.BattleManager.AllCombatCharacters[BattleUserInterface.Instance.BattleManager.Player], combatCharacter))
                 {
                     combatCharacter.OverheadText.ShowHP();
                 }
             }
-        }
-
-        if (CombatCharacter.cCList[BattleManager.Player].PlanningAP == 0)
-        {
-            BattleManager.NextPlayer();
         }
     }
 

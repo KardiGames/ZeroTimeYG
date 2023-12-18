@@ -2,103 +2,57 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CombatCharacter : MonoBehaviour
+public class CombatCharacter : CombatUnit
 {
-    //List of all Combat Characters in the scenes
-    public static List<CombatCharacter> cCList = new();
-
-    //Balansing variables
-    private readonly int levelUpMultipler = 2;
-
     //Technical use variables
     //setting X & Y corrections for 1st circle + List of child GameObjects
     private int[] xOddCorrArray = new int[] { 1, 1, 1, 0, -1, 0 }; //for Odd row
     private int[] xEvenCorrArray = new int[] { 0, 1, 0, -1, -1, -1 }; //for Even row
     private int[] yCorrArray = new int[] { 1, 0, -1, -1, 0, 1 };
-    private bool isCreated = false;
-    public GameObject prefabClickZone;
-    public GameObject attackZone;
-    public Animator characterAnimator;
-    public AudioSource characterSound;
-    public OverheadMessage OverheadText { get; protected set; }
-    public string ExperienceText
-    {
-        get
-        {
-            return $"( {experience} / {level * levelUpMultipler}  experience)";
-        }
-    }
-    public int Experience { get => experience + (level-1) * levelUpMultipler;  }
+    private bool _isCreated = false; //TODO delete this?
+
+    public string ExperienceText => $"( {_combatExperience} experience)";
+    public int CombatExperience => _combatExperience;
     private List<GameObject> clickZones = new List<GameObject>();
 
 
     //Variables
-    public string charName;
-    public bool Dead { get; protected set; } = false;
-    public int level = 1;
-    public int[] pos = new int[2];
-    private int experience = 0;
-    public bool usesOffHand = false;
+    [SerializeField] private WorldCharacter _playerCharacter;
+    private int _combatExperience = 0;
+    private Dictionary<string, int> _skillBoostings = new();
 
-    //[0] for right hand, [1] for left hand
-    public List<Item> equipment = new();
-    public Dictionary<string, int> skills = new();
-
-    //Basic stats
-    public int ST = 5; //Strenght
-    public int PE = 5; //Perception
-    public int EN = 5; //Endurance
-    public int AG = 5; //Agility
-
-    //Secondary stats vatiables
-    public int totalAP; //Action points (ochki deystvija)
-    private int AP; //Action points
-    public int MaxHP {get => 15 + (ST + (2 * EN));}
-    public int AC; //Acmor class
-    public int MD; //Melee damage
-    public int bonusAC;
+    //Basic stats properties
+    public int ST => _playerCharacter.ST;
+    public int PE => _playerCharacter.PE;
+    public int EN => _playerCharacter.EN;
+    public int AG => _playerCharacter.AG;
+    public int IN => _playerCharacter.IN;
 
     //Secondary stats properties
-    protected int _hp;
-    public virtual int HP
+    public override int MaxHP { get => 15 + (ST + (2 * EN));}
+    public override int MeleeDamageBonus { get => ST * 2; }
+    public override int TotalAP { get => (AG / 2) + 5; }
+    public override int AC
     {
-        get => _hp; protected set
-        {
-            _hp = value;
-            if (_hp > MaxHP) _hp = MaxHP;
-        }
+        get => AG + _playerCharacter.Equipment.AC + bonusAC;
+    }
+    public override Weapon RightHandWeapon => _playerCharacter.Equipment[Equipment.Slot.RightHand] as Weapon;
+    public override Weapon LeftHandWeapon => _playerCharacter.Equipment[Equipment.Slot.LeftHand] as Weapon;
+    public override int GetSkillValue(string skillName)
+    {
+        int skillValue = _playerCharacter.Skills.GetSkillValue(skillName);
+        if (_skillBoostings.ContainsKey(skillName))
+            skillValue += _skillBoostings[skillName];
+        return skillValue;
     }
 
     public Location loc { get => Location.GetLocation(pos); }
 
-    //AI Stats
-    public string ai = "";
 
-    //Planning stuff
-    public int PlanningAP {get; protected set;}
-    public int MeleeDamageBonus { get => ST * 2; }
-
-    public int[] planningPos = new int[2];
-    public List<CombatAction> personalPlanningList = new List<CombatAction>();
-
-    void Awake()
-    {
-        cCList.Add(this);
-    }
-
-    private void OnDestroy()
-    {
-        while (cCList.Contains(this)) 
-            cCList.Remove(this);
-    }
 
     private void Start()
     {
-        //Part to easy move char to scene
-        //FulfillCharacter("TEMP name", 5, 5, 5, 5, Item.GetItem("Rifle"), Item.GetItem("Fist"));
-
-
-        if (!isCreated)
+        if (!_isCreated)
         {
             print("ERROR!!! Start() for CombatCharacter started too early");
             return;
@@ -109,8 +63,8 @@ public class CombatCharacter : MonoBehaviour
         characterAnimator= GetComponentInChildren<Animator>(true);
         characterSound = GetComponent<AudioSource>();
 
-        CalculateSecStats();
         ResetAP();
+
         HP = MaxHP;
         OverheadText.ShowHP();
 
@@ -124,59 +78,11 @@ public class CombatCharacter : MonoBehaviour
         transform.position = new Vector3(CoordArray.cArray[pos[0], pos[1], 0], CoordArray.cArray[pos[0], pos[1], 1], 0);
         CreateClickZones();
         //ADD when needed if (CombatCharacter.cCList[i].equipment[0]==null) CombatCharacter.cCList[i].equipment[0]=Item.items[0]; if (CombatCharacter.cCList[i].equipment[0]==null) CombatCharacter.cCList[i].equipment[1]=Item.items[0];
-        }
-
-    public bool FulfillCharacter(string name, int st, int pe, int en, int ag, Item mainWeapon, Item offWeapon)
-    {
-        if (isCreated)
-            return false;
-
-        if (mainWeapon == null || offWeapon == null)
-            return false;
-
-        charName = name;
-        ST = st;
-        PE = pe;
-        EN = en;
-        AG = ag;
-
-        equipment.Add((Item)mainWeapon.Clone());
-        equipment.Add((Item)offWeapon.Clone());
-
-        if (equipment[0].itemName!=mainWeapon.itemName || equipment[1].itemName != offWeapon.itemName)
-        {
-            print("ERROR! Weapon check faild on fullfilling created character.");
-            return false;
-        }
-
-        isCreated = true;
-        return true;
     }
 
-    private void CalculateSecStats()
+    private void OnEnable()
     {
-        if (ai != "") return; //Check for NPC
-        totalAP = (AG / 2) + 5;
-        AC = AG; //ADD here adding AC for armor
-
-        //Calculating skills
-        if (!skills.ContainsKey("melee")) 
-            skills.Add("melee", 1);
-        if (!skills.ContainsKey("guns"))
-            skills.Add("guns", 1);
-        if (!skills.ContainsKey("unarmed"))
-            skills.Add("unarmed", 1);
-
-        Dictionary <string,int> minimalSkills = new();
-
-        minimalSkills.Add("melee", 20 + (2 * (ST + AG)));
-        minimalSkills.Add("guns", 5 + 4 * AG);
-        minimalSkills.Add("unarmed", 30 + (2 * (ST + AG)));
-
-        foreach (KeyValuePair<string,int> mimimalSkill in minimalSkills)
-        {
-            skills[mimimalSkill.Key] = Mathf.Max(skills[mimimalSkill.Key], mimimalSkill.Value);
-        }
+        ResetSkillBoostings();
     }
 
     public void CreateClickZones()
@@ -233,19 +139,13 @@ public class CombatCharacter : MonoBehaviour
         attackZone.SetActive(false);
     }
 
-    public void ResetPlanning()
-    {
-        PlanningAP = totalAP;
-        planningPos[0] = pos[0];
-        planningPos[1] = pos[1];
-        this.transform.position = new Vector3(CoordArray.cArray[this.pos[0], this.pos[1], 0], CoordArray.cArray[this.pos[0], this.pos[1], 1], 0);
-    }
 
-    public virtual void StartPlanning(bool start = true)
+
+    public override void StartPlanning(bool start = true)
     {
         if (Dead && start)
         {
-            BattleManager.NextPlayer();
+            _battleManager.NextPlayer();
             return;
         }
 
@@ -296,106 +196,13 @@ public class CombatCharacter : MonoBehaviour
         }
     }
 	
-	public void GetDamage(int damage) {
-		damage = damage < 0? 0 : damage;
-		HP -= damage;
-		if (HP<=0)
-        {
-            Dead=true;
-		}
-	}
 
-    public void GetExperience(NonPlayerCharacter killedNPC)
+
+    public void CollectExperience(NonPlayerCharacter killedNPC)
     {
-        experience += killedNPC.level;
-        if (experience>=level*levelUpMultipler)
-        {
-            //LevelUp protocol
-            experience -= level * levelUpMultipler;
-            level++;
+        _combatExperience += killedNPC.level;
 
-            string leveuUpText = "Level Up !!! \n";
-            int randomStart = 0;
-            int statSum = ST + PE + EN + AG;
-            if (statSum >= 40) randomStart++; 
-
-            switch (Random.Range(randomStart, 2))
-            {
-                case 0:
-                    //Improving stats
-                    int randomResult = Random.Range(1, (statSum + 1));
-                    if (randomResult<=ST)
-                    {
-                        if (ST < 10) ST++;
-                        else randomResult = ST + 1;
-                    }
-                    if ((randomResult > ST) && (randomResult <= ST+PE))
-                    {
-                        if (PE < 10) PE++;
-                        else randomResult = ST+PE+1;
-                    }
-                    if ((randomResult > ST+PE) && (randomResult <= ST+PE+EN))
-                    {
-                        if (EN < 10) EN++;
-                        else randomResult = ST + PE  + EN+ 1;
-                    }
-                    if (randomResult> ST + PE + EN)
-                    {
-                        if (AG < 10) AG++;
-                        else if (ST < 10) ST++;
-                        else if (PE < 10) PE++;
-                        else EN++;
-                    }
-                    CalculateSecStats();
-                    leveuUpText += "Main stat boosted!";
-                    break;
-                case 1:
-                    int randomWeapon = Random.Range(0, 2);
-                    equipment[randomWeapon].BoostDamage();
-                    leveuUpText += equipment[randomWeapon].itemName + " damage boosted!";
-                    break;
-                /*case 2:    
-                    equipment[3].BoostArmor();
-                    break;*/
-            }
-            HP += (int)(EN / BattleManager.Difficulty);
-            print(charName + " " + leveuUpText);
-            OverheadText.ShowGreen(leveuUpText);
-        }
         BattleUserInterface.Instance.RefreshCharInfo(this);
-    }
-
-    public void ResetAP()
-    {
-        AP = totalAP;
-        bonusAC = 0;
-
-    }
-
-    public bool SpendAP(int cost, bool isPlanning = false)
-    {
-        if (isPlanning == false)
-        {
-            if (AP < cost)
-                return false;
-            else
-            {
-                AP -= cost;
-                return true;
-            }
-        }
-        else
-        {
-            if (PlanningAP < cost)
-                return false;
-            else
-            {
-                PlanningAP -= cost;
-                BattleUserInterface.Instance.UpdateAP(this);
-                return true;
-            }
-        }
-
     }
 
     public void MovePlan(int x, int y)
@@ -464,25 +271,30 @@ public class CombatCharacter : MonoBehaviour
 
     public void BoostSkill(string skillname)
     {
-        float difficalty = 0.1f*BattleManager.Difficulty; //<1 - much easier to train; >1 - much more difficult; 0-always trains
-        
-        if ((skillname == "") || (!skills.ContainsKey(skillname)))
+        //float difficulty = 0.2f; //<1 - much easier to train; >1 - much more difficult; 0-always trains
+        float difficulty = -0.0444444f * IN + 0.5444444f;
+
+        if (GetSkillValue(skillname) >= Skills.maximumTotalSkill)
             return;
 
-        if (skills[skillname] >= 300)
-            return;
+        float chanse = 1.0f-((float)GetSkillValue(skillname)/ Skills.maximumTotalSkill);
 
-        float chanse = 1.0f-((float)skills[skillname]/300.0f);
-
-        chanse = Mathf.Pow(chanse, difficalty);
+        chanse = Mathf.Pow(chanse, difficulty);
         float roll = Random.value;
         if (roll<chanse)
         {
-            skills[skillname]++;
-            //print("Skill " + skillname + "'v improved to "+skills[skillname]);
-            OverheadText.ShowGreen(skillname + " " + skills[skillname] + " +1");
+            if (_skillBoostings.ContainsKey(skillname))
+                _skillBoostings[skillname]++;
+            else
+                _skillBoostings.Add(skillname, 1);
+            OverheadText.ShowGreen($"{skillname} {GetSkillValue(skillname)} ( +1)");
         } else
             print("Skill " + skillname + "'v not improved. Chanse " + chanse + " < roll "+roll);
     }
+    private void ResetSkillBoostings()
+    {
+        _skillBoostings.Clear();
+    }
+
 
 }

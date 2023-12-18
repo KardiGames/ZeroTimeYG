@@ -5,8 +5,8 @@ using UnityEngine;
 public class CombatAction
 {
     public string action;
-    public CombatCharacter subject;
-    public CombatCharacter target;
+    public CombatUnit subject;
+    public CombatUnit target;
     //public CombatObject targetObject;
     public Item usedItem; 
     public int[] place = new int[2]; //[0] for X; [1] for Y
@@ -15,9 +15,9 @@ public class CombatAction
 
     //For movie only
     public int DamageDone { get; private set; } = 0;
-    public int targetHPAfter { get; private set; }
+    public int TargetHPAfter { get; private set; }
     
-    public bool Move(CombatCharacter subj, int x, int y)
+    public bool Move(CombatUnit subj, int x, int y)
     {
         if (subj == null) return false;
         apCost = Location.map[x, y].AP;
@@ -27,7 +27,7 @@ public class CombatAction
             place[0] = x;
             place[1] = y;
             subject = subj;
-            turn = BattleManager.Turn;
+            turn = BattleUserInterface.Instance.BattleManager.Turn;
             return true;
         }
         else
@@ -36,25 +36,25 @@ public class CombatAction
         }
     }
 
-    public static bool Attack (CombatCharacter subj, CombatCharacter obj)
+    public static bool Attack (CombatUnit subj, CombatUnit obj)
     {
         if ((subj == null)||(obj==null)) 
             return false;
-        Item weapon;
+        Weapon weapon;
         if (subj.usesOffHand)
-            weapon= subj.equipment[1];
+            weapon= subj.LeftHandWeapon;
         else
-            weapon = subj.equipment[0];
+            weapon = subj.RightHandWeapon;
 
-        if (subj.SpendAP(weapon.apCost, true))
+        if (subj.SpendAP(weapon.APCost, true))
         {
             CombatAction thisAttack = new CombatAction();
-            thisAttack.turn = BattleManager.Turn;
+            thisAttack.turn = BattleUserInterface.Instance.BattleManager.Turn;
             thisAttack.action = "attack";
             thisAttack.subject = subj;
             thisAttack.target = obj;
             thisAttack.usedItem = weapon;
-            thisAttack.apCost = weapon.apCost;
+            thisAttack.apCost = weapon.APCost;
             subj.personalPlanningList.Add(thisAttack);
             return true;
         }
@@ -63,7 +63,7 @@ public class CombatAction
         
     }
 
-    public static bool Wait(CombatCharacter subj, int apCost=2)
+    public static bool Wait(CombatUnit subj, int apCost=2)
     {
         if ((subj == null) || (apCost < 1))
             return false;
@@ -71,7 +71,7 @@ public class CombatAction
         if (subj.SpendAP(apCost, true))
         {
             CombatAction thisAction = new CombatAction();
-            thisAction.turn = BattleManager.Turn;
+            thisAction.turn = BattleUserInterface.Instance.BattleManager.Turn;
             thisAction.apCost = apCost;
             thisAction.action = "wait";
             thisAction.subject = subj;
@@ -82,94 +82,20 @@ public class CombatAction
         else
             return false;
     }
-    public static void CreatePlanningList(List<CombatAction> pList)
-    {
-        pList.Clear();
-        List<ActionToCompare> listToSort = new();
 
-        int spentAP=0;
-        int subjectTotalAp;
-        foreach (CombatCharacter cC in CombatCharacter.cCList)
-        {
-            spentAP=0;
-            foreach (CombatAction plannedAction in cC.personalPlanningList)
-            {
-                spentAP += plannedAction.apCost;
-                subjectTotalAp = plannedAction.subject.totalAP;
-                listToSort.Add(new(plannedAction, (float)spentAP / subjectTotalAp, subjectTotalAp));
-            }
-        }
-
-        listToSort.Sort();
-
-        for (int i = 0; i < listToSort.Count; i++)
-            pList.Add(listToSort[i].Action);
-
-        foreach (CombatCharacter cChar in CombatCharacter.cCList)
-            cChar.personalPlanningList.Clear();
-    }
-    private class ActionToCompare : System.IComparable<ActionToCompare>
-    {
-        public CombatAction Action { get; private set; }
-        private float placeInTurn;
-        private int totalAP;
-        public ActionToCompare(CombatAction action, float placeInTurn, int totalAP)
-        {
-            Action = action;
-            this.placeInTurn = placeInTurn;
-            this.totalAP = totalAP;
-        }
-        public int CompareTo(ActionToCompare compAction)
-        {
-            if (compAction == null)
-                return 1;
-            if (placeInTurn > compAction.placeInTurn)
-                return 1;
-            if (placeInTurn < compAction.placeInTurn)
-                return -1;
-            return totalAP - compAction.totalAP;
-        }
-    }
-
-    public static void Create2PlanningList(List<CombatAction> pList)
-    {
-        pList.Clear();
-
-        int totalLists = CombatCharacter.cCList.Count;
-        int emptyLists = 0;
-
-        for (int i = 0; emptyLists < totalLists; i++)
-        {
-            emptyLists = 0;
-            foreach (CombatCharacter cChar in CombatCharacter.cCList)
-            {
-                if (i < cChar.personalPlanningList.Count)
-                {
-                    pList.Add(cChar.personalPlanningList[i]);
-                }
-                else
-                {
-                    emptyLists++;
-                }
-            }
-        }
-
-        foreach (CombatCharacter cChar in CombatCharacter.cCList)
-            cChar.personalPlanningList.Clear();
-    }
 
     public static void Perform(List<CombatAction> pList)
     {
-        List<CombatAction> log = BattleManager.combatLog;
+        List<CombatAction> log = BattleUserInterface.Instance.BattleManager._combatLog;
 
-        if ((log.Count != 0)&&(log[(log.Count - 1)].turn >= BattleManager.Turn))
+        if ((log.Count != 0)&&(log[(log.Count - 1)].turn >= BattleUserInterface.Instance.BattleManager.Turn))
         {
-            Debug.Log("ERROR! Previous turn " + log[(log.Count - 1)].turn + ">= current turn " + BattleManager.Turn);
+            Debug.Log("ERROR! Previous turn " + log[(log.Count - 1)].turn + ">= current turn " + BattleUserInterface.Instance.BattleManager.Turn);
             return;
         }
         else
         {
-            //ADD here adding "Set" action for every life combat character (or not)
+            //ADD here adding "Set" action for every alive combat character (or not)
         }
 
         foreach (CombatAction cA in pList)
@@ -189,7 +115,7 @@ public class CombatAction
                 //ADD cheching for unavailable place
 
                 //Checking for tyle without characters]
-                foreach (CombatCharacter cC in CombatCharacter.cCList)
+                foreach (CombatUnit cC in BattleUserInterface.Instance.BattleManager.AllCombatCharacters)
                 {
                     if ((cC.pos[0] == cA.place[0]) && (cC.pos[1] == cA.place[1]))
                     {
@@ -210,13 +136,18 @@ public class CombatAction
             }
             else if (cA.action == "attack")
             {
-                Item weapon = cA.usedItem;
-                if ((cA.subject.equipment[0]!=weapon)&&(cA.subject.equipment[1] != weapon)) {
-                    Debug.Log("You haven't this weapon to use !!");
+                if (!(cA.usedItem is Weapon usedWeapon))
+                {
+                    Debug.Log("Error! Used item for attack is not a weapon ((");
                     continue;
                 }
 
-                int range = (weapon.rangedAttack) ? weapon.Range : 1;
+                if ((cA.subject.RightHandWeapon!=usedWeapon)&&(cA.subject.LeftHandWeapon != usedWeapon)) {
+                    Debug.Log("Error! You haven't this weapon to use !!");
+                    continue;
+                }
+
+                int range = (usedWeapon.RangedAttack) ? usedWeapon.Range : 1;
 
                 if (cA.target == null)
                 {
@@ -233,35 +164,34 @@ public class CombatAction
                 if (!checkList)
                     continue;
 
-                int apCost = Mathf.Max(cA.apCost, weapon.apCost);
+                int apCost = Mathf.Max(cA.apCost, usedWeapon.APCost);
 
                 if (checkList && cA.subject.SpendAP(apCost))
                 {
                     log.Add(cA);
 
-                    int hitChanse = Scripts.HitChanse(cA.subject, cA.target, cA.usedItem);
+                    int hitChanse = Scripts.HitChanse(cA.subject, cA.target, usedWeapon);
 
                     if (Random.Range(0, 100) < hitChanse)
                     {
-                        int damage = weapon.Damage;
-                        if (!weapon.rangedAttack && cA.subject.ai=="")
+                        int damage = usedWeapon.Damage;
+                        if (!usedWeapon.RangedAttack && cA.subject.ai=="")
                             damage += cA.subject.MeleeDamageBonus;
                         bool deadBeforeDamage = cA.target.Dead;
-                        cA.target.GetDamage(damage);
+                        cA.target.TakeDamage(damage);
                         //print(cA.target.name + "'s got " + damage + " damage. Hit chance was " + hitChanse);
                         cA.DamageDone = damage;
-                        cA.targetHPAfter = cA.target.HP;
-						if ((cA.target.Dead != deadBeforeDamage) && cA.target.ai!="")
+                        cA.TargetHPAfter = cA.target.HP;
+						if ((cA.target.Dead != deadBeforeDamage) && cA.subject is CombatCharacter player && player.ai!="" && cA.target is NonPlayerCharacter npcTarget)
 						{
-							NonPlayerCharacter npcTarget = (NonPlayerCharacter)cA.target;
-							cA.subject.GetExperience(npcTarget);
+                            player.CollectExperience(npcTarget);
 						}
                     }
                     else  
                     {
                         //print(cA.subject.name + " have missed ((( HitChanse was " + hitChanse);
-                        if (cA.subject.ai=="" && Location.Distance(cA.subject.pos, cA.target.pos) <= (cA.subject.PE - 1) )//TODO Think may be delete this PE check if (especially if BoostSkill difficulty is high enough
-                            cA.subject.BoostSkill(weapon.skillname);
+                        if (cA.subject is CombatCharacter player && player.ai=="" && Location.Distance(player.pos, cA.target.pos) <= (player.PE - 1) )
+                            player.BoostSkill(usedWeapon.SkillName);
                     }
                 }
             }

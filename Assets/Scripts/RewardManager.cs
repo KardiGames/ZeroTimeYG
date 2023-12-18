@@ -8,16 +8,16 @@ public class RewardManager: MonoBehaviour
     [SerializeField] private MineNpcRewardData _rewardData;
     [SerializeField] private Mine mine;
     
-    public ScriptableItem[] GetTestReward(int winnerScore)
+    public Item[] GetTestReward(int winnerScore)
     {
-        return ScriptableItem.GetAllItems().Select(r => r.Clone()).ToArray();
+        return Item.GetAllItems().Select(r => r.Clone()).ToArray();
     }
-    public ScriptableItem[] GetReward (float rewardPoints)
+    public Item[] GetReward (float rewardPoints)
     {
-        Dictionary<ScriptableItem, float> potentialReward = _rewardData.GetItemsDictionary(0, "Junk");
-        List<ScriptableItem> reward = new();
-        List<ScriptableItem> keys = new List<ScriptableItem>(potentialReward.Keys);
-        ScriptableItem chosenRewardItem;
+        Dictionary<Item, float> potentialReward = _rewardData.GetItemsDictionary(0, "Junk");
+        List<Item> reward = new();
+        List<Item> keys = new List<Item>(potentialReward.Keys);
+        Item chosenRewardItem;
 
         while (rewardPoints>0)
         {
@@ -31,10 +31,10 @@ public class RewardManager: MonoBehaviour
         return reward.ToArray();
     }
 
-    internal void GiveReward(ScriptableItem[] currentReward, Inventory inventoryForReward)
+    internal void GiveReward(Item[] currentReward, Inventory inventoryForReward)
     {
         //inventoryForReward.
-        foreach(ScriptableItem item in currentReward)
+        foreach(Item item in currentReward)
         {
             inventoryForReward.TryToAdd(this, item);
         }

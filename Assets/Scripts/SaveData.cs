@@ -12,7 +12,12 @@ public class SaveData : MonoBehaviour
 
     public string[] TypesOfBuildingsOnLocation (int x, int y)
     {
-        List<string> allBuildingsOnLocations = new (from building in globalMapBuildings where (building.X == x && building.Y == y) select building.type.ToString());
+        List<string> allBuildingsOnLocations = new (
+            from building 
+            in globalMapBuildings 
+            where (building.X == x && building.Y == y) 
+            select building.type.ToString()
+        );
         return allBuildingsOnLocations.Distinct().ToArray();
 
     }

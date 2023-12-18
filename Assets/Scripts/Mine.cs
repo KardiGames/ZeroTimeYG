@@ -6,24 +6,19 @@ public class Mine : MonoBehaviour, IWorldBuilding
 {
     [SerializeField] SaveData _saveSystem;
 
-    [SerializeField] private int _level = 0;
-    [SerializeField] private string _mineType = "";
     [field: SerializeField] public int X { get; private set; } = 0;
     [field: SerializeField] public int Y { get; private set; } = 0;
     [SerializeField] private string _name;
+    [SerializeField] private int _level = 0;
+    [SerializeField] private string _mineType = "";
 
     public string Name => _name;
     public int Level  => _level;
     public string MineType => _mineType;
 
-
-
     private void Start()
     {
-        /*string json = ToJson();
-        ExitBuilding();
-        print(ToJson());
-        FromJson(json);*/
+
     }
     public static int CalculateMineLevel (int rewardPoints)
     {

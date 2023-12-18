@@ -11,10 +11,10 @@ public class InventoryItemUI : MonoBehaviour
     [SerializeField] private Button transferPartButton;
     [SerializeField] private Button thirdButton;
 
-    private ScriptableItem item;
+    private Item item;
     private InventoryUIContentFiller inventoryUI;
 
-    public void Set(ScriptableItem item, InventoryUIContentFiller inventoryUI)
+    public void Set(Item item, InventoryUIContentFiller inventoryUI)
     {
         if (this.item == null)
             this.item = item;

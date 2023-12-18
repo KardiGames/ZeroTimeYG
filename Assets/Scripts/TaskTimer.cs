@@ -112,7 +112,10 @@ public class TaskTimer : MonoBehaviour
 		if (newTask == null) 
 			return;
 		if (tasksList.Count >= MaximumTasks)
+        {
+			print("Error. You were trying more tasks than Maximum for tasklist");
 			return;
+        }
 
 		tasksList.Add(newTask);
 		

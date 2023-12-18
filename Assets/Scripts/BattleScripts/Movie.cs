@@ -4,43 +4,44 @@ using UnityEngine;
 
 public class Movie : MonoBehaviour
 {
-    //Loading prepetaions
-    List<CombatAction> combatLog = BattleManager.combatLog;
-    public GameObject bulletPrefab;
-    [SerializeField] AudioClip shootSound;
-    [SerializeField] AudioClip hitSound;
-    [SerializeField] AudioClip moveSound;
-    [SerializeField] AudioClip enemyShootSound;
-    [SerializeField] AudioClip enemyHitSound;
-    [SerializeField] AudioClip enemyMoveSound;
-    private GameObject bullet;
-
     //Settings for the movie
-    int divider = 100;
-    int numenator = 0;
-    Vector3 summator;
+    float actionTime = 1f;
+    float spentActionTime = 0f;
 
+    //Loading prepetaions
+    [SerializeField] private BattleManager _battleManager;
+    [SerializeField] private GameObject bulletPrefab;
 
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private AudioClip shootSound;
+    [SerializeField] private AudioClip hitSound;
+    [SerializeField] private AudioClip moveSound;
+    [SerializeField] private AudioClip enemyShootSound;
+    [SerializeField] private AudioClip enemyHitSound;
+    [SerializeField] private AudioClip enemyMoveSound;
+    private GameObject bullet;
+    private List<CombatAction> combatLog;
+    
+    Vector3 moveVector;
+
+    private void Awake()
     {
-        
+        combatLog = _battleManager._combatLog;
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        if (BattleManager.Status != "movie") return;
-        CombatAction thisAction = combatLog[BattleManager.MovieAct];
+        if (_battleManager.Status != "movie") return;
+        CombatAction thisAction = combatLog[_battleManager.MovieAct];
 
         if (thisAction.action == "move")
         {
 
-            if (summator == Vector3.zero)
+            if (moveVector == Vector3.zero)
             {
-                summator.x = (CoordArray.cArray[(combatLog[BattleManager.MovieAct].place[0]), (combatLog[BattleManager.MovieAct].place[1]), 0] - combatLog[BattleManager.MovieAct].subject.transform.position.x) / divider;
-                summator.y = (CoordArray.cArray[(combatLog[BattleManager.MovieAct].place[0]), (combatLog[BattleManager.MovieAct].place[1]), 1] - combatLog[BattleManager.MovieAct].subject.transform.position.y) / divider;
+                moveVector.x = CoordArray.cArray[(combatLog[_battleManager.MovieAct].place[0]), (combatLog[_battleManager.MovieAct].place[1]), 0] - combatLog[_battleManager.MovieAct].subject.transform.position.x;
+                moveVector.y = CoordArray.cArray[(combatLog[_battleManager.MovieAct].place[0]), (combatLog[_battleManager.MovieAct].place[1]), 1] - combatLog[_battleManager.MovieAct].subject.transform.position.y;
 
                 //TODO - edit crutch with choosing sound
                 if (thisAction.subject.ai=="")
@@ -53,62 +54,70 @@ public class Movie : MonoBehaviour
                 if (thisAction.subject.characterAnimator != null)
                 {
                     thisAction.subject.characterAnimator.SetBool("Run", true);
-                      TurnAnimatedObject(thisAction.subject, summator.x);
+                      TurnAnimatedObject(thisAction.subject, moveVector.x);
                 }
 
             }
 
-            combatLog[BattleManager.MovieAct].subject.transform.position += summator;
+            spentActionTime += Time.deltaTime;
 
-            if (++numenator == divider)
+            if (spentActionTime >= actionTime)
             {
-                if (thisAction.subject.characterAnimator != null && !(BattleManager.MovieAct < (combatLog.Count - 1) && combatLog[BattleManager.MovieAct + 1].subject == thisAction.subject && combatLog[BattleManager.MovieAct + 1].action == "move"))
+                combatLog[_battleManager.MovieAct].subject.transform.position = new Vector3(CoordArray.cArray[(combatLog[_battleManager.MovieAct].place[0]), (combatLog[_battleManager.MovieAct].place[1]), 0], CoordArray.cArray[(combatLog[_battleManager.MovieAct].place[0]), (combatLog[_battleManager.MovieAct].place[1]), 1]);
+
+                if (thisAction.subject.characterAnimator != null && !(_battleManager.MovieAct < (combatLog.Count - 1) && combatLog[_battleManager.MovieAct + 1].subject == thisAction.subject && combatLog[_battleManager.MovieAct + 1].action == "move"))
                     thisAction.subject.characterAnimator.SetBool("Run", false);
 
-                if (!(BattleManager.MovieAct < (combatLog.Count - 1) && combatLog[BattleManager.MovieAct + 1].subject == thisAction.subject && combatLog[BattleManager.MovieAct + 1].action == "move"))
+                if (!(_battleManager.MovieAct < (combatLog.Count - 1) && combatLog[_battleManager.MovieAct + 1].subject == thisAction.subject && combatLog[_battleManager.MovieAct + 1].action == "move"))
                     thisAction.subject.characterSound.Stop();
 
-                numenator = 0;
-                summator = Vector3.zero;
-                BattleManager.NextMovieAct();
-            }
+                spentActionTime = 0f;
+                moveVector = Vector3.zero;
+                _battleManager.NextMovieAct();
+            } else
+                combatLog[_battleManager.MovieAct].subject.transform.position += moveVector * Time.deltaTime / actionTime;
 
         }
         else if (thisAction.action == "attack")
         {
-            if (summator == Vector3.zero)
+            if (!(thisAction.usedItem is Weapon usedWeapon))
+            {
+                throw new System.Exception("Item for showing Attack action is not Weapon.");
+            }
+
+            if (moveVector == Vector3.zero)
             {
                 Vector3 target;
 
                 if (thisAction.target == null)
                 {
                     target = new Vector3(CoordArray.cArray[thisAction.place[0], thisAction.place[1], 0], CoordArray.cArray[thisAction.place[0], thisAction.place[1], 1], 0);
-                    summator.x = (CoordArray.cArray[thisAction.place[0], thisAction.place[1], 0] - thisAction.subject.transform.position.x) / divider;
-                    summator.y = (CoordArray.cArray[thisAction.place[0], thisAction.place[1], 1] - thisAction.subject.transform.position.y) / divider;
+                    moveVector.x = CoordArray.cArray[thisAction.place[0], thisAction.place[1], 0] - thisAction.subject.transform.position.x;
+                    moveVector.y = CoordArray.cArray[thisAction.place[0], thisAction.place[1], 1] - thisAction.subject.transform.position.y;
                 }
                 else
                 {
                     target = thisAction.target.transform.position;
-                    summator.x = (thisAction.target.transform.position.x - thisAction.subject.transform.position.x) / divider;
-                    summator.y = (thisAction.target.transform.position.y - thisAction.subject.transform.position.y) / divider;
+                    moveVector.x = thisAction.target.transform.position.x - thisAction.subject.transform.position.x;
+                    moveVector.y = thisAction.target.transform.position.y - thisAction.subject.transform.position.y;
                 }
 
                 //TODO - edit crutch with choosing sound
                 if (thisAction.subject.ai == "")
-                    if (thisAction.usedItem.rangedAttack)
+                    if (usedWeapon.RangedAttack)
                         thisAction.subject.characterSound.PlayOneShot(shootSound);
                     else
                         thisAction.subject.characterSound.PlayOneShot(hitSound);
                 else
-                    if (thisAction.usedItem.rangedAttack)
+                    if (usedWeapon.RangedAttack)
                     thisAction.subject.characterSound.PlayOneShot(enemyShootSound);
                 else
                     thisAction.subject.characterSound.PlayOneShot(enemyHitSound);
 
                 if (thisAction.subject.characterAnimator != null)
                 {
-                    TurnAnimatedObject(thisAction.subject, summator.x);
-                    if (thisAction.usedItem.rangedAttack)
+                    TurnAnimatedObject(thisAction.subject, moveVector.x);
+                    if (usedWeapon.RangedAttack)
                     {
                         thisAction.subject.characterAnimator.SetTrigger("Shoot");
                     } else
@@ -117,7 +126,7 @@ public class Movie : MonoBehaviour
                     }
                 }
 
-                if (thisAction.usedItem.rangedAttack || thisAction.subject.characterAnimator == null) //TODO remove second condition
+                if (usedWeapon.RangedAttack || thisAction.subject.characterAnimator == null) //TODO remove second condition
                 {
                     Vector3 bulletPosition = thisAction.subject.transform.position;
                     bulletPosition.y += 0.1f;
@@ -133,36 +142,36 @@ public class Movie : MonoBehaviour
                 }
             }
 
-            if (thisAction.usedItem.rangedAttack || thisAction.subject.characterAnimator == null) //TODO remove second condition
-                bullet.transform.position += summator;
+            spentActionTime += Time.deltaTime;
 
-            if (++numenator == divider)
+            if (spentActionTime >= actionTime)
             {
                 Destroy(bullet);
                 if (thisAction.DamageDone > 0)
                 {
                     thisAction.target.OverheadText.ShowRed("-" + thisAction.DamageDone);
-                    thisAction.target.OverheadText.ShowHP(thisAction.targetHPAfter);
-                    if (thisAction.target.characterAnimator != null && thisAction.targetHPAfter <= 0) {
-                        TurnAnimatedObject(thisAction.target, -summator.x);
+                    thisAction.target.OverheadText.ShowHP(thisAction.TargetHPAfter);
+                    if (thisAction.target.characterAnimator != null && thisAction.TargetHPAfter <= 0) {
+                        TurnAnimatedObject(thisAction.target, -moveVector.x);
                         thisAction.target.characterAnimator.SetBool("Dead", true);
                     }
 
                 }
 
-                numenator = 0;
-                summator = Vector3.zero;
+                spentActionTime = 0f;
+                moveVector = Vector3.zero;
 
-                BattleManager.NextMovieAct();
-            }
+                _battleManager.NextMovieAct();
+            } else if (usedWeapon.RangedAttack || thisAction.subject.characterAnimator == null) //TODO remove second condition
+                bullet.transform.position += moveVector * Time.deltaTime / actionTime;
         }
         else if (thisAction.action == "wait")
         {
             thisAction.subject.OverheadText.ShowGreen("+" + thisAction.apCost + " temporal AC");
-            BattleManager.NextMovieAct();
+            _battleManager.NextMovieAct();
         }
 
-        void TurnAnimatedObject(CombatCharacter animatedObject, float positiveToTheRight)
+        void TurnAnimatedObject(CombatUnit animatedObject, float positiveToTheRight)
         {
             if (animatedObject.characterAnimator == null) return;
             if (positiveToTheRight > 0)
@@ -181,7 +190,7 @@ public class Movie : MonoBehaviour
         IEnumerator PauseAndNextAct(float seconds)
         {
             yield return new WaitForSeconds(seconds);
-            BattleManager.NextMovieAct();
+            _battleManager.NextMovieAct();
         }
 
     }

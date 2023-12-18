@@ -8,17 +8,17 @@ public class BattleUserInterface : MonoBehaviour
 {
     private float bigMessageVisionTime = 8f;
 
-    public static BattleUserInterface Instance { get; private set; }
+    [SerializeField] private BattleManager _battleManager;
     [SerializeField] private TextMeshProUGUI actionPointsText;
     [SerializeField] private TextMeshProUGUI weaponInfoField;
     [SerializeField] private TextMeshProUGUI scoreInfoField;
-    [SerializeField] private TextMeshProUGUI bestScoreField;
     [SerializeField] private TextMeshProUGUI playerInfoField;
     [SerializeField] private TextMeshProUGUI bigMessage;
     [SerializeField] private GameManager gameManager;
-    [SerializeField] private GameObject mainMenu;
     [SerializeField] private List<Button> planningButtons;
-
+    public static BattleUserInterface Instance { get; private set; }
+    public BattleManager BattleManager => _battleManager; //TODO This is crutch (( Much better to delete this
+    
     private void Awake()
     {
         if (Instance == null)
@@ -27,45 +27,38 @@ public class BattleUserInterface : MonoBehaviour
             Destroy(this);
     }
 
-    public void ShowMainMenu()
-    {
-        mainMenu.SetActive(true);
-        if (BattleManager.Status == "starting")
-            gameObject.GetComponentInChildren<CharacterCreator>(true).ResetMainMenu();
-    }
-
-    public void UpdateAP(CombatCharacter character) => actionPointsText.text = character.PlanningAP+" AP";
+    public void UpdateAP(CombatUnit character) => actionPointsText.text = character.PlanningAP+" AP";
 
     public void ChangeWeapon()
     {
         if (BattleManager.Status == "planning")
         {
-            CombatCharacter.cCList[BattleManager.Player].usesOffHand = !CombatCharacter.cCList[BattleManager.Player].usesOffHand;
+            _battleManager.AllCombatCharacters[BattleManager.Player].usesOffHand = !_battleManager.AllCombatCharacters[BattleManager.Player].usesOffHand;
             ShowWeaponStats();
         }
     }
 
-    public void ShowWeaponStats() => ShowWeaponStats(CombatCharacter.cCList[BattleManager.Player]);
+    public void ShowWeaponStats() => ShowWeaponStats(_battleManager.AllCombatCharacters[_battleManager.Player]);
 
-    public void ShowWeaponStats(CombatCharacter attacker)
+    public void ShowWeaponStats(CombatUnit attacker)
     {
-        Item weapon;
+        Weapon weapon;
         if (attacker.usesOffHand)
         {
-            weapon = attacker.equipment[1];
+            weapon = attacker.LeftHandWeapon;
         } else
         {
-            weapon = attacker.equipment[0];
+            weapon = attacker.RightHandWeapon;
         }
 
-        string weaponText = $"{weapon.itemName} [ {weapon.apCost} AP ]\n";
-        int meleeDamageBonus = (weapon.rangedAttack) ? 0 : attacker.MeleeDamageBonus;
+        string weaponText = $"{weapon.ItemName} [ {weapon.APCost} AP ]\n";
+        int meleeDamageBonus = (weapon.RangedAttack) ? 0 : attacker.MeleeDamageBonus;
         weaponText += "Damage: " + weapon.FormDamageDiapason(meleeDamageBonus) + " ";
-        if (weapon.rangedAttack)
+        if (weapon.RangedAttack)
             weaponText += "Range: "+weapon.Range + "\n";
         else
             weaponText += "Melee\n";
-        weaponText += "Skill: " + CombatCharacter.cCList[BattleManager.Player].skills[weapon.skillname]+" %";
+        weaponText += "Skill: " + _battleManager.AllCombatCharacters[_battleManager.Player].GetSkillValue(weapon.SkillName)+" %";
         weaponInfoField.text = weaponText;
     }
 
@@ -74,12 +67,12 @@ public class BattleUserInterface : MonoBehaviour
         int totalEnemiesLevel = 0;
         int score = 0;
         string scoreInfoText = "";
-        foreach (CombatCharacter cChar in CombatCharacter.cCList)
+        foreach (CombatCharacter cChar in _battleManager.AllCombatCharacters)
         {
             if (cChar.ai == "")
             {
                 scoreInfoText += cChar.charName + " " + cChar.level + " lvl ";
-                score += cChar.Experience;
+                score += cChar.CombatExperience;
             }
                 
             else if (!cChar.Dead)
@@ -91,14 +84,8 @@ public class BattleUserInterface : MonoBehaviour
         scoreInfoText += "\nScore: " + score;
         scoreInfoField.text = scoreInfoText;
     }
-    public void ShowBestScore(LinkedList<(string,int)> winners)
-    {
-        string bestScoreText = "Best Score: \n";
-        foreach ((string,int) currentNode in winners)
-            bestScoreText += currentNode.Item2 + " - " + currentNode.Item1+"\n";
-        bestScoreField.text = bestScoreText;
-    }
-    public void RefreshCharInfo() => RefreshCharInfo(CombatCharacter.cCList[BattleManager.Player]);
+
+    public void RefreshCharInfo() => RefreshCharInfo(_battleManager.AllCombatCharacters[BattleManager.Player] as CombatCharacter);
     public void RefreshCharInfo(CombatCharacter player)
     {
         string charInfoText = $"{player.charName} [ {player.level} lvl ]\n"
@@ -106,29 +93,29 @@ public class BattleUserInterface : MonoBehaviour
                             + $"ST {player.ST} [+{player.MeleeDamageBonus} melee damage]\n"  //TODO Add melee damage
                             + $"PE {player.PE} [{player.PE-1} aim shoot range]\n" //TODO Change range formula to Property??
                             + $"EN {player.EN} [{player.MaxHP} Max HP]\n"
-                            + $"AG {player.AG} [{player.totalAP} AP, {player.AC} AC]";
+                            + $"AG {player.AG} [{player.TotalAP} AP, {player.AC} AC]";
         playerInfoField.text = charInfoText;
     }
 
     public void ShowEnemyInfo(NonPlayerCharacter npc)
     {
         string charInfoText = $"{npc.charName} [ {npc.level} lvl ]\n"
-                    + $"HP {npc.HP}/{npc.MaxHP}   AC {npc.AC}   AP {npc.totalAP}"
-                    + $"\n\nWeapon - {npc.equipment[0].itemName}\nDamage: " + npc.equipment[0].FormDamageDiapason();
-        if (npc.equipment[0].rangedAttack)
-            charInfoText += " Range: " + npc.equipment[0].Range + "\n";
+                    + $"HP {npc.HP}/{npc.MaxHP}   AC {npc.AC}   AP {npc.TotalAP}"
+                    + $"\n\nWeapon - {npc.RightHandWeapon.ItemName}\nDamage: " + npc.RightHandWeapon.FormDamageDiapason();
+        if (npc.RightHandWeapon.RangedAttack)
+            charInfoText += " Range: " + npc.RightHandWeapon.Range + "\n";
         else
             charInfoText += " Melee\n";
-            charInfoText += "Skill: " + npc.skills[npc.equipment[0].skillname] + " %";
+            charInfoText += "Skill: " + npc.GetSkillValue(npc.RightHandWeapon.SkillName) + " %";
 
-        if (npc.equipment[1]!=null && npc.equipment[1]!=npc.equipment[0])
+        if (npc.LeftHandWeapon!=null && npc.LeftHandWeapon != npc.RightHandWeapon)
         {
-            charInfoText += $"\n\nWeapon 2 - {npc.equipment[1].itemName}\n Damage: " + npc.equipment[1].FormDamageDiapason();
-            if (npc.equipment[1].rangedAttack)
-                charInfoText += "Range: " + npc.equipment[1].Range + "\n";
+            charInfoText += $"\n\nWeapon 2 - {npc.LeftHandWeapon.ItemName}\n Damage: " + npc.LeftHandWeapon.FormDamageDiapason();
+            if (npc.LeftHandWeapon.RangedAttack)
+                charInfoText += "Range: " + npc.LeftHandWeapon.Range + "\n";
             else
                 charInfoText += "Melee\n";
-            charInfoText += "Skill: " + npc.skills[npc.equipment[1].skillname] + " %";
+            charInfoText += "Skill: " + npc.GetSkillValue(npc.LeftHandWeapon.SkillName) + " %";
         }
         playerInfoField.text = charInfoText;
     }
@@ -137,19 +124,19 @@ public class BattleUserInterface : MonoBehaviour
     {
         if (BattleManager.Status != "planning")
             return;
-        CombatCharacter activeCharacter = CombatCharacter.cCList[BattleManager.Player];
+        CombatUnit activeCharacter = _battleManager.AllCombatCharacters[_battleManager.Player];
         if (activeCharacter.PlanningAP > 0)
             CombatAction.Wait(activeCharacter, activeCharacter.PlanningAP);
-        BattleManager.NextPlayer();
+        _battleManager.NextPlayer();
     }
     public void Wait()
     {
         if (BattleManager.Status != "planning")
             return;
-        CombatAction.Wait(CombatCharacter.cCList[BattleManager.Player]);
-        if (CombatCharacter.cCList[BattleManager.Player].PlanningAP == 0)
+        CombatAction.Wait(_battleManager.AllCombatCharacters[_battleManager.Player]);
+        if (_battleManager.AllCombatCharacters[_battleManager.Player].PlanningAP == 0)
         {
-            BattleManager.NextPlayer();
+            _battleManager.NextPlayer();
         }
     }
 
@@ -201,14 +188,13 @@ public class BattleUserInterface : MonoBehaviour
         if (BattleManager.Status != "starting")
             return;
 
-        if (CombatCharacter.cCList.Count < 1 || CombatCharacter.cCList.Count > 2)
+        if (_battleManager.AllCombatCharacters.Count < 1 || _battleManager.AllCombatCharacters.Count > 2)
             return;
 
-        foreach (CombatCharacter pc in CombatCharacter.cCList)
+        foreach (CombatUnit pc in _battleManager.AllCombatCharacters)
             if (pc.ai != "")
                 return;
 
-        mainMenu.SetActive(false);
         gameManager.StartBattle();
 
     }

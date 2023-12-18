@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu (fileName = "Armor", menuName = "Items/Armor")]
-public class Armor : ScriptableItem
+public class Armor : Item
 {
     [SerializeField] private int _ac =0;
 	[SerializeField] private Equipment.Slot _slot = Equipment.Slot.Body;
@@ -13,7 +13,7 @@ public class Armor : ScriptableItem
 	public int AC => _ac;
 	public Equipment.Slot Slot => _slot;
 
-	public override bool IsTheSameItem(ScriptableItem itemToCompare) 
+	public override bool IsTheSameItem(Item itemToCompare) 
     {
         if (!base.IsTheSameItem(itemToCompare))
 			return false;

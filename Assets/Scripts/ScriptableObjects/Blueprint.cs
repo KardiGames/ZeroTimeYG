@@ -4,20 +4,20 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu (fileName = "Blueprint", menuName = "Items/Blueprint")]
-public class Blueprint : ScriptableItem
+public class Blueprint : Item
 {
     public new long Amount => 1;
     public new bool Stackable => false;
     
-    [SerializeField] private ScriptableItem _itemToCreate;
+    [SerializeField] private Item _itemToCreate;
 	[SerializeField] private float _secondsToFinish;
 
-	[SerializeField] private List<ScriptableItem> _listOfResourses;
+	[SerializeField] private List<Item> _listOfResourses;
 	[SerializeField] private List<long> _amountOfResourses;
 
-	public ScriptableItem ItemToCreate => _itemToCreate;
+	public Item ItemToCreate => _itemToCreate;
     public float SecondsToFinish => _secondsToFinish;
-	public List<ScriptableItem> ListOfResourses => new List<ScriptableItem>(_listOfResourses);
+	public List<Item> ListOfResourses => new List<Item>(_listOfResourses);
 	public List<long> AmountsOfResourses => new List<long>(_amountOfResourses);
 
 
@@ -30,7 +30,7 @@ public class Blueprint : ScriptableItem
 		
 		for (int i=0; i<_listOfResourses.Count; i++) {
 			long amount = 0;
-			foreach (ScriptableItem item in factoryStorage.GetAllItems(_listOfResourses[i].ItemName)) 
+			foreach (Item item in factoryStorage.GetAllItems(_listOfResourses[i].ItemName)) 
 				if (item.IsTheSameItem(_listOfResourses[i]))
 					amount+=item.Amount;
 				
@@ -41,7 +41,7 @@ public class Blueprint : ScriptableItem
 		return true;
 	}
 	
-	public override bool IsTheSameItem(ScriptableItem itemToCompare) 
+	public override bool IsTheSameItem(Item itemToCompare) 
     {
         if (!base.IsTheSameItem(itemToCompare))
 			return false;
@@ -81,9 +81,9 @@ public class Blueprint : ScriptableItem
 		_listOfResourses.Clear();
 
 		for (int i = 0; i < jsonBlueprint.resourses.Count; i++)
-			_listOfResourses.Add(ScriptableItem.GetItem(jsonBlueprint.resourses[i]));
+			_listOfResourses.Add(Item.GetItem(jsonBlueprint.resourses[i]));
 		
-		_itemToCreate=(ScriptableItem)ScriptableObject.CreateInstance(Type.GetType(jsonBlueprint.itemToCreateType));
+		_itemToCreate=(Item)ScriptableObject.CreateInstance(Type.GetType(jsonBlueprint.itemToCreateType));
 		_itemToCreate.FromJson(jsonBlueprint.itemToCreateJsonString);
 				
 		if (this._itemName == "ErrorItem" || _itemToCreate==null || _listOfResourses.Count!=_amountOfResourses.Count)

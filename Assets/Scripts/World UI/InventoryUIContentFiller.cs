@@ -89,7 +89,7 @@ public class InventoryUIContentFiller : MonoBehaviour
     }
 
     
-    public void Fill (IEnumerable<ScriptableItem> list)
+    public void Fill (IEnumerable<Item> list)
     {
         if (contentTransform == null)
             Start();

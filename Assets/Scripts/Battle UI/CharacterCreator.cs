@@ -8,20 +8,19 @@ public class CharacterCreator : MonoBehaviour
 {
     private readonly int statisticsSum = 20;
 
+    [SerializeField] GameObject createdCharacter;
     [SerializeField] private GameObject characterPrefub;
+    [SerializeField] private BattleManager battleManager;
 
     [SerializeField] private TMP_InputField ST;
     [SerializeField] private TMP_InputField PE;
     [SerializeField] private TMP_InputField EN;
     [SerializeField] private TMP_InputField AG;
+    [SerializeField] private TMP_InputField IN;
     [SerializeField] private TMP_InputField nameField;
-    [SerializeField] private TMP_Dropdown mainHandWeapon;
-    [SerializeField] private TextMeshProUGUI mainHandText;
-    [SerializeField] private TMP_Dropdown offHandWeapon;
-    [SerializeField] private TextMeshProUGUI offHandText;
 
     [SerializeField] private TextMeshProUGUI errorText;
-    [SerializeField] private Button createAddCharacterButton;
+    [SerializeField] private Button createCharacterButton;
     [SerializeField] private Button startGameButton;
 
     private List<string> weaponOptions = new();
@@ -35,13 +34,7 @@ public class CharacterCreator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        foreach (Item weapon in Item.items)
-        {
-            weaponOptions.Add(weapon.itemName);
-        }
-        mainHandWeapon.AddOptions(weaponOptions);
-        offHandWeapon.AddOptions(weaponOptions);
-        RefreshWeaponTexts();
+
     }
 
     private void OnEnable()
@@ -49,107 +42,65 @@ public class CharacterCreator : MonoBehaviour
         nameField.text = nameList[Random.Range(0, nameList.Length)];
     }
 
-    public void ResetMainMenu() {
-        createAddCharacterButton.GetComponentInChildren<TextMeshProUGUI>().text = "Create Character";
-        createAddCharacterButton.interactable = true;
-        startGameButton.interactable = false;
-    }
-
     // Update is called once per frame
     public void CreateCharacter()
     {
-        if (BattleManager.Status != "starting")
-            return;
-        
         if (nameField.text=="")
         {
             errorText.text = "ERROR! You must enter you name!";
             return;
         }
         
-        if (!CheckStatisticSum())
+        if (!CheckStatisticsValues())
             return;
 
-        Item mainWeapon = Item.GetItem(weaponOptions[mainHandWeapon.value]);
-        Item offWeapon = Item.GetItem(weaponOptions[offHandWeapon.value]);
-        if (mainWeapon == null || offWeapon == null)
-            return;
-
-        GameObject createdCharacter = Instantiate(characterPrefub);
-        if (!createdCharacter.GetComponent<CombatCharacter>().FulfillCharacter(nameField.text, int.Parse(ST.text), int.Parse(PE.text), int.Parse(EN.text), int.Parse(AG.text), mainWeapon, offWeapon))
-            return;
-
-        if (CombatCharacter.cCList.Count == 1)
-        {
-            createAddCharacterButton.GetComponentInChildren<TextMeshProUGUI>().text = "Add Character";
-            createAddCharacterButton.interactable = true;
-        } else if (CombatCharacter.cCList.Count == 2)
-        {
-            createAddCharacterButton.GetComponentInChildren<TextMeshProUGUI>().text = "Create Character";
-        } 
-        
+        createdCharacter.GetComponent<WorldCharacter>().FulfillCharacter(nameField.text, int.Parse(ST.text), int.Parse(PE.text), int.Parse(EN.text), int.Parse(AG.text), int.Parse(IN.text));
         gameObject.SetActive(false);
         startGameButton.interactable = true;
     }
-
-    public void RefreshWeaponTexts()
+    public string FormWeaponText(Weapon weapon)
     {
-        Item weapon=Item.GetItem(weaponOptions[mainHandWeapon.value]);
-        if (weapon != null)
-            mainHandText.text = FormWeaponText(weapon);
-        
-        weapon= Item.GetItem(weaponOptions[offHandWeapon.value]);
-        if (weapon != null)
-            offHandText.text = FormWeaponText(weapon);
-
-        string FormWeaponText (Item weapon)
-        {
-            string weaponText = $"{weapon.itemName} [ {weapon.apCost} AP ]\n";
-            weaponText += "Damage: " + weapon.FormDamageDiapason(0) + " ";
-            if (weapon.rangedAttack)
-                weaponText += "Range: " + weapon.Range + "\n";
-            else
-                weaponText += "Melee\n";
-            return weaponText;
-        }
+        string weaponText = $"{weapon.ItemName} [ {weapon.APCost} AP ]\n";
+        weaponText += "Damage: " + weapon.FormDamageDiapason(0) + " ";
+        if (weapon.RangedAttack)
+            weaponText += "Range: " + weapon.Range + "\n";
+        else
+            weaponText += "Melee\n";
+        return weaponText;
     }
 
-    public bool CheckStatisticSum()
+    public bool CheckStatisticsValues()
     {
         int st;
         int pe;
         int en;
         int ag;
+        int in_;
 
-        if (!(int.TryParse(ST.text, out st) && int.TryParse(PE.text, out pe) && int.TryParse(EN.text, out en) && int.TryParse(AG.text, out ag)))
+        if (!(int.TryParse(ST.text, out st) && int.TryParse(PE.text, out pe) && int.TryParse(EN.text, out en) && int.TryParse(AG.text, out ag) && int.TryParse(AG.text, out in_)))
         {
             errorText.text = "Please input just numbers to statistics";
             return false;
         }
         
-        if (st<1 || st>10)
-        {
-            errorText.text = $"ERROR! ST must be between 1 and 10, but now it's {st}";
-            return false;
-        }
-        if (pe < 1 || pe > 10)
-        {
-            errorText.text = $"ERROR! PE must be between 1 and 10, but now it's {pe}";
-            return false;
-        }
-        if (en < 1 || en > 10)
-        {
-            errorText.text = $"ERROR! EN must be between 1 and 10, but now it's {en}";
-            return false;
-        }
-        if (ag < 1 || ag > 10)
-        {
-            errorText.text = $"ERROR! AG must be between 1 and 10, but now it's {ag}";
-            return false;
+        bool CheckStatisticsBorders (Dictionary<string, int> statistics) {
+            foreach (KeyValuePair<string, int> statistic in statistics)
+            {
+                if (statistic.Value < 1 || statistic.Value > 10)
+                {
+                    errorText.text = $"ERROR! {statistic.Key} must be between 1 and 10, but now it's {statistic.Value}";
+                    return false;
+                }
+            }
+            return true;
         }
 
+        if (!CheckStatisticsBorders(new Dictionary<string, int>() {
+            {"ST", st}, {"PE", pe}, {"EN", en}, {"AG", ag}, {"IN", in_}
+        }))
+            return false;
 
-        if (st+pe+en+ag == statisticsSum)
+        if (st+pe+en+ag+in_ == statisticsSum)
         {
             errorText.text = "";
             return true;

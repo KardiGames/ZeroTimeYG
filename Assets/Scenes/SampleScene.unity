@@ -3317,13 +3317,13 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 361402523}
+        m_TargetAssemblyTypeName: MainMenuUI, GameAssembly
+        m_MethodName: OpenMinePanel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -6181,6 +6181,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterPrefub: {fileID: 6359727020642126619, guid: 9e01bdd9ce9d8464b8f83d9ef7ce9b28, type: 3}
+  battleManager: {fileID: 476735863}
   ST: {fileID: 751590260}
   PE: {fileID: 36788171}
   EN: {fileID: 1144864997}
@@ -6712,6 +6713,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3ed5b11816733f47b24380b1023c887, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameManager: {fileID: 0}
 --- !u!114 &476735865
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6750,7 +6752,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acaff58d2673c3f49902c50d12894ab8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  saveData: {fileID: 476735870}
+  _saveData: {fileID: 476735870}
+  _battleManager: {fileID: 476735863}
 --- !u!114 &476735869
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8514,6 +8517,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c62e2e69a000e454297e1012dd067f62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _battleManager: {fileID: 476735863}
   bulletPrefab: {fileID: 3350732840273537028, guid: 44ac7ea24cb54304b8307951bd677f06, type: 3}
   shootSound: {fileID: 8300000, guid: 5e7bb8c6be98c084d83266eaeadf2d72, type: 3}
   hitSound: {fileID: 8300000, guid: eb86707584c60084ab803060d8e6759e, type: 3}
@@ -24491,14 +24495,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ce415e6568cdc544835c7eaaaaa0cb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _battleManager: {fileID: 476735863}
   actionPointsText: {fileID: 181479915}
   weaponInfoField: {fileID: 1780781563}
   scoreInfoField: {fileID: 773123564}
-  bestScoreField: {fileID: 0}
   playerInfoField: {fileID: 700314350}
   bigMessage: {fileID: 1608155652}
   gameManager: {fileID: 476735868}
-  mainMenu: {fileID: 0}
   planningButtons:
   - {fileID: 1715042073}
   - {fileID: 1610977272}
@@ -24604,6 +24607,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7334500f2a9b1c24a97b8a78a3a9f2c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _battleManager: {fileID: 476735863}
 --- !u!1 &2123218238
 GameObject:
   m_ObjectHideFlags: 0
