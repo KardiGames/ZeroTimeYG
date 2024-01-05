@@ -8,7 +8,6 @@ public class PrefabsList : MonoBehaviour
     public static PrefabsList instance { get; internal set; }
     
     //Prefabs for different NPC
-    public GameObject ratPrefab;
 
     //Links to sounds
     public Dictionary<string, AudioClip> weaponSounds;

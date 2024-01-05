@@ -5,29 +5,30 @@ using UnityEngine;
 public abstract class CombatUnit : MonoBehaviour
 {
     //Technical use variables
-    public GameObject prefabClickZone;
-    public GameObject attackZone;
-    public Animator characterAnimator;
-    public AudioSource characterSound;
-    public OverheadMessage OverheadText { get; protected set; }
-    [SerializeField]protected BattleManager _battleManager;
-    protected static List<CombatUnit> cCList;
+    [SerializeField] protected GameObject prefabClickZone;
+    [SerializeField] protected Animator _characterAnimator;
+    [SerializeField] protected AudioSource _sound;
+    [SerializeField] protected OverheadMessage _overheadText;
+
+    public GameObject attackZone; //TODO this protected
+    protected BattleManager _battleManager; //TODO SET this in code
+    public OverheadMessage OverheadText => _overheadText;
+    public Animator CharacterAnimator => _characterAnimator;
+    public AudioSource Sound => _sound;
 
     //Variables
-    public string charName;
+    public abstract string CharName { get; }
+    public abstract int Level { get; }
     public int[] pos = new int[2];
     public bool usesOffHand = false;
     public bool Dead { get; protected set; } = false;
     protected int _hp;
-    public int level = 1; //TODO move to NPC subclass if already possible
 
     //[0] for right hand, [1] for left hand
     //public List<Item> equipment = new();
 
     //Secondary stats variables
     protected int AP; //Action points
-    
-    public int MD; //Melee damage
     public int bonusAC;
 
     //Secondary stats properties
@@ -48,7 +49,7 @@ public abstract class CombatUnit : MonoBehaviour
     }
 
     //AI Stats
-    public string ai = "";
+    public string _ai = "";
 
     //Planning stuff
     public int PlanningAP { get; protected set; }
@@ -107,13 +108,12 @@ public abstract class CombatUnit : MonoBehaviour
 
     private void Awake()
     {
-        cCList = _battleManager.AllCombatCharacters;
-        cCList.Add(this);
+        _battleManager.AllCombatCharacters.Add(this);
     }
 
     private void OnDestroy()
     {
-        while (cCList.Contains(this))
-            cCList.Remove(this);
+        while (_battleManager.AllCombatCharacters.Contains(this))
+            _battleManager.AllCombatCharacters.Remove(this);
     }
 }

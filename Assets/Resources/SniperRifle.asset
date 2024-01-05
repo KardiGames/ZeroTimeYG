@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: af871b096d856db4db76b3dcc3f9ef31, type: 3}
-  m_Name: Pistol
+  m_Name: SniperRifle
   m_EditorClassIdentifier: 
-  _itemName: Pistol
+  _itemName: Sniper rifle
   _stackable: 0
   _amount: 1
   _rangedAttack: 1
-  _twoHanded: 0
-  damageRandomMultipler: 1
-  damageRandomTo: 8
-  damageAddition: 3
-  _range: 4
-  _apCost: 4
-  _skillname: Pistols
+  _twoHanded: 1
+  damageRandomMultipler: 2
+  damageRandomTo: 20
+  damageAddition: 0
+  _range: 10
+  _apCost: 8
+  _skillname: Rifles

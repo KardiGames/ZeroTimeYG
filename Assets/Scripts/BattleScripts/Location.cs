@@ -51,13 +51,13 @@ public class Location
             }
         }
     }
-public static Vector2Int Calc3dCoordinates (int x3d, int y3d, int z3d) => new (x3d + (y3d - (y3d&1)) / 2, y3d);
+    public static Vector2Int Calc3dCoordinates (int x3d, int y3d, int z3d) => new (x3d + (y3d - (y3d&1)) / 2, y3d);
 
-public static int Distance (Location from, Location to) {
+    public static int Distance (Location from, Location to) {
 
-	return (Mathf.Abs(from.X3d - to.X3d) + Mathf.Abs(from.Y3d - to.Y3d) + Mathf.Abs(from.Z3d - to.Z3d)) / 2;
+	    return (Mathf.Abs(from.X3d - to.X3d) + Mathf.Abs(from.Y3d - to.Y3d) + Mathf.Abs(from.Z3d - to.Z3d)) / 2;
 	
-}
+    }
 
     public static int Distance (int[] from, int [] to)
     {
@@ -87,5 +87,35 @@ public static int Distance (Location from, Location to) {
                 return true;
         }
         return false;
+    }
+
+    public static int[] GetSpawnPosition()
+    {
+        int[] position = new int[2];
+        int side;
+        do
+        {
+            side = Random.Range(0, 4);
+            switch (side)
+            {
+                case 0:
+                    position[0] = 0;
+                    position[1] = Random.Range(0, ySize);
+                    break;
+                case 1:
+                    position[0] = Location.xSize - 1;
+                    position[1] = Random.Range(0, ySize);
+                    break;
+                case 2:
+                    position[0] = Random.Range(0, xSize);
+                    position[1] = 0;
+                    break;
+                case 3:
+                    position[0] = Random.Range(0, xSize);
+                    position[1] = ySize - 1;
+                    break;
+            }
+        } while (IsBusy(position[0], position[1]));
+        return position;
     }
 }

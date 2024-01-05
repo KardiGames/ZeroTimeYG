@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2af210d7c5126984293101c91a2bed98, type: 3}
+  m_Name: Miner
+  m_EditorClassIdentifier: 
+  <PrefabToFill>k__BackingField: {fileID: 7304011216624503410, guid: f6d75213411959b41b2771b40d9505f2, type: 3}
+  <difficulty>k__BackingField: 1
+  <npcName>k__BackingField: Miner
+  <ai>k__BackingField: rat
+  <maxHP>k__BackingField: 10
+  <totalAP>k__BackingField: 6
+  <AC>k__BackingField: 5
+  <rangedAttack>k__BackingField: 0
+  <attackName>k__BackingField: Plasma cutter
+  <damageMultipler>k__BackingField: 1
+  <damageDise>k__BackingField: 4
+  <damagePlus>k__BackingField: 0
+  <damageRange>k__BackingField: 1
+  <attackAP>k__BackingField: 3

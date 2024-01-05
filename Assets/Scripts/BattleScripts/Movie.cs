@@ -44,16 +44,16 @@ public class Movie : MonoBehaviour
                 moveVector.y = CoordArray.cArray[(combatLog[_battleManager.MovieAct].place[0]), (combatLog[_battleManager.MovieAct].place[1]), 1] - combatLog[_battleManager.MovieAct].subject.transform.position.y;
 
                 //TODO - edit crutch with choosing sound
-                if (thisAction.subject.ai=="")
-                    thisAction.subject.characterSound.clip = moveSound;
+                if (thisAction.subject._ai=="")
+                    thisAction.subject.Sound.clip = moveSound;
                 else
-                    thisAction.subject.characterSound.clip = enemyMoveSound;
+                    thisAction.subject.Sound.clip = enemyMoveSound;
 
-                thisAction.subject.characterSound.Play();
+                thisAction.subject.Sound.Play();
 
-                if (thisAction.subject.characterAnimator != null)
+                if (thisAction.subject.CharacterAnimator != null)
                 {
-                    thisAction.subject.characterAnimator.SetBool("Run", true);
+                    thisAction.subject.CharacterAnimator.SetBool("Run", true);
                       TurnAnimatedObject(thisAction.subject, moveVector.x);
                 }
 
@@ -65,11 +65,11 @@ public class Movie : MonoBehaviour
             {
                 combatLog[_battleManager.MovieAct].subject.transform.position = new Vector3(CoordArray.cArray[(combatLog[_battleManager.MovieAct].place[0]), (combatLog[_battleManager.MovieAct].place[1]), 0], CoordArray.cArray[(combatLog[_battleManager.MovieAct].place[0]), (combatLog[_battleManager.MovieAct].place[1]), 1]);
 
-                if (thisAction.subject.characterAnimator != null && !(_battleManager.MovieAct < (combatLog.Count - 1) && combatLog[_battleManager.MovieAct + 1].subject == thisAction.subject && combatLog[_battleManager.MovieAct + 1].action == "move"))
-                    thisAction.subject.characterAnimator.SetBool("Run", false);
+                if (thisAction.subject.CharacterAnimator != null && !(_battleManager.MovieAct < (combatLog.Count - 1) && combatLog[_battleManager.MovieAct + 1].subject == thisAction.subject && combatLog[_battleManager.MovieAct + 1].action == "move"))
+                    thisAction.subject.CharacterAnimator.SetBool("Run", false);
 
                 if (!(_battleManager.MovieAct < (combatLog.Count - 1) && combatLog[_battleManager.MovieAct + 1].subject == thisAction.subject && combatLog[_battleManager.MovieAct + 1].action == "move"))
-                    thisAction.subject.characterSound.Stop();
+                    thisAction.subject.Sound.Stop();
 
                 spentActionTime = 0f;
                 moveVector = Vector3.zero;
@@ -103,30 +103,30 @@ public class Movie : MonoBehaviour
                 }
 
                 //TODO - edit crutch with choosing sound
-                if (thisAction.subject.ai == "")
+                if (thisAction.subject._ai == "")
                     if (usedWeapon.RangedAttack)
-                        thisAction.subject.characterSound.PlayOneShot(shootSound);
+                        thisAction.subject.Sound.PlayOneShot(shootSound);
                     else
-                        thisAction.subject.characterSound.PlayOneShot(hitSound);
+                        thisAction.subject.Sound.PlayOneShot(hitSound);
                 else
                     if (usedWeapon.RangedAttack)
-                    thisAction.subject.characterSound.PlayOneShot(enemyShootSound);
+                    thisAction.subject.Sound.PlayOneShot(enemyShootSound);
                 else
-                    thisAction.subject.characterSound.PlayOneShot(enemyHitSound);
+                    thisAction.subject.Sound.PlayOneShot(enemyHitSound);
 
-                if (thisAction.subject.characterAnimator != null)
+                if (thisAction.subject.CharacterAnimator != null)
                 {
                     TurnAnimatedObject(thisAction.subject, moveVector.x);
                     if (usedWeapon.RangedAttack)
                     {
-                        thisAction.subject.characterAnimator.SetTrigger("Shoot");
+                        thisAction.subject.CharacterAnimator.SetTrigger("Shoot");
                     } else
                     {
-                        thisAction.subject.characterAnimator.SetTrigger("Hit");
+                        thisAction.subject.CharacterAnimator.SetTrigger("Hit");
                     }
                 }
 
-                if (usedWeapon.RangedAttack || thisAction.subject.characterAnimator == null) //TODO remove second condition
+                if (usedWeapon.RangedAttack || thisAction.subject.CharacterAnimator == null) //TODO remove second condition
                 {
                     Vector3 bulletPosition = thisAction.subject.transform.position;
                     bulletPosition.y += 0.1f;
@@ -151,9 +151,9 @@ public class Movie : MonoBehaviour
                 {
                     thisAction.target.OverheadText.ShowRed("-" + thisAction.DamageDone);
                     thisAction.target.OverheadText.ShowHP(thisAction.TargetHPAfter);
-                    if (thisAction.target.characterAnimator != null && thisAction.TargetHPAfter <= 0) {
+                    if (thisAction.target.CharacterAnimator != null && thisAction.TargetHPAfter <= 0) {
                         TurnAnimatedObject(thisAction.target, -moveVector.x);
-                        thisAction.target.characterAnimator.SetBool("Dead", true);
+                        thisAction.target.CharacterAnimator.SetBool("Dead", true);
                     }
 
                 }
@@ -162,7 +162,7 @@ public class Movie : MonoBehaviour
                 moveVector = Vector3.zero;
 
                 _battleManager.NextMovieAct();
-            } else if (usedWeapon.RangedAttack || thisAction.subject.characterAnimator == null) //TODO remove second condition
+            } else if (usedWeapon.RangedAttack || thisAction.subject.CharacterAnimator == null) //TODO remove second condition
                 bullet.transform.position += moveVector * Time.deltaTime / actionTime;
         }
         else if (thisAction.action == "wait")
@@ -173,17 +173,17 @@ public class Movie : MonoBehaviour
 
         void TurnAnimatedObject(CombatUnit animatedObject, float positiveToTheRight)
         {
-            if (animatedObject.characterAnimator == null) return;
+            if (animatedObject.CharacterAnimator == null) return;
             if (positiveToTheRight > 0)
             {
-                animatedObject.characterAnimator.gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
-                animatedObject.characterAnimator.SetBool("ToTheLeft", false);
+                animatedObject.CharacterAnimator.gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
+                animatedObject.CharacterAnimator.SetBool("ToTheLeft", false);
             }
 
             else
             {
-                animatedObject.characterAnimator.gameObject.transform.rotation = Quaternion.Euler(0, 180, 0);
-                animatedObject.characterAnimator.SetBool("ToTheLeft", true);
+                animatedObject.CharacterAnimator.gameObject.transform.rotation = Quaternion.Euler(0, 180, 0);
+                animatedObject.CharacterAnimator.SetBool("ToTheLeft", true);
             }
         }
 

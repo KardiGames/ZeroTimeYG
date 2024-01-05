@@ -62,33 +62,31 @@ public class BattleUserInterface : MonoBehaviour
         weaponInfoField.text = weaponText;
     }
 
-    public void RefreshLevelInfo()
+    public void RefreshLevelInfo() //TODO m.b. delete this or change
     {
-        int totalEnemiesLevel = 0;
-        int score = 0;
+        int totalEnemiesDifficulty = 0;
         string scoreInfoText = "";
         foreach (CombatCharacter cChar in _battleManager.AllCombatCharacters)
         {
-            if (cChar.ai == "")
+            if (cChar._ai == "")
             {
-                scoreInfoText += cChar.charName + " " + cChar.level + " lvl ";
-                score += cChar.CombatExperience;
+                scoreInfoText += cChar.CharName + " " + cChar.Level + " lvl ";
             }
                 
             else if (!cChar.Dead)
             {
-                totalEnemiesLevel += cChar.level;
+                totalEnemiesDifficulty += cChar.Level;
             }
         }
-        scoreInfoText += "\nEnemyes "+totalEnemiesLevel+" total lvl";
-        scoreInfoText += "\nScore: " + score;
+        scoreInfoText += "\nEnemyes "+totalEnemiesDifficulty+" total lvl";
+        scoreInfoText += "\nScore: " + (int)_battleManager.CombatExperience;
         scoreInfoField.text = scoreInfoText;
     }
 
-    public void RefreshCharInfo() => RefreshCharInfo(_battleManager.AllCombatCharacters[BattleManager.Player] as CombatCharacter);
+    public void RefreshCharInfo() => RefreshCharInfo(_battleManager.AllCombatCharacters[_battleManager.Player] as CombatCharacter);
     public void RefreshCharInfo(CombatCharacter player)
     {
-        string charInfoText = $"{player.charName} [ {player.level} lvl ]\n"
+        string charInfoText = $"{player.CharName} [ {player.Level} lvl ]\n"
                             + player.ExperienceText+"\n\n"
                             + $"ST {player.ST} [+{player.MeleeDamageBonus} melee damage]\n"  //TODO Add melee damage
                             + $"PE {player.PE} [{player.PE-1} aim shoot range]\n" //TODO Change range formula to Property??
@@ -99,7 +97,7 @@ public class BattleUserInterface : MonoBehaviour
 
     public void ShowEnemyInfo(NonPlayerCharacter npc)
     {
-        string charInfoText = $"{npc.charName} [ {npc.level} lvl ]\n"
+        string charInfoText = $"{npc.CharName} [ {npc.Level} lvl ]\n"
                     + $"HP {npc.HP}/{npc.MaxHP}   AC {npc.AC}   AP {npc.TotalAP}"
                     + $"\n\nWeapon - {npc.RightHandWeapon.ItemName}\nDamage: " + npc.RightHandWeapon.FormDamageDiapason();
         if (npc.RightHandWeapon.RangedAttack)
@@ -182,20 +180,5 @@ public class BattleUserInterface : MonoBehaviour
             }
             bigMessage.gameObject.SetActive(false);
         }
-    }
-    public void StartButtonAction ()
-    {
-        if (BattleManager.Status != "starting")
-            return;
-
-        if (_battleManager.AllCombatCharacters.Count < 1 || _battleManager.AllCombatCharacters.Count > 2)
-            return;
-
-        foreach (CombatUnit pc in _battleManager.AllCombatCharacters)
-            if (pc.ai != "")
-                return;
-
-        gameManager.StartBattle();
-
     }
 }

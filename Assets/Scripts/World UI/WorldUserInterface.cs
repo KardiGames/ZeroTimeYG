@@ -10,16 +10,9 @@ public class WorldUserInterface : MonoBehaviour
     [SerializeField] private GameObject taskTimer;
  
     [SerializeField] private TextMeshProUGUI bigMessage;
-
-    private void Start()
-    {
-
-    }
     public void ShowDamage ()
     {
-
         print((playerCharacter.Equipment[0] as Weapon).FormDamageDiapason()+ " "+ (playerCharacter.Equipment[1] as Weapon).FormDamageDiapason());
-        (playerCharacter.Equipment[0] as Weapon).BoostDamage();
     }
 
     public void OpenTargetInventory (Inventory inventory)

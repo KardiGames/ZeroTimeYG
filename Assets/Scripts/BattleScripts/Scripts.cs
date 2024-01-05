@@ -92,7 +92,7 @@ public class Scripts : MonoBehaviour
         CombatUnit enemy=null;
         float priority = 0f;
         foreach (CombatUnit cC in BattleUserInterface.Instance.BattleManager.AllCombatCharacters) {
-            if (cC.ai != ""||cC.Dead) continue;
+            if (cC._ai != ""||cC.Dead) continue;
             float currentPriority = (float)Location.Distance(bot.pos, cC.pos)*cC.HP/cC.MaxHP;
             if (enemy==null || currentPriority<priority) {
                 enemy = cC;

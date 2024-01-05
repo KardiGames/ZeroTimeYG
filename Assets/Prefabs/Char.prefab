@@ -429,26 +429,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3773acaab5bdc914cbc39c04628d7444, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  battleManager: {fileID: 0}
   prefabClickZone: {fileID: 2464289397350379709, guid: 8c5bd9de46a65b842bd505d2deb15c40, type: 3}
+  _characterAnimator: {fileID: 3143313108030271142}
+  _sound: {fileID: 3735584463565294648}
+  _overheadText: {fileID: 6359727020518366747}
   attackZone: {fileID: 0}
-  characterAnimator: {fileID: 0}
-  characterSound: {fileID: 0}
   charName: 
-  level: 1
   pos: 0300000003000000
   usesOffHand: 0
-  equipment: []
-  ST: 5
-  PE: 5
-  EN: 5
-  AG: 5
-  totalAP: 0
-  AC: 0
+  level: 1
   MD: 0
   bonusAC: 0
   ai: 
   planningPos: 0000000000000000
+  _playerCharacter: {fileID: 0}
 --- !u!212 &1697503010977005317
 SpriteRenderer:
   m_ObjectHideFlags: 0

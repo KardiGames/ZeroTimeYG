@@ -9,7 +9,7 @@ public class HotKeys : MonoBehaviour
 
     private void Update()
     {
-        if (_battleManager.Status != "planning" || _battleManager.AllCombatCharacters[_battleManager.Player].ai!="")
+        if (_battleManager.Status != "planning" || _battleManager.AllCombatCharacters[_battleManager.Player]._ai!="")
             return;
         if (Input.GetKeyDown(KeyCode.E))
             BattleUserInterface.Instance.EndTurn();

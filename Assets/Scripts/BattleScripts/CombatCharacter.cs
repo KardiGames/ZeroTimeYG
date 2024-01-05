@@ -11,17 +11,17 @@ public class CombatCharacter : CombatUnit
     private int[] yCorrArray = new int[] { 1, 0, -1, -1, 0, 1 };
     private bool _isCreated = false; //TODO delete this?
 
-    public string ExperienceText => $"( {_combatExperience} experience)";
-    public int CombatExperience => _combatExperience;
-    private List<GameObject> clickZones = new List<GameObject>();
-
+    public string ExperienceText => $"( {(int)_battleManager.CombatExperience} experience)"; //TODO m.b. delete it
+    private List<GameObject> clickZones = new List<GameObject>(6);
 
     //Variables
-    [SerializeField] private WorldCharacter _playerCharacter;
-    private int _combatExperience = 0;
+    private WorldCharacter _playerCharacter;
+
     private Dictionary<string, int> _skillBoostings = new();
 
     //Basic stats properties
+    public override string CharName => _playerCharacter.CharacterName;
+    public override int Level => _playerCharacter.Level;
     public int ST => _playerCharacter.ST;
     public int PE => _playerCharacter.PE;
     public int EN => _playerCharacter.EN;
@@ -58,20 +58,15 @@ public class CombatCharacter : CombatUnit
             return;
         }
         
-        //Getting components to technical use variables
-        OverheadText = GetComponentInChildren<OverheadMessage>();
-        characterAnimator= GetComponentInChildren<Animator>(true);
-        characterSound = GetComponent<AudioSource>();
-
         ResetAP();
 
         HP = MaxHP;
         OverheadText.ShowHP();
 
         //TEMP setting places for Combatcharacters
-        int i = cCList.IndexOf(this);
-        CombatCharacter.cCList[i].pos[0] = i;
-        CombatCharacter.cCList[i].pos[1] = i;
+        int i = _battleManager.AllCombatCharacters.IndexOf(this);
+        _battleManager.AllCombatCharacters[i].pos[0] = i;
+        _battleManager.AllCombatCharacters[i].pos[1] = i;
 
         //This is not temporary part
         ResetPlanning();
@@ -128,18 +123,12 @@ public class CombatCharacter : CombatUnit
         }
 
         attackZone = Instantiate<GameObject>(prefabClickZone);
-        /*if (attackZone != null)
-            print("AZone for " + name + " is created");
-        else
-            print("Error!!! AZone for " + name + "isn't created");*/
         attackZone.transform.parent = this.transform;
         attackZone.transform.position = new Vector3(CoordArray.cArray[this.pos[0], this.pos[1], 0], CoordArray.cArray[this.pos[0], this.pos[1], 1], attackZone.transform.position.z);
         attackZone.GetComponent<ClickArea>().combatCharacter = this;
         attackZone.GetComponent<ClickArea>().action = "attack";
         attackZone.SetActive(false);
     }
-
-
 
     public override void StartPlanning(bool start = true)
     {
@@ -169,9 +158,9 @@ public class CombatCharacter : CombatUnit
                 int xCurrent = pos[0] + cz.GetComponent<ClickArea>().xCorrection;
                 int yCurrent = pos[1] + cz.GetComponent<ClickArea>().yCorrection;
 
-                bool check = true;
-                check = (xCurrent >= 0) && (xCurrent < Location.xSize) && (yCurrent >= 0) && (yCurrent < Location.ySize);
-                foreach (CombatCharacter cC in CombatCharacter.cCList)
+
+                bool check = (xCurrent >= 0) && (xCurrent < Location.xSize) && (yCurrent >= 0) && (yCurrent < Location.ySize);
+                foreach (CombatUnit cC in _battleManager.AllCombatCharacters)
                 {
                     if ((xCurrent == cC.planningPos[0]) && (yCurrent == cC.planningPos[1]))
                         check = false;
@@ -186,10 +175,10 @@ public class CombatCharacter : CombatUnit
                 cz.SetActive(false);
         }
 
-        foreach (CombatCharacter cC in CombatCharacter.cCList)
+        foreach (CombatCharacter cC in _battleManager.AllCombatCharacters)
         {
             cC.attackZone.SetActive(start);
-            if (cC == this || cC.ai=="")
+            if (cC == this || cC._ai=="")
             {
                 cC.attackZone.SetActive(false);
             }
@@ -197,13 +186,6 @@ public class CombatCharacter : CombatUnit
     }
 	
 
-
-    public void CollectExperience(NonPlayerCharacter killedNPC)
-    {
-        _combatExperience += killedNPC.level;
-
-        BattleUserInterface.Instance.RefreshCharInfo(this);
-    }
 
     public void MovePlan(int x, int y)
     {
@@ -220,10 +202,8 @@ public class CombatCharacter : CombatUnit
         //Creating planning combat action
         //print("Triying to add move action to " + x + " " + y);
 
-        bool check;
         personalPlanningList.Add(new CombatAction());
-        check = personalPlanningList[(personalPlanningList.Count - 1)].Move(this, x, y);
-        if (!check)
+        if (!personalPlanningList[(personalPlanningList.Count - 1)].Move(this, x, y))
         {
             personalPlanningList.RemoveAt(personalPlanningList.Count - 1);
             print("Haven't done this (");
@@ -251,8 +231,8 @@ public class CombatCharacter : CombatUnit
                 int xCurrent = planningPos[0] + cz.GetComponent<ClickArea>().xCorrection;
                 int yCurrent = planningPos[1] + cz.GetComponent<ClickArea>().yCorrection;
 
-                check = (xCurrent >= 0) && (xCurrent < Location.xSize) && (yCurrent >= 0) && (yCurrent < Location.ySize);
-                foreach (CombatCharacter cC in CombatCharacter.cCList)
+                bool check = (xCurrent >= 0) && (xCurrent < Location.xSize) && (yCurrent >= 0) && (yCurrent < Location.ySize);
+                foreach (CombatUnit cC in _battleManager.AllCombatCharacters)
                 {
                     if ((xCurrent == cC.planningPos[0]) && (yCurrent == cC.planningPos[1]))
                         check = false;
@@ -272,7 +252,7 @@ public class CombatCharacter : CombatUnit
     public void BoostSkill(string skillname)
     {
         //float difficulty = 0.2f; //<1 - much easier to train; >1 - much more difficult; 0-always trains
-        float difficulty = -0.0444444f * IN + 0.5444444f;
+        float difficulty = -0.0444444f * IN + 0.5444444f; //Formula how difficulty depends of INtelligence
 
         if (GetSkillValue(skillname) >= Skills.maximumTotalSkill)
             return;
@@ -295,6 +275,5 @@ public class CombatCharacter : CombatUnit
     {
         _skillBoostings.Clear();
     }
-
 
 }

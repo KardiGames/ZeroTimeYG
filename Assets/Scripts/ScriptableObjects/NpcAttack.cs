@@ -4,6 +4,21 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Item", menuName = "Items/NpcAttack")]
 public class NpcAttack : Weapon
 {
+    public void SetValues(string itemName, int range, int apCost, bool rangedAttack)
+    {
+        _itemName = itemName;
+        _range = range;
+        _apCost = apCost;
+        _rangedAttack = rangedAttack;
+        _skillname = itemName;
+    }
+    public void SetDamage(int randomMultipler = 1, int randomTo = 6, int addition = 0)
+    {
+        damageRandomMultipler = randomMultipler;
+        damageRandomTo = randomTo;
+        damageAddition = addition;
+    }
+
     public void BoostDamage(string parametr, int value = 1)
     {
         if (parametr == "addition")

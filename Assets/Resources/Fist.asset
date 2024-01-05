@@ -15,10 +15,11 @@ MonoBehaviour:
   _itemName: Fist
   _stackable: 0
   _amount: 1
-  rangedAttack: 0
+  _rangedAttack: 0
+  _twoHanded: 0
   damageRandomMultipler: 1
   damageRandomTo: 4
   damageAddition: 0
-  range: 1
-  apCost: 3
-  skillname: unarmed
+  _range: 1
+  _apCost: 3
+  _skillname: Unarmed

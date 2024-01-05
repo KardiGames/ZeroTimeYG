@@ -14,7 +14,7 @@ public class MineNpcRewardData : ScriptableObject
     private class NpcData
     {
         public int minMineLevel;
-        public GameObject npc;
+        public NpcBlank npc;
     }
     [Serializable]
     private class RewardData
@@ -24,7 +24,7 @@ public class MineNpcRewardData : ScriptableObject
         public float rewardCost;
     }
 
-    public GameObject[] GetNpcList (int mineLevel, string mineType)
+    public NpcBlank[] GetNpcList (int mineLevel, string mineType)
     {
         return Get2ListsByMineType(mineType).Item1
             .Where(npc => npc.minMineLevel <= mineLevel)

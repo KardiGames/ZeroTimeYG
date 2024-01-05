@@ -175,22 +175,22 @@ public class CombatAction
                     if (Random.Range(0, 100) < hitChanse)
                     {
                         int damage = usedWeapon.Damage;
-                        if (!usedWeapon.RangedAttack && cA.subject.ai=="")
+                        if (!usedWeapon.RangedAttack && cA.subject._ai=="")
                             damage += cA.subject.MeleeDamageBonus;
                         bool deadBeforeDamage = cA.target.Dead;
                         cA.target.TakeDamage(damage);
                         //print(cA.target.name + "'s got " + damage + " damage. Hit chance was " + hitChanse);
                         cA.DamageDone = damage;
                         cA.TargetHPAfter = cA.target.HP;
-						if ((cA.target.Dead != deadBeforeDamage) && cA.subject is CombatCharacter player && player.ai!="" && cA.target is NonPlayerCharacter npcTarget)
+						if ((cA.target.Dead != deadBeforeDamage) && cA.subject is CombatCharacter player && player._ai!="" && cA.target is NonPlayerCharacter npcTarget)
 						{
-                            player.CollectExperience(npcTarget);
+                            BattleUserInterface.Instance.BattleManager.CollectExperience(npcTarget);
 						}
                     }
                     else  
                     {
                         //print(cA.subject.name + " have missed ((( HitChanse was " + hitChanse);
-                        if (cA.subject is CombatCharacter player && player.ai=="" && Location.Distance(player.pos, cA.target.pos) <= (player.PE - 1) )
+                        if (cA.subject is CombatCharacter player && player._ai=="" && Location.Distance(player.pos, cA.target.pos) <= (player.PE - 1) )
                             player.BoostSkill(usedWeapon.SkillName);
                     }
                 }
