@@ -6,15 +6,17 @@ using UnityEngine;
 public class RewardManager: MonoBehaviour
 {
     [SerializeField] private MineNpcRewardData _rewardData;
-    [SerializeField] private Mine mine;
+    [SerializeField] private Mine _mine;
+    [SerializeField] private WorldUserInterface _worldUI;
     
+
     public Item[] GetTestReward(int winnerScore)
     {
         return Item.GetAllItems().Select(r => r.Clone()).ToArray();
     }
-    public Item[] GetReward (float rewardPoints)
+    private Item[] GetReward (float rewardPoints)
     {
-        Dictionary<Item, float> potentialReward = _rewardData.GetItemsDictionary(0, "Junk");
+        Dictionary<Item, float> potentialReward = _rewardData.GetItemsDictionary(Mine.CalculateMineLevel(rewardPoints), "Junk");
         List<Item> reward = new();
         List<Item> keys = new List<Item>(potentialReward.Keys);
         Item chosenRewardItem;
@@ -31,12 +33,17 @@ public class RewardManager: MonoBehaviour
         return reward.ToArray();
     }
 
-    internal void GiveReward(Item[] currentReward, Inventory inventoryForReward)
+    private void GiveReward(Item[] currentReward, Inventory inventoryForReward)
     {
-        //inventoryForReward.
+        inventoryForReward.ClearInventory(this);
+        _worldUI.OpenTargetInventory(inventoryForReward);
         foreach(Item item in currentReward)
         {
             inventoryForReward.TryToAdd(this, item);
         }
     }
+
+    internal void GiveReward(float rewardPoints, Inventory inventoryForReward) => GiveReward(GetReward(rewardPoints), inventoryForReward);
+    internal void GiveReward(float rewardPoints) => GiveReward(rewardPoints, _mine.GetComponent<Inventory>());
+
 }

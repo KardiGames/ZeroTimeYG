@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,11 +17,11 @@ public class Mine : MonoBehaviour, IWorldBuilding
     public int Level  => _level;
     public string MineType => _mineType;
 
-    private void Start()
+    public void SetLevel(float rewardPoints)
     {
-
+        _level = CalculateMineLevel(rewardPoints);
     }
-    public static int CalculateMineLevel (int rewardPoints)
+    public static int CalculateMineLevel (float rewardPoints)
     {
         return rewardPoints>0 ? 
             (int)(20.0f * Mathf.Log10(rewardPoints)) 
@@ -36,6 +37,7 @@ public class Mine : MonoBehaviour, IWorldBuilding
     {
         JsonUtility.FromJsonOverwrite(jsonString, this);
     }
+
 
     public void ExitBuilding()
     {

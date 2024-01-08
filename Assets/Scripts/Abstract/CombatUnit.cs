@@ -20,6 +20,7 @@ public abstract class CombatUnit : MonoBehaviour
     public abstract string CharName { get; }
     public abstract int Level { get; }
     public int[] pos = new int[2];
+    public Location loc { get => Location.GetLocation(pos); }
     public bool usesOffHand = false;
     public bool Dead { get; protected set; } = false;
     protected int _hp;
@@ -28,8 +29,8 @@ public abstract class CombatUnit : MonoBehaviour
     //public List<Item> equipment = new();
 
     //Secondary stats variables
-    protected int AP; //Action points
-    public int bonusAC;
+    protected int _ap; //Action points
+    public int _bonusAC;
 
     //Secondary stats properties
     public abstract int MaxHP { get; }
@@ -57,11 +58,12 @@ public abstract class CombatUnit : MonoBehaviour
     public List<CombatAction> personalPlanningList = new List<CombatAction>();
 
     public abstract int GetSkillValue(string skillName);
+    public abstract void StartPlanning(bool start = true);
 
     public void ResetAP()
     {
-        AP = TotalAP;
-        bonusAC = 0;
+        _ap = TotalAP;
+        _bonusAC = 0;
     }
     public void ResetPlanning()
     {
@@ -70,17 +72,21 @@ public abstract class CombatUnit : MonoBehaviour
         planningPos[1] = pos[1];
         this.transform.position = new Vector3(CoordArray.cArray[this.pos[0], this.pos[1], 0], CoordArray.cArray[this.pos[0], this.pos[1], 1], 0);
     }
+    public void SetPosition(int[] position)
+    {
+        pos = position;
+        transform.position = new Vector3(CoordArray.cArray[pos[0], pos[1], 0], CoordArray.cArray[pos[0], pos[1], 1], transform.position.z);
+    }
 
-    public abstract void StartPlanning(bool start = true);
     public bool SpendAP(int cost, bool spendPlanningAP = false)
     {
         if (spendPlanningAP == false)
         {
-            if (AP < cost)
+            if (_ap < cost)
                 return false;
             else
             {
-                AP -= cost;
+                _ap -= cost;
                 return true;
             }
         }
@@ -104,11 +110,6 @@ public abstract class CombatUnit : MonoBehaviour
         {
             Dead = true;
         }
-    }
-
-    private void Awake()
-    {
-        _battleManager.AllCombatCharacters.Add(this);
     }
 
     private void OnDestroy()

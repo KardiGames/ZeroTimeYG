@@ -27,7 +27,7 @@ public class NonPlayerCharacter : CombatUnit
     public override int TotalAP { get => _totalAP; }
     public override int AC
     {
-        get => _ac + bonusAC;
+        get => _ac + _bonusAC;
     }
 
     public override int MeleeDamageBonus => 0;
@@ -103,11 +103,7 @@ public class NonPlayerCharacter : CombatUnit
                 break;
         }
     }
-    public void SetPosition(int[] position)
-    {
-        pos = position; 
-        transform.position = new Vector3(CoordArray.cArray[pos[0], pos[1], 0], CoordArray.cArray[pos[0], pos[1], 1], transform.position.z);
-    }
+
     public void PrepareToFight()
     {
         ResetAP();

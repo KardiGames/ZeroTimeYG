@@ -9,14 +9,13 @@ public class CombatCharacter : CombatUnit
     private int[] xOddCorrArray = new int[] { 1, 1, 1, 0, -1, 0 }; //for Odd row
     private int[] xEvenCorrArray = new int[] { 0, 1, 0, -1, -1, -1 }; //for Even row
     private int[] yCorrArray = new int[] { 1, 0, -1, -1, 0, 1 };
-    private bool _isCreated = false; //TODO delete this?
+    //private bool _isCreated = false; //TODO delete this?
 
-    public string ExperienceText => $"( {(int)_battleManager.CombatExperience} experience)"; //TODO m.b. delete it
     private List<GameObject> clickZones = new List<GameObject>(6);
 
     //Variables
+    [SerializeField] private Weapon _fist;
     private WorldCharacter _playerCharacter;
-
     private Dictionary<string, int> _skillBoostings = new();
 
     //Basic stats properties
@@ -34,10 +33,12 @@ public class CombatCharacter : CombatUnit
     public override int TotalAP { get => (AG / 2) + 5; }
     public override int AC
     {
-        get => AG + _playerCharacter.Equipment.AC + bonusAC;
+        get => AG + _playerCharacter.Equipment.AC + _bonusAC;
     }
-    public override Weapon RightHandWeapon => _playerCharacter.Equipment[Equipment.Slot.RightHand] as Weapon;
-    public override Weapon LeftHandWeapon => _playerCharacter.Equipment[Equipment.Slot.LeftHand] as Weapon;
+    public override Weapon RightHandWeapon =>
+        _playerCharacter.Equipment[Equipment.Slot.RightHand] == null ? _fist : _playerCharacter.Equipment[Equipment.Slot.RightHand] as Weapon;
+    public override Weapon LeftHandWeapon => 
+        _playerCharacter.Equipment[Equipment.Slot.LeftHand] == null ? _fist : _playerCharacter.Equipment[Equipment.Slot.LeftHand] as Weapon;
     public override int GetSkillValue(string skillName)
     {
         int skillValue = _playerCharacter.Skills.GetSkillValue(skillName);
@@ -46,34 +47,24 @@ public class CombatCharacter : CombatUnit
         return skillValue;
     }
 
-    public Location loc { get => Location.GetLocation(pos); }
-
-
-
-    private void Start()
+    public void SetCharacter (WorldCharacter player, BattleManager manager)
     {
-        if (!_isCreated)
-        {
-            print("ERROR!!! Start() for CombatCharacter started too early");
+        if (player == null || manager == null)
             return;
-        }
-        
-        ResetAP();
 
+        _playerCharacter = player;
+        _battleManager = manager;
+    }
+
+    public void PrepareToFight()
+    {
+        ResetAP();
         HP = MaxHP;
         OverheadText.ShowHP();
-
-        //TEMP setting places for Combatcharacters
-        int i = _battleManager.AllCombatCharacters.IndexOf(this);
-        _battleManager.AllCombatCharacters[i].pos[0] = i;
-        _battleManager.AllCombatCharacters[i].pos[1] = i;
-
-        //This is not temporary part
         ResetPlanning();
-        transform.position = new Vector3(CoordArray.cArray[pos[0], pos[1], 0], CoordArray.cArray[pos[0], pos[1], 1], 0);
         CreateClickZones();
-        //ADD when needed if (CombatCharacter.cCList[i].equipment[0]==null) CombatCharacter.cCList[i].equipment[0]=Item.items[0]; if (CombatCharacter.cCList[i].equipment[0]==null) CombatCharacter.cCList[i].equipment[1]=Item.items[0];
     }
+
 
     private void OnEnable()
     {
@@ -175,7 +166,7 @@ public class CombatCharacter : CombatUnit
                 cz.SetActive(false);
         }
 
-        foreach (CombatCharacter cC in _battleManager.AllCombatCharacters)
+        foreach (CombatUnit cC in _battleManager.AllCombatCharacters)
         {
             cC.attackZone.SetActive(start);
             if (cC == this || cC._ai=="")

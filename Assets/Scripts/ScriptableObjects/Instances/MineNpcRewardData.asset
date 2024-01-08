@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _junkNpc:
   - minMineLevel: 0
-    npc: {fileID: 7304011216624503410, guid: f6d75213411959b41b2771b40d9505f2, type: 3}
+    npc: {fileID: 11400000, guid: 108abab4967e4054eb43d05816b56585, type: 2}
   _junkReward:
   - minMineLevel: 0
     rewardItem: {fileID: 11400000, guid: 8ebc3ef699bbbc147bb0729238a67d21, type: 2}
@@ -37,5 +37,3 @@ MonoBehaviour:
   - minMineLevel: 50
     rewardItem: {fileID: 11400000, guid: 8f08d860acbe07d49a53f10f03251b2d, type: 2}
     rewardCost: 100
-  _testList:
-  - {fileID: 7304011216624503411, guid: f6d75213411959b41b2771b40d9505f2, type: 3}

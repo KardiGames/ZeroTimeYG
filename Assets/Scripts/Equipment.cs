@@ -8,11 +8,22 @@ public class Equipment : MonoBehaviour
     public event Action OnEquipmentContentChanged;
     public enum Slot {RightHand = 0, LeftHand = 1, Body=2};
 		
-	[SerializeField] private Item[] equipment = new Item[3];
-
-    public int AC { get => throw new NotImplementedException(); }
-
+	[SerializeField] private Item[] equipment = new Item[3]; 
     //TODO Actual size (is 3) is set by Inspector. Think if you need to delete [SerializeField] and set it in code
+
+    public int AC
+    {
+        get
+        {
+            int ac = 0;
+            foreach (Item item in equipment)
+                if (item != null)
+                    ac += item.AC;
+            return ac;
+        }
+    }
+
+    
 
     public Item this [int index]
     {

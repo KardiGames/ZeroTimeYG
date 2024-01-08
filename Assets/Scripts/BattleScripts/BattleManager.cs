@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -6,7 +5,7 @@ using UnityEngine;
 public class BattleManager : MonoBehaviour
 {
     //Technical use variables
-    [SerializeField] private GameManager _gameManager; //TODO delete this as soon as possible. Or not?
+    [SerializeField] private GameManager _gameManager;
     [SerializeField] private BattleUserInterface _battleUI;
     [SerializeField] private MineNpcRewardData _npcSpawnData;
     [SerializeField] private GameObject _ñombatCharacterPrefab;
@@ -19,8 +18,8 @@ public class BattleManager : MonoBehaviour
     private List<CombatAction> _planningList = new List<CombatAction>();
 
     public string Status { get; private set; } = "starting";
-    public int RewardPoints { get; private set; } = 0;
-    public float CombatExperience { get; private set; } = 0;
+    public float RewardPoints { get; private set; } = 0;
+
     private Mine _mine;
 
     //Variables for "movie" status
@@ -42,12 +41,6 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    public void CollectExperience(NonPlayerCharacter killedNPC)
-    {
-        CombatExperience += killedNPC.Level * killedNPC.Difficulty;
-
-        BattleUserInterface.Instance.RefreshCharInfo(AllCombatCharacters[Player] as CombatCharacter);
-    }
     public void NextPlayer()
     {
         AllCombatCharacters[Player].ResetPlanning();
@@ -61,20 +54,21 @@ public class BattleManager : MonoBehaviour
         {
             Player--;
 
-            BattleUserInterface.Instance.SetPlaningButtons(false);
+            _battleUI.SetPlaningButtons(false);
             Status = "performing";
 
             CreatePlanningList();
 
-            CombatAction.Perform(_planningList);
-
-            Status = "movie";
-
+            for (int i=0; i< _planningList.Count; i++ )
+                _planningList[i].Perform(this);
+            if (Status == "performing")
+                Status = "movie";
         }
     }
 
-    public void StartBattle (Mine mine)
+    public void StartBattle (Mine mine, WorldCharacter player)
     {
+        _mine = mine;
         _planningList.Clear();
         _combatLog.Clear();
         Turn = 0;
@@ -82,8 +76,9 @@ public class BattleManager : MonoBehaviour
         MovieAct = 0;
         RewardPoints = 0;
 
-        PlaceCombatCharacter();
+        PlaceCombatCharacter(player);
         SpawnEnemies(0, 0f);
+        _battleUI.RefreshLevelInfo(0, RewardPoints, _mine.Level);
 
         bool readyForBattle = true;
         foreach (CombatUnit checkingCharacter in AllCombatCharacters)
@@ -92,7 +87,7 @@ public class BattleManager : MonoBehaviour
         }
         if (readyForBattle)
         {
-            BattleUserInterface.Instance.SetPlaningButtons(true);
+            _battleUI.SetPlaningButtons(true);
             Status = "planning";
             AllCombatCharacters[Player].StartPlanning();
         }
@@ -116,6 +111,7 @@ public class BattleManager : MonoBehaviour
             {
                 if (npc.Dead)
                 {
+                    RewardPoints += npc.Level * npc.Difficulty;
                     Destroy(npc.gameObject);
                 }
                 else
@@ -130,13 +126,12 @@ public class BattleManager : MonoBehaviour
 
         if (gameOver)
         {
-            Status = "starting";
-            _gameManager.GameOver();
+            ExitBattle(true);
             return;
         }
 
         SpawnEnemies(enemiesNumber, enemiesDifficulty);
-        BattleUserInterface.Instance.RefreshLevelInfo();
+        _battleUI.RefreshLevelInfo(enemiesDifficulty, RewardPoints, _mine.Level);
         Turn++;
 
         //Preparing next turn
@@ -148,7 +143,7 @@ public class BattleManager : MonoBehaviour
 
         Player = 0;
         Status = "planning";
-        BattleUserInterface.Instance.SetPlaningButtons(true);
+        _battleUI.SetPlaningButtons(true);
         AllCombatCharacters[Player].StartPlanning();
     }
 
@@ -188,8 +183,8 @@ public class BattleManager : MonoBehaviour
         float totalEnemiesDifficulty = 2 * Mathf.Pow(10, ((float)mineLevel / 20) - 1); //Formula from TechAss.
 
         float expectedEnemiesNumber = 1 + Mathf.Pow((float)mineLevel / 20, 2);  //Formula from TechAss.
-        int minimumEnemiesNumber = (int)(expectedEnemiesNumber / 3f * 2f);
-        int maximumEnemiesNumber = minimumEnemiesNumber * 2;
+        int minimumEnemiesNumber = (int)(expectedEnemiesNumber * 2f / 3f); //Formula from TechAss.
+        int maximumEnemiesNumber = (int)(expectedEnemiesNumber * 4f / 3f); //Formula from TechAss.
 
         int enemiesSpawnNumber = 0;
         for (int i = 0; i < npcNumberCloseToExpected; i++)
@@ -209,14 +204,29 @@ public class BattleManager : MonoBehaviour
         for (int i=0; i<enemiesSpawnNumber; i++)
         {
             chosenEnemyIndex = Random.Range(0, potencialEnemies.Length);
-            chosenEnemyLevel = Mathf.Min((int)(eachEnemyDifficulty / potencialEnemies[chosenEnemyIndex].difficulty), 1);
-            potencialEnemies[chosenEnemyIndex].Spawn(this, chosenEnemyLevel, Location.GetSpawnPosition());
+            chosenEnemyLevel = Mathf.Max((int)(eachEnemyDifficulty / potencialEnemies[chosenEnemyIndex].difficulty), 1);
+            NonPlayerCharacter spawnedNPC = potencialEnemies[chosenEnemyIndex].Spawn(this, chosenEnemyLevel, Location.GetSpawnPosition());
+            if (spawnedNPC != null)
+                AllCombatCharacters.Add(spawnedNPC);
+            else
+                print("Error! Spawn was broken!");
         }
     }
-    private void PlaceCombatCharacter ()
+
+    internal void ExitBattle(bool death=false)
+    {
+        Status = "starting";
+        AllCombatCharacters.ForEach(u => Destroy(u.gameObject));
+        _gameManager.EndBattle(RewardPoints, _mine, death);
+    }
+
+    private void PlaceCombatCharacter (WorldCharacter player)
     {
         CombatCharacter pc = Instantiate(_ñombatCharacterPrefab).GetComponent<CombatCharacter>();
-
+        AllCombatCharacters.Add(pc);
+        pc.SetCharacter(player, this);
+        pc.SetPosition(new int[] { 1, 1 });
+        pc.PrepareToFight();
     }
 
 }

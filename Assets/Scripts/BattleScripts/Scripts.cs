@@ -65,28 +65,6 @@ public class Scripts : MonoBehaviour
         return step;
     }
 
-    public static int FindDistance (int[] from, int[] to)
-    {
-        int distance = 0;
-
-        if ((from[0] == to[0]) && (from[1] == to[1]))
-            return 0;
-
-        int[] movingTile = new int[2];
-        movingTile[0] = from[0];
-        movingTile[1] = from[1];
-
-        while ( !((movingTile[0] == to[0]) && (movingTile[1] == to[1])))
-        {
-            movingTile = TileToTarget(movingTile, to);
-            //print("Current tile " + movingTile[0] + " " + movingTile[1]);
-            distance++;
-            if (distance == 55) break;
-        }
-
-        return distance;
-    }
-
     public static void Ai (NonPlayerCharacter bot, string ai="rat")
     {
         CombatUnit enemy=null;
@@ -185,7 +163,7 @@ public class Scripts : MonoBehaviour
         int hitChanse = subject.GetSkillValue(weapon.SkillName);
         // ADD if (cA.target.ai != "") cA.target.CheckAC();
         hitChanse -= target.AC;
-        hitChanse -= target.bonusAC;
+        hitChanse -= target._bonusAC;
 		if (distance>perseptionLenght)
 			hitChanse-=(distance-perseptionLenght)*overPerceptionHitChenseDecrease;
 		if (hitChanse<0) 

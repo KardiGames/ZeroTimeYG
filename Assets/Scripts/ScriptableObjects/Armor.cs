@@ -10,7 +10,7 @@ public class Armor : Item
 
     public override bool Stackable => false;
     public override long Amount { get => 1; }
-	public int AC => _ac;
+	public override int AC => _ac;
 	public Equipment.Slot Slot => _slot;
 
 	public override bool IsTheSameItem(Item itemToCompare) 

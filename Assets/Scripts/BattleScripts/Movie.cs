@@ -5,7 +5,7 @@ using UnityEngine;
 public class Movie : MonoBehaviour
 {
     //Settings for the movie
-    float actionTime = 1f;
+    private const float ACTION_TIME = 0.5f;
     float spentActionTime = 0f;
 
     //Loading prepetaions
@@ -61,9 +61,9 @@ public class Movie : MonoBehaviour
 
             spentActionTime += Time.deltaTime;
 
-            if (spentActionTime >= actionTime)
+            if (spentActionTime >= ACTION_TIME)
             {
-                combatLog[_battleManager.MovieAct].subject.transform.position = new Vector3(CoordArray.cArray[(combatLog[_battleManager.MovieAct].place[0]), (combatLog[_battleManager.MovieAct].place[1]), 0], CoordArray.cArray[(combatLog[_battleManager.MovieAct].place[0]), (combatLog[_battleManager.MovieAct].place[1]), 1]);
+                combatLog[_battleManager.MovieAct].subject.transform.position = new Vector3(CoordArray.cArray[(combatLog[_battleManager.MovieAct].place[0]), (combatLog[_battleManager.MovieAct].place[1]), 0], CoordArray.cArray[(combatLog[_battleManager.MovieAct].place[0]), (combatLog[_battleManager.MovieAct].place[1]), 1]); 
 
                 if (thisAction.subject.CharacterAnimator != null && !(_battleManager.MovieAct < (combatLog.Count - 1) && combatLog[_battleManager.MovieAct + 1].subject == thisAction.subject && combatLog[_battleManager.MovieAct + 1].action == "move"))
                     thisAction.subject.CharacterAnimator.SetBool("Run", false);
@@ -75,7 +75,7 @@ public class Movie : MonoBehaviour
                 moveVector = Vector3.zero;
                 _battleManager.NextMovieAct();
             } else
-                combatLog[_battleManager.MovieAct].subject.transform.position += moveVector * Time.deltaTime / actionTime;
+                combatLog[_battleManager.MovieAct].subject.transform.position += moveVector * Time.deltaTime / ACTION_TIME;
 
         }
         else if (thisAction.action == "attack")
@@ -144,7 +144,7 @@ public class Movie : MonoBehaviour
 
             spentActionTime += Time.deltaTime;
 
-            if (spentActionTime >= actionTime)
+            if (spentActionTime >= ACTION_TIME)
             {
                 Destroy(bullet);
                 if (thisAction.DamageDone > 0)
@@ -163,7 +163,7 @@ public class Movie : MonoBehaviour
 
                 _battleManager.NextMovieAct();
             } else if (usedWeapon.RangedAttack || thisAction.subject.CharacterAnimator == null) //TODO remove second condition
-                bullet.transform.position += moveVector * Time.deltaTime / actionTime;
+                bullet.transform.position += moveVector * Time.deltaTime / ACTION_TIME;
         }
         else if (thisAction.action == "wait")
         {

@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Linq;
 
 public class Location
 {
     //General MAP SIZE
-    public static int xSize = 15;
-    public static int ySize = 13;
+    public const int xSize = 15;
+    public const int ySize = 13;
 
     //Static Array to get Map information
     public static Location[,] map=new Location[xSize, ySize];
@@ -40,7 +41,7 @@ public class Location
     // Start is called before the first frame update
     public static void LoadMap()
     {
-        if (map[0, 0] == null)
+        if (map[0, 0] != null)
             return;
         //Fulfilling map
         for (int i =0; i<xSize; i++)
@@ -79,13 +80,12 @@ public class Location
         return null;
     }
 
-    public static bool IsBusy(int x, int y)
+    public static bool IsBusy(int x, int y) => IsBusy(x, y, BattleUserInterface.Instance.BattleManager);
+    public static bool IsBusy(int x, int y, BattleManager battleManager)
     {
-        foreach (CombatUnit cC in BattleUserInterface.Instance.BattleManager.AllCombatCharacters)
-        {
+        foreach (CombatUnit cC in battleManager.AllCombatCharacters)
             if (cC.pos[0] == x && cC.pos[1] == y)
                 return true;
-        }
         return false;
     }
 

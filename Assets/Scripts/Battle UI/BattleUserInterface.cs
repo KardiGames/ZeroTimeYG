@@ -31,9 +31,9 @@ public class BattleUserInterface : MonoBehaviour
 
     public void ChangeWeapon()
     {
-        if (BattleManager.Status == "planning")
+        if (_battleManager.Status == "planning")
         {
-            _battleManager.AllCombatCharacters[BattleManager.Player].usesOffHand = !_battleManager.AllCombatCharacters[BattleManager.Player].usesOffHand;
+            _battleManager.AllCombatCharacters[_battleManager.Player].usesOffHand = !_battleManager.AllCombatCharacters[_battleManager.Player].usesOffHand;
             ShowWeaponStats();
         }
     }
@@ -62,24 +62,12 @@ public class BattleUserInterface : MonoBehaviour
         weaponInfoField.text = weaponText;
     }
 
-    public void RefreshLevelInfo() //TODO m.b. delete this or change
+    public void RefreshLevelInfo(float enemiesDifficulty, float rewardPoints, int mineLevel) //TODO m.b. delete this or change
     {
-        int totalEnemiesDifficulty = 0;
-        string scoreInfoText = "";
-        foreach (CombatCharacter cChar in _battleManager.AllCombatCharacters)
-        {
-            if (cChar._ai == "")
-            {
-                scoreInfoText += cChar.CharName + " " + cChar.Level + " lvl ";
-            }
-                
-            else if (!cChar.Dead)
-            {
-                totalEnemiesDifficulty += cChar.Level;
-            }
-        }
-        scoreInfoText += "\nEnemyes "+totalEnemiesDifficulty+" total lvl";
-        scoreInfoText += "\nScore: " + (int)_battleManager.CombatExperience;
+        string scoreInfoText = "\nMine: " + Mathf.Max(mineLevel, Mine.CalculateMineLevel(rewardPoints)) + " lvl"; ;
+        scoreInfoText += "\nEnemyes difficulty "+(int)enemiesDifficulty;
+        scoreInfoText += $"\nScore: {(int)_battleManager.RewardPoints} ({Mine.CalculateMineLevel(rewardPoints)})";
+        
         scoreInfoField.text = scoreInfoText;
     }
 
@@ -87,11 +75,11 @@ public class BattleUserInterface : MonoBehaviour
     public void RefreshCharInfo(CombatCharacter player)
     {
         string charInfoText = $"{player.CharName} [ {player.Level} lvl ]\n"
-                            + player.ExperienceText+"\n\n"
-                            + $"ST {player.ST} [+{player.MeleeDamageBonus} melee damage]\n"  //TODO Add melee damage
+                            + $"ST {player.ST} [+{player.MeleeDamageBonus} melee damage]\n"
                             + $"PE {player.PE} [{player.PE-1} aim shoot range]\n" //TODO Change range formula to Property??
                             + $"EN {player.EN} [{player.MaxHP} Max HP]\n"
-                            + $"AG {player.AG} [{player.TotalAP} AP, {player.AC} AC]";
+                            + $"AG {player.AG} [{player.TotalAP} AP, {player.AC} AC]"
+                            + $"IN {player.IN} [better skill boosting]";
         playerInfoField.text = charInfoText;
     }
 
@@ -118,9 +106,19 @@ public class BattleUserInterface : MonoBehaviour
         playerInfoField.text = charInfoText;
     }
 
+    public void ShowExitInfo ()
+    {
+        CombatUnit player = _battleManager.AllCombatCharacters[_battleManager.Player];
+        string charInfoText = $"EXIT BATTLE\n"
+                            + $"Exit costs {player.TotalAP} AP for you and takes one turn\n"
+                            + (player.PlanningAP < player.TotalAP ? "You have not anough AP\n" : "")
+                            + "\nIf you Die instead of Exit - you will lose part of experience and reward";
+        playerInfoField.text = charInfoText;
+    }
+
     public void EndTurn()
     {
-        if (BattleManager.Status != "planning")
+        if (_battleManager.Status != "planning")
             return;
         CombatUnit activeCharacter = _battleManager.AllCombatCharacters[_battleManager.Player];
         if (activeCharacter.PlanningAP > 0)
@@ -129,9 +127,20 @@ public class BattleUserInterface : MonoBehaviour
     }
     public void Wait()
     {
-        if (BattleManager.Status != "planning")
+        if (_battleManager.Status != "planning")
             return;
         CombatAction.Wait(_battleManager.AllCombatCharacters[_battleManager.Player]);
+        if (_battleManager.AllCombatCharacters[_battleManager.Player].PlanningAP == 0)
+        {
+            _battleManager.NextPlayer();
+        }
+    }
+    public void Exit()
+    {
+        CombatUnit player = _battleManager.AllCombatCharacters[_battleManager.Player];
+        if (_battleManager.Status != "planning" || player.TotalAP != player.PlanningAP)
+            return;
+        CombatAction.Exit(_battleManager.AllCombatCharacters[_battleManager.Player]);
         if (_battleManager.AllCombatCharacters[_battleManager.Player].PlanningAP == 0)
         {
             _battleManager.NextPlayer();

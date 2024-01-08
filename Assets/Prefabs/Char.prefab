@@ -434,15 +434,12 @@ MonoBehaviour:
   _sound: {fileID: 3735584463565294648}
   _overheadText: {fileID: 6359727020518366747}
   attackZone: {fileID: 0}
-  charName: 
   pos: 0300000003000000
   usesOffHand: 0
-  level: 1
-  MD: 0
-  bonusAC: 0
-  ai: 
+  _bonusAC: 0
+  _ai: 
   planningPos: 0000000000000000
-  _playerCharacter: {fileID: 0}
+  _fist: {fileID: 11400000, guid: 4d8f51b4ea3024c4ebe7e272dea29e43, type: 2}
 --- !u!212 &1697503010977005317
 SpriteRenderer:
   m_ObjectHideFlags: 0

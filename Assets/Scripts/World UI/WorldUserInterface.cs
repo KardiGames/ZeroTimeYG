@@ -7,7 +7,7 @@ public class WorldUserInterface : MonoBehaviour
 {
     [SerializeField] private WorldCharacter playerCharacter;
     [SerializeField] private GameObject targetUIInventory;
-    [SerializeField] private GameObject taskTimer;
+    [SerializeField] private GameObject taskTimer; //TODO Delete it? Why it is here?
  
     [SerializeField] private TextMeshProUGUI bigMessage;
     public void ShowDamage ()

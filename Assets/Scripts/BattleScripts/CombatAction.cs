@@ -60,7 +60,6 @@ public class CombatAction
         }
         else
             return false;
-        
     }
 
     public static bool Wait(CombatUnit subj, int apCost=2)
@@ -82,133 +81,131 @@ public class CombatAction
         else
             return false;
     }
-
-
-    public static void Perform(List<CombatAction> pList)
+    public static bool Exit(CombatUnit subj)
     {
-        List<CombatAction> log = BattleUserInterface.Instance.BattleManager._combatLog;
+        if (subj == null)
+            return false;
 
-        if ((log.Count != 0)&&(log[(log.Count - 1)].turn >= BattleUserInterface.Instance.BattleManager.Turn))
+        if (subj.SpendAP(subj.TotalAP, true))
         {
-            Debug.Log("ERROR! Previous turn " + log[(log.Count - 1)].turn + ">= current turn " + BattleUserInterface.Instance.BattleManager.Turn);
-            return;
+            CombatAction thisAction = new CombatAction();
+            thisAction.turn = BattleUserInterface.Instance.BattleManager.Turn;
+            thisAction.apCost = subj.TotalAP;
+            thisAction.action = "exit";
+            thisAction.subject = subj;
+
+            subj.personalPlanningList.Add(thisAction);
+            return true;
         }
         else
-        {
-            //ADD here adding "Set" action for every alive combat character (or not)
-        }
-
-        foreach (CombatAction cA in pList)
-        {
-            if (cA.subject.Dead == true)
-            {
-                cA.action = "skip";
-                continue;
-            }
-
-
-            if (cA.action == "move")
-            {
-                bool checkList = true;
-                checkList = checkList && (!(Mathf.Abs(cA.subject.pos[0] - cA.place[0]) > 1) || (Mathf.Abs(cA.subject.pos[1] - cA.place[1]) > 1)); //Checking for close tyle
-
-                //ADD cheching for unavailable place
-
-                //Checking for tyle without characters]
-                foreach (CombatUnit cC in BattleUserInterface.Instance.BattleManager.AllCombatCharacters)
-                {
-                    if ((cC.pos[0] == cA.place[0]) && (cC.pos[1] == cA.place[1]))
-                    {
-                        checkList = false;
-                        Debug.Log("There is another character on the way");
-                        Debug.Log("Moving to " + cA.place[0] + " " + cA.place[1] + " but " + cC.name + "is there");
-                    }
-                }
-                checkList = checkList && cA.subject.SpendAP(cA.apCost);
-
-                if (checkList)
-                {
-                    log.Add(cA);
-                    cA.subject.pos[0] = cA.place[0];
-                    cA.subject.pos[1] = cA.place[1];
-                }
-
-            }
-            else if (cA.action == "attack")
-            {
-                if (!(cA.usedItem is Weapon usedWeapon))
-                {
-                    Debug.Log("Error! Used item for attack is not a weapon ((");
-                    continue;
-                }
-
-                if ((cA.subject.RightHandWeapon!=usedWeapon)&&(cA.subject.LeftHandWeapon != usedWeapon)) {
-                    Debug.Log("Error! You haven't this weapon to use !!");
-                    continue;
-                }
-
-                int range = (usedWeapon.RangedAttack) ? usedWeapon.Range : 1;
-
-                if (cA.target == null)
-                {
-                    //Find target from coordinates place[] and set a CombatCharacter or Object as target
-                }
-               
-                bool checkList = true;
-
-                if (range < Scripts.FindDistance(cA.subject.pos, cA.target.pos))
-                    checkList=false;
-
-                //TODO ADD check for obstacle, change target to object if u need
-                
-                if (!checkList)
-                    continue;
-
-                int apCost = Mathf.Max(cA.apCost, usedWeapon.APCost);
-
-                if (checkList && cA.subject.SpendAP(apCost))
-                {
-                    log.Add(cA);
-
-                    int hitChanse = Scripts.HitChanse(cA.subject, cA.target, usedWeapon);
-
-                    if (Random.Range(0, 100) < hitChanse)
-                    {
-                        int damage = usedWeapon.Damage;
-                        if (!usedWeapon.RangedAttack && cA.subject._ai=="")
-                            damage += cA.subject.MeleeDamageBonus;
-                        bool deadBeforeDamage = cA.target.Dead;
-                        cA.target.TakeDamage(damage);
-                        //print(cA.target.name + "'s got " + damage + " damage. Hit chance was " + hitChanse);
-                        cA.DamageDone = damage;
-                        cA.TargetHPAfter = cA.target.HP;
-						if ((cA.target.Dead != deadBeforeDamage) && cA.subject is CombatCharacter player && player._ai!="" && cA.target is NonPlayerCharacter npcTarget)
-						{
-                            BattleUserInterface.Instance.BattleManager.CollectExperience(npcTarget);
-						}
-                    }
-                    else  
-                    {
-                        //print(cA.subject.name + " have missed ((( HitChanse was " + hitChanse);
-                        if (cA.subject is CombatCharacter player && player._ai=="" && Location.Distance(player.pos, cA.target.pos) <= (player.PE - 1) )
-                            player.BoostSkill(usedWeapon.SkillName);
-                    }
-                }
-            }
-            else if (cA.action == "wait")
-            {
-                if (cA.subject.SpendAP(cA.apCost))
-                {
-                    cA.subject.bonusAC += cA.apCost;
-                    log.Add(cA);
-
-                    
-                }
-                else
-                    Debug.Log(cA.subject.name + " can't wait anymore *(");
-            }
-        }
+            return false;
     }
 
- 
+    public void Perform(BattleManager manager)
+    {
+        if (subject.Dead == true)
+        {
+            action = "skip";
+            return;
+        }
+
+
+        if (action == "move")
+        {
+            bool checkList = Mathf.Abs(subject.pos[0] - place[0]) <= 1 && Mathf.Abs(subject.pos[1] - place[1]) <= 1;
+            //bool checkList = (!(Mathf.Abs(subject.pos[0] - place[0]) > 1) || (Mathf.Abs(subject.pos[1] - place[1]) > 1)); //TODO Delete comment if works
+
+            //TODO ADD cheching for unavailable place
+
+            //Checking for tyle without characters]
+
+            if (Location.IsBusy (place[0], place[1], manager))
+            {
+                    checkList = false;
+                    Debug.Log("There is another character on the way");
+            }
+            checkList = checkList && subject.SpendAP(apCost);
+
+            if (checkList)
+            {
+                manager._combatLog.Add(this);
+                subject.pos[0] = place[0];
+                subject.pos[1] = place[1];
+            }
+        }
+        else if (action == "attack")
+        {
+            if (!(usedItem is Weapon usedWeapon))
+            {
+                Debug.Log("Error! Used item for attack is not a weapon ((");
+                return;
+            }
+
+            if ((subject.RightHandWeapon!=usedWeapon)&&(subject.LeftHandWeapon != usedWeapon)) {
+                Debug.Log("Error! You haven't this weapon to use !!");
+                return;
+            }
+
+            int range = (usedWeapon.RangedAttack) ? usedWeapon.Range : 1;
+
+            if (target == null)
+            {
+                //Find target from coordinates place[] and set a CombatCharacter or Object as target
+            }
+               
+            bool checkList = true;
+
+            if (range < Location.Distance(subject.pos, target.pos))
+                checkList=false;
+
+            //TODO ADD check for obstacle, change target to object if u need
+                
+            if (!checkList)
+                return;
+
+            apCost = Mathf.Max(apCost, usedWeapon.APCost);
+
+            if (checkList && subject.SpendAP(apCost))
+            {
+                manager._combatLog.Add(this);
+
+                int hitChanse = Scripts.HitChanse(subject, target, usedWeapon);
+
+                if (Random.Range(0, 100) < hitChanse)
+                {
+                    int damage = usedWeapon.Damage;
+                    if (!usedWeapon.RangedAttack && subject._ai=="")
+                        damage += subject.MeleeDamageBonus;
+                    target.TakeDamage(damage);
+                    //print(cA.target.name + "'s got " + damage + " damage. Hit chance was " + hitChanse);
+                    DamageDone = damage;
+                    TargetHPAfter = target.HP;
+                }
+                else  
+                {
+                    //print(cA.subject.name + " have missed ((( HitChanse was " + hitChanse);
+                    if (subject is CombatCharacter player && player._ai=="" && Location.Distance(player.pos, target.pos) <= (player.PE - 1) )
+                        player.BoostSkill(usedWeapon.SkillName);
+                }
+            }
+        }
+        else if (action == "wait")
+        {
+            if (subject.SpendAP(apCost))
+            {
+                subject._bonusAC += apCost;
+                manager._combatLog.Add(this);
+            }
+            else
+                Debug.Log(subject.name + " can't wait anymore *(");
+        } else if (action == "exit")
+        {
+            if (subject.SpendAP(apCost))
+            {
+                manager.ExitBattle();
+            }
+            else
+                Debug.Log(subject.name + " can't exit battle. Not enough AP *(");
+        }
+    }
 }

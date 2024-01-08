@@ -23,9 +23,9 @@ public class NpcBlank : ScriptableObject
     [field: SerializeField] public int damageRange { get; private set; }
     [field: SerializeField] public int attackAP { get; private set; }
 
-    public void Spawn(BattleManager manager, int level, int[] position)
+    public NonPlayerCharacter Spawn(BattleManager manager, int level, int[] position)
     {
-        if (level < 1) return;
+        if (level < 1) return null;
         NonPlayerCharacter npc = Instantiate(PrefabToFill).GetComponent<NonPlayerCharacter>();
         npc.FillParameters(this, manager);
 
@@ -34,5 +34,6 @@ public class NpcBlank : ScriptableObject
 
         npc.SetPosition(position);
         npc.PrepareToFight();
+        return npc;
     }
 }

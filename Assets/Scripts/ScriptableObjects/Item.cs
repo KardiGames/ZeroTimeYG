@@ -24,8 +24,10 @@ public class Item : ScriptableObject
                 _amount = value;
         }
     }
-	
-	public static void LoadItems() {
+    public virtual int AC => 0;
+
+
+    public static void LoadItems() {
 		foreach (object objectToLoad in Resources.LoadAll("", Type.GetType("Item", true, false)))
 			if (objectToLoad is Item itemToLoad)
 				if (allItems.Find(item => item.ItemName == itemToLoad.ItemName) == null)
