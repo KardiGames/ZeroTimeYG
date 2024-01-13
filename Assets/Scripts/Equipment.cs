@@ -88,6 +88,12 @@ public class Equipment : MonoBehaviour
 
         OnEquipmentContentChanged?.Invoke();
     }
+
+    internal string ToJson()
+    {
+        throw new NotImplementedException();
+    }
+
     public void Equip (Inventory inventoryFrom, Item item, bool replaceInSlot=false)
     {
         if (!IsAbleToEquip(item, replaceInSlot))
@@ -118,5 +124,10 @@ public class Equipment : MonoBehaviour
 
         OnEquipmentContentChanged?.Invoke();
         return true;
+    }
+
+    internal void FromJson(string equipmetnJsonString)
+    {
+        throw new NotImplementedException();
     }
 }

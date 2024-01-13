@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class Skills : MonoBehaviour, ITimerable
 {
+	public const int WORKING_SKILLS_NUMBER = 5;
 	public const int maximumTotalSkill = 200;
-	private const int skillPointEachLevel = 10;
 	private const int skillToCostImprove = 50;
 	private const int maximumImproveByLevel = 5;
 	private const float timeToTrainMultipler = 4.3817804600413289076557582624064f;
@@ -90,6 +90,7 @@ public class Skills : MonoBehaviour, ITimerable
 	private int _unspentPoints;
 
 	public TaskTimer TaskTimer => _skillsTimer;
+	private int SkillPointEachLevel => WORKING_SKILLS_NUMBER+_playerCharacter.IN+_playerCharacter.Level;
 
 	public float GetSkillMiltipler(string skillName)
     {
@@ -105,9 +106,9 @@ public class Skills : MonoBehaviour, ITimerable
 			+ _trained[skillNumber]);
 	}
 
-	public void LeveUp()
+	public void LevelUp()
     {
-		_unspentPoints += skillPointEachLevel;
+		_unspentPoints += SkillPointEachLevel;
     }
 
     private bool IsPossibleToImprove(int skillNumber)
@@ -156,5 +157,30 @@ public class Skills : MonoBehaviour, ITimerable
 	
 	private void Start () {
 		_skillsTimer.SetupTaskTimer(3, 1);
+	}
+
+	public string ToJson()
+	{
+		SkillsJsonData jsonSkills = new()
+		{
+
+		};
+
+		jsonSkills.taskTimerJsonString = _skillsTimer.ToJson(this);
+
+		return JsonUtility.ToJson(jsonSkills);
+	}
+
+	public void FromJson(string jsonString)
+	{
+		SkillsJsonData jsonSkills = JsonUtility.FromJson<SkillsJsonData>(jsonString);
+
+		_skillsTimer.FromJson(jsonSkills.taskTimerJsonString, this);
+	}
+
+	[Serializable]
+	private class SkillsJsonData
+	{
+		public string taskTimerJsonString;
 	}
 }

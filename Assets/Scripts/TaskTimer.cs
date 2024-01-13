@@ -43,11 +43,6 @@ public class TaskTimer : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-
-	}
-
     public void SetupTaskTimer(int maximumTasks = 1, int simultaneously = 1)
     {
 
