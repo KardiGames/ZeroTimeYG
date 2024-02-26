@@ -63,7 +63,7 @@ public class TaskByTimerUI : MonoBehaviour
         countdown = countdown.Add(new TimeSpan(0, 0, -1));
         if (countdown.TotalSeconds <= 0)
         {
-            task.Source.TaskTimer.CheckForCompletion();
+            task.Source.TaskTimer.CompletePastTasks();
             countdown = TimeSpan.Zero;
         }
         FormTimerText();

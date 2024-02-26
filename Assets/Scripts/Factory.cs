@@ -9,10 +9,10 @@ public class Factory : MonoBehaviour, ITimerable, IWorldBuilding
 	[SerializeField] SaveData _saveSystem;
 	
 	[SerializeField] private Inventory _storage;
-	private TaskTimer _taskTimer;
+	[SerializeField] private TaskTimer _taskTimer;
 
-	public int X { get; private set; } = 0;
-	public int Y { get; private set; } = 0;
+	[field: SerializeField] public int X { get; private set; } = 0;
+	[field: SerializeField] public int Y { get; private set; } = 0;
 	[SerializeField] private string _name;
 	
 
@@ -37,12 +37,6 @@ public class Factory : MonoBehaviour, ITimerable, IWorldBuilding
     public void Start()
     {
         _taskTimer = GetComponent<TaskTimer>();
-		_taskTimer.SetupTaskTimer(5, 2);
-		for (int i=0; i<8;i++)
-			_storage.TryToAdd(this, Item.GetItem("Resource"));
-		_storage.TryToAdd(this, Item.GetItem("Pistol Blueprint"));
-		GameObject.Find("PlayerCharacter").GetComponent<Inventory>().TryToAdd(this, Item.GetItem("Pistol Blueprint"));
-		GameObject.Find("PlayerCharacter").GetComponent<Inventory>().TryToAdd(this, Item.GetItem("Steel Armor"));
 	}
 
     public void AddFactoryLine(Blueprint blueprint, bool startProductionImmediately = false)
@@ -136,10 +130,11 @@ public class Factory : MonoBehaviour, ITimerable, IWorldBuilding
 			if (itemToLine != null)
 				_factoryLines.Add(taskTimerArray[i], itemToLine); //TODO Make test if deserialization error
         }
+		_taskTimer.CompletePastTasks();
 	}
 	
 	[Serializable]
-	protected class FactoryJsonData
+	private class FactoryJsonData
 	{
 	
 		public string _name;

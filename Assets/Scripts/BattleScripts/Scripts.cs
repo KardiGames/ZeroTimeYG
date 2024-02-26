@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class Scripts : MonoBehaviour
 {
-    private void Start()
-    {
-
-    }
-
     public static List<int[]> Get6CloseTiles(CombatCharacter character)
     {
         return Get6CloseTiles(character.pos[0], character.pos[1]);

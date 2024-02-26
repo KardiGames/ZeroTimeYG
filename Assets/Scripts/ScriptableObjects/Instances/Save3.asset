@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a5e3e88916291648a526efe6f7748e8, type: 3}
+  m_Name: Save3
+  m_EditorClassIdentifier: 
+  Save: '{"_globalMapBuildings":[{"X":0,"Y":0,"type":0,"Name":"Factory 2","jSonString":"{\"_name\":\"Factory
+    2\",\"x\":0,\"y\":0,\"storageJsonString\":\"{\\\"inventory\\\":[\\\"Item\\\",\\\"{\\\\\\\"_itemName\\\\\\\":\\\\\\\"Resource\\\\\\\",\\\\\\\"_stackable\\\\\\\":true,\\\\\\\"_amount\\\\\\\":6}\\\",\\\"Weapon\\\",\\\"{\\\\\\\"_itemName\\\\\\\":\\\\\\\"Pistol\\\\\\\",\\\\\\\"_stackable\\\\\\\":false,\\\\\\\"_amount\\\\\\\":1,\\\\\\\"_rangedAttack\\\\\\\":true,\\\\\\\"_twoHanded\\\\\\\":false,\\\\\\\"damageRandomMultipler\\\\\\\":1,\\\\\\\"damageRandomTo\\\\\\\":8,\\\\\\\"damageAddition\\\\\\\":3,\\\\\\\"_range\\\\\\\":4,\\\\\\\"_apCost\\\\\\\":4,\\\\\\\"_skillname\\\\\\\":\\\\\\\"Pistols\\\\\\\"}\\\"]}\",\"taskTimerJsonString\":\"{\\\"simultaneouslyTasks\\\":2,\\\"maximumTasks\\\":5,\\\"taskByTimerJsonList\\\":[]}\",\"factoryLinesTypes\":[],\"factoryJsonLines\":[]}"},{"X":0,"Y":0,"type":1,"Name":"Junk
+    Mine","jSonString":"{\"_saveSystem\":{\"instanceID\":25246},\"<X>k__BackingField\":0,\"<Y>k__BackingField\":0,\"_name\":\"Junk
+    Mine\",\"_level\":0,\"_mineType\":\"Junk\"}"}],"_playerJson":"{\"name\":\"Alex
+    Kardi\",\"x\":0,\"y\":0,\"level\":0,\"experience\":0,\"ST\":5,\"PE\":5,\"EN\":5,\"AG\":5,\"IN\":5,\"inventoryJsonString\":\"{\\\"inventory\\\":[]}\",\"equipmetnJsonString\":\"{\\\"equipment\\\":[\\\"Weapon\\\",\\\"{\\\\\\\"_itemName\\\\\\\":\\\\\\\"Pistol\\\\\\\",\\\\\\\"_stackable\\\\\\\":false,\\\\\\\"_amount\\\\\\\":1,\\\\\\\"_rangedAttack\\\\\\\":true,\\\\\\\"_twoHanded\\\\\\\":false,\\\\\\\"damageRandomMultipler\\\\\\\":1,\\\\\\\"damageRandomTo\\\\\\\":8,\\\\\\\"damageAddition\\\\\\\":3,\\\\\\\"_range\\\\\\\":4,\\\\\\\"_apCost\\\\\\\":4,\\\\\\\"_skillname\\\\\\\":\\\\\\\"Pistols\\\\\\\"}\\\",\\\"EmptyEquipmentSlot\\\",\\\"EmptyEquipmentSlot\\\"]}\",\"taskTimerJsonString\":\"\",\"skillsJsonString\":\"{\\\"trained\\\":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\\\"untrained\\\":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\\\"taskTimerJsonString\\\":\\\"{\\\\\\\"simultaneouslyTasks\\\\\\\":1,\\\\\\\"maximumTasks\\\\\\\":3,\\\\\\\"taskByTimerJsonList\\\\\\\":[]}\\\"}\"}","_saveObject":{"instanceID":26638}}'

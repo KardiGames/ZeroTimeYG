@@ -161,11 +161,9 @@ public class Skills : MonoBehaviour, ITimerable
 
 	public string ToJson()
 	{
-		SkillsJsonData jsonSkills = new()
-		{
-
-		};
-
+		SkillsJsonData jsonSkills = new();
+		jsonSkills.trained=_trained;
+		jsonSkills.untrained=_untrained;
 		jsonSkills.taskTimerJsonString = _skillsTimer.ToJson(this);
 
 		return JsonUtility.ToJson(jsonSkills);
@@ -174,13 +172,17 @@ public class Skills : MonoBehaviour, ITimerable
 	public void FromJson(string jsonString)
 	{
 		SkillsJsonData jsonSkills = JsonUtility.FromJson<SkillsJsonData>(jsonString);
-
+		_trained=jsonSkills.trained;
+		_untrained=jsonSkills.untrained;
 		_skillsTimer.FromJson(jsonSkills.taskTimerJsonString, this);
+		_skillsTimer.CompletePastTasks();
 	}
 
 	[Serializable]
 	private class SkillsJsonData
 	{
+		public List<int> trained;
+		public List<int> untrained;
 		public string taskTimerJsonString;
 	}
 }

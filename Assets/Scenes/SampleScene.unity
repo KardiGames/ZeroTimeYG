@@ -4618,7 +4618,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Get All Items
+  m_text: Load
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -5037,7 +5037,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 347273678}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 476735870}
+        m_TargetAssemblyTypeName: SaveData, GameAssembly
+        m_MethodName: SaveToOject
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &347273678
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6782,17 +6794,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 067db18402bde0144b4cc10091ae12b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  globalMapBuildings:
-  - X: 0
-    Y: 0
-    type: 0
-    Name: Factory 1
-    jSonString: 
-  - X: 0
-    Y: 0
-    type: 1
-    Name: Junk Mine
-    jSonString: 
+  _globalMapBuildings: []
+  _playerJson: 
+  _saveObject: {fileID: 11400000, guid: 2f2730646a0cb774e98d7bbdef1fbb06, type: 2}
 --- !u!114 &476735871
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12049,9 +12053,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 476735868}
-        m_TargetAssemblyTypeName: GameManager, GameAssembly
-        m_MethodName: GameOver
+      - m_Target: {fileID: 476735870}
+        m_TargetAssemblyTypeName: SaveData, GameAssembly
+        m_MethodName: LoadFromObject
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12917,7 +12921,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '-'
+  m_text: Save
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -16721,7 +16725,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _saveSystem: {fileID: 476735870}
   _storage: {fileID: 1471673963}
-  _name: Factory 1
+  _taskTimer: {fileID: 1471673965}
+  <X>k__BackingField: 0
+  <Y>k__BackingField: 0
+  _name: 
 --- !u!1 &1478302904
 GameObject:
   m_ObjectHideFlags: 0
@@ -17053,7 +17060,7 @@ MonoBehaviour:
   _equipment: {fileID: 1486608458}
   _inventory: {fileID: 1486608457}
   _skills: {fileID: 1486608460}
-  _charName: 
+  _charName: Alex Kardi
 --- !u!114 &1486608457
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17079,7 +17086,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3eac13196ebb4324584ee56478e4f6f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  equipment:
+  _equipment:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -19722,7 +19729,7 @@ MonoBehaviour:
   _saveSystem: {fileID: 476735870}
   <X>k__BackingField: 0
   <Y>k__BackingField: 0
-  _name: Junk Mine
+  _name: 
   _level: 0
   _mineType: Junk
 --- !u!114 &1651241623

@@ -34,7 +34,7 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] private SaveData _saveData;
     [SerializeField] private WorldCharacter _character;
 
-    (int x, int y) CurrentCoordinates = (0,0);
+    (int x, int y) CurrentCoordinates = (0,0); //TODO Delete this, when coordinates system will work
 
     public void EnterLocation ()
     {
@@ -54,8 +54,11 @@ public class MainMenuUI : MonoBehaviour
 	
 	private void EnterBuilding (string buildingName, IWorldBuilding buildingOnGameObject)
     {
-		if (buildingOnGameObject.Name!="")
+		if (buildingOnGameObject.Name != "")
+        {
+            print($"Warning. Name of building on entering was not empty. ({buildingOnGameObject.Name}). Starting exit with save");
             buildingOnGameObject.ExitBuilding();
+        }
 		
 		string jsonString=_saveData.GetBuildingJsonString(CurrentCoordinates.x, CurrentCoordinates.y, buildingName);
 		

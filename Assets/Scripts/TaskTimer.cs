@@ -49,10 +49,10 @@ public class TaskTimer : MonoBehaviour
         this.simultaneouslyTasks = simultaneously;
         this.maximumTasks = maximumTasks;
 		
-		CheckForCompletion();
+		CompletePastTasks();
     }
 
-    public void CheckForCompletion()
+    public void CompletePastTasks()
     {
         List<TaskByTimer> completedTasks = new();
         int startedTasks = 0;
