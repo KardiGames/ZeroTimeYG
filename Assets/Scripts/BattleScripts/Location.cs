@@ -80,7 +80,7 @@ public class Location
         return null;
     }
 
-    public static bool IsBusy(int x, int y) => IsBusy(x, y, BattleUserInterface.Instance.BattleManager);
+    public static bool IsBusy(int x, int y) => IsBusy(x, y, GlobalUserInterface.Instance.BattleManager);
     public static bool IsBusy(int x, int y, BattleManager battleManager)
     {
         foreach (CombatUnit cC in battleManager.AllCombatCharacters)

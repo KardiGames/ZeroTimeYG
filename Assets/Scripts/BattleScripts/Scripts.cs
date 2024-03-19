@@ -60,11 +60,11 @@ public class Scripts : MonoBehaviour
         return step;
     }
 
-    public static void Ai (NonPlayerCharacter bot, string ai="rat")
+    public static void Ai (NonPlayerCharacter bot, BattleManager battleManager, string ai="rat")
     {
         CombatUnit enemy=null;
         float priority = 0f;
-        foreach (CombatUnit cC in BattleUserInterface.Instance.BattleManager.AllCombatCharacters) {
+        foreach (CombatUnit cC in battleManager.AllCombatCharacters) {
             if (cC._ai != ""||cC.Dead) continue;
             float currentPriority = (float)Location.Distance(bot.pos, cC.pos)*cC.HP/cC.MaxHP;
             if (enemy==null || currentPriority<priority) {
@@ -84,7 +84,7 @@ public class Scripts : MonoBehaviour
             int distanceToTarget = Location.Distance(bot.planningPos, enemy.pos);
             if (distanceToTarget <= 0)
             {
-                enoughOD = CombatAction.Attack(bot, enemy);
+                enoughOD = CombatAction.Attack(bot, enemy, battleManager.Turn); ;
             }
             else if (distanceToTarget == 1)
             {
@@ -100,13 +100,13 @@ public class Scripts : MonoBehaviour
                     }
                     else
                     {
-                        enoughOD = CombatAction.Attack(bot, enemy);
+                        enoughOD = CombatAction.Attack(bot, enemy, battleManager.Turn);
                     }
                 } else
                 {
                     enoughOD = Move(bot, enemy.pos[0], enemy.pos[1]);
                     if (!enoughOD && bot.PlanningAP > 0)
-                        CombatAction.Wait(bot, bot.PlanningAP);
+                        CombatAction.Wait(bot, battleManager.Turn, bot.PlanningAP);
                 }
             }
             else
@@ -121,7 +121,7 @@ public class Scripts : MonoBehaviour
 		bool Move (NonPlayerCharacter bot, int x, int y) {
 			    
 				bot.personalPlanningList.Add(new CombatAction());
-                bool movePlanned = bot.personalPlanningList[(bot.personalPlanningList.Count - 1)].Move(bot, x, y);
+                bool movePlanned = bot.personalPlanningList[(bot.personalPlanningList.Count - 1)].Move(bot, x, y, battleManager.Turn);
                 if (movePlanned) {
 					//Moving plan position and sprite
 					bot.planningPos[0] = x;

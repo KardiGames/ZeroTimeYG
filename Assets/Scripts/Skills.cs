@@ -1,21 +1,20 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Skills : MonoBehaviour, ITimerable
 {
-	public const int WORKING_SKILLS_NUMBER = 5;
-	public const int maximumTotalSkill = 200;
+	public const int WORKING_SKILLS_NUMBER = 6;
+	public const int MAXIMUM_TOTAL_SLILL = 200;
 	private const int skillToCostImprove = 50;
-	private const int maximumImproveByLevel = 5;
+	private const int MAXIMUM_IMPROVED_BY_LEVEL = 5;
 	private const float timeToTrainMultipler = 4.3817804600413289076557582624064f;
 
 
 	[SerializeField] private WorldCharacter _playerCharacter;
 	[SerializeField] private TaskTimer _skillsTimer;
 
-	private static Dictionary<string, int> skillNumbers = new Dictionary<string, int>() {
+	private static Dictionary<string, int> _skillNumbers = new Dictionary<string, int>() {
 		{ "Unarmed",0 },
 		{ "Melee",1 },
 		{ "Pistols",2 },
@@ -50,7 +49,7 @@ public class Skills : MonoBehaviour, ITimerable
 		{ "Reserve 6",31 }
 	};
 
-	private static List<Func<WorldCharacter, int>> minimalSkills = new List<Func<WorldCharacter, int>>() {
+	private static List<Func<WorldCharacter, int>> _minimalSkills = new List<Func<WorldCharacter, int>>() {
 		(WorldCharacter c) => 30 + (2 * (c.ST + c.AG)), //"Unarmed" = 0,
 		(WorldCharacter c) => 20 + (2 * (c.ST + c.AG)), //"Melee"=1, 
 		(WorldCharacter c) => 10 + 3 * c.AG + c.PE,//"Pistols"=2,
@@ -97,13 +96,29 @@ public class Skills : MonoBehaviour, ITimerable
 		return (float)GetSkillValue(skillName)/100.0f;
 	}
 		
-	public int GetSkillValue (string skillName) {
-		return GetSkillValue(GetSkillNumber(skillName));
-	}
+	public int GetSkillValue (string skillName) =>
+		GetSkillValue(GetSkillNumber(skillName));
+
 	private int GetSkillValue(int skillNumber)
 	{
-		return (int)(minimalSkills[skillNumber](_playerCharacter)
+		return (int)(_minimalSkills[skillNumber](_playerCharacter)
 			+ _trained[skillNumber]);
+	}
+
+	public int GetMinimalValue (string skillName)
+    {
+		return _minimalSkills[GetSkillNumber(skillName)](_playerCharacter);
+    }
+
+	public int GetImprovedValue (string skillName)
+    {
+		int skillNumber = GetSkillNumber(skillName);
+		return _minimalSkills[skillNumber](_playerCharacter) + _trained[skillNumber] + _untrained[skillNumber];
+	}
+	public int GetMaximalValue(string skillName)
+	{
+		int skillNumber = GetSkillNumber(skillName);
+		return Mathf.Min(_minimalSkills[skillNumber](_playerCharacter)+_playerCharacter.Level*MAXIMUM_IMPROVED_BY_LEVEL, MAXIMUM_TOTAL_SLILL);
 	}
 
 	public void LevelUp()
@@ -111,21 +126,49 @@ public class Skills : MonoBehaviour, ITimerable
 		_unspentPoints += SkillPointEachLevel;
     }
 
-    private bool IsPossibleToImprove(int skillNumber)
+	public bool IsPossibleToImprove(string skillName) =>
+		IsPossibleToImprove(GetSkillNumber(skillName));
+
+	public bool IsPossibleToImprove(int skillNumber)
     {
-        int requiredSkillPoints = (_trained[skillNumber] + _untrained[skillNumber]) / skillToCostImprove + 1;
-        if (_unspentPoints >= requiredSkillPoints
-                && (_playerCharacter.Level * maximumImproveByLevel) > _trained[skillNumber]
-                && GetSkillValue(skillNumber) < maximumTotalSkill)
+		if (skillNumber < 0 || skillNumber > _skillNumbers.Count)
+			return false;
+		
+        if (_unspentPoints >= SkillPointsToImprove(skillNumber)
+				&& (_playerCharacter.Level * MAXIMUM_IMPROVED_BY_LEVEL) > _trained[skillNumber]
+                && GetSkillValue(skillNumber) < MAXIMUM_TOTAL_SLILL)
             return true;
         else
             return false;
     }
+	public void Improve(string skillName) =>
+		Improve(GetSkillNumber(skillName));
+	private void Improve (int skillNumber)
+    {
+		if (!IsPossibleToImprove(skillNumber))
+			return;
 
+		_unspentPoints -= SkillPointsToImprove(skillNumber);
+		_untrained[skillNumber]++;
+    }
+
+	public int SkillPointsToImprove (int skillNumber) =>
+		(_trained[skillNumber] + _untrained[skillNumber]) / skillToCostImprove + 1;
+
+	public bool IsPossibleToTrain(string skillName) =>
+		IsPossibleToTrain(GetSkillNumber(skillName));
+	private bool IsPossibleToTrain (int skillNumber)
+    {
+		return
+			_untrained[skillNumber] > 0
+			&& GetSkillValue(skillNumber) < MAXIMUM_TOTAL_SLILL
+			&& _skillsTimer.IsPossibleToAdd();
+
+	}
 	public void Train (string skillName)
     {
 		int skillNumber = GetSkillNumber(skillName);
-		if (_untrained[skillNumber] > 0 && GetSkillValue(skillNumber) < maximumTotalSkill)
+		if (IsPossibleToTrain(skillNumber))
         {
 			int timeToTrain = (int)(Mathf.Pow(timeToTrainMultipler*(_trained[skillNumber] + 1), 2) / _playerCharacter.IN);
 			_skillsTimer.AddTask(this, timeToTrain, skillName, true);
@@ -140,7 +183,7 @@ public class Skills : MonoBehaviour, ITimerable
 		}
 		int skillNumber = GetSkillNumber(action.TaskTag);
 
-		if (_untrained[skillNumber]>0 && GetSkillValue(skillNumber) < maximumTotalSkill)
+		if (_untrained[skillNumber]>0 && GetSkillValue(skillNumber) < MAXIMUM_TOTAL_SLILL)
         {
 			_untrained[skillNumber]--;
 			_trained[skillNumber]++;
@@ -148,11 +191,11 @@ public class Skills : MonoBehaviour, ITimerable
 	}
 	
 	private int GetSkillNumber (string skillName) {
-		if (!skillNumbers.ContainsKey(skillName)) {
-			print ("ERROR!!! Incorrect skill name!");
+		if (!_skillNumbers.ContainsKey(skillName)) {
+			print ("ERROR!!! Incorrect skill name! "+ skillName);
 			throw new Exception();
 		}
-		return skillNumbers[skillName];
+		return _skillNumbers[skillName];
 	}
 	
 	private void Start () {

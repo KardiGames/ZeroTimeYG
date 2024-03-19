@@ -6,16 +6,18 @@ using UnityEngine.UI;
 public class InventoryUIContentFiller : MonoBehaviour
 {
 
+    [SerializeField] private GameObject _objectToFill;
+    [SerializeField] private TransferPartPanel _transferPartPanel;
+    private RectTransform _contentTransform;
+
     [SerializeField] private Inventory inventory;
     [SerializeField] private InventoryUIContentFiller targetInventoryUI;
 
-    [SerializeField] private GameObject objectToFill;
-    private RectTransform contentTransform;
+    [SerializeField] private float _percentSpaceBetweenObjects = 0.05f;
+    private float _scrollableObjectHeight;
+    private List<GameObject> _children = new();
 
-    [SerializeField] private float percentSpaceBetweenObjects = 0.05f;
-    private float scrollableObjectHeight;
-    private List<GameObject> children = new();
-
+    public TransferPartPanel TransferPartPanel => _transferPartPanel;
     public Inventory Inventory
     {
         get => inventory; set
@@ -38,22 +40,22 @@ public class InventoryUIContentFiller : MonoBehaviour
 
     private void Start()
     {
-        if (contentTransform != null)
+        if (_contentTransform != null)
             return;
-        contentTransform = gameObject.GetComponent<ScrollRect>().content;
-        scrollableObjectHeight = objectToFill.GetComponent<RectTransform>().sizeDelta.y;
+        _contentTransform = gameObject.GetComponent<ScrollRect>().content;
+        _scrollableObjectHeight = _objectToFill.GetComponent<RectTransform>().sizeDelta.y;
 
-        if (contentTransform.childCount != 0)
+        if (_contentTransform.childCount != 0)
         {
-            for (int i = 0; i < contentTransform.childCount; i++)
-                children.Add(contentTransform.GetChild(i).gameObject);
+            for (int i = 0; i < _contentTransform.childCount; i++)
+                _children.Add(_contentTransform.GetChild(i).gameObject);
         }
         SubscribeAndRefresh();
     }
 
     private void SubscribeAndRefresh()
     {
-        if (inventory != null && contentTransform!=null)
+        if (inventory != null && _contentTransform!=null)
         {
             inventory.OnInventoryContentChanged += Clear;
             inventory.OnInventoryContentChanged += Fill;
@@ -78,9 +80,9 @@ public class InventoryUIContentFiller : MonoBehaviour
 
     private void Clear()
     {
-        foreach (GameObject child in children)
+        foreach (GameObject child in _children)
             Destroy(child);
-        children.Clear();
+        _children.Clear();
     }
 
     public void Fill() { 
@@ -91,7 +93,7 @@ public class InventoryUIContentFiller : MonoBehaviour
     
     public void Fill (IEnumerable<Item> list)
     {
-        if (contentTransform == null)
+        if (_contentTransform == null)
             Start();
 
         if (list==null)
@@ -105,18 +107,18 @@ public class InventoryUIContentFiller : MonoBehaviour
 
         foreach (var scrollableItem in list)
         {
-            GameObject newScrollableObject = Instantiate(objectToFill,contentTransform);
+            GameObject newScrollableObject = Instantiate(_objectToFill,_contentTransform);
             if (newScrollableObject != null)
-                children.Add(newScrollableObject);
+                _children.Add(newScrollableObject);
             else
                 continue;
 
             newScrollableObject.transform.localPosition = new Vector3(0, -nextYPosition);
-            newScrollableObject.GetComponent<InventoryItemUI>().Set(scrollableItem, this);
+            newScrollableObject.GetComponent<InventoryItemUI>().Init(scrollableItem, this);
 
-            nextYPosition += scrollableObjectHeight * (1.0f + percentSpaceBetweenObjects);
+            nextYPosition += _scrollableObjectHeight * (1.0f + _percentSpaceBetweenObjects);
 
         }
-        contentTransform.sizeDelta = new Vector2(contentTransform.sizeDelta.x, nextYPosition);
+        _contentTransform.sizeDelta = new Vector2(_contentTransform.sizeDelta.x, nextYPosition);
     }
 }

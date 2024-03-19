@@ -15,11 +15,11 @@ public class WorldCharacter : MonoBehaviour
 	public int X { get; private set; } = 0;
 	public int Y { get; private set; } = 0;
     public int Level { get; private set; } = 0;
-    public int ST {get; private set;} = 5; //Strength
-    public int PE {get; private set;} = 5; //Perception
-    public int EN {get; private set;} = 5; //Endurance
-    public int IN {get; private set;} = 5; //Intelligence
-    public int AG {get; private set;} = 5; //Agility
+    public int ST {get; private set;} = 4; //Strength
+    public int PE {get; private set;} = 4; //Perception
+    public int EN {get; private set;} = 4; //Endurance
+    public int IN {get; private set;} = 4; //Intelligence
+    public int AG {get; private set;} = 4; //Agility
     public int Experience { get; private set; } = 0;
     public string CharacterName => _charName;
     public Equipment Equipment => _equipment;	

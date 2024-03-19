@@ -17,8 +17,7 @@ public class TaskByTimer
     public TaskByTimer(ITimerable source, float secondsToFinish, string tag, string name="Task Default Name", string desccription="")
     {
         Source = source;
-        secondsToFinish = secondsToFinish < 1 ? 1 : secondsToFinish;
-        this.secondsToFinish = secondsToFinish;
+        this.secondsToFinish = secondsToFinish < 1 ? 1 : secondsToFinish;
         this.TaskName = name;
         this.Description = desccription;
         this.TaskTag = tag;
@@ -28,7 +27,6 @@ public class TaskByTimer
     {
         Source = source;
         this.secondsToFinish = secondsToFinish < 1 ? 1 : secondsToFinish;
-        this.secondsToFinish = secondsToFinish;
         this.TaskName = name;
         this.Description = desccription;
         this.TaskTag = tag;

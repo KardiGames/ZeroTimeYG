@@ -35,7 +35,9 @@ public class Mine : MonoBehaviour, IWorldBuilding
 
     public void FromJson(string jsonString)
     {
+        SaveData tmpSaveSystem = _saveSystem;        
         JsonUtility.FromJsonOverwrite(jsonString, this);
+        _saveSystem = tmpSaveSystem;
     }
 
 

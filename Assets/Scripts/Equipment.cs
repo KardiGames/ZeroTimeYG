@@ -130,16 +130,18 @@ public class Equipment : MonoBehaviour
 		if (jsonEquipment == null)
 			return;
 		Item itemToAdd;
+		int slot=-1;
 		for (int i=0; i< jsonEquipment.equipment.Count; i++)
         {
-            if (jsonEquipment.equipment[i] == EquipmentJsonData.EMPTY_SLOT_NAME)
+            slot++;
+			if (jsonEquipment.equipment[i] == EquipmentJsonData.EMPTY_SLOT_NAME)
                 continue;
             itemToAdd = (Item)ScriptableObject.CreateInstance(Type.GetType(jsonEquipment.equipment[i++]));
 			if (itemToAdd == null)
 				continue;
 			itemToAdd.FromJson(jsonEquipment.equipment[i]);
             if (itemToAdd != null)
-                _equipment[i] = itemToAdd; ; //TODO Make test if deserialization error
+                _equipment[slot] = itemToAdd; ; //TODO Make test if deserialization error
         }
     }
 	
