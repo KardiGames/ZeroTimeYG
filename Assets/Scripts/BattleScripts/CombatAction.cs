@@ -17,7 +17,7 @@ public class CombatAction
     public int DamageDone { get; private set; } = 0;
     public int TargetHPAfter { get; private set; }
     
-    public bool Move(CombatUnit subj, int x, int y)
+    public bool Move(CombatUnit subj, int x, int y, int turn)
     {
         if (subj == null) return false;
         apCost = Location.map[x, y].AP;
@@ -27,7 +27,7 @@ public class CombatAction
             place[0] = x;
             place[1] = y;
             subject = subj;
-            turn = BattleUserInterface.Instance.BattleManager.Turn;
+            this.turn = turn;
             return true;
         }
         else
@@ -36,7 +36,7 @@ public class CombatAction
         }
     }
 
-    public static bool Attack (CombatUnit subj, CombatUnit obj)
+    public static bool Attack (CombatUnit subj, CombatUnit obj, int turn)
     {
         if ((subj == null)||(obj==null)) 
             return false;
@@ -49,7 +49,7 @@ public class CombatAction
         if (subj.SpendAP(weapon.APCost, true))
         {
             CombatAction thisAttack = new CombatAction();
-            thisAttack.turn = BattleUserInterface.Instance.BattleManager.Turn;
+            thisAttack.turn = turn;
             thisAttack.action = "attack";
             thisAttack.subject = subj;
             thisAttack.target = obj;
@@ -62,7 +62,7 @@ public class CombatAction
             return false;
     }
 
-    public static bool Wait(CombatUnit subj, int apCost=2)
+    public static bool Wait(CombatUnit subj, int turn, int apCost=2)
     {
         if ((subj == null) || (apCost < 1))
             return false;
@@ -70,7 +70,7 @@ public class CombatAction
         if (subj.SpendAP(apCost, true))
         {
             CombatAction thisAction = new CombatAction();
-            thisAction.turn = BattleUserInterface.Instance.BattleManager.Turn;
+            thisAction.turn = turn;
             thisAction.apCost = apCost;
             thisAction.action = "wait";
             thisAction.subject = subj;
@@ -81,7 +81,7 @@ public class CombatAction
         else
             return false;
     }
-    public static bool Exit(CombatUnit subj)
+    public static bool Exit(CombatUnit subj, int turn)
     {
         if (subj == null)
             return false;
@@ -89,7 +89,7 @@ public class CombatAction
         if (subj.SpendAP(subj.TotalAP, true))
         {
             CombatAction thisAction = new CombatAction();
-            thisAction.turn = BattleUserInterface.Instance.BattleManager.Turn;
+            thisAction.turn = turn;
             thisAction.apCost = subj.TotalAP;
             thisAction.action = "exit";
             thisAction.subject = subj;
@@ -173,9 +173,12 @@ public class CombatAction
 
                 if (Random.Range(0, 100) < hitChanse)
                 {
-                    int damage = usedWeapon.Damage;
+                    int damage = GetWeaponDamage (usedWeapon);
                     if (!usedWeapon.RangedAttack && subject._ai=="")
                         damage += subject.MeleeDamageBonus;
+					damage = damage * subject.GetSkillValue("Weapon damage")/100;
+					if (damage <1)
+						damage = 1;
                     target.TakeDamage(damage);
                     //print(cA.target.name + "'s got " + damage + " damage. Hit chance was " + hitChanse);
                     DamageDone = damage;
@@ -207,5 +210,17 @@ public class CombatAction
             else
                 Debug.Log(subject.name + " can't exit battle. Not enough AP *(");
         }
+    }
+
+    private int GetWeaponDamage(Weapon weapon)
+    {
+        int summ = 0;
+        (int multipler, int dice, int addition) damageTuple = weapon.DamageTuple;
+        for (int i = 0; i < damageTuple.multipler; i++)
+        {
+            summ += Random.Range(1, (damageTuple.dice + 1));
+        }
+        summ += damageTuple.addition;
+        return summ;
     }
 }

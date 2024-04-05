@@ -16,17 +16,9 @@ public class BattleUserInterface : MonoBehaviour
     [SerializeField] private TextMeshProUGUI bigMessage;
     [SerializeField] private GameManager gameManager;
     [SerializeField] private List<Button> planningButtons;
-    public static BattleUserInterface Instance { get; private set; }
+
     public BattleManager BattleManager => _battleManager; //TODO This is crutch (( Much better to delete this
     
-    private void Awake()
-    {
-        if (Instance == null)
-            Instance = this;
-        else if (Instance != this)
-            Destroy(this);
-    }
-
     public void UpdateAP(CombatUnit character) => actionPointsText.text = character.PlanningAP+" AP";
 
     public void ChangeWeapon()
@@ -122,14 +114,14 @@ public class BattleUserInterface : MonoBehaviour
             return;
         CombatUnit activeCharacter = _battleManager.AllCombatCharacters[_battleManager.Player];
         if (activeCharacter.PlanningAP > 0)
-            CombatAction.Wait(activeCharacter, activeCharacter.PlanningAP);
+            CombatAction.Wait(activeCharacter, _battleManager.Turn, activeCharacter.PlanningAP);
         _battleManager.NextPlayer();
     }
     public void Wait()
     {
         if (_battleManager.Status != "planning")
             return;
-        CombatAction.Wait(_battleManager.AllCombatCharacters[_battleManager.Player]);
+        CombatAction.Wait(_battleManager.AllCombatCharacters[_battleManager.Player], _battleManager.Turn);
         if (_battleManager.AllCombatCharacters[_battleManager.Player].PlanningAP == 0)
         {
             _battleManager.NextPlayer();
@@ -140,7 +132,7 @@ public class BattleUserInterface : MonoBehaviour
         CombatUnit player = _battleManager.AllCombatCharacters[_battleManager.Player];
         if (_battleManager.Status != "planning" || player.TotalAP != player.PlanningAP)
             return;
-        CombatAction.Exit(_battleManager.AllCombatCharacters[_battleManager.Player]);
+        CombatAction.Exit(_battleManager.AllCombatCharacters[_battleManager.Player], _battleManager.Turn);
         if (_battleManager.AllCombatCharacters[_battleManager.Player].PlanningAP == 0)
         {
             _battleManager.NextPlayer();

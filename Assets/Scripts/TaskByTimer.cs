@@ -12,35 +12,32 @@ public class TaskByTimer
     public ITimerable Source { get; }
     public DateTime FinishTime { get; private set; } = new();
     public float secondsToFinish { get; private set; }
-	public bool OnPause {get; private set; }
+
 
     public TaskByTimer(ITimerable source, float secondsToFinish, string tag, string name="Task Default Name", string desccription="")
     {
         Source = source;
-        secondsToFinish = secondsToFinish < 1 ? 1 : secondsToFinish;
-        this.secondsToFinish = secondsToFinish;
+        this.secondsToFinish = secondsToFinish < 1 ? 1 : secondsToFinish;
         this.TaskName = name;
         this.Description = desccription;
         this.TaskTag = tag;
-        this.OnPause = false;
     }
-	public TaskByTimer(ITimerable source, float secondsToFinish, string tag, string name, string desccription, bool onPause, DateTime finishTime)
+	
+	public TaskByTimer(ITimerable source, float secondsToFinish, string tag, string name, string desccription, DateTime finishTime)
     {
         Source = source;
         this.secondsToFinish = secondsToFinish < 1 ? 1 : secondsToFinish;
-        this.secondsToFinish = secondsToFinish;
         this.TaskName = name;
         this.Description = desccription;
         this.TaskTag = tag;
-        this.OnPause = onPause;
 		this.FinishTime = finishTime;
     }
 
     public bool IsStarted() => secondsToFinish < 0;
 
-    public bool TryToStartTask () => TryToStartTask(DateTime.Now);
+    public bool TryToStart () => TryToStart(DateTime.Now);
 
-    public bool TryToStartTask(DateTime startTime)
+    public bool TryToStart(DateTime startTime)
     {
         if (startTime>DateTime.Now)
 			return false;
@@ -49,15 +46,11 @@ public class TaskByTimer
 		
 		FinishTime = startTime.AddSeconds(secondsToFinish);
         secondsToFinish = -1;
-		OnPause=false;
         return true;
     }
-	
-	public void SetPause() {
-		if (IsStarted()) {
-            secondsToFinish = (float)(FinishTime - DateTime.Now).TotalSeconds;
-			OnPause=true;
-		}
-	}
-  
+
+    public void Pause ()
+    {
+        secondsToFinish = (float)(FinishTime - DateTime.Now).TotalSeconds;
+    }
 }

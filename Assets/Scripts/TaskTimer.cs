@@ -2,32 +2,33 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class TaskTimer : MonoBehaviour
 {
     public event Action OnTaskOrTimerChanged;
 	
-    private int simultaneouslyTasks = 1;
-    private int maximumTasks = 1;
-    private List<TaskByTimer> tasksList= new();
+    private int _simultaneouslyTasks = 1;
+    private int _maximumTasks = 1;
+    private List<TaskByTimer> _tasksList= new();
 
 
     public int SimultaniouslyTasks
     {
-        get => simultaneouslyTasks;
-        set
+        get => _simultaneouslyTasks;
+        private set
         {
             if (value > 0)
-                simultaneouslyTasks = value;
+                _simultaneouslyTasks = value;
         }
     }
 
     public int MaximumTasks
     {
-        get => maximumTasks; set
+        get => _maximumTasks; private set
         {
             if (value > 0)
-                maximumTasks = value;
+                _maximumTasks = value;
         }
     }
 
@@ -36,7 +37,7 @@ public class TaskTimer : MonoBehaviour
         get
         {
             int started = 0;
-            foreach (var task in tasksList)
+            foreach (var task in _tasksList)
                 if (task.IsStarted())
                     started++;
             return started;
@@ -46,28 +47,28 @@ public class TaskTimer : MonoBehaviour
     public void SetupTaskTimer(int maximumTasks = 1, int simultaneously = 1)
     {
 
-        this.simultaneouslyTasks = simultaneously;
-        this.maximumTasks = maximumTasks;
+        SimultaniouslyTasks = simultaneously;
+        MaximumTasks = maximumTasks;
 		
-		CheckForCompletion();
+		CompletePastTasks();
     }
 
-    public void CheckForCompletion()
+    public void CompletePastTasks()
     {
         List<TaskByTimer> completedTasks = new();
         int startedTasks = 0;
         DateTime finishedTaskTime;
 		bool changesHappened = false;
 
-        for (int i = 0; (startedTasks <= simultaneouslyTasks && i < tasksList.Count); i++)
+        for (int i = 0; (startedTasks <= _simultaneouslyTasks && i < _tasksList.Count); i++)
         {
-            if (tasksList[i].IsStarted())
+            if (_tasksList[i].IsStarted())
             {
-                if (tasksList[i].FinishTime < DateTime.Now)
+                if (_tasksList[i].FinishTime < DateTime.Now)
                 {
-                    tasksList[i].Source.ApplyActionByTimer(tasksList[i]);
-                    finishedTaskTime = tasksList[i].FinishTime;
-                    tasksList.Remove(tasksList[i]);
+                    _tasksList[i].Source.ApplyActionByTimer(_tasksList[i]);
+                    finishedTaskTime = _tasksList[i].FinishTime;
+                    _tasksList.RemoveAt(i);
 					changesHappened=true;
                     StartQueuedTask(finishedTaskTime, false);
 					i--;
@@ -84,16 +85,16 @@ public class TaskTimer : MonoBehaviour
 
     private void StartQueuedTask(DateTime startTime, bool checkForMaximum = true, int startIndex = 0)
     {
-        if (checkForMaximum && StartedTasks >= simultaneouslyTasks)
+        if (checkForMaximum && StartedTasks >= _simultaneouslyTasks)
             return;
 		
 		if (startIndex<0)
 			return;
 
-        for (int i = startIndex; i < tasksList.Count; i++)
-            if (!tasksList[i].IsStarted() && !tasksList[i].OnPause)
+        for (int i = startIndex; i < _tasksList.Count; i++)
+            if (!_tasksList[i].IsStarted())
             {
-                tasksList[i].TryToStartTask(startTime);
+                _tasksList[i].TryToStart(startTime);
 				OnTaskOrTimerChanged?.Invoke();
                 return;
             }
@@ -106,28 +107,30 @@ public class TaskTimer : MonoBehaviour
 	public void AddTask (TaskByTimer newTask, bool startImmediately=false) {
 		if (newTask == null) 
 			return;
-		if (tasksList.Count >= MaximumTasks)
+		if (_tasksList.Count >= MaximumTasks)
         {
 			print("Error. You were trying more tasks than Maximum for tasklist");
 			return;
         }
 
-		tasksList.Add(newTask);
+		_tasksList.Add(newTask);
 		
 		if (startImmediately==true) 
 		{
-			if (newTask.TryToStartTask())
+			if (newTask.TryToStart())
             {
-				MoveUp(tasksList.Count-1, true);
+				MoveUp(_tasksList.Count-1, true);
             }
 		} 
 		OnTaskOrTimerChanged?.Invoke();
 	}
 
+	public bool IsPossibleToAdd() => _maximumTasks > _tasksList.Count;
+
 	public bool PossibleToStart(TaskByTimer task)
     {
-		if (!tasksList.Contains(task)
-			|| StartedTasks >= simultaneouslyTasks)
+		if (!_tasksList.Contains(task)
+			|| StartedTasks >= _simultaneouslyTasks)
 			return false;
 		return true;
 	}
@@ -135,13 +138,16 @@ public class TaskTimer : MonoBehaviour
 	public void MoveUp (int indexOfTask, bool toClosestStarted=false, int distance=1) {
 		if (distance<1)
 			return;
+
+		if (_tasksList.Count == 1)
+			return;
 		
 		int newIndex = indexOfTask-distance;
-		TaskByTimer task=tasksList[indexOfTask];
+		TaskByTimer task=_tasksList[indexOfTask];
 		
 		if (toClosestStarted) {
 			for(int i=indexOfTask-1; i>=0; i--)
-				if (tasksList[i].IsStarted() || tasksList[i].OnPause) {
+				if (_tasksList[i].IsStarted()) {
 					newIndex=i+1;
 					break;
 				}
@@ -150,55 +156,58 @@ public class TaskTimer : MonoBehaviour
 		if (newIndex<0) 
 			newIndex=0;
 		
-		tasksList.RemoveAt(indexOfTask);
-		if (!tasksList.Contains(task) && newIndex<tasksList.Count)
-			tasksList.Insert(newIndex, task);
+		_tasksList.RemoveAt(indexOfTask);
+		if (!_tasksList.Contains(task) && newIndex<_tasksList.Count)
+			_tasksList.Insert(newIndex, task);
 		OnTaskOrTimerChanged?.Invoke();
 	}
+
+	public int CountWithTag(string tag) =>
+		_tasksList.Where(t => t.TaskTag == tag).Count();
 	
-	public void MoveUp(TaskByTimer task) => MoveUp(tasksList.IndexOf(task));
+	public void MoveUp(TaskByTimer task) => MoveUp(_tasksList.IndexOf(task));
 	
 	public void MoveDown (int indexOfTask, bool toTheBottom=false, int distance=1) {
-		if (distance<1 || indexOfTask<0 || indexOfTask>=tasksList.Count)
+		if (distance<1 || indexOfTask<0 || indexOfTask>=_tasksList.Count)
 			return;
 		
-		TaskByTimer task = tasksList[indexOfTask];
+		TaskByTimer task = _tasksList[indexOfTask];
 		int newIndex = indexOfTask+distance-1;
-		tasksList.RemoveAt(indexOfTask);
+		_tasksList.RemoveAt(indexOfTask);
 		
-		if (tasksList.Contains(task))
+		if (_tasksList.Contains(task))
 			return;
 		
-		if (newIndex==tasksList.Count || toTheBottom)
-			tasksList.Add(task);
-		else if (newIndex<tasksList.Count)
-			tasksList.Insert(newIndex, task);
+		if (newIndex==_tasksList.Count || toTheBottom)
+			_tasksList.Add(task);
+		else if (newIndex<_tasksList.Count)
+			_tasksList.Insert(newIndex, task);
 		
 		OnTaskOrTimerChanged?.Invoke();
 	}
 
-	public void MoveDown(TaskByTimer task) => MoveDown(tasksList.IndexOf(task));
+	public void MoveDown(TaskByTimer task) => MoveDown(_tasksList.IndexOf(task));
 	
 	public TaskByTimer[] GetAllItems () {
-		return tasksList.ToArray();	
+		return _tasksList.ToArray();	
 	}
 
-	public bool Contains(TaskByTimer task) => tasksList.Contains(task);
+	public bool Contains(TaskByTimer task) => _tasksList.Contains(task);
 
 	public void ClearTaskTimer()
     {
-		tasksList.Clear();
+		_tasksList.Clear();
 		OnTaskOrTimerChanged?.Invoke();
 		OnTaskOrTimerChanged = null;
 	}
 
 	public string ToJson(ITimerable sourceToCompare)
 	{
-		TaskTimerJsonData jsonTimerData = new() { simultaneouslyTasks = simultaneouslyTasks, maximumTasks = maximumTasks};
-		for (int i=0; i<tasksList.Count; i++)
-			if (tasksList[i].Source==sourceToCompare)
+		TaskTimerJsonData jsonTimerData = new() { simultaneouslyTasks = _simultaneouslyTasks, maximumTasks = _maximumTasks};
+		for (int i=0; i<_tasksList.Count; i++)
+			if (_tasksList[i].Source==sourceToCompare)
             {
-				TaskByTimerJsonData jsonTaskData = new(tasksList[i]);
+				TaskByTimerJsonData jsonTaskData = new(_tasksList[i]);
 				jsonTimerData.taskByTimerJsonList.Add(JsonUtility.ToJson(jsonTaskData));
             }
 		return JsonUtility.ToJson(jsonTimerData);
@@ -207,25 +216,24 @@ public class TaskTimer : MonoBehaviour
 
 	public void FromJson(string jsonString, ITimerable sourceToSet)
 	{
-		tasksList.Clear();
+		_tasksList.Clear();
 		TaskTimerJsonData jsonTimer = JsonUtility.FromJson<TaskTimerJsonData>(jsonString);
 		if (jsonTimer == null)
 			return;
-		simultaneouslyTasks=jsonTimer.simultaneouslyTasks;
-		maximumTasks=jsonTimer.maximumTasks;
+		_simultaneouslyTasks=jsonTimer.simultaneouslyTasks;
+		_maximumTasks=jsonTimer.maximumTasks;
 		
 		TaskByTimerJsonData taskDataToAdd=new();
 		for (int i=0; i<jsonTimer.taskByTimerJsonList.Count; i++)
         {
 			taskDataToAdd = JsonUtility.FromJson<TaskByTimerJsonData>(jsonTimer.taskByTimerJsonList[i]);
 			if (taskDataToAdd!=null) 
-				tasksList.Add(new TaskByTimer(
+				_tasksList.Add(new TaskByTimer(
 					sourceToSet, 
 					taskDataToAdd.secondsToFinish, 
 					taskDataToAdd.TaskTag, 
 					taskDataToAdd.TaskName, 
 					taskDataToAdd.Description, 
-					taskDataToAdd.OnPause, 
 					DateTime.ParseExact(taskDataToAdd.FinishTime,"ddMMyyyyHHmmss",null)
 				)); //TODO Make test if deserialization error
         }
@@ -247,7 +255,7 @@ public class TaskTimer : MonoBehaviour
 		public string TaskTag;
 		public string FinishTime;
 		public float secondsToFinish;
-		public bool OnPause;
+
 		public TaskByTimerJsonData(TaskByTimer taskToConvert)
         {
 			TaskName = taskToConvert.TaskName;
@@ -255,7 +263,6 @@ public class TaskTimer : MonoBehaviour
 			TaskTag = taskToConvert.TaskTag;
 			FinishTime = taskToConvert.FinishTime.ToString("ddMMyyyyHHmmss");
 			secondsToFinish = taskToConvert.secondsToFinish;
-			OnPause = taskToConvert.OnPause;
 		}
 		public TaskByTimerJsonData() { }
 	}

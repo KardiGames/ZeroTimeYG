@@ -97,7 +97,7 @@ public abstract class CombatUnit : MonoBehaviour
             else
             {
                 PlanningAP -= cost;
-                BattleUserInterface.Instance.UpdateAP(this);
+                _battleManager.BattleUI.UpdateAP(this);
                 return true;
             }
         }

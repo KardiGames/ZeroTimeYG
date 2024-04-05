@@ -9,18 +9,19 @@ public class TaskByTimerUI : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI taskName;
     [SerializeField] private TextMeshProUGUI timerText;
-    [SerializeField] private Button pauseUnpauseButton;
-    [SerializeField] private TextMeshProUGUI pauseUnpauseText;
-    [SerializeField] private Button startTaskButton;
+    [SerializeField] private TextMeshProUGUI startStopText;
+    [SerializeField] private Button startPauseButton;
 
     private TimeSpan countdown;
 
     private TaskByTimer task;
 
-    public void Setup(TaskByTimer task)
+    public void Init(TaskByTimer task)
     {
         if (this.task == null)
             this.task = task;
+        else
+            throw new Exception("TaskByTimerUI element is not empty and can't be Initialized.");
         taskName.text = task.TaskName;
 
         if (task.IsStarted())
@@ -35,18 +36,7 @@ public class TaskByTimerUI : MonoBehaviour
             FormTimerText();
         }
 
-
-        if (task.IsStarted())
-            pauseUnpauseButton.gameObject.SetActive(true);
-        else
-            startTaskButton.gameObject.SetActive(true);
-
-        if (task.OnPause)
-        {
-            pauseUnpauseButton.gameObject.SetActive(true);
-            pauseUnpauseText.text = "Unpause";
-        }
-
+        SetStartPauseButtonText();
     }
 
     private void OnDestroy()
@@ -63,7 +53,7 @@ public class TaskByTimerUI : MonoBehaviour
         countdown = countdown.Add(new TimeSpan(0, 0, -1));
         if (countdown.TotalSeconds <= 0)
         {
-            task.Source.TaskTimer.CheckForCompletion();
+            task.Source.TaskTimer.CompletePastTasks();
             countdown = TimeSpan.Zero;
         }
         FormTimerText();
@@ -83,37 +73,38 @@ public class TaskByTimerUI : MonoBehaviour
         timerText.text += $"{countdown.Hours}:{countdown.Minutes}:{countdown.Seconds}";
     }
 
-    public void StartTask()
+    public void StartPauseTask()
     {
         if (task == null)
             return;
-        if (task.TryToStartTask())
+        if (task.IsStarted())
+        {            
+            task.Pause();
+            if (!task.IsStarted())
+            {
+                Timer.Instance.EverySecondAction -= UpdateSec;
+                Timer.Instance.EveryMinuteAction -= UpdateTimer;
+            }
+        }
+        else if (task.TryToStart())
         {
             Timer.Instance.EverySecondAction += UpdateSec;
             Timer.Instance.EveryMinuteAction += UpdateTimer;
-            pauseUnpauseButton.gameObject.SetActive(true);
-            startTaskButton.gameObject.SetActive(false);
         }
+
+        SetStartPauseButtonText();
+    }
+
+    private void SetStartPauseButtonText()
+    {
+        if (task.IsStarted())
+            startStopText.text = "Pause";
+        else
+            startStopText.text = "Start";
     }
 
     public void PauseUnpauseTask()
     {
-        if (task == null)
-            return;
-        if (task.OnPause)
-        {
-            StartTask();
-			if (task.IsStarted())
-				pauseUnpauseText.text = "Pause";
-        }
-        else
-        {
-            task.SetPause();
-            if (!task.OnPause)
-                return;
-            Timer.Instance.EverySecondAction -= UpdateSec;
-            Timer.Instance.EveryMinuteAction -= UpdateTimer;
-            pauseUnpauseText.text = "Unpause";
-        }
+
 	}
 }

@@ -5,24 +5,29 @@ using TMPro;
 
 public class WorldUserInterface : MonoBehaviour
 {
-    [SerializeField] private WorldCharacter playerCharacter;
-    [SerializeField] private GameObject targetUIInventory;
-    [SerializeField] private GameObject taskTimer; //TODO Delete it? Why it is here?
+    [SerializeField] private WorldCharacter _playerCharacter;
+    [SerializeField] private GameObject _playerUIInventory;
+    [SerializeField] private GameObject _targetUIInventory;
+    [SerializeField] private GameObject _taskTimer; //TODO Delete it? Why it is here?
  
     [SerializeField] private TextMeshProUGUI bigMessage;
     public void ShowDamage ()
     {
-        print((playerCharacter.Equipment[0] as Weapon).FormDamageDiapason()+ " "+ (playerCharacter.Equipment[1] as Weapon).FormDamageDiapason());
+        print((_playerCharacter.Equipment[0] as Weapon).FormDamageDiapason()+ " "+ (_playerCharacter.Equipment[1] as Weapon).FormDamageDiapason());
     }
 
     public void OpenTargetInventory (Inventory inventory)
     {
         if (inventory == null)
             return;
-        targetUIInventory.SetActive(true);
-        targetUIInventory.GetComponent<InventoryUIContentFiller>().Inventory=inventory;
+        _targetUIInventory.SetActive(true);
+        _targetUIInventory.GetComponent<InventoryUIContentFiller>().Inventory=inventory;
     }
-
+    public void OpenPlayerInventory()
+    {
+        _playerUIInventory.SetActive(true);
+        _playerUIInventory.GetComponent<InventoryUIContentFiller>().Inventory = _playerCharacter.Inventory;
+    }
     public void ShowBigMessage(string message)
     {
         if (bigMessage.gameObject.activeSelf)

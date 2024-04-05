@@ -22,19 +22,7 @@ public class Weapon : Item
     public bool TwoHanded => _twoHanded;
     public string SkillName => _skillname;
 
-    public int Damage //TODO move somewhere to delete
-    {
-        get
-        {
-            int summ = 0;
-            for (int i = 0; i < damageRandomMultipler; i++)
-            {
-                summ += UnityEngine.Random.Range(1, (damageRandomTo + 1));
-            }
-            summ += damageAddition;
-            return summ;
-        }
-    }
+    public (int multipler, int dice, int addition) DamageTuple => new(damageRandomMultipler, damageRandomTo, damageAddition);
 
     public string DamageInfo => damageRandomMultipler + "d" + damageRandomTo + "+" + damageAddition;
 

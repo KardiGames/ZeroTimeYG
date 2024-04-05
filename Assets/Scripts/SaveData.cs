@@ -7,14 +7,18 @@ using UnityEngine;
 
 public class SaveData : MonoBehaviour
 {
-    [SerializeField] private List<WorldBuildingData> globalMapBuildings=new(); //TODO check if need to make it SerField
-	private string filePath = "savefile.txt";
+    [SerializeField] private List<WorldBuildingData> _globalMapBuildings=new(); //TODO check if need to make it SerField
+    [SerializeField] private string _playerJson;
+ 	[SerializeField] private SaveScrObj _saveObject;
+    private WorldCharacter _playerCharacter;
+    private string _filePath = "savefile.txt";
+
 
     public string[] TypesOfBuildingsOnLocation (int x, int y)
     {
         List<string> allBuildingsOnLocations = new (
             from building 
-            in globalMapBuildings 
+            in _globalMapBuildings 
             where (building.X == x && building.Y == y) 
             select building.type.ToString()
         );
@@ -24,7 +28,7 @@ public class SaveData : MonoBehaviour
     
     public string[] BuildingsOfTypeOnLocation (int x, int y, IWorldBuilding objectOfType) {
 		WorldBuildingData.BuildingType type = BuildingTypeByObject(objectOfType);
-		return globalMapBuildings.Where(
+		return _globalMapBuildings.Where(
 				building=>building.X==x 
 				&& building.Y==y
 				&& building.type==type)
@@ -33,9 +37,12 @@ public class SaveData : MonoBehaviour
 	}
 	
 	public string GetBuildingJsonString (int x, int y, string buildingName) {
-		foreach (var building in globalMapBuildings)
+		foreach (var building in _globalMapBuildings)
 			if (building.X==x && building.Y==y && building.Name==buildingName)
+            {
+                SaveCharacter();
 				return building.jSonString;
+            }
 		return "";
 	}
 
@@ -48,7 +55,7 @@ public class SaveData : MonoBehaviour
         if (savableData==null)
         {
             savableData = new WorldBuildingData();
-            globalMapBuildings.Add(savableData);
+            _globalMapBuildings.Add(savableData);
             print($"WORNING. Building {building.Name} was not on the map. Have created new one");
         }
 
@@ -57,6 +64,20 @@ public class SaveData : MonoBehaviour
         savableData.Name = building.Name;
         savableData.type = BuildingTypeByObject(building);
         savableData.jSonString = building.ToJson();
+        SaveCharacter();
+    }
+
+    public void SaveCharacter ()
+    {
+        _playerJson = _playerCharacter.ToJson();
+    }
+    public void LoadCharacter()
+    {
+        _playerCharacter.FromJson(_playerJson);
+    }
+    public string GetCharacterJson ()
+    {
+        return _playerJson;
     }
 	
 	private WorldBuildingData.BuildingType BuildingTypeByName (string typeName) {
@@ -72,27 +93,46 @@ public class SaveData : MonoBehaviour
 		return BuildingTypeByName(buildingOfType.GetType().Name);
 	}
 
-    private WorldBuildingData FindBuildingOnMap(IWorldBuilding building) => globalMapBuildings
+    private WorldBuildingData FindBuildingOnMap(IWorldBuilding building) => _globalMapBuildings
         .Find(b => (b.X == building.X && b.Y == building.Y && b.Name == building.Name));
 
     internal void LoadSaveSystem()
     {
-        if (globalMapBuildings.Count != 0)
+        _playerCharacter = GameObject.Find("PlayerCharacter").GetComponent<WorldCharacter>();
+        if (_globalMapBuildings.Count != 0)
             return;
     }
 
     public void LoadFromFile()
     {
-		if (!File.Exists(filePath))
+		if (!File.Exists(_filePath))
 			return;
-		string saveText = File.ReadAllText(filePath);
+		string saveText = File.ReadAllText(_filePath);
 		JsonUtility.FromJsonOverwrite(saveText, this);
+        LoadCharacter();
     }
 	
 	public void SaveToFile() 
 	{
 		string saveText = JsonUtility.ToJson(this);
-		File.WriteAllText(filePath, saveText);
+		File.WriteAllText(_filePath, saveText);
+	}
+	
+	public void LoadFromObject()
+    {
+		if (_saveObject==null)
+			return;
+        var tempObject = _saveObject;
+		JsonUtility.FromJsonOverwrite(_saveObject.Save, this);
+        _saveObject = tempObject;
+        LoadCharacter();
+    }
+	
+	public void SaveToOject() 
+	{
+		if (_saveObject==null)
+			return;
+		_saveObject.Save = JsonUtility.ToJson(this);
 	}
 	
     [Serializable]
@@ -107,3 +147,4 @@ public class SaveData : MonoBehaviour
         public string jSonString;
     }
 }
+

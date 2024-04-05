@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class HotKeys : MonoBehaviour
 {
@@ -12,8 +9,8 @@ public class HotKeys : MonoBehaviour
         if (_battleManager.Status != "planning" || _battleManager.AllCombatCharacters[_battleManager.Player]._ai!="")
             return;
         if (Input.GetKeyDown(KeyCode.E))
-            BattleUserInterface.Instance.EndTurn();
+            _battleManager.BattleUI.EndTurn();
         else if (Input.GetKeyDown(KeyCode.Space))
-            BattleUserInterface.Instance.ChangeWeapon();
+            _battleManager.BattleUI.ChangeWeapon();
     }
 }

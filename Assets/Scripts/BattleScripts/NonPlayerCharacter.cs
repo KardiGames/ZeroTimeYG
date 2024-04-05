@@ -1,10 +1,10 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class NonPlayerCharacter : CombatUnit
 {
-    private const int NPC_ATTACK_SKILL = 75; 
+    private const int NPC_ATTACK_SKILL = 75;
+    private const int NPC_WEAPON_DAMAGE_SKILL = 100;
 
     //Variables for NPC
     private string _name;
@@ -44,7 +44,6 @@ public class NonPlayerCharacter : CombatUnit
         _skillValues.TryGetValue(skillName, out skillValue);
         return skillValue;
     }
-    // Start is called before the first frame update
 
     public override void StartPlanning(bool start = true)
     {
@@ -52,7 +51,7 @@ public class NonPlayerCharacter : CombatUnit
         {
             if (!Dead)
             {
-                Scripts.Ai(this);
+                Scripts.Ai(this, _battleManager);
             }
             _battleManager.NextPlayer();
         }
@@ -77,9 +76,8 @@ public class NonPlayerCharacter : CombatUnit
         attack.SetValues(blank.attackName, blank.damageRange, blank.attackAP, blank.rangedAttack);
         attack.SetDamage(blank.damageMultipler, blank.damageDise, blank.damagePlus);
         _npcAttack = attack;
-        if (_skillValues.ContainsKey(attack.SkillName))
-            _skillValues.Add(attack.SkillName, 0);
         _skillValues[attack.SkillName] = NPC_ATTACK_SKILL;
+        _skillValues["Weapon damage"] = NPC_WEAPON_DAMAGE_SKILL;
     }
 
     public void LevelUp(NpcBlank blank)

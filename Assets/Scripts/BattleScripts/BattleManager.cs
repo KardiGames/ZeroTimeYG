@@ -29,6 +29,11 @@ public class BattleManager : MonoBehaviour
     public int Turn { get; private set; } = 0;
     public int Player { get; private set; } = 0;
 
+    //Public properties to access
+    public BattleUserInterface BattleUI => _battleUI;
+
+    
+
     public void NextMovieAct ()
     {
         if (Status == "movie")
@@ -89,7 +94,7 @@ public class BattleManager : MonoBehaviour
         {
             _battleUI.SetPlaningButtons(true);
             Status = "planning";
-            AllCombatCharacters[Player].StartPlanning();
+            AllCombatCharacters[Player].StartPlanning(_battleUI);
         }
         else
         {
@@ -144,7 +149,7 @@ public class BattleManager : MonoBehaviour
         Player = 0;
         Status = "planning";
         _battleUI.SetPlaningButtons(true);
-        AllCombatCharacters[Player].StartPlanning();
+        AllCombatCharacters[Player].StartPlanning(_battleUI);
     }
 
     public void CreatePlanningList()

@@ -79,7 +79,7 @@ public class TaskTimerUIContentFiller : MonoBehaviour
                 break;
 
             newScrollableObject.transform.localPosition = new Vector3(0, -nextYPosition);
-            newScrollableObject.GetComponent<TaskByTimerUI>().Setup(scrollableItem);
+            newScrollableObject.GetComponent<TaskByTimerUI>().Init(scrollableItem);
 
             nextYPosition += scrollableObjectHeight * (1.0f + percentSpaceBetweenObjects);
 
