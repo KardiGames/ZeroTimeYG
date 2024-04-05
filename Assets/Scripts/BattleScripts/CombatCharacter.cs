@@ -41,7 +41,7 @@ public class CombatCharacter : CombatUnit
         _playerCharacter.Equipment[Equipment.Slot.LeftHand] == null ? _fist : _playerCharacter.Equipment[Equipment.Slot.LeftHand] as Weapon;
     public override int GetSkillValue(string skillName)
     {
-        int skillValue = _playerCharacter.Skills.GetSkillValue(skillName);
+        int skillValue = _playerCharacter.Skills.GetTrainedValue(skillName);
         if (_skillBoostings.ContainsKey(skillName))
             skillValue += _skillBoostings[skillName];
         return skillValue;
@@ -245,10 +245,10 @@ public class CombatCharacter : CombatUnit
         //float difficulty = 0.2f; //<1 - much easier to train; >1 - much more difficult; 0-always trains
         float difficulty = -0.0444444f * IN + 0.5444444f; //Formula how difficulty depends of INtelligence
 
-        if (GetSkillValue(skillname) >= Skills.MAXIMUM_TOTAL_SLILL)
+        if (GetSkillValue(skillname) >= Skills.MAXIMUM_TOTAL_SKILL)
             return;
 
-        float chanse = 1.0f-((float)GetSkillValue(skillname)/ Skills.MAXIMUM_TOTAL_SLILL);
+        float chanse = 1.0f-((float)GetSkillValue(skillname)/ Skills.MAXIMUM_TOTAL_SKILL);
 
         chanse = Mathf.Pow(chanse, difficulty);
         float roll = Random.value;

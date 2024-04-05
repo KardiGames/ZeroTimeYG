@@ -8,7 +8,6 @@ public class RewardManager: MonoBehaviour
     [SerializeField] private MineNpcRewardData _rewardData;
     [SerializeField] private Mine _mine;
     [SerializeField] private WorldUserInterface _worldUI;
-    
 
     public Item[] GetTestReward(int winnerScore)
     {

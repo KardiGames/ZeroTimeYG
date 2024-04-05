@@ -5,7 +5,7 @@ using UnityEngine;
 public class Skills : MonoBehaviour, ITimerable
 {
 	public const int WORKING_SKILLS_NUMBER = 6;
-	public const int MAXIMUM_TOTAL_SLILL = 200;
+	public const int MAXIMUM_TOTAL_SKILL = 200;
 	private const int skillToCostImprove = 50;
 	private const int MAXIMUM_IMPROVED_BY_LEVEL = 5;
 	private const float timeToTrainMultipler = 4.3817804600413289076557582624064f;
@@ -85,21 +85,22 @@ public class Skills : MonoBehaviour, ITimerable
 	};
 
 	[SerializeField] private List<int> _trained;
-	[SerializeField] private List<int> _untrained;
+	[SerializeField] private List<int> _improved;
 	private int _unspentPoints;
 
 	public TaskTimer TaskTimer => _skillsTimer;
+	public int UnspentPoints => _unspentPoints;
 	private int SkillPointEachLevel => WORKING_SKILLS_NUMBER+_playerCharacter.IN+_playerCharacter.Level;
 
 	public float GetSkillMiltipler(string skillName)
     {
-		return (float)GetSkillValue(skillName)/100.0f;
+		return (float)GetTrainedValue(skillName)/100.0f;
 	}
 		
-	public int GetSkillValue (string skillName) =>
-		GetSkillValue(GetSkillNumber(skillName));
+	public int GetTrainedValue (string skillName) =>
+		GetTrainedValue(GetSkillNumber(skillName));
 
-	private int GetSkillValue(int skillNumber)
+	private int GetTrainedValue(int skillNumber)
 	{
 		return (int)(_minimalSkills[skillNumber](_playerCharacter)
 			+ _trained[skillNumber]);
@@ -113,12 +114,12 @@ public class Skills : MonoBehaviour, ITimerable
 	public int GetImprovedValue (string skillName)
     {
 		int skillNumber = GetSkillNumber(skillName);
-		return _minimalSkills[skillNumber](_playerCharacter) + _trained[skillNumber] + _untrained[skillNumber];
+		return _minimalSkills[skillNumber](_playerCharacter) + _trained[skillNumber] + _improved[skillNumber];
 	}
 	public int GetMaximalValue(string skillName)
 	{
 		int skillNumber = GetSkillNumber(skillName);
-		return Mathf.Min(_minimalSkills[skillNumber](_playerCharacter)+_playerCharacter.Level*MAXIMUM_IMPROVED_BY_LEVEL, MAXIMUM_TOTAL_SLILL);
+		return Mathf.Min(_minimalSkills[skillNumber](_playerCharacter)+_playerCharacter.Level*MAXIMUM_IMPROVED_BY_LEVEL, MAXIMUM_TOTAL_SKILL);
 	}
 
 	public void LevelUp()
@@ -135,8 +136,8 @@ public class Skills : MonoBehaviour, ITimerable
 			return false;
 		
         if (_unspentPoints >= SkillPointsToImprove(skillNumber)
-				&& (_playerCharacter.Level * MAXIMUM_IMPROVED_BY_LEVEL) > _trained[skillNumber]
-                && GetSkillValue(skillNumber) < MAXIMUM_TOTAL_SLILL)
+				&& (_playerCharacter.Level * MAXIMUM_IMPROVED_BY_LEVEL) > (_trained[skillNumber]+_improved[skillNumber]+_skillsTimer.CountWithTag(GetSkillName(skillNumber)))
+                && GetTrainedValue(skillNumber) < MAXIMUM_TOTAL_SKILL)
             return true;
         else
             return false;
@@ -149,19 +150,19 @@ public class Skills : MonoBehaviour, ITimerable
 			return;
 
 		_unspentPoints -= SkillPointsToImprove(skillNumber);
-		_untrained[skillNumber]++;
+		_improved[skillNumber]++;
     }
 
 	public int SkillPointsToImprove (int skillNumber) =>
-		(_trained[skillNumber] + _untrained[skillNumber]) / skillToCostImprove + 1;
+		(_trained[skillNumber] + _improved[skillNumber]) / skillToCostImprove + 1;
 
 	public bool IsPossibleToTrain(string skillName) =>
 		IsPossibleToTrain(GetSkillNumber(skillName));
 	private bool IsPossibleToTrain (int skillNumber)
     {
 		return
-			_untrained[skillNumber] > 0
-			&& GetSkillValue(skillNumber) < MAXIMUM_TOTAL_SLILL
+			_improved[skillNumber] > 0
+			&& GetTrainedValue(skillNumber) < MAXIMUM_TOTAL_SKILL
 			&& _skillsTimer.IsPossibleToAdd();
 
 	}
@@ -169,10 +170,13 @@ public class Skills : MonoBehaviour, ITimerable
     {
 		int skillNumber = GetSkillNumber(skillName);
 		if (IsPossibleToTrain(skillNumber))
-        {
-			int timeToTrain = (int)(Mathf.Pow(timeToTrainMultipler*(_trained[skillNumber] + 1), 2) / _playerCharacter.IN);
+		{
+			int timeToTrain = (int)(Mathf.Pow(timeToTrainMultipler * (_trained[skillNumber] + 1), 2) / _playerCharacter.IN);
 			_skillsTimer.AddTask(this, timeToTrain, skillName, true);
-        }
+			print($"Skill {skillName} must be started to train for {timeToTrain} seconds.");
+		}
+		else
+			print($"Error. Skill {skillName} can't be trained. Bud it seems the button works (");
 	}
 
     public void ApplyActionByTimer(TaskByTimer action)
@@ -183,9 +187,9 @@ public class Skills : MonoBehaviour, ITimerable
 		}
 		int skillNumber = GetSkillNumber(action.TaskTag);
 
-		if (_untrained[skillNumber]>0 && GetSkillValue(skillNumber) < MAXIMUM_TOTAL_SLILL)
+		if (_improved[skillNumber]>0 && GetTrainedValue(skillNumber) < MAXIMUM_TOTAL_SKILL)
         {
-			_untrained[skillNumber]--;
+			_improved[skillNumber]--;
 			_trained[skillNumber]++;
         }
 	}
@@ -197,6 +201,16 @@ public class Skills : MonoBehaviour, ITimerable
 		}
 		return _skillNumbers[skillName];
 	}
+
+	private string GetSkillName (int skillNumber)
+    {
+		foreach (KeyValuePair<string, int> skill in _skillNumbers)
+        {
+			if (skill.Value == skillNumber)
+				return skill.Key;
+        }
+		throw new Exception($"Skill name with number {skillNumber} wasn't found");
+    }
 	
 	private void Start () {
 		_skillsTimer.SetupTaskTimer(3, 1);
@@ -206,7 +220,8 @@ public class Skills : MonoBehaviour, ITimerable
 	{
 		SkillsJsonData jsonSkills = new();
 		jsonSkills.trained=_trained;
-		jsonSkills.untrained=_untrained;
+		jsonSkills.untrained=_improved;
+		jsonSkills.points = _unspentPoints;
 		jsonSkills.taskTimerJsonString = _skillsTimer.ToJson(this);
 
 		return JsonUtility.ToJson(jsonSkills);
@@ -216,7 +231,8 @@ public class Skills : MonoBehaviour, ITimerable
 	{
 		SkillsJsonData jsonSkills = JsonUtility.FromJson<SkillsJsonData>(jsonString);
 		_trained=jsonSkills.trained;
-		_untrained=jsonSkills.untrained;
+		_improved=jsonSkills.untrained;
+		_unspentPoints = jsonSkills.points;
 		_skillsTimer.FromJson(jsonSkills.taskTimerJsonString, this);
 		_skillsTimer.CompletePastTasks();
 	}
@@ -226,6 +242,7 @@ public class Skills : MonoBehaviour, ITimerable
 	{
 		public List<int> trained;
 		public List<int> untrained;
+		public int points;
 		public string taskTimerJsonString;
 	}
 }

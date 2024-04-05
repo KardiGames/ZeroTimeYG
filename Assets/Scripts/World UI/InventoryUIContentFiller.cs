@@ -12,6 +12,7 @@ public class InventoryUIContentFiller : MonoBehaviour
 
     [SerializeField] private Inventory inventory;
     [SerializeField] private InventoryUIContentFiller targetInventoryUI;
+    [SerializeField] private Button _thisInventoryButton;
 
     [SerializeField] private float _percentSpaceBetweenObjects = 0.05f;
     private float _scrollableObjectHeight;
@@ -53,6 +54,19 @@ public class InventoryUIContentFiller : MonoBehaviour
         SubscribeAndRefresh();
     }
 
+    private void OnEnable()
+    {
+        if (_thisInventoryButton != null)
+            _thisInventoryButton.interactable = false;
+    }
+
+    private void OnDisable()
+    {
+        Inventory = null;
+        if (_thisInventoryButton != null)
+            _thisInventoryButton.interactable = true;
+    }
+
     private void SubscribeAndRefresh()
     {
         if (inventory != null && _contentTransform!=null)
@@ -71,11 +85,6 @@ public class InventoryUIContentFiller : MonoBehaviour
             inventory.OnInventoryContentChanged -= Clear;
             inventory.OnInventoryContentChanged -= Fill;
         }
-    }
-
-    private void OnDisable()
-    {
-        Inventory = null;
     }
 
     private void Clear()

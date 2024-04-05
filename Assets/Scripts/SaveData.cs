@@ -122,7 +122,9 @@ public class SaveData : MonoBehaviour
     {
 		if (_saveObject==null)
 			return;
+        var tempObject = _saveObject;
 		JsonUtility.FromJsonOverwrite(_saveObject.Save, this);
+        _saveObject = tempObject;
         LoadCharacter();
     }
 	

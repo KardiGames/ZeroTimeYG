@@ -17,6 +17,13 @@ public class GameManager : MonoBehaviour
         _saveData.LoadSaveSystem();
     }
 
+    public void NesessaryAction () //Action for some button
+    {
+        WorldCharacter worldChar = GameObject.Find("PlayerCharacter").GetComponent<WorldCharacter>();
+        worldChar.CollectExperience(worldChar.ExperienceToLevelUp/2+2);
+        GameObject.Find("PlayerCharacter").GetComponent<Inventory>().TryToAdd(this, Item.GetItem("Pistol Blueprint"));
+    }
+
     private void Start()
     {
         /* PREPARATION ONLY FOR FIRST FACTORY SAVE
@@ -54,6 +61,7 @@ public class GameManager : MonoBehaviour
         }
         _player.CollectExperience((int)rewardPoins);
         mine.GetComponent<RewardManager>().GiveReward(rewardPoins);
+        _worldUI.OpenPlayerInventory();
     }
 
 }
