@@ -17,7 +17,7 @@ public class Mine : MonoBehaviour, IWorldBuilding
     public int Level  => _level;
     public string MineType => _mineType;
 
-    public void SetLevel(float rewardPoints)
+    private void SetLevel(float rewardPoints)
     {
         _level = CalculateMineLevel(rewardPoints);
     }
@@ -26,6 +26,25 @@ public class Mine : MonoBehaviour, IWorldBuilding
         return rewardPoints>0 ? 
             (int)(20.0f * Mathf.Log10(rewardPoints)) 
             : 0;
+    }
+
+    internal void EndBattle(float rewardPoints, bool death, WorldCharacter player, WorldUserInterface worldUI)
+    {
+        float experiencePoints = rewardPoints;
+        float lootPoints = rewardPoints*player.Skills.GetSkillMiltipler("Attentive search");
+
+        if (death)
+        {
+            SetLevel(rewardPoints / 4);
+            experiencePoints = rewardPoints / 4;
+            lootPoints = rewardPoints / 4 * player.Skills.GetSkillMiltipler("Dangerous mining");
+        }
+        else
+            SetLevel(rewardPoints / 2);
+
+        player.CollectExperience((int)experiencePoints);
+        gameObject.GetComponent<RewardManager>().GiveReward(lootPoints);
+        worldUI.OpenPlayerInventory();
     }
 
     public string ToJson()
@@ -49,4 +68,5 @@ public class Mine : MonoBehaviour, IWorldBuilding
         X = 0;
         Y = 0;
     }
+
 }

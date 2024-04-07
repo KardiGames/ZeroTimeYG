@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Skills : MonoBehaviour, ITimerable
 {
-	public const int WORKING_SKILLS_NUMBER = 6;
+	public const int WORKING_SKILLS_NUMBER = 9;
 	public const int MAXIMUM_TOTAL_SKILL = 200;
 	private const int skillToCostImprove = 50;
 	private const int MAXIMUM_IMPROVED_BY_LEVEL = 5;

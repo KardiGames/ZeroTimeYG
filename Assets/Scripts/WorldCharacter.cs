@@ -51,8 +51,7 @@ public class WorldCharacter : MonoBehaviour
         AG = agility;
         IN = intelligence;
     }
-	
-	
+		
     public void CollectExperience (int experience)
     {
         if (experience<0)
