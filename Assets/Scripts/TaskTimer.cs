@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 
 public class TaskTimer : MonoBehaviour
 {
@@ -138,9 +137,6 @@ public class TaskTimer : MonoBehaviour
 	public void MoveUp (int indexOfTask, bool toClosestStarted=false, int distance=1) {
 		if (distance<1)
 			return;
-
-		if (_tasksList.Count == 1)
-			return;
 		
 		int newIndex = indexOfTask-distance;
 		TaskByTimer task=_tasksList[indexOfTask];
@@ -155,15 +151,15 @@ public class TaskTimer : MonoBehaviour
 		
 		if (newIndex<0) 
 			newIndex=0;
-		
+
+		if (newIndex == indexOfTask)
+			return;
+
 		_tasksList.RemoveAt(indexOfTask);
 		if (!_tasksList.Contains(task) && newIndex<_tasksList.Count)
 			_tasksList.Insert(newIndex, task);
 		OnTaskOrTimerChanged?.Invoke();
 	}
-
-	public int CountWithTag(string tag) =>
-		_tasksList.Where(t => t.TaskTag == tag).Count();
 	
 	public void MoveUp(TaskByTimer task) => MoveUp(_tasksList.IndexOf(task));
 	

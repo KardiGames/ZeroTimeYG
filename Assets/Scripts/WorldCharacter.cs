@@ -11,10 +11,9 @@ public class WorldCharacter : MonoBehaviour
 	[SerializeField] private Equipment _equipment;
     [SerializeField] private Inventory _inventory;
 	[SerializeField] private Skills _skills;
+	[SerializeField] private ActionPoints _worldAP;
 
     [SerializeField] private string _charName;
-	public int X { get; private set; } = 0;
-	public int Y { get; private set; } = 0;
     public int Level { get; private set; } = 0;
     public int ST {get; private set;} = 4; //Strength
     public int PE {get; private set;} = 4; //Perception
@@ -26,6 +25,10 @@ public class WorldCharacter : MonoBehaviour
     public Equipment Equipment => _equipment;
 	public Inventory Inventory=> _inventory;
 	public Skills Skills => _skills;
+	public int X => (int)transform.position.x;
+	public int Y => (int)transform.position.y;	
+	public int AP => _worldAP.Value;
+	public ActionPoints ActionPoints => _worldAP;
 
 	public int ExperienceToLevelUp => (Level+1)*LEVEL_UP_EXPERIENCE_MULTIPLER;
     public int AttributePoints
@@ -51,7 +54,8 @@ public class WorldCharacter : MonoBehaviour
         AG = agility;
         IN = intelligence;
     }
-		
+	
+	
     public void CollectExperience (int experience)
     {
         if (experience<0)
@@ -104,7 +108,9 @@ public class WorldCharacter : MonoBehaviour
 	public string ToJson()
     {
 		PlayerJsonData jsonPlayer = new() { 
-			x=X, y=Y, name=_charName,
+			x=transform.position.x,
+			y=transform.position.y, 
+			name=_charName,
 			level=Level,
 			experience=Experience,
 			ST = ST,
@@ -116,7 +122,8 @@ public class WorldCharacter : MonoBehaviour
 
 		jsonPlayer.inventoryJsonString=_inventory.ToJson();
 		jsonPlayer.equipmetnJsonString=_equipment.ToJson();
-		jsonPlayer.skillsJsonString=_skills.ToJson();		
+		jsonPlayer.skillsJsonString=_skills.ToJson();
+		jsonPlayer.apJsonString=_worldAP.ToJson();			
 
 		return JsonUtility.ToJson(jsonPlayer);
     }
@@ -124,8 +131,6 @@ public class WorldCharacter : MonoBehaviour
     public void FromJson(string jsonString)
     {
 		PlayerJsonData jsonPlayer = JsonUtility.FromJson<PlayerJsonData>(jsonString);
-		X = jsonPlayer.x;
-		Y = jsonPlayer.y;
 		_charName = jsonPlayer.name;
 		Level = jsonPlayer.level;
 		Experience = jsonPlayer.experience;
@@ -135,17 +140,23 @@ public class WorldCharacter : MonoBehaviour
 		AG = jsonPlayer.AG;
 		IN = jsonPlayer.IN;
 		
+		Vector3 positionVector=transform.position;
+		positionVector.x=jsonPlayer.x;
+		positionVector.y=jsonPlayer.y;
+		transform.position=positionVector;
+		
 		_inventory.FromJson(jsonPlayer.inventoryJsonString);
 		_equipment.FromJson(jsonPlayer.equipmetnJsonString);
 		_skills.FromJson(jsonPlayer.skillsJsonString);
+		_worldAP.FromJson(jsonPlayer.apJsonString);
 	}
 	
 	[Serializable]
     private class PlayerJsonData
     {
         public string name;
-        public int x;
-        public int y;
+        public float x;
+        public float y;
         public int level;
         public int experience;
         public int ST;
@@ -157,6 +168,7 @@ public class WorldCharacter : MonoBehaviour
         public string equipmetnJsonString;
         public string taskTimerJsonString;
         public string skillsJsonString;
+		public string apJsonString;
     }
 
 }

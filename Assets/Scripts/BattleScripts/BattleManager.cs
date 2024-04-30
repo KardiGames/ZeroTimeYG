@@ -11,8 +11,7 @@ public class BattleManager : MonoBehaviour
     [SerializeField] private GameObject _ñombatCharacterPrefab;
 
     //List of all Combat Characters in the scenes
-    public List<CombatUnit> AllCombatCharacters { get; private set; } = new(); //TODO Change list type to ICombatCharacter, incapsulate it & make it IEnumerable?
-    private WorldCharacter _fightingCharacter;
+    public List<CombatUnit> AllCombatCharacters= new(); //TODO Change list type to ICombatCharacter, incapsulate it & make it IEnumerable?
 
     //Combat logs
     public List<CombatAction> _combatLog = new List<CombatAction>();
@@ -117,12 +116,8 @@ public class BattleManager : MonoBehaviour
             {
                 if (npc.Dead)
                 {
-                    float killPoints = npc.Level * npc.Difficulty;
-                    if (_mine.Level < Mine.CalculateMineLevel(RewardPoints))
-                        killPoints += killPoints * _fightingCharacter.Skills.GetSkillMiltipler("Familiar paths");
-                        
-                    RewardPoints += killPoints;    
-                    Destroy(npc.gameObject); 
+                    RewardPoints += npc.Level * npc.Difficulty;
+                    Destroy(npc.gameObject);
                 }
                 else
                 {
@@ -232,7 +227,6 @@ public class BattleManager : MonoBehaviour
 
     private void PlaceCombatCharacter (WorldCharacter player)
     {
-        _fightingCharacter = player;
         CombatCharacter pc = Instantiate(_ñombatCharacterPrefab).GetComponent<CombatCharacter>();
         AllCombatCharacters.Add(pc);
         pc.SetCharacter(player, this);

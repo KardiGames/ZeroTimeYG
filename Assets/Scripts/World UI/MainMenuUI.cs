@@ -7,7 +7,8 @@ using TMPro;
 
 public class MainMenuUI : MonoBehaviour
 {
-	[Header("Location buttons")]
+    [Header("Location buttons")]
+    [SerializeField] private GameObject _locationPanel;
     [SerializeField] private Button _factoryButton;
     [SerializeField] private Button _mineButton;
     [SerializeField] private Button _laboratoryButton;
@@ -34,11 +35,9 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] private SaveData _saveData;
     [SerializeField] private WorldCharacter _character;
 
-    (int x, int y) CurrentCoordinates = (0,0); //TODO Delete this, when coordinates system will work
-
     public void EnterLocation ()
     {
-        string[] buildingTypes = _saveData.TypesOfBuildingsOnLocation(CurrentCoordinates.x, CurrentCoordinates.y);
+        string[] buildingTypes = _saveData.TypesOfBuildingsOnLocation(_character.X, _character.Y);
 
         if (buildingTypes.Contains("Factory"))
             _factoryButton.interactable = true;
@@ -46,6 +45,26 @@ public class MainMenuUI : MonoBehaviour
             _mineButton.interactable = true;
         if (buildingTypes.Contains("Laboratory"))
             _laboratoryButton.interactable = true;
+    }
+
+    public void ExitLocation()
+    {
+        if (_factoryOnGameObject.Name!="")
+        {
+            _factoryOnGameObject.ExitBuilding();
+            _factoryPanel.active = false;
+        }
+
+        if (_mineOnGameObject.Name!="")
+        {
+            _mineOnGameObject.ExitBuilding();
+            _minePanel.active = false;
+        }
+
+        _locationPanel.active = true;
+        _factoryButton.interactable = false;
+        _mineButton.interactable = false;
+        _laboratoryButton.interactable = false;
     }
 	
 	public void EnterFactory() => EnterBuilding(_factoryDropdown.options[_factoryDropdown.value].text, _factoryOnGameObject);
@@ -60,7 +79,7 @@ public class MainMenuUI : MonoBehaviour
             buildingOnGameObject.ExitBuilding();
         }
 		
-		string jsonString=_saveData.GetBuildingJsonString(CurrentCoordinates.x, CurrentCoordinates.y, buildingName);
+		string jsonString=_saveData.GetBuildingJsonString(_character.X, _character.Y, buildingName);
 		
 		if (jsonString!="")
             buildingOnGameObject.FromJson(jsonString);
@@ -68,7 +87,7 @@ public class MainMenuUI : MonoBehaviour
 
     public void OpenFactoryPanel()
     {
-        string[] buildingNames = _saveData.BuildingsOfTypeOnLocation(CurrentCoordinates.x, CurrentCoordinates.y, _factoryOnGameObject);
+        string[] buildingNames = _saveData.BuildingsOfTypeOnLocation(_character.X, _character.Y, _factoryOnGameObject);
 		if (buildingNames.Length==0)
 			return;
         _factoryDropdown.options.Clear();
@@ -78,7 +97,7 @@ public class MainMenuUI : MonoBehaviour
 
     public void OpenMinePanel()
         {
-        string[] buildingNames = _saveData.BuildingsOfTypeOnLocation(CurrentCoordinates.x, CurrentCoordinates.y, _mineOnGameObject);
+        string[] buildingNames = _saveData.BuildingsOfTypeOnLocation(_character.X, _character.Y, _mineOnGameObject);
         if (buildingNames.Length == 0)
             return;
         _mineDropdown.options.Clear();

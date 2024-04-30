@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -23,6 +22,7 @@ public class CharacterUI : MonoBehaviour
 	[SerializeField] private Button _improveINButton;
     [SerializeField] private TextMeshProUGUI AG; //Agility
 	[SerializeField] private Button _improveAGButton;
+	[SerializeField] private TextMeshProUGUI _AP; //Action points
 	[SerializeField] private TextMeshProUGUI _attributePoints;
 	[SerializeField] private TextMeshProUGUI _unspentSkillPoints;
 	
@@ -38,6 +38,7 @@ public class CharacterUI : MonoBehaviour
 		}
 
 		_nameText.text = $"{_worldCharacter.CharacterName} ({_worldCharacter.Level} level) {_worldCharacter.Experience}/{_worldCharacter.ExperienceToLevelUp} exp";
+		_AP.text = "AP" + _worldCharacter.AP;
 
 		ReloadAttributes();
 		
@@ -74,6 +75,8 @@ public class CharacterUI : MonoBehaviour
 				_timers.Add(_skillsUI[trainingSkill.TaskTag]);
             }
         }
+		if (_timers.Count > 0)
+			UpdateTimers();
 
 		_unspentSkillPoints.text = $"You have {_worldCharacter.Skills.UnspentPoints} unspent Skill Points";
 	}

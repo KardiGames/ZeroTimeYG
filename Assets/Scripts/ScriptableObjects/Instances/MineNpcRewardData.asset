@@ -37,3 +37,6 @@ MonoBehaviour:
   - minMineLevel: 50
     rewardItem: {fileID: 11400000, guid: 8f08d860acbe07d49a53f10f03251b2d, type: 2}
     rewardCost: 100
+  - minMineLevel: 1
+    rewardItem: {fileID: 11400000, guid: 674c2ef4ba8b43049a76c4b417b2bd92, type: 2}
+    rewardCost: 5

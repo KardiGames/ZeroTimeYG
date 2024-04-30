@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private BattleManager _battleManager;
     [SerializeField] private WorldUserInterface _worldUI;
     [SerializeField] private BattleUserInterface _battleUI;
+    [SerializeField] private WorldMap _worldMap;
     [SerializeField] private WorldCharacter _player;
 
     private void Awake()
@@ -16,6 +17,8 @@ public class GameManager : MonoBehaviour
         Location.LoadMap();
         _saveData.LoadSaveSystem();
         _saveData.LoadFromObject();
+
+        _worldMap.LoadMap();
     }
 
     public void NesessaryAction () //Action for some button
@@ -49,11 +52,20 @@ public class GameManager : MonoBehaviour
         _battleUI.gameObject.SetActive(true);
         _battleManager.StartBattle(mine, _player);
     }
-    public void EndBattle(float rewardPoints, Mine mine, bool death)
+    public void EndBattle(float rewardPoins, Mine mine, bool death)
     {
         _battleUI.gameObject.SetActive(false);
         _worldUI.gameObject.SetActive(true);
-        mine.EndBattle(rewardPoints, death, _player, _worldUI);
+        if (!death)
+            mine.SetLevel(rewardPoins / 2);
+        else
+        {
+            rewardPoins /= 4;
+            mine.SetLevel(rewardPoins);
+        }
+        _player.CollectExperience((int)rewardPoins);
+        mine.GetComponent<RewardManager>().GiveReward(rewardPoins);
+        _worldUI.OpenPlayerInventory();
     }
 
 }
