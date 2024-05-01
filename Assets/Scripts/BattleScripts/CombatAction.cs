@@ -210,17 +210,27 @@ public class CombatAction
             else
                 Debug.Log(subject.name + " can't exit battle. Not enough AP *(");
         }
+
+        int GetWeaponDamage(Weapon weapon)
+        {
+            int summ = 0;
+            (int multipler, int dice, int addition) damageTuple = weapon.DamageTuple;
+            int counterOf1 = 0;
+            for (int i = 0; i < damageTuple.multipler; i++)
+            {
+                int diceRoll = Random.Range(1, (damageTuple.dice + 1));
+                summ += diceRoll;
+                if (diceRoll == 1)
+                    counterOf1++;
+            }
+            summ += damageTuple.addition;
+
+            if ((counterOf1 >= (damageTuple.multipler / 2)) && subject is CombatCharacter player && player._ai == "")
+                player.BoostSkill("Weapon damage");
+
+            return summ;
+        }
     }
 
-    private int GetWeaponDamage(Weapon weapon)
-    {
-        int summ = 0;
-        (int multipler, int dice, int addition) damageTuple = weapon.DamageTuple;
-        for (int i = 0; i < damageTuple.multipler; i++)
-        {
-            summ += Random.Range(1, (damageTuple.dice + 1));
-        }
-        summ += damageTuple.addition;
-        return summ;
-    }
+
 }

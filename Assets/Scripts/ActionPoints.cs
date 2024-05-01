@@ -27,6 +27,7 @@ public class ActionPoints : MonoBehaviour
 	}
 	
 	public bool TrySpendAP (int actionPoints) {
+		AddPointsByTimer();
 		if (_ap<actionPoints)
 			return false;
 		_ap-=actionPoints;
@@ -54,6 +55,7 @@ public class ActionPoints : MonoBehaviour
 		_ap=jsonAP.Points;
 
 		_timeToAddAP=DateTime.ParseExact(jsonAP.FinishTime, "ddMMyyyyHHmmss", null);
+		AddPointsByTimer();
 	}
 
 	[Serializable]

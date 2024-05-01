@@ -39,7 +39,7 @@ public class Location
     }
 
     // Start is called before the first frame update
-    public static void LoadMap()
+    public static void LoadBattleMap()
     {
         if (map[0, 0] != null)
             return;

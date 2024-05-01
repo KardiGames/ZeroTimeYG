@@ -167,7 +167,7 @@ public class Movie : MonoBehaviour
         }
         else if (thisAction.action == "wait")
         {
-            thisAction.subject.OverheadText.ShowGreen("+" + thisAction.apCost + " temporal AC");
+            //thisAction.subject.OverheadText.ShowGreen("+" + thisAction.apCost + " temporal AC");
             _battleManager.NextMovieAct();
         }
 

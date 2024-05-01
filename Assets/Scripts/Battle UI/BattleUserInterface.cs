@@ -70,7 +70,7 @@ public class BattleUserInterface : MonoBehaviour
                             + $"ST {player.ST} [+{player.MeleeDamageBonus} melee damage]\n"
                             + $"PE {player.PE} [{player.PE-1} aim shoot range]\n" //TODO Change range formula to Property??
                             + $"EN {player.EN} [{player.MaxHP} Max HP]\n"
-                            + $"AG {player.AG} [{player.TotalAP} AP, {player.AC} AC]"
+                            + $"AG {player.AG} [{player.TotalAP} AP, {player.AC} AC]\n"
                             + $"IN {player.IN} [better skill boosting]";
         playerInfoField.text = charInfoText;
     }

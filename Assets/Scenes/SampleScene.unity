@@ -9103,6 +9103,7 @@ MonoBehaviour:
   _gameManager: {fileID: 476735868}
   _saveData: {fileID: 476735870}
   _character: {fileID: 1486608456}
+  _map: {fileID: 2053013091}
 --- !u!1 &364570386
 GameObject:
   m_ObjectHideFlags: 0
@@ -12135,6 +12136,7 @@ MonoBehaviour:
   _worldUI: {fileID: 529936202}
   _battleUI: {fileID: 2118375719}
   _worldMap: {fileID: 2053013091}
+  _battleMap: {fileID: 590489225}
   _player: {fileID: 1486608456}
 --- !u!114 &476735869
 MonoBehaviour:
@@ -12162,6 +12164,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _globalMapBuildings: []
   _playerJson: 
+  _mapJson: 
   _saveObject: {fileID: 11400000, guid: 2f2730646a0cb774e98d7bbdef1fbb06, type: 2}
 --- !u!114 &476735871
 MonoBehaviour:
@@ -46195,7 +46198,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2053013088}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.001, y: -0.009, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -46268,8 +46271,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mainCamera: {fileID: 519420031}
   _mainMenu: {fileID: 361402523}
+  _saveData: {fileID: 476735870}
   _movingPanel: {fileID: 1987202271}
   _searchPointPrefab: {fileID: 8976624133055130988, guid: 9f4b7c6ac4bedeb4d94f9750672c99db, type: 3}
+  _foundPointPrefab: {fileID: 6468304544706283717, guid: 16d73655fe7f96b49940bc5626b5aa44, type: 3}
   _player: {fileID: 1486608456}
 --- !u!61 &2053013092
 BoxCollider2D:

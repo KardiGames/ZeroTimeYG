@@ -9,24 +9,34 @@ public class SaveData : MonoBehaviour
 {
     [SerializeField] private List<WorldBuildingData> _globalMapBuildings=new(); //TODO check if need to make it SerField
     [SerializeField] private string _playerJson;
+    [SerializeField] private string _mapJson;
  	[SerializeField] private SaveScrObj _saveObject;
     private WorldCharacter _playerCharacter;
+    private WorldMap _map;
     private string _filePath = "savefile.txt";
 
-
-    public string[] TypesOfBuildingsOnLocation (int x, int y)
+    public IEnumerable<(int, int)> AreasWithBuildings()
     {
-        List<string> allBuildingsOnLocations = new (
+        List<(int, int)> areasWithBuildings = new List<(int, int)>(
+            (from building
+            in _globalMapBuildings
+             select (building.X, building.Y)).Distinct<(int, int)>()
+        );
+        return areasWithBuildings;
+    } 
+    public string[] TypesOfBuildingsOnArea (int x, int y)
+    {
+        List<string> allBuildingsOnArea = new (
             from building 
             in _globalMapBuildings 
             where (building.X == x && building.Y == y) 
             select building.type.ToString()
         );
-        return allBuildingsOnLocations.Distinct().ToArray();
+        return allBuildingsOnArea.Distinct().ToArray();
 
     }
     
-    public string[] BuildingsOfTypeOnLocation (int x, int y, IWorldBuilding objectOfType) {
+    public string[] BuildingsOfTypeOnArea (int x, int y, IWorldBuilding objectOfType) {
 		WorldBuildingData.BuildingType type = BuildingTypeByObject(objectOfType);
 		return _globalMapBuildings.Where(
 				building=>building.X==x 
@@ -75,9 +85,15 @@ public class SaveData : MonoBehaviour
     {
         _playerCharacter.FromJson(_playerJson);
     }
-    public string GetCharacterJson ()
+
+    public void SaveMap()
     {
-        return _playerJson;
+        _mapJson = _map.ToJson();
+        SaveCharacter();
+    }
+    public void LoadMap()
+    {
+        _map.FromJson(_mapJson);
     }
 	
 	private WorldBuildingData.BuildingType BuildingTypeByName (string typeName) {
@@ -99,6 +115,7 @@ public class SaveData : MonoBehaviour
     internal void LoadSaveSystem()
     {
         _playerCharacter = GameObject.Find("PlayerCharacter").GetComponent<WorldCharacter>();
+        _map = GameObject.Find("map to test").GetComponent<WorldMap>();
         if (_globalMapBuildings.Count != 0)
             return;
     }
@@ -110,6 +127,7 @@ public class SaveData : MonoBehaviour
 		string saveText = File.ReadAllText(_filePath);
 		JsonUtility.FromJsonOverwrite(saveText, this);
         LoadCharacter();
+        LoadMap();
     }
 	
 	public void SaveToFile() 
@@ -124,6 +142,7 @@ public class SaveData : MonoBehaviour
 			return;
 		JsonUtility.FromJsonOverwrite(_saveObject.Save, this);
         LoadCharacter();
+        LoadMap();
     }
 	
 	public void SaveToOject() 

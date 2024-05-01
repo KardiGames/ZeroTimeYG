@@ -9,16 +9,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] private WorldUserInterface _worldUI;
     [SerializeField] private BattleUserInterface _battleUI;
     [SerializeField] private WorldMap _worldMap;
+    [SerializeField] private GameObject _battleMap;
     [SerializeField] private WorldCharacter _player;
 
     private void Awake()
     {
 		Item.LoadItems();
-        Location.LoadMap();
+        Location.LoadBattleMap();
         _saveData.LoadSaveSystem();
         _saveData.LoadFromObject();
-
-        _worldMap.LoadMap();
     }
 
     public void NesessaryAction () //Action for some button
@@ -50,12 +49,16 @@ public class GameManager : MonoBehaviour
     {
         _worldUI.gameObject.SetActive(false);
         _battleUI.gameObject.SetActive(true);
+        _worldMap.gameObject.SetActive(false);
+        _battleMap.SetActive(true);
         _battleManager.StartBattle(mine, _player);
     }
     public void EndBattle(float rewardPoins, Mine mine, bool death)
     {
         _battleUI.gameObject.SetActive(false);
         _worldUI.gameObject.SetActive(true);
+        _battleMap.SetActive(false);
+        _worldMap.gameObject.SetActive(true);
         if (!death)
             mine.SetLevel(rewardPoins / 2);
         else

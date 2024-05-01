@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,8 +11,10 @@ public class WorldMap : MonoBehaviour
     
     [SerializeField] private Camera _mainCamera;
     [SerializeField] private MainMenuUI _mainMenu;
+    [SerializeField] private SaveData _saveData;
     [SerializeField] private MoveUI _movingPanel;
     [SerializeField] private SearchPoint _searchPointPrefab;
+    [SerializeField] private ClickPointOnMap _foundPointPrefab;
     [SerializeField] private WorldCharacter _player;
 
     private List<SearchPoint> _searchPoints = new();
@@ -20,13 +23,15 @@ public class WorldMap : MonoBehaviour
     private Vector3 _movePosition;
     private bool _playerIsMoving=false;
 
-    public void LoadMap() //TODO temporal preparation. Move this to loading from SaveSystem.
+    private void LoadMap() //TODO temporal preparation. Move this to loading from SaveSystem.
     {
         _searchPoints.Add(Instantiate(_searchPointPrefab, transform));
-        _searchPoints[_searchPoints.Count-1].Init(1.0f, 1.0f, 1.0f);
+        _searchPoints[_searchPoints.Count-1].Init(1.0f, 1.0f, 1.0f, this);
         
         _searchPoints.Add(Instantiate(_searchPointPrefab, transform));
-        _searchPoints[_searchPoints.Count-1].Init(-1.0f, -2.0f, 3.0f);
+        _searchPoints[_searchPoints.Count-1].Init(-1.0f, -2.0f, 3.0f, this);
+
+        //_foundPoints.Add((0, 0));
     }
     public void Move()
     {
@@ -39,7 +44,7 @@ public class WorldMap : MonoBehaviour
             moveVector = (_movePosition - _player.transform.position).normalized;
 
             StartCoroutine(MoveEveryFrame());
-            //_mainCamera.transform.position = _movePosition;
+
             
         }
         else
@@ -53,6 +58,7 @@ public class WorldMap : MonoBehaviour
                 _player.transform.Translate(moveVector * Time.deltaTime);
                 yield return null;
             }
+            _saveData.SaveCharacter();
             _playerIsMoving = false;
         }
     }
@@ -78,6 +84,22 @@ public class WorldMap : MonoBehaviour
 
     }
 
+    public void OpenMovePanelToFoundPoint (float x, float y)
+    {
+        if (_playerIsMoving)
+            return;
+        _movePosition.x = x;
+        _movePosition.y = y;
+
+        _movingPanel.Init(MoveCost(), true);
+
+        _movePosition.z = _player.transform.position.z;
+        Vector3 panelPosition = Input.mousePosition;
+        panelPosition.z = _movingPanel.transform.position.z;
+        _movingPanel.transform.position = panelPosition;
+
+    }
+
     private bool IsAbleToMove()
     {
         int moveCost = MoveCost();
@@ -92,6 +114,7 @@ public class WorldMap : MonoBehaviour
         else 
             return Mathf.Max(1, Mathf.Abs(x - _player.X) + Mathf.Abs(y - _player.Y));
     }
+    private int MoveCost() => MoveCost((int)_movePosition.x, (int)_movePosition.y);
 
     public void Search()
     {
@@ -115,15 +138,39 @@ public class WorldMap : MonoBehaviour
                 _searchPoints.Add(searchPoint);
             else
                 throw new Exception("For some reashon search point wasn't instantiated");
-            searchPoint.Init(_player.transform.position.x, _player.transform.position.y, 1.0f);
+            searchPoint.Init(_player.transform.position.x, _player.transform.position.y, 1.0f, this);
         } else
         {
             searchPoint.Enlarge();
         }
 
-        //TODO search function
+        List<(int, int)> areasWithBuildings = new List<(int, int)>(_saveData.AreasWithBuildings().Except(_foundPoints));
+        foreach ((int x, int y) area in areasWithBuildings)
+        {
+            if (new Vector2(area.x - searchPoint.X, area.y-searchPoint.Y).magnitude < searchPoint.Radius)
+            {
+                _foundPoints.Add((area.x, area.y));
+                PlaceFoundPointSignOnArea(area.x, area.y);
+                break;
+            }
+        }
+
+        _saveData.SaveMap();
     }
 
+    public bool AreBuildingsFound(int x, int y)
+    {
+        foreach ((int x, int y) area in _foundPoints) {
+            if (area.x == x && area.y == y)
+                return true;
+        }
+        return false;
+    }
+
+    private void PlaceFoundPointSignOnArea(int x, int y)
+    {
+        Instantiate(_foundPointPrefab, new Vector3(x, y, _foundPointPrefab.transform.position.y), _foundPointPrefab.transform.rotation, transform).Init(x, y, this); 
+    }
     private bool IsAbleToSearch (out SearchPoint standingOnPoint)
     {
         standingOnPoint = null;
@@ -144,5 +191,23 @@ public class WorldMap : MonoBehaviour
         return result;
     }
 
-    private int MoveCost() => MoveCost((int)_movePosition.x, (int)_movePosition.y);
+    public void SomeAction ()
+    {
+        print("Action is working");
+    }
+    internal void FromJson(string mapJson)
+    {
+        //TODO rewrite real implemetation
+        LoadMap();
+
+        foreach ((int x, int y) point in _foundPoints)
+        {
+            PlaceFoundPointSignOnArea(point.x, point.y);
+        }
+    }
+
+    internal string ToJson()
+    {
+        throw new NotImplementedException();
+    }
 }

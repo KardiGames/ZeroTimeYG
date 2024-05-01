@@ -7,14 +7,15 @@ public class SearchPoint : MonoBehaviour
     [SerializeField] GameObject _wideAreaCircle;
     [SerializeField] SpriteRenderer _wideAreaSprite;
     [SerializeField] GameObject _tinyAreaCircle;
-
+    [SerializeField] ClickPointOnMap _clickPoint;
     [SerializeField] private float _size; 
     
     public float X=>transform.localPosition.x;
     public float Y=>transform.localPosition.y;
     public float Size=>_size;
     public float Radius => _size / 2.0f;
-    public void Init(float x, float y, float size)
+    public float TinyRadius => _size / 4.0f;
+    public void Init(float x, float y, float size, WorldMap map)
     {
         Vector3 positionVector = transform.localPosition;
         positionVector.x = x;
@@ -22,8 +23,8 @@ public class SearchPoint : MonoBehaviour
         transform.localPosition = positionVector;
         _size = size;
         VisualizeSize();
+        _clickPoint.Init(x, y, map);
     }
-
     public void Enlarge ()
     {
         //Formula to add area equals to fist created circle (with radius of 0.5)

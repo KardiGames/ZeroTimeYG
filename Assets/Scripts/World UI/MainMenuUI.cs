@@ -34,10 +34,17 @@ public class MainMenuUI : MonoBehaviour
 	[SerializeField] private GameManager _gameManager;
     [SerializeField] private SaveData _saveData;
     [SerializeField] private WorldCharacter _character;
+    [SerializeField] private WorldMap _map;
 
     public void EnterLocation ()
     {
-        string[] buildingTypes = _saveData.TypesOfBuildingsOnLocation(_character.X, _character.Y);
+        if (!_map.AreBuildingsFound(_character.X, _character.Y))
+        {
+            print("You don't know are there some objects here. Search here before");
+            return;
+        }
+
+        string[] buildingTypes = _saveData.TypesOfBuildingsOnArea(_character.X, _character.Y);
 
         if (buildingTypes.Contains("Factory"))
             _factoryButton.interactable = true;
@@ -87,7 +94,7 @@ public class MainMenuUI : MonoBehaviour
 
     public void OpenFactoryPanel()
     {
-        string[] buildingNames = _saveData.BuildingsOfTypeOnLocation(_character.X, _character.Y, _factoryOnGameObject);
+        string[] buildingNames = _saveData.BuildingsOfTypeOnArea(_character.X, _character.Y, _factoryOnGameObject);
 		if (buildingNames.Length==0)
 			return;
         _factoryDropdown.options.Clear();
@@ -97,7 +104,7 @@ public class MainMenuUI : MonoBehaviour
 
     public void OpenMinePanel()
         {
-        string[] buildingNames = _saveData.BuildingsOfTypeOnLocation(_character.X, _character.Y, _mineOnGameObject);
+        string[] buildingNames = _saveData.BuildingsOfTypeOnArea(_character.X, _character.Y, _mineOnGameObject);
         if (buildingNames.Length == 0)
             return;
         _mineDropdown.options.Clear();
