@@ -18,34 +18,25 @@ public class WorldMap : MonoBehaviour
     [SerializeField] private WorldCharacter _player;
 
     private List<SearchPoint> _searchPoints = new();
-    private List<(int, int)> _foundPoints = new();
+    private List<(int x, int y)> _foundPoints = new();
     
     private Vector3 _movePosition;
     private bool _playerIsMoving=false;
 
-    private void LoadMap() //TODO temporal preparation. Move this to loading from SaveSystem.
-    {
-        _searchPoints.Add(Instantiate(_searchPointPrefab, transform));
-        _searchPoints[_searchPoints.Count-1].Init(1.0f, 1.0f, 1.0f, this);
-        
-        _searchPoints.Add(Instantiate(_searchPointPrefab, transform));
-        _searchPoints[_searchPoints.Count-1].Init(-1.0f, -2.0f, 3.0f, this);
-
-        //_foundPoints.Add((0, 0));
-    }
     public void Move()
     {
         Vector3 moveVector = Vector3.zero;
         int moveCost = MoveCost();
         if (_player.ActionPoints.TrySpendAP(moveCost))
         {
-            _playerIsMoving = true;
             _mainMenu.ExitLocation();
             moveVector = (_movePosition - _player.transform.position).normalized;
 
-            StartCoroutine(MoveEveryFrame());
+            if (moveVector == Vector3.zero)
+                return;
 
-            
+            _playerIsMoving = true;
+            StartCoroutine(MoveEveryFrame());
         }
         else
             print($"Error. Somehow you can't spent {MoveCost()} AP for moving, but tryed to start it");
@@ -58,6 +49,7 @@ public class WorldMap : MonoBehaviour
                 _player.transform.Translate(moveVector * Time.deltaTime);
                 yield return null;
             }
+            _player.transform.position = _movePosition;
             _saveData.SaveCharacter();
             _playerIsMoving = false;
         }
@@ -169,7 +161,7 @@ public class WorldMap : MonoBehaviour
 
     private void PlaceFoundPointSignOnArea(int x, int y)
     {
-        Instantiate(_foundPointPrefab, new Vector3(x, y, _foundPointPrefab.transform.position.y), _foundPointPrefab.transform.rotation, transform).Init(x, y, this); 
+        Instantiate(_foundPointPrefab, new Vector3(x, y, _foundPointPrefab.transform.position.z+transform.position.z), _foundPointPrefab.transform.rotation, transform).Init(x, y, this); 
     }
     private bool IsAbleToSearch (out SearchPoint standingOnPoint)
     {
@@ -191,23 +183,43 @@ public class WorldMap : MonoBehaviour
         return result;
     }
 
-    public void SomeAction ()
+    public string ToJson()
     {
-        print("Action is working");
+        MapJsonData mapJson = new MapJsonData();
+		for (int i=0; i<_searchPoints.Count; i++){
+			mapJson.searchPointsXYSize.Add(_searchPoints[i].X);
+			mapJson.searchPointsXYSize.Add(_searchPoints[i].Y);
+			mapJson.searchPointsXYSize.Add(_searchPoints[i].Size);
+		}
+		for (int i=0; i<_foundPoints.Count; i++) {
+			mapJson.foundPointsXY.Add(_foundPoints[i].x);
+			mapJson.foundPointsXY.Add(_foundPoints[i].y);
+		}
+		return JsonUtility.ToJson(mapJson);
     }
-    internal void FromJson(string mapJson)
+	
+	internal void FromJson(string jsonString)
     {
-        //TODO rewrite real implemetation
-        LoadMap();
-
-        foreach ((int x, int y) point in _foundPoints)
-        {
-            PlaceFoundPointSignOnArea(point.x, point.y);
-        }
+        _searchPoints.Clear();
+		_foundPoints.Clear();
+		
+		MapJsonData mapJson = JsonUtility.FromJson<MapJsonData>(jsonString);
+		int i=0;
+		while (i< mapJson.searchPointsXYSize.Count) {
+			_searchPoints.Add(Instantiate(_searchPointPrefab, transform));
+			_searchPoints[_searchPoints.Count-1].Init(mapJson.searchPointsXYSize[i++], mapJson.searchPointsXYSize[i++], mapJson.searchPointsXYSize[i++], this);
+		}
+		i=0;
+		while (i<mapJson.foundPointsXY.Count)
+			_foundPoints.Add((mapJson.foundPointsXY[i++], mapJson.foundPointsXY[i++]));
+		foreach ((int x, int y) point in _foundPoints)
+			PlaceFoundPointSignOnArea(point.x, point.y);
     }
-
-    internal string ToJson()
-    {
-        throw new NotImplementedException();
-    }
+	
+	[Serializable]
+	private class MapJsonData
+	{
+		public List<float> searchPointsXYSize=new List<float>();
+		public List<int> foundPointsXY= new List <int>();
+	}
 }
