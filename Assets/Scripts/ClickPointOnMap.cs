@@ -22,3 +22,4 @@ public class ClickPointOnMap : MonoBehaviour
         _map.OpenMovePanelToFoundPoint((_x<0)? _x-FLOAT_MISTAKE_CORRECTION : _x+FLOAT_MISTAKE_CORRECTION, (_y < 0) ? _y - FLOAT_MISTAKE_CORRECTION : _y + FLOAT_MISTAKE_CORRECTION);
     }
 }
+ 

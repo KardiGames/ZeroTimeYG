@@ -121,7 +121,7 @@ public class WorldCharacter : MonoBehaviour
 		};
 
 		jsonPlayer.inventoryJsonString=_inventory.ToJson();
-		jsonPlayer.equipmetnJsonString=_equipment.ToJson();
+		jsonPlayer.equipmentJsonString=_equipment.ToJson();
 		jsonPlayer.skillsJsonString=_skills.ToJson();
 		jsonPlayer.apJsonString=_worldAP.ToJson();			
 
@@ -146,7 +146,7 @@ public class WorldCharacter : MonoBehaviour
 		transform.position=positionVector;
 		
 		_inventory.FromJson(jsonPlayer.inventoryJsonString);
-		_equipment.FromJson(jsonPlayer.equipmetnJsonString);
+		_equipment.FromJson(jsonPlayer.equipmentJsonString);
 		_skills.FromJson(jsonPlayer.skillsJsonString);
 		_worldAP.FromJson(jsonPlayer.apJsonString);
 	}
@@ -165,7 +165,7 @@ public class WorldCharacter : MonoBehaviour
         public int AG;
         public int IN;
         public string inventoryJsonString;
-        public string equipmetnJsonString;
+        public string equipmentJsonString;
         public string taskTimerJsonString;
         public string skillsJsonString;
 		public string apJsonString;

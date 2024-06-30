@@ -22,4 +22,10 @@ MonoBehaviour:
   damageAddition: 0
   _range: 10
   _apCost: 8
+  _ammoType: Bullet
+  _ammoAmount: 1
+  _ammoMaxAmount: 1
+  _ammoPerShot: 1
+  _quality: 5
+  _maxQuality: 5
   _skillname: Rifles

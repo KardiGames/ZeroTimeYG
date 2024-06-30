@@ -57,9 +57,8 @@ public class Blueprint : Item
 	public override string ToJson()
 	{
 		BlueprintJsonData jsonBlueprint = new();
-		jsonBlueprint.itemName = _itemName;
 		jsonBlueprint.itemToCreateJsonString = _itemToCreate.ToJson();
-		jsonBlueprint.itemToCreateType=_itemToCreate.GetType().Name;
+		jsonBlueprint.itemToCreateName=_itemToCreate.ItemName;
 		jsonBlueprint.secondsToFinish = _secondsToFinish;
 
 		for (int i = 0; i < _listOfResourses.Count; i++)
@@ -73,7 +72,6 @@ public class Blueprint : Item
 	{
 		
 		BlueprintJsonData jsonBlueprint = JsonUtility.FromJson<BlueprintJsonData>(jsonString);
-		_itemName = jsonBlueprint.itemName;
 		_secondsToFinish = jsonBlueprint.secondsToFinish;
 		_amountOfResourses = jsonBlueprint.amounts;
 		if (_listOfResourses==null)
@@ -83,10 +81,10 @@ public class Blueprint : Item
 		for (int i = 0; i < jsonBlueprint.resourses.Count; i++)
 			_listOfResourses.Add(Item.GetItem(jsonBlueprint.resourses[i]));
 		
-		_itemToCreate=(Item)ScriptableObject.CreateInstance(Type.GetType(jsonBlueprint.itemToCreateType));
+		_itemToCreate=Item.GetItem(jsonBlueprint.itemToCreateName);
 		_itemToCreate.FromJson(jsonBlueprint.itemToCreateJsonString);
 				
-		if (this._itemName == "ErrorItem" || _itemToCreate==null || _listOfResourses.Count!=_amountOfResourses.Count)
+		if (_itemToCreate==null || _listOfResourses.Count!=_amountOfResourses.Count)
         {
 			Debug.Log ("Error! Mistake on FromJson() in Blueprint (item is destroying)");
 			Destroy(this);
@@ -96,9 +94,8 @@ public class Blueprint : Item
 	[Serializable]
 	private class BlueprintJsonData
 	{
-		public string itemName = "ErrorItem";
 		public string itemToCreateJsonString;
-		public string itemToCreateType;
+		public string itemToCreateName;
 		public float secondsToFinish;
 		public List<string> resourses = new();
 		public List<long> amounts;

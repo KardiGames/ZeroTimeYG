@@ -14,10 +14,16 @@ public class Mine : MonoBehaviour, IWorldBuilding
     [SerializeField] private string _mineType = "";
 
     public string Name => _name;
-    public int Level  => _level;
+    public int Level
+    {
+        get => _level; set
+        {
+            if (value >= 0) _level = value;
+        }
+    }
     public string MineType => _mineType;
 
-    public void SetLevel(float rewardPoints)
+    /*public void SetLevel(float rewardPoints)
     {
         _level = CalculateMineLevel(rewardPoints);
     }
@@ -26,7 +32,7 @@ public class Mine : MonoBehaviour, IWorldBuilding
         return rewardPoints>0 ? 
             (int)(20.0f * Mathf.Log10(rewardPoints)) 
             : 0;
-    }
+    }*/
 
     public string ToJson()
     {

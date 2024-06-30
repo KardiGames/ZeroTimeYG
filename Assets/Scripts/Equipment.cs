@@ -6,11 +6,11 @@ using UnityEngine;
 public class Equipment : MonoBehaviour
 {
     private const int SLOTS_NUMBER = 3;
-    
+
     public event Action OnEquipmentContentChanged;
-    public enum Slot {RightHand = 0, LeftHand = 1, Body=2};
-		
-	[SerializeField] private Item[] _equipment = new Item[SLOTS_NUMBER];
+    public enum Slot { RightHand = 0, LeftHand = 1, Body = 2 };
+
+    [SerializeField] private Item[] _equipment = new Item[SLOTS_NUMBER];
     //TODO Actual size (is 3) and may be not equal SLOTS_NUMBER, it is set by Inspector.
 
     public int AC
@@ -25,16 +25,16 @@ public class Equipment : MonoBehaviour
         }
     }
 
-    public Item this [int index]
+    public Item this[int index]
     {
-        get =>_equipment[index];
+        get => _equipment[index];
     }
 
     public int SlotsCount() => _equipment.Length;
-	
-	public Item this [Slot slotIndex]
+
+    public Item this[Slot slotIndex]
     {
-        get =>_equipment[(int) slotIndex];
+        get => _equipment[(int)slotIndex];
     }
 
     public bool IsAbleToEquip(Item item, bool replaceInSlot)
@@ -43,7 +43,7 @@ public class Equipment : MonoBehaviour
         {
             if (weapon.TwoHanded)
             {
-                if (replaceInSlot || (_equipment[(int)Slot.RightHand ] == null && _equipment[(int)Slot.LeftHand] != null))
+                if (replaceInSlot || (_equipment[(int)Slot.RightHand] == null && _equipment[(int)Slot.LeftHand] != null))
                     return true;
                 else
                     return false;
@@ -67,7 +67,7 @@ public class Equipment : MonoBehaviour
             return false;
     }
 
-    public void Unequip (Slot slot, Inventory inventoryTo)
+    public void Unequip(Slot slot, Inventory inventoryTo)
     {
         Item itemInSlot = _equipment[(int)slot];
 
@@ -79,7 +79,7 @@ public class Equipment : MonoBehaviour
         {
             _equipment[(int)slot] = null;
         }
-        
+
         if (!inventoryTo.TryToAdd(this, itemInSlot))
         {
             print("Error!!! Item isn't added to inventory on unequip. Item is LOST");
@@ -91,7 +91,7 @@ public class Equipment : MonoBehaviour
 
 
 
-    public void Equip (Inventory inventoryFrom, Item item, bool replaceInSlot=false)
+    public void Equip(Inventory inventoryFrom, Item item, bool replaceInSlot = false)
     {
         if (!IsAbleToEquip(item, replaceInSlot))
             return;
@@ -99,7 +99,7 @@ public class Equipment : MonoBehaviour
         if (TryToEquip(inventoryFrom, item, replaceInSlot))
             inventoryFrom.RemoveThisItem(this, item);
     }
-    private bool TryToEquip (object sender, Item item, bool replaceInSlot)
+    private bool TryToEquip(object sender, Item item, bool replaceInSlot)
     {
         int slotNumber = 0;
         if (item is Armor armor)
@@ -127,21 +127,18 @@ public class Equipment : MonoBehaviour
     {
         _equipment = new Item[SLOTS_NUMBER];
         EquipmentJsonData jsonEquipment = JsonUtility.FromJson<EquipmentJsonData>(jsonString);
-		if (jsonEquipment == null)
+        if (jsonEquipment == null || jsonEquipment.eqNames.Count!=jsonEquipment.eqJsons.Count)
 			return;
 		Item itemToAdd;
-		int slot=-1;
-		for (int i=0; i< jsonEquipment.equipment.Count; i++)
+		for (int i=0; i< jsonEquipment.eqNames.Count; i++)
         {
-            slot++;
-			if (jsonEquipment.equipment[i] == EquipmentJsonData.EMPTY_SLOT_NAME)
+			if (jsonEquipment.eqNames[i] == "")
                 continue;
-            itemToAdd = (Item)ScriptableObject.CreateInstance(Type.GetType(jsonEquipment.equipment[i++]));
+            itemToAdd = Item.GetItem(jsonEquipment.eqNames[i]);
 			if (itemToAdd == null)
 				continue;
-			itemToAdd.FromJson(jsonEquipment.equipment[i]);
-            if (itemToAdd != null)
-                _equipment[slot] = itemToAdd; ; //TODO Make test if deserialization error
+			itemToAdd.FromJson(jsonEquipment.eqJsons[i]);
+            _equipment[i] = itemToAdd;
         }
     }
 	
@@ -150,12 +147,14 @@ public class Equipment : MonoBehaviour
 		EquipmentJsonData jsonEquipment = new();
 		for (int i=0; i<_equipment.Length; i++)
         {
-            if (_equipment[i] == null)
-                jsonEquipment.equipment.Add(EquipmentJsonData.EMPTY_SLOT_NAME);
+            if (_equipment[i] == null) { 
+                jsonEquipment.eqNames.Add("");
+                jsonEquipment.eqJsons.Add("");
+            }
             else
             {
-                jsonEquipment.equipment.Add(_equipment[i].GetType().Name);
-                jsonEquipment.equipment.Add(_equipment[i].ToJson());
+                jsonEquipment.eqNames.Add(_equipment[i].ItemName);
+                jsonEquipment.eqJsons.Add(_equipment[i].ToJson());
             }
         }
 		
@@ -165,7 +164,7 @@ public class Equipment : MonoBehaviour
 	[Serializable]
 	protected class EquipmentJsonData
 	{
-        public const string EMPTY_SLOT_NAME = "EmptyEquipmentSlot";
-        public List<string> equipment=new();
-	}
+        public List<string> eqNames=new();
+        public List<string> eqJsons = new();
+    }
 }

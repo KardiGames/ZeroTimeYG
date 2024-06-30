@@ -100,7 +100,7 @@ public class Factory : MonoBehaviour, ITimerable, IWorldBuilding
 			if (_factoryLines.ContainsKey(taskTimerArray[i]))
             {
 				jsonFactory.factoryJsonLines.Add(_factoryLines[taskTimerArray[i]].ToJson());
-				jsonFactory.factoryLinesTypes.Add(_factoryLines[taskTimerArray[i]].GetType().Name);
+				jsonFactory.factoryLinesNames.Add(_factoryLines[taskTimerArray[i]].ItemName);
 			}
 				
 			else
@@ -123,7 +123,7 @@ public class Factory : MonoBehaviour, ITimerable, IWorldBuilding
 		Item itemToLine;
 		for (int i=0; i<taskTimerArray.Length; i++)
         {
-			itemToLine = (Item)ScriptableObject.CreateInstance(Type.GetType(jsonFactory.factoryLinesTypes[i]));
+			itemToLine = Item.GetItem(jsonFactory.factoryLinesNames[i]);
 			if (itemToLine == null)
 				continue;
 			itemToLine.FromJson(jsonFactory.factoryJsonLines[i]);
@@ -143,7 +143,7 @@ public class Factory : MonoBehaviour, ITimerable, IWorldBuilding
 		public string storageJsonString;
 		public string taskTimerJsonString;
 
-		public List<string> factoryLinesTypes=new();
+		public List<string> factoryLinesNames=new();
 		public List<string> factoryJsonLines=new();
 	
 	}

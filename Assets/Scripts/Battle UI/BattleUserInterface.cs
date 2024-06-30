@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
@@ -14,6 +15,7 @@ public class BattleUserInterface : MonoBehaviour
     [SerializeField] private TextMeshProUGUI scoreInfoField;
     [SerializeField] private TextMeshProUGUI playerInfoField;
     [SerializeField] private TextMeshProUGUI bigMessage;
+    [SerializeField] private TMP_InputField _spendApInput;
     [SerializeField] private GameManager gameManager;
     [SerializeField] private List<Button> planningButtons;
 
@@ -43,22 +45,25 @@ public class BattleUserInterface : MonoBehaviour
             weapon = attacker.RightHandWeapon;
         }
 
-        string weaponText = $"{weapon.ItemName} [ {weapon.APCost} AP ]\n";
+        StringBuilder weaponText = new StringBuilder($"{weapon.ItemName} [ {weapon.APCost} AP ]");
+        if (weapon.AmmoType!="")
+            weaponText.Append($" Ammo:{weapon.AmmoAmount}/{weapon.AmmoMaxAmount}");
+        weaponText.Append("\n");
         int meleeDamageBonus = (weapon.RangedAttack) ? 0 : attacker.MeleeDamageBonus;
-        weaponText += "Damage: " + weapon.FormDamageDiapason(meleeDamageBonus) + " ";
+        weaponText.Append("Damage: " + weapon.FormDamageDiapason(meleeDamageBonus) + " ");
         if (weapon.RangedAttack)
-            weaponText += "Range: "+weapon.Range + "\n";
+            weaponText.Append("Range: " +weapon.Range + "\n");
         else
-            weaponText += "Melee\n";
-        weaponText += "Skill: " + _battleManager.AllCombatCharacters[_battleManager.Player].GetSkillValue(weapon.SkillName)+" %";
-        weaponInfoField.text = weaponText;
+            weaponText.Append("Melee\n");
+        weaponText.Append("Skill: " + _battleManager.AllCombatCharacters[_battleManager.Player].GetSkillValue(weapon.SkillName)+" %");
+        weaponInfoField.text = weaponText.ToString();
     }
 
     public void RefreshLevelInfo(float enemiesDifficulty, float rewardPoints, int mineLevel) //TODO m.b. delete this or change
     {
-        string scoreInfoText = "\nMine: " + Mathf.Max(mineLevel, Mine.CalculateMineLevel(rewardPoints)) + " lvl"; ;
+        string scoreInfoText = "\nMine: " + Mathf.Max(mineLevel, (int)rewardPoints) + " lvl"; ;
         scoreInfoText += "\nEnemyes difficulty "+(int)enemiesDifficulty;
-        scoreInfoText += $"\nScore: {(int)_battleManager.RewardPoints} ({Mine.CalculateMineLevel(rewardPoints)})";
+        scoreInfoText += $"\nScore: {(int)_battleManager.RewardPoints} ({(int)rewardPoints})";
         
         scoreInfoField.text = scoreInfoText;
     }
@@ -121,7 +126,25 @@ public class BattleUserInterface : MonoBehaviour
     {
         if (_battleManager.Status != "planning")
             return;
-        CombatAction.Wait(_battleManager.AllCombatCharacters[_battleManager.Player], _battleManager.Turn);
+        int apCost = 0;
+        int.TryParse(_spendApInput.text, out apCost);
+        if (apCost<1 || apCost>_battleManager.AllCombatCharacters[_battleManager.Player].PlanningAP)
+        {
+            print($"Error. Can't spent {apCost} AP");
+            return;
+        }
+        CombatAction.Wait(_battleManager.AllCombatCharacters[_battleManager.Player], _battleManager.Turn, apCost);
+        if (_battleManager.AllCombatCharacters[_battleManager.Player].PlanningAP == 0)
+        {
+            _battleManager.NextPlayer();
+        }
+    }
+
+    public void Reload ()
+    {
+        if (_battleManager.Status != "planning")
+            return;
+        CombatAction.Reload(_battleManager.AllCombatCharacters[_battleManager.Player], _battleManager.Turn);
         if (_battleManager.AllCombatCharacters[_battleManager.Player].PlanningAP == 0)
         {
             _battleManager.NextPlayer();
@@ -143,6 +166,7 @@ public class BattleUserInterface : MonoBehaviour
     {
         foreach (Button button in planningButtons)
             button.interactable=interactible;
+        _spendApInput.interactable = interactible;
     }
     public void ShowBigMessage (string message)
     {

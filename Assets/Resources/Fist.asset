@@ -22,4 +22,10 @@ MonoBehaviour:
   damageAddition: 0
   _range: 1
   _apCost: 3
+  _ammoType: 
+  _ammoAmount: 0
+  _ammoMaxAmount: 0
+  _ammoPerShot: 0
+  _quality: 1
+  _maxQuality: 1
   _skillname: Unarmed

@@ -128,15 +128,15 @@ public class Inventory : MonoBehaviour
 	{
 		inventoryItems.Clear();
 		InventoryJsonData jsonInventory = JsonUtility.FromJson<InventoryJsonData>(jsonString);
-		if (jsonInventory == null)
+		if (jsonInventory == null || jsonInventory.invNames.Count != jsonInventory.invJsons.Count)
 			return;
 		Item itemToAdd;
-		for (int i=0; i<jsonInventory.inventory.Count; i++)
+		for (int i=0; i<jsonInventory.invNames.Count; i++)
         {
-			itemToAdd = (Item)ScriptableObject.CreateInstance(Type.GetType(jsonInventory.inventory[i++]));
+			itemToAdd = Item.GetItem(jsonInventory.invNames[i]);
 			if (itemToAdd == null)
 				continue;
-			itemToAdd.FromJson(jsonInventory.inventory[i]);
+			itemToAdd.FromJson(jsonInventory.invJsons[i]);
 			if (itemToAdd!=null)
 				inventoryItems.Add(itemToAdd); //TODO Make test if deserialization error
         }
@@ -147,8 +147,8 @@ public class Inventory : MonoBehaviour
 		InventoryJsonData jsonInventory = new();
 		for (int i=0; i<inventoryItems.Count; i++)
         {
-			jsonInventory.inventory.Add(inventoryItems[i].GetType().Name);
-			jsonInventory.inventory.Add(inventoryItems[i].ToJson());
+			jsonInventory.invNames.Add(inventoryItems[i].ItemName);
+			jsonInventory.invJsons.Add(inventoryItems[i].ToJson());
         }
 		
 		return JsonUtility.ToJson(jsonInventory);
@@ -156,8 +156,9 @@ public class Inventory : MonoBehaviour
 	}
 
 	[Serializable]
-	protected class InventoryJsonData
+	private class InventoryJsonData
 	{
-		public List<string> inventory=new();
+		public List<string> invNames = new();
+		public List<string> invJsons = new ();
 	}
 }

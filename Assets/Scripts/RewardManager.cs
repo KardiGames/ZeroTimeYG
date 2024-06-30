@@ -15,7 +15,7 @@ public class RewardManager: MonoBehaviour
     }
     private Item[] GetReward (float rewardPoints)
     {
-        Dictionary<Item, float> potentialReward = _rewardData.GetItemsDictionary(Mine.CalculateMineLevel(rewardPoints), "Junk");
+        Dictionary<Item, float> potentialReward = _rewardData.GetItemsDictionary(rewardPoints, "Junk");
         List<Item> reward = new();
         List<Item> keys = new List<Item>(potentialReward.Keys);
         Item chosenRewardItem;

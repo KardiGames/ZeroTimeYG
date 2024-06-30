@@ -59,16 +59,16 @@ public class MainMenuUI : MonoBehaviour
         if (_factoryOnGameObject.Name!="")
         {
             _factoryOnGameObject.ExitBuilding();
-            _factoryPanel.active = false;
+            _factoryPanel.SetActive(false);
         }
 
         if (_mineOnGameObject.Name!="")
         {
             _mineOnGameObject.ExitBuilding();
-            _minePanel.active = false;
+            _minePanel.SetActive(false);
         }
 
-        _locationPanel.active = true;
+        _locationPanel.SetActive(true);
         _factoryButton.interactable = false;
         _mineButton.interactable = false;
         _laboratoryButton.interactable = false;

@@ -44,10 +44,13 @@ public class GameManager : MonoBehaviour
         
         
         */
+        GameObject.Find("PlayerCharacter").GetComponent<Inventory>().TryToAdd(this, Item.GetItem("Bullet"));
     }
     public void StartBattle(Mine mine)
     {
         _worldUI.gameObject.SetActive(false);
+        Camera.main.transform.parent = null;
+        Camera.main.transform.position = new Vector3(0, 0, Camera.main.transform.position.z);
         _battleUI.gameObject.SetActive(true);
         _worldMap.gameObject.SetActive(false);
         _battleMap.SetActive(true);
@@ -59,14 +62,18 @@ public class GameManager : MonoBehaviour
         _worldUI.gameObject.SetActive(true);
         _battleMap.SetActive(false);
         _worldMap.gameObject.SetActive(true);
+        Camera.main.transform.parent = _player.transform;
+        Camera.main.transform.localPosition = new Vector3(0, 0, Camera.main.transform.localPosition.z);
         if (!death)
-            mine.SetLevel(rewardPoins / 2);
+            _player.CollectExperience((int)rewardPoins);
         else
-        {
-            rewardPoins /= 4;
-            mine.SetLevel(rewardPoins);
-        }
-        _player.CollectExperience((int)rewardPoins);
+            _player.CollectExperience((int)rewardPoins / 4);
+
+        if (!death)
+            mine.Level=(int)(Mathf.Max(rewardPoins,mine.Level) / 2);
+        else
+            mine.Level = (int)(Mathf.Max(rewardPoins, mine.Level) / 4);
+
         mine.GetComponent<RewardManager>().GiveReward(rewardPoins);
         _worldUI.OpenPlayerInventory();
     }

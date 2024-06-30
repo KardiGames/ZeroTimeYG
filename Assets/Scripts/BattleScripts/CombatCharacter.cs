@@ -26,10 +26,11 @@ public class CombatCharacter : CombatUnit
     public int EN => _playerCharacter.EN;
     public int AG => _playerCharacter.AG;
     public int IN => _playerCharacter.IN;
+    public Inventory Inventory => _playerCharacter.Inventory;
 
     //Secondary stats properties
     public override int MaxHP { get => 15 + (ST + (2 * EN));}
-    public override int MeleeDamageBonus { get => ST * 2; }
+    public override int MeleeDamageBonus { get => ST; }
     public override int TotalAP { get => (AG / 2) + 5; }
     public override int AC
     {

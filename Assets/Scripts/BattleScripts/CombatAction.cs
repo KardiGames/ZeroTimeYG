@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class CombatAction
 {
-    public string action;
+    public const int RELOAD_AP_COST = 3;
+	
+	public string action;
     public CombatUnit subject;
     public CombatUnit target;
     //public CombatObject targetObject;
@@ -81,6 +83,33 @@ public class CombatAction
         else
             return false;
     }
+	
+	public static bool Reload (CombatUnit subj, int turn) {
+		if (subj == null)
+            return false;
+		
+		Weapon weapon;
+        if (subj.usesOffHand)
+            weapon= subj.LeftHandWeapon;
+        else
+            weapon = subj.RightHandWeapon;
+		
+		if (subj is CombatCharacter player 
+			&& weapon.IsAbleToReload(player.Inventory)
+            && subj.SpendAP(RELOAD_AP_COST, true))
+		{
+			CombatAction thisAction = new CombatAction();
+			thisAction.turn = turn;
+			thisAction.apCost=RELOAD_AP_COST;
+			thisAction.action="reload";
+            thisAction.subject = subj;
+            thisAction.usedItem = weapon;
+            subj.personalPlanningList.Add(thisAction);
+            return true;
+        }
+        return false;
+	}
+	
     public static bool Exit(CombatUnit subj, int turn)
     {
         if (subj == null)
@@ -153,19 +182,15 @@ public class CombatAction
                 //Find target from coordinates place[] and set a CombatCharacter or Object as target
             }
                
-            bool checkList = true;
-
             if (range < Location.Distance(subject.pos, target.pos))
-                checkList=false;
+                return;
 
-            //TODO ADD check for obstacle, change target to object if u need
-                
-            if (!checkList)
+            if (usedWeapon.AmmoType != "" && !usedWeapon.TryToSpendAmmo())
                 return;
 
             apCost = Mathf.Max(apCost, usedWeapon.APCost);
 
-            if (checkList && subject.SpendAP(apCost))
+            if (subject.SpendAP(apCost))
             {
                 manager._combatLog.Add(this);
 
@@ -175,7 +200,11 @@ public class CombatAction
                 {
                     int damage = GetWeaponDamage (usedWeapon);
                     if (!usedWeapon.RangedAttack && subject._ai=="")
-                        damage += subject.MeleeDamageBonus;
+                        if (usedWeapon.TwoHanded)
+                            damage += subject.MeleeDamageBonus*2;
+                        else
+                            damage += subject.MeleeDamageBonus;
+
 					damage = damage * subject.GetSkillValue("Weapon damage")/100;
 					if (damage <1)
 						damage = 1;
@@ -201,6 +230,18 @@ public class CombatAction
             }
             else
                 Debug.Log(subject.name + " can't wait anymore *(");
+        }
+        else if (action == "reload") 
+        {
+            if (usedItem is Weapon weapon
+                && subject is CombatCharacter player
+                && subject.SpendAP(apCost))
+            {
+                weapon.ReloadAmmo(player.Inventory);
+                manager._combatLog.Add(this);
+            }
+            else
+                Debug.Log(subject.name + " can't reload weapon for some reason (");
         } else if (action == "exit")
         {
             if (subject.SpendAP(apCost))

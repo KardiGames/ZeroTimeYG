@@ -82,13 +82,17 @@ public class NonPlayerCharacter : CombatUnit
 
     public void LevelUp(NpcBlank blank)
     {
+        List<int> cases = new List<int>() { 0, 1, 2, 3 };
         _level++;
 
         _maxHP += blank.maxHP / 2;
-        int randomStart = 0;
+
         if (TotalAP >= (blank.totalAP * 2))
-            randomStart = 1;
-        switch (Random.Range(randomStart, 3))
+            cases.Remove(0);
+        if (_ac >= 50)
+            cases.Remove(2);
+
+        switch (cases[Random.Range(0, cases.Count)])
         {
             case 0:
                 _totalAP++;
@@ -97,7 +101,10 @@ public class NonPlayerCharacter : CombatUnit
                 _npcAttack.BoostDamage();
                 break;
             case 2:
-                _ac += _ac / 2;
+                _maxHP += blank.maxHP / 2;
+                break;
+            case 3:
+                _ac += 5;
                 break;
         }
     }

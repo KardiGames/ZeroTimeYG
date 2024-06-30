@@ -32,6 +32,7 @@ public class MineNpcRewardData : ScriptableObject
             .ToArray();
     }
 
+    public Dictionary<Item, float> GetItemsDictionary(float mineLevel, string mineType) => GetItemsDictionary((int)mineLevel, mineType);
     public Dictionary<Item, float> GetItemsDictionary(int mineLevel, string mineType)
     {
         Dictionary<Item, float> reward = new();

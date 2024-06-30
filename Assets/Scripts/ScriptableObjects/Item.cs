@@ -80,16 +80,23 @@ public class Item : ScriptableObject
 
     public virtual string ToJson ()
     {
-        return JsonUtility.ToJson(this);
+        ItemJsonData itemJson = new ItemJsonData()
+        {
+            a = Amount,
+            st = Stackable
+        };
+		return JsonUtility.ToJson(itemJson);
     }
 
     public virtual void FromJson (string jsonString)
     {
-        JsonUtility.FromJsonOverwrite(jsonString, this);
-        if (this.ItemName == "ErrorItem"){
+        ItemJsonData jsonItem = JsonUtility.FromJson<ItemJsonData>(jsonString);
+        if (jsonItem == null){
 			Debug.Log ("Error! Mistake on FromJson() in SrcItem (item is destroying)");
             Destroy(this);
 		}
+		_stackable=jsonItem.st;
+		_amount=jsonItem.a;
     }
 
     public static Item GetItem(string itemName)
@@ -101,4 +108,10 @@ public class Item : ScriptableObject
     {
         return allItems.Select(item => item.Clone()).ToArray();
     }
+	
+	[Serializable]
+	protected class ItemJsonData {
+		public bool st;
+		public long a;
+	}
 }

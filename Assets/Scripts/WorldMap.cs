@@ -43,8 +43,8 @@ public class WorldMap : MonoBehaviour
 
         IEnumerator MoveEveryFrame()
         {
-            while (((_movePosition.x - _player.transform.position.x) >= 0) == (moveVector.x >= 0)
-                || ((_movePosition.y - _player.transform.position.y) >= 0) == (moveVector.y >= 0))
+            while (((_movePosition.x - _player.transform.position.x) > 0) == (moveVector.x > 0)
+                && ((_movePosition.y - _player.transform.position.y) > 0) == (moveVector.y > 0))
             {
                 _player.transform.Translate(moveVector * Time.deltaTime);
                 yield return null;

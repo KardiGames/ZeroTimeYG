@@ -4,7 +4,14 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Item", menuName = "Items/NpcAttack")]
 public class NpcAttack : Weapon
 {
-    public void SetValues(string itemName, int range, int apCost, bool rangedAttack)
+    public override string AmmoType => "";
+    public override int AmmoAmount => 1;
+    public override int AmmoMaxAmount => 1;
+    public override int AmmoPerShot => 0;
+    public override int Quality => 1;
+	public override int MaxQuality => 1;
+	
+	public void SetValues(string itemName, int range, int apCost, bool rangedAttack)
     {
         _itemName = itemName;
         _range = range;
@@ -19,7 +26,11 @@ public class NpcAttack : Weapon
         damageAddition = addition;
     }
 
-    public void BoostDamage(string parametr, int value = 1)
+    public override bool TryToSpendAmmo() {
+		return true;
+	}
+	
+	public void BoostDamage(string parametr, int value = 1)
     {
         if (parametr == "addition")
         {

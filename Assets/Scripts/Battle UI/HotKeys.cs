@@ -12,5 +12,7 @@ public class HotKeys : MonoBehaviour
             _battleManager.BattleUI.EndTurn();
         else if (Input.GetKeyDown(KeyCode.E))
             _battleManager.BattleUI.ChangeWeapon();
+        else if (Input.GetKeyDown(KeyCode.R))
+            _battleManager.BattleUI.Reload();
     }
 }

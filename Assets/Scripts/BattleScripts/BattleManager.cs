@@ -175,6 +175,7 @@ public class BattleManager : MonoBehaviour
     }
     void SpawnEnemies(int enemiesNumberInBattle, float enemiesDifficultyInBattle)
     {
+        float difficultyProgressionSpeed = 0.5f; //must be > 0!!!
         int npcNumberCloseToExpected = 2; //1 - totally random, >1 - closer to expected, <1 - Not warking at all!! ((
         
         if (_mine==null)
@@ -183,11 +184,11 @@ public class BattleManager : MonoBehaviour
             return;
         }
 
-        int mineLevel = Mathf.Max(_mine.Level, Mine.CalculateMineLevel(RewardPoints));
+        int mineLevel = Mathf.Max(_mine.Level, (int)RewardPoints);
 
-        float totalEnemiesDifficulty = 2 * Mathf.Pow(10, ((float)mineLevel / 20) - 1); //Formula from TechAss.
+        float totalEnemiesDifficulty = difficultyProgressionSpeed * mineLevel; //Formula from TechAss.
 
-        float expectedEnemiesNumber = 1 + Mathf.Pow((float)mineLevel / 20, 2);  //Formula from TechAss.
+        float expectedEnemiesNumber = Mathf.Pow((float)mineLevel, 1f/3f);  //Formula from TechAss.
         int minimumEnemiesNumber = (int)(expectedEnemiesNumber * 2f / 3f); //Formula from TechAss.
         int maximumEnemiesNumber = (int)(expectedEnemiesNumber * 4f / 3f); //Formula from TechAss.
 
@@ -201,7 +202,9 @@ public class BattleManager : MonoBehaviour
         if (enemiesSpawnNumber == 0)
             return;
 
-        float eachEnemyDifficulty = (totalEnemiesDifficulty-enemiesDifficultyInBattle) / enemiesSpawnNumber;
+        enemiesSpawnNumber = Mathf.Min(enemiesSpawnNumber, (Location.xSize + Location.ySize));
+
+        float eachEnemyDifficulty = ((float)totalEnemiesDifficulty-enemiesDifficultyInBattle) / enemiesSpawnNumber;
 
         NpcBlank[] potencialEnemies = _npcSpawnData.GetNpcList(mineLevel, _mine.MineType);
         int chosenEnemyIndex;
@@ -209,12 +212,22 @@ public class BattleManager : MonoBehaviour
         for (int i=0; i<enemiesSpawnNumber; i++)
         {
             chosenEnemyIndex = Random.Range(0, potencialEnemies.Length);
-            chosenEnemyLevel = Mathf.Max((int)(eachEnemyDifficulty / potencialEnemies[chosenEnemyIndex].difficulty), 1);
+            float enemyFloatLevel = (eachEnemyDifficulty / potencialEnemies[chosenEnemyIndex].difficulty);
+            if (enemyFloatLevel > int.MaxValue)
+                chosenEnemyLevel = int.MaxValue;
+            else
+                chosenEnemyLevel = (int)enemyFloatLevel;
+            if (chosenEnemyLevel < 1)
+                chosenEnemyLevel = 1;
             NonPlayerCharacter spawnedNPC = potencialEnemies[chosenEnemyIndex].Spawn(this, chosenEnemyLevel, Location.GetSpawnPosition());
             if (spawnedNPC != null)
                 AllCombatCharacters.Add(spawnedNPC);
             else
                 print("Error! Spawn was broken!");
+
+            enemiesDifficultyInBattle += enemyFloatLevel;
+            if (enemiesDifficultyInBattle > totalEnemiesDifficulty)
+                break;
         }
     }
 

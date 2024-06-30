@@ -165,7 +165,8 @@ public class Movie : MonoBehaviour
             } else if (usedWeapon.RangedAttack || thisAction.subject.CharacterAnimator == null) //TODO remove second condition
                 bullet.transform.position += moveVector * Time.deltaTime / ACTION_TIME;
         }
-        else if (thisAction.action == "wait")
+        else if (thisAction.action == "wait" 
+                || thisAction.action == "reload")
         {
             //thisAction.subject.OverheadText.ShowGreen("+" + thisAction.apCost + " temporal AC");
             _battleManager.NextMovieAct();

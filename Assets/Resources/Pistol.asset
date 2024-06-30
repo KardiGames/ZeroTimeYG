@@ -22,4 +22,10 @@ MonoBehaviour:
   damageAddition: 3
   _range: 4
   _apCost: 4
+  _ammoType: Bullet
+  _ammoAmount: 6
+  _ammoMaxAmount: 6
+  _ammoPerShot: 1
+  _quality: 5
+  _maxQuality: 5
   _skillname: Pistols
