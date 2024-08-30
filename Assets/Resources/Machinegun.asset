@@ -17,15 +17,15 @@ MonoBehaviour:
   _amount: 1
   _rangedAttack: 1
   _twoHanded: 1
-  damageRandomMultipler: 5
-  damageRandomTo: 6
-  damageAddition: 0
+  damageRandomMultipler: 11
+  damageRandomTo: 10
+  damageAddition: 4
   _range: 5
   _apCost: 6
   _ammoType: Bullet
-  _ammoAmount: 500
-  _ammoMaxAmount: 500
-  _ammoPerShot: 50
-  _quality: 5
-  _maxQuality: 5
+  _ammoAmount: 100
+  _ammoMaxAmount: 100
+  _ammoPerShot: 10
+  _quality: 15
+  _maxQuality: 15
   _skillname: Heavy

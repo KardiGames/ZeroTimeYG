@@ -18,8 +18,8 @@ MonoBehaviour:
   _rangedAttack: 1
   _twoHanded: 0
   damageRandomMultipler: 1
-  damageRandomTo: 8
-  damageAddition: 3
+  damageRandomTo: 9
+  damageAddition: 2
   _range: 4
   _apCost: 4
   _ammoType: Bullet

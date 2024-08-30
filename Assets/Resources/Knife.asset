@@ -18,7 +18,7 @@ MonoBehaviour:
   _rangedAttack: 0
   _twoHanded: 0
   damageRandomMultipler: 1
-  damageRandomTo: 10
+  damageRandomTo: 4
   damageAddition: 0
   _range: 1
   _apCost: 3
