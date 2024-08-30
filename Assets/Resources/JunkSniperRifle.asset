@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af871b096d856db4db76b3dcc3f9ef31, type: 3}
+  m_Name: JunkSniperRifle
+  m_EditorClassIdentifier: 
+  _itemName: Junk Sniper rifle
+  _stackable: 0
+  _amount: 1
+  _rangedAttack: 1
+  _twoHanded: 1
+  damageRandomMultipler: 3
+  damageRandomTo: 22
+  damageAddition: 0
+  _range: 8
+  _apCost: 9
+  _ammoType: Bullet
+  _ammoAmount: 1
+  _ammoMaxAmount: 1
+  _ammoPerShot: 1
+  _quality: 6
+  _maxQuality: 6
+  _skillname: Rifles

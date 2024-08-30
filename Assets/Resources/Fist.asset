@@ -18,10 +18,10 @@ MonoBehaviour:
   _rangedAttack: 0
   _twoHanded: 0
   damageRandomMultipler: 1
-  damageRandomTo: 4
+  damageRandomTo: 1
   damageAddition: 0
   _range: 1
-  _apCost: 3
+  _apCost: 5
   _ammoType: 
   _ammoAmount: 0
   _ammoMaxAmount: 0

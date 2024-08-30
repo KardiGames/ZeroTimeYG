@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af871b096d856db4db76b3dcc3f9ef31, type: 3}
+  m_Name: SniperLaser
+  m_EditorClassIdentifier: 
+  _itemName: Sniper laser
+  _stackable: 0
+  _amount: 1
+  _rangedAttack: 1
+  _twoHanded: 1
+  damageRandomMultipler: 1
+  damageRandomTo: 287
+  damageAddition: 250
+  _range: 9
+  _apCost: 8
+  _ammoType: Energy cell
+  _ammoAmount: 1
+  _ammoMaxAmount: 3
+  _ammoPerShot: 1
+  _quality: 45
+  _maxQuality: 45
+  _skillname: Rifles

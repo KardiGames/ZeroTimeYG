@@ -17,15 +17,15 @@ MonoBehaviour:
   _amount: 1
   _rangedAttack: 1
   _twoHanded: 1
-  damageRandomMultipler: 2
-  damageRandomTo: 20
+  damageRandomMultipler: 3
+  damageRandomTo: 26
   damageAddition: 0
-  _range: 10
+  _range: 9
   _apCost: 8
   _ammoType: Bullet
   _ammoAmount: 1
-  _ammoMaxAmount: 1
-  _ammoPerShot: 1
-  _quality: 5
-  _maxQuality: 5
+  _ammoMaxAmount: 3
+  _ammoPerShot: 3
+  _quality: 15
+  _maxQuality: 15
   _skillname: Rifles
