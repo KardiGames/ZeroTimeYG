@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af6a67d6e5a10954ab9e9c335c2f25b9, type: 3}
+  m_Name: EnergyCoreBlueprint
+  m_EditorClassIdentifier: 
+  _itemName: Energy core Blueprint
+  _stackable: 0
+  _amount: 1
+  _itemToCreate: {fileID: 11400000, guid: 977927d9b543c3b4881e067d5391c514, type: 2}
+  _secondsToFinish: 600
+  _listOfResourses:
+  - {fileID: 11400000, guid: 92370802ccce8f341873b964ca274166, type: 2}
+  - {fileID: 11400000, guid: ea04758f96f347349831396e93e5a5a4, type: 2}
+  - {fileID: 11400000, guid: f7b2956a05b1b9d4e803c0e8aa87858a, type: 2}
+  _amountOfResourses: 0b000000000000000b000000000000000500000000000000

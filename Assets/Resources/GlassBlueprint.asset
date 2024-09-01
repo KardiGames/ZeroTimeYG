@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: af6a67d6e5a10954ab9e9c335c2f25b9, type: 3}
-  m_Name: Blueprint 18
+  m_Name: GlassBlueprint
   m_EditorClassIdentifier: 
-  _itemName: ErrorItem
-  _stackable: 0
+  _itemName: Glass Blueprint
+  _stackable: 1
   _amount: 1
-  _itemToCreate: {fileID: 0}
-  _secondsToFinish: 0
-  _listOfResourses: []
-  _amountOfResourses: 
+  _itemToCreate: {fileID: 11400000, guid: 3bd33af27cf2ef84daed138860c4d52e, type: 2}
+  _secondsToFinish: 600
+  _listOfResourses:
+  - {fileID: 11400000, guid: b41af372334669140a794f9f910f703e, type: 2}
+  _amountOfResourses: 0200000000000000

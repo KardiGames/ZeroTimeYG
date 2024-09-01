@@ -54,7 +54,7 @@ public class Blueprint : Item
 		return false;
     }
 
-	public override string ToJson()
+	/*public override string ToJson()
 	{
 		BlueprintJsonData jsonBlueprint = new();
 		jsonBlueprint.itemToCreateJsonString = _itemToCreate.ToJson();
@@ -99,5 +99,5 @@ public class Blueprint : Item
 		public float secondsToFinish;
 		public List<string> resourses = new();
 		public List<long> amounts;
-	}
+	}*/
 }

@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: af6a67d6e5a10954ab9e9c335c2f25b9, type: 3}
-  m_Name: PistolBlueprint
+  m_Name: LeatherJacketBlueprint
   m_EditorClassIdentifier: 
-  _itemName: Pistol Blueprint
+  _itemName: Leather jacket Blueprint
   _stackable: 1
   _amount: 1
-  _itemToCreate: {fileID: 11400000, guid: 725b2fe96700afe4fb5cef1cd1aad886, type: 2}
-  _secondsToFinish: 120
+  _itemToCreate: {fileID: 11400000, guid: 26b6f9aa416f0734b9330e6b95d39cd4, type: 2}
+  _secondsToFinish: 600
   _listOfResourses:
-  - {fileID: 11400000, guid: 8ebc3ef699bbbc147bb0729238a67d21, type: 2}
+  - {fileID: 11400000, guid: ea04758f96f347349831396e93e5a5a4, type: 2}
   - {fileID: 11400000, guid: 1fecd2c534f222a4da74ac543dadedc4, type: 2}
-  _amountOfResourses: 04000000000000000300000000000000
+  _amountOfResourses: 03000000000000000a00000000000000

@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _itemName: Energy core
   _stackable: 1
-  _amount: 200
+  _amount: 1

@@ -10,12 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: af6a67d6e5a10954ab9e9c335c2f25b9, type: 3}
-  m_Name: Blueprint 15
+  m_Name: SteelBlueprint
   m_EditorClassIdentifier: 
-  _itemName: ErrorItem
-  _stackable: 0
-  _amount: 1
+  _itemName: Steel Blueprint
+  _stackable: 1
+  _amount: 10
   _itemToCreate: {fileID: 0}
-  _secondsToFinish: 0
-  _listOfResourses: []
-  _amountOfResourses: 
+  _secondsToFinish: 600
+  _listOfResourses:
+  - {fileID: 11400000, guid: 8ebc3ef699bbbc147bb0729238a67d21, type: 2}
+  - {fileID: 11400000, guid: 52e4142cc0310384bb1b2b010f47aa69, type: 2}
+  _amountOfResourses: 32000000000000001400000000000000

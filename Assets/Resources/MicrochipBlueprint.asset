@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: af6a67d6e5a10954ab9e9c335c2f25b9, type: 3}
-  m_Name: PistolBlueprint
+  m_Name: MicrochipBlueprint
   m_EditorClassIdentifier: 
-  _itemName: Pistol Blueprint
+  _itemName: MicrochipBlueprint
   _stackable: 1
   _amount: 1
-  _itemToCreate: {fileID: 11400000, guid: 725b2fe96700afe4fb5cef1cd1aad886, type: 2}
-  _secondsToFinish: 120
+  _itemToCreate: {fileID: 11400000, guid: 062476ceb018718428efca07c00ef4f1, type: 2}
+  _secondsToFinish: 800
   _listOfResourses:
-  - {fileID: 11400000, guid: 8ebc3ef699bbbc147bb0729238a67d21, type: 2}
+  - {fileID: 11400000, guid: b41af372334669140a794f9f910f703e, type: 2}
   - {fileID: 11400000, guid: 1fecd2c534f222a4da74ac543dadedc4, type: 2}
-  _amountOfResourses: 04000000000000000300000000000000
+  _amountOfResourses: 0a000000000000000100000000000000

@@ -33,7 +33,7 @@ public class Item : ScriptableObject
 				if (allItems.Find(item => item.ItemName == itemToLoad.ItemName) == null)
 					allItems.Add(itemToLoad);
 				else
-					Debug.Log("Error! Have tryed to load items with same name");
+					Debug.Log("Error! Have tryed to load items with same name "+ itemToLoad.ItemName);
     }
 	
 	public Item Clone()
