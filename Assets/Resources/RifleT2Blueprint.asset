@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af6a67d6e5a10954ab9e9c335c2f25b9, type: 3}
+  m_Name: RifleT2Blueprint
+  m_EditorClassIdentifier: 
+  _itemName: Rifle T2 Blueprint
+  _stackable: 1
+  _amount: 1
+  _itemToCreate: {fileID: 11400000, guid: b0d8c8152bc76a346a2c8ceaaa01c792, type: 2}
+  _secondsToFinish: 2400
+  _listOfResourses:
+  - {fileID: 11400000, guid: 5afe764d34a51c444852e264f20e1ce4, type: 2}
+  - {fileID: 11400000, guid: 1252d41d7d704db4f9307fe478d500c9, type: 2}
+  - {fileID: 11400000, guid: ea04758f96f347349831396e93e5a5a4, type: 2}
+  _amountOfResourses: 010000000000000004000000000000001000000000000000

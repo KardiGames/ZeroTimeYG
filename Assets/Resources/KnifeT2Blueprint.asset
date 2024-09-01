@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af6a67d6e5a10954ab9e9c335c2f25b9, type: 3}
+  m_Name: KnifeT2Blueprint
+  m_EditorClassIdentifier: 
+  _itemName: Knife T2 Blueprint
+  _stackable: 1
+  _amount: 1
+  _itemToCreate: {fileID: 11400000, guid: b81b3923780d23547b19b7a64960d47f, type: 2}
+  _secondsToFinish: 600
+  _listOfResourses:
+  - {fileID: 11400000, guid: 0e179b1bf9c13a0409245005614f5e6a, type: 2}
+  - {fileID: 11400000, guid: adf498d9694b6094497121744649309c, type: 2}
+  _amountOfResourses: 01000000000000000400000000000000
