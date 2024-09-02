@@ -10,28 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: af6a67d6e5a10954ab9e9c335c2f25b9, type: 3}
-<<<<<<<< HEAD:Assets/Resources/SwordBlueprint.asset
   m_Name: SwordBlueprint
   m_EditorClassIdentifier: 
   _itemName: Sword Blueprint
   _stackable: 0
   _amount: 1
-  _itemToCreate: {fileID: 0}
+  _itemToCreate: {fileID: 11400000, guid: f41c6415877303b4cbe69d0ed615e182, type: 2}
   _secondsToFinish: 180
   _listOfResourses:
   - {fileID: 11400000, guid: 8ebc3ef699bbbc147bb0729238a67d21, type: 2}
   - {fileID: 11400000, guid: ea04758f96f347349831396e93e5a5a4, type: 2}
   _amountOfResourses: 06000000000000000100000000000000
-========
-  m_Name: PistolT2Blueprint
-  m_EditorClassIdentifier: 
-  _itemName: Pistol T2 Blueprint
-  _stackable: 1
-  _amount: 1
-  _itemToCreate: {fileID: 11400000, guid: e0fa0e197f3a670489b189a601897c78, type: 2}
-  _secondsToFinish: 0
-  _listOfResourses:
-  - {fileID: 11400000, guid: 725b2fe96700afe4fb5cef1cd1aad886, type: 2}
-  - {fileID: 11400000, guid: 1252d41d7d704db4f9307fe478d500c9, type: 2}
-  _amountOfResourses: 01000000000000000200000000000000
->>>>>>>> 752d6493ea230928df56e8a24f6d285f740b8d2f:Assets/Resources/PistolT2Blueprint.asset

@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af6a67d6e5a10954ab9e9c335c2f25b9, type: 3}
+  m_Name: CarbonArmorBlueprint
+  m_EditorClassIdentifier: 
+  _itemName: CarbonArmorBlueprint
+  _stackable: 0
+  _amount: 1
+  _itemToCreate: {fileID: 11400000, guid: 7742df7de40ad8b439a65b8fb9e994fc, type: 2}
+  _secondsToFinish: 120000
+  _listOfResourses:
+  - {fileID: 11400000, guid: 0756d9157caeef04f9d09631080b13e5, type: 2}
+  - {fileID: 11400000, guid: adf498d9694b6094497121744649309c, type: 2}
+  - {fileID: 11400000, guid: 3bd33af27cf2ef84daed138860c4d52e, type: 2}
+  _amountOfResourses: 37000000000000009b00000000000000bc00000000000000

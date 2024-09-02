@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: af6a67d6e5a10954ab9e9c335c2f25b9, type: 3}
-  m_Name: RifleBlueprint
+  m_Name: TitanArmorBlueprint
   m_EditorClassIdentifier: 
-  _itemName: Rifle Blueprint
-  _stackable: 1
+  _itemName: Titan armor Blueprint
+  _stackable: 0
   _amount: 1
-  _itemToCreate: {fileID: 11400000, guid: 5afe764d34a51c444852e264f20e1ce4, type: 2}
-  _secondsToFinish: 240
+  _itemToCreate: {fileID: 11400000, guid: 30622bda08505a34f990d473d0896106, type: 2}
+  _secondsToFinish: 12000
   _listOfResourses:
-  - {fileID: 11400000, guid: 8ebc3ef699bbbc147bb0729238a67d21, type: 2}
+  - {fileID: 11400000, guid: f7b2956a05b1b9d4e803c0e8aa87858a, type: 2}
+  - {fileID: 11400000, guid: adf498d9694b6094497121744649309c, type: 2}
   - {fileID: 11400000, guid: 1fecd2c534f222a4da74ac543dadedc4, type: 2}
-  - {fileID: 11400000, guid: ea04758f96f347349831396e93e5a5a4, type: 2}
-  _amountOfResourses: 060000000000000005000000000000000200000000000000
+  _amountOfResourses: 15000000000000000d00000000000000de00000000000000

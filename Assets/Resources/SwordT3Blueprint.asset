@@ -10,12 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: af6a67d6e5a10954ab9e9c335c2f25b9, type: 3}
-  m_Name: Blueprint 20
+  m_Name: SwordT3Blueprint
   m_EditorClassIdentifier: 
-  _itemName: ErrorItem
+  _itemName: Sword T3 Blueprint
   _stackable: 0
   _amount: 1
-  _itemToCreate: {fileID: 0}
-  _secondsToFinish: 0
-  _listOfResourses: []
-  _amountOfResourses: 
+  _itemToCreate: {fileID: 11400000, guid: ced48c665318a084cb003661b19fee0d, type: 2}
+  _secondsToFinish: 18000
+  _listOfResourses:
+  - {fileID: 11400000, guid: f0c13a1dea59a274d8752476b48e230b, type: 2}
+  - {fileID: 11400000, guid: e919629bbe2b0a848b3a2c6680417d49, type: 2}
+  _amountOfResourses: 05000000000000000800000000000000
