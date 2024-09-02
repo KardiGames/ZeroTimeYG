@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: af6a67d6e5a10954ab9e9c335c2f25b9, type: 3}
-  m_Name: Blueprint 40
+  m_Name: RadioactivesFromCoalBlueprint
   m_EditorClassIdentifier: 
-  _itemName: ErrorItem
-  _stackable: 0
+  _itemName: Radioactives From Coal Blueprint
+  _stackable: 1
   _amount: 1
-  _itemToCreate: {fileID: 0}
-  _secondsToFinish: 0
-  _listOfResourses: []
-  _amountOfResourses: 
+  _itemToCreate: {fileID: 11400000, guid: 92370802ccce8f341873b964ca274166, type: 2}
+  _secondsToFinish: 6000
+  _listOfResourses:
+  - {fileID: 11400000, guid: 52e4142cc0310384bb1b2b010f47aa69, type: 2}
+  _amountOfResourses: 3200000000000000
