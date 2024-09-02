@@ -10,12 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: af6a67d6e5a10954ab9e9c335c2f25b9, type: 3}
-  m_Name: Blueprint 30
+  m_Name: ShotgunT3Blueprint
   m_EditorClassIdentifier: 
-  _itemName: ErrorItem
+  _itemName: Shotgun T3 Blueprint
   _stackable: 0
   _amount: 1
-  _itemToCreate: {fileID: 0}
-  _secondsToFinish: 0
-  _listOfResourses: []
-  _amountOfResourses: 
+  _itemToCreate: {fileID: 11400000, guid: 79d3f7bfc41b2724db1830174934fbe1, type: 2}
+  _secondsToFinish: 24000
+  _listOfResourses:
+  - {fileID: 11400000, guid: 095fe5f7511598c48883f469389e9c74, type: 2}
+  - {fileID: 11400000, guid: e919629bbe2b0a848b3a2c6680417d49, type: 2}
+  _amountOfResourses: 05000000000000001000000000000000

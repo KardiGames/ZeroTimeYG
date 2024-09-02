@@ -10,14 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: af6a67d6e5a10954ab9e9c335c2f25b9, type: 3}
-  m_Name: KnifeT3Blueprint
+  m_Name: LaserPistolT2Blueprint
   m_EditorClassIdentifier: 
-  _itemName: Knife T3 Blueprint
+  _itemName: Laser pistol T2 Blueprint
   _stackable: 1
   _amount: 1
-  _itemToCreate: {fileID: 11400000, guid: f0464f04bc1fa814babb135f88b8620a, type: 2}
-  _secondsToFinish: 6000
+  _itemToCreate: {fileID: 11400000, guid: be1cad6364639714d982b550454b9186, type: 2}
+  _secondsToFinish: 2400
   _listOfResourses:
-  - {fileID: 11400000, guid: b81b3923780d23547b19b7a64960d47f, type: 2}
+  - {fileID: 11400000, guid: a26fc95299e462641a51eafc5e3bcdc2, type: 2}
   - {fileID: 11400000, guid: e919629bbe2b0a848b3a2c6680417d49, type: 2}
-  _amountOfResourses: 05000000000000000600000000000000
+  - {fileID: 11400000, guid: 977927d9b543c3b4881e067d5391c514, type: 2}
+  _amountOfResourses: 010000000000000003000000000000000300000000000000

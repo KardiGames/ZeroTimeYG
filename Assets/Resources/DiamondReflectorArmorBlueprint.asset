@@ -10,14 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: af6a67d6e5a10954ab9e9c335c2f25b9, type: 3}
-  m_Name: KnifeT3Blueprint
+  m_Name: DiamondReflectorArmorBlueprint
   m_EditorClassIdentifier: 
-  _itemName: Knife T3 Blueprint
+  _itemName: Diamond reflector armor Blueprint
   _stackable: 1
   _amount: 1
-  _itemToCreate: {fileID: 11400000, guid: f0464f04bc1fa814babb135f88b8620a, type: 2}
-  _secondsToFinish: 6000
+  _itemToCreate: {fileID: 11400000, guid: 5f11d2fed91b5954b9405ce68fae47d0, type: 2}
+  _secondsToFinish: 120000
   _listOfResourses:
-  - {fileID: 11400000, guid: b81b3923780d23547b19b7a64960d47f, type: 2}
+  - {fileID: 11400000, guid: 977927d9b543c3b4881e067d5391c514, type: 2}
+  - {fileID: 11400000, guid: 336c1acf24424bf4a8037bd58256addd, type: 2}
   - {fileID: 11400000, guid: e919629bbe2b0a848b3a2c6680417d49, type: 2}
-  _amountOfResourses: 05000000000000000600000000000000
+  _amountOfResourses: 190000000000000046000000000000001900000000000000
