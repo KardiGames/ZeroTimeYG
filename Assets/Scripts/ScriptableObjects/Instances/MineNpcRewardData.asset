@@ -17,26 +17,321 @@ MonoBehaviour:
     npc: {fileID: 11400000, guid: 108abab4967e4054eb43d05816b56585, type: 2}
   _junkReward:
   - minMineLevel: 0
+    rewardItem: {fileID: 11400000, guid: a3694a245acaeb2418d6e69bb6cfdd16, type: 2}
+    rewardCost: 3
+  - minMineLevel: 5
+    rewardItem: {fileID: 11400000, guid: d834e11a35e08804c98bbcff8f3e7b4f, type: 2}
+    rewardCost: 9
+  - minMineLevel: 0
+    rewardItem: {fileID: 11400000, guid: 6436f4de575fc024bb7e2e31fa0a8f74, type: 2}
+    rewardCost: 6
+  - minMineLevel: 15
+    rewardItem: {fileID: 11400000, guid: abe02e52996d6ed418c834481e6464ad, type: 2}
+    rewardCost: 12
+  - minMineLevel: 15
+    rewardItem: {fileID: 11400000, guid: 2f3f4108d30d1464da2d417f0f4e60e9, type: 2}
+    rewardCost: 12
+  - minMineLevel: 25
+    rewardItem: {fileID: 11400000, guid: 5e4160785885a3044999b8513b55ee2e, type: 2}
+    rewardCost: 24
+  - minMineLevel: 25
+    rewardItem: {fileID: 11400000, guid: ecf10a64c2149e844ae4193413d1137e, type: 2}
+    rewardCost: 24
+  - minMineLevel: 0
+    rewardItem: {fileID: 11400000, guid: 347aecff44b72fd49bad584f5831c38c, type: 2}
+    rewardCost: 30
+  _poorResReward:
+  - minMineLevel: 0
+    rewardItem: {fileID: 11400000, guid: 8ebc3ef699bbbc147bb0729238a67d21, type: 2}
+    rewardCost: 2
+  - minMineLevel: 0
+    rewardItem: {fileID: 11400000, guid: 587923231e4264c4fa83db7bf1266abe, type: 2}
+    rewardCost: 2
+  - minMineLevel: 15
+    rewardItem: {fileID: 11400000, guid: 52e4142cc0310384bb1b2b010f47aa69, type: 2}
+    rewardCost: 3
+  - minMineLevel: 25
+    rewardItem: {fileID: 11400000, guid: ea04758f96f347349831396e93e5a5a4, type: 2}
+    rewardCost: 5
+  _simpleMaterialsReward:
+  - minMineLevel: 0
+    rewardItem: {fileID: 11400000, guid: 25beef239ffe8424dba8d47724f53268, type: 2}
+    rewardCost: 5
+  - minMineLevel: 0
+    rewardItem: {fileID: 11400000, guid: 3a41bf2e0aa76384f820a81f271a8c47, type: 2}
+    rewardCost: 1
+  - minMineLevel: 0
+    rewardItem: {fileID: 11400000, guid: cebdab5c79b1f63448a3ef3f7dad20b0, type: 2}
+    rewardCost: 2
+  - minMineLevel: 100
+    rewardItem: {fileID: 11400000, guid: eed6549d3ae898a4a88da95bca3cd311, type: 2}
+    rewardCost: 5
+  _weaponT1Reward:
+  - minMineLevel: 0
+    rewardItem: {fileID: 11400000, guid: 250eef1012f3b4c4aaacabc8107c05a2, type: 2}
+    rewardCost: 2
+  - minMineLevel: 5
+    rewardItem: {fileID: 11400000, guid: 6e4e7d1af1d28b2448bbdc67356211e7, type: 2}
+    rewardCost: 1
+  - minMineLevel: 15
+    rewardItem: {fileID: 11400000, guid: cc247c0ceb44b3747912bd0936d6fc0c, type: 2}
+    rewardCost: 2
+  - minMineLevel: 15
+    rewardItem: {fileID: 11400000, guid: 674c2ef4ba8b43049a76c4b417b2bd92, type: 2}
+    rewardCost: 1
+  - minMineLevel: 25
+    rewardItem: {fileID: 11400000, guid: e8388c3d37834fa46b24ac84208b914d, type: 2}
+    rewardCost: 3
+  - minMineLevel: 25
+    rewardItem: {fileID: 11400000, guid: 41d2fc8e6cbb2474caeb02fcbc1e3ec8, type: 2}
+    rewardCost: 3
+  - minMineLevel: 50
+    rewardItem: {fileID: 11400000, guid: 2100196e1bd4a1d40b8aa995d5b9a82f, type: 2}
+    rewardCost: 10
+  - minMineLevel: 50
+    rewardItem: {fileID: 11400000, guid: c108ac5eaecd67e48855468a6109ca7b, type: 2}
+    rewardCost: 10
+  _rawResReward:
+  - minMineLevel: 0
     rewardItem: {fileID: 11400000, guid: 8ebc3ef699bbbc147bb0729238a67d21, type: 2}
     rewardCost: 1
-  - minMineLevel: 20
-    rewardItem: {fileID: 11400000, guid: 0e179b1bf9c13a0409245005614f5e6a, type: 2}
+  - minMineLevel: 0
+    rewardItem: {fileID: 11400000, guid: 587923231e4264c4fa83db7bf1266abe, type: 2}
+    rewardCost: 1
+  - minMineLevel: 15
+    rewardItem: {fileID: 11400000, guid: b41af372334669140a794f9f910f703e, type: 2}
+    rewardCost: 1
+  - minMineLevel: 15
+    rewardItem: {fileID: 11400000, guid: 52e4142cc0310384bb1b2b010f47aa69, type: 2}
+    rewardCost: 2
+  - minMineLevel: 25
+    rewardItem: {fileID: 11400000, guid: ea04758f96f347349831396e93e5a5a4, type: 2}
+    rewardCost: 4
+  - minMineLevel: 25
+    rewardItem: {fileID: 11400000, guid: f7b2956a05b1b9d4e803c0e8aa87858a, type: 2}
+    rewardCost: 6
+  _armorT1Reward:
+  - minMineLevel: 0
+    rewardItem: {fileID: 11400000, guid: 3f3c5d9d167f79a4e8b317d5a8a181b3, type: 2}
     rewardCost: 5
-  - minMineLevel: 20
-    rewardItem: {fileID: 11400000, guid: 725b2fe96700afe4fb5cef1cd1aad886, type: 2}
-    rewardCost: 10
-  - minMineLevel: 40
-    rewardItem: {fileID: 11400000, guid: 5afe764d34a51c444852e264f20e1ce4, type: 2}
-    rewardCost: 50
-  - minMineLevel: 40
-    rewardItem: {fileID: 11400000, guid: f41c6415877303b4cbe69d0ed615e182, type: 2}
-    rewardCost: 50
-  - minMineLevel: 40
-    rewardItem: {fileID: 11400000, guid: fb12f0ca43c88c849922bed278c0e0ec, type: 2}
-    rewardCost: 100
+  - minMineLevel: 15
+    rewardItem: {fileID: 11400000, guid: aeb47e842510bd04cbaed9f7ac624ca8, type: 2}
+    rewardCost: 5
   - minMineLevel: 50
-    rewardItem: {fileID: 11400000, guid: 8f08d860acbe07d49a53f10f03251b2d, type: 2}
-    rewardCost: 100
-  - minMineLevel: 1
-    rewardItem: {fileID: 11400000, guid: 674c2ef4ba8b43049a76c4b417b2bd92, type: 2}
+    rewardItem: {fileID: 11400000, guid: e83699c2ecf96114bab10c4e5cc42a82, type: 2}
     rewardCost: 5
+  - minMineLevel: 0
+    rewardItem: {fileID: 11400000, guid: 8702cb87e9f4b9b429ca639c46d14910, type: 2}
+    rewardCost: 0
+  - minMineLevel: 100
+    rewardItem: {fileID: 11400000, guid: 0467724907ca01f4992d81fcd41714b6, type: 2}
+    rewardCost: 15
+  _highTechReward:
+  - minMineLevel: 0
+    rewardItem: {fileID: 11400000, guid: 931e13bd2a89b7f438c8c8d6934ae090, type: 2}
+    rewardCost: 2
+  - minMineLevel: 0
+    rewardItem: {fileID: 11400000, guid: 87b765ae4bf53094289e8841305dc88a, type: 2}
+    rewardCost: 2
+  - minMineLevel: 0
+    rewardItem: {fileID: 11400000, guid: 6562defa706e24e48b4558fe90df5915, type: 2}
+    rewardCost: 2
+  - minMineLevel: 50
+    rewardItem: {fileID: 11400000, guid: dfde4a46e3640fb48b6b570cb7493bf8, type: 2}
+    rewardCost: 10
+  - minMineLevel: 150
+    rewardItem: {fileID: 11400000, guid: 41831dfd08d42394da7e313f0dcc85d0, type: 2}
+    rewardCost: 20
+  _weaponT2Reward:
+  - minMineLevel: 0
+    rewardItem: {fileID: 11400000, guid: 250eef1012f3b4c4aaacabc8107c05a2, type: 2}
+    rewardCost: 2
+  - minMineLevel: 0
+    rewardItem: {fileID: 11400000, guid: ea2b7fb80460fd14bbe6512d758ef7c0, type: 2}
+    rewardCost: 10
+  - minMineLevel: 0
+    rewardItem: {fileID: 11400000, guid: 7b7f0f05a0f620240bfbdcebbe6c3cda, type: 2}
+    rewardCost: 10
+  - minMineLevel: 0
+    rewardItem: {fileID: 11400000, guid: 76098ab73226230498ff66001c1cf471, type: 2}
+    rewardCost: 20
+  - minMineLevel: 50
+    rewardItem: {fileID: 11400000, guid: 41eb9ad57068729438e3984be5c94663, type: 2}
+    rewardCost: 10
+  - minMineLevel: 50
+    rewardItem: {fileID: 11400000, guid: 3795f2b3134572047a3e694fc444ec0f, type: 2}
+    rewardCost: 30
+  - minMineLevel: 50
+    rewardItem: {fileID: 11400000, guid: a80cccbaaf6c294429193fc8da83cd91, type: 2}
+    rewardCost: 30
+  - minMineLevel: 150
+    rewardItem: {fileID: 11400000, guid: a9cced1753652064eb70030f40dd3682, type: 2}
+    rewardCost: 60
+  - minMineLevel: 200
+    rewardItem: {fileID: 11400000, guid: 9d85bbec19a2d2a45b6a04789a955865, type: 2}
+    rewardCost: 100
+  _rareResReward:
+  - minMineLevel: 0
+    rewardItem: {fileID: 11400000, guid: 92370802ccce8f341873b964ca274166, type: 2}
+    rewardCost: 100
+  - minMineLevel: 300
+    rewardItem: {fileID: 11400000, guid: f7b2956a05b1b9d4e803c0e8aa87858a, type: 2}
+    rewardCost: 6
+  _alienReward:
+  - minMineLevel: 0
+    rewardItem: {fileID: 11400000, guid: b4520fe59a9bd0e4d9109ab0cf6b82f1, type: 2}
+    rewardCost: 10
+  - minMineLevel: 0
+    rewardItem: {fileID: 11400000, guid: 48be42be4c911fa45b4c96bca5dfdc03, type: 2}
+    rewardCost: 10
+  - minMineLevel: 0
+    rewardItem: {fileID: 11400000, guid: 2548b86b8a6c7a0498d781f51e683e9e, type: 2}
+    rewardCost: 10
+  - minMineLevel: 0
+    rewardItem: {fileID: 11400000, guid: 374fe81b557e48744a90fd47db4202f6, type: 2}
+    rewardCost: 10
+  - minMineLevel: 0
+    rewardItem: {fileID: 11400000, guid: 1a511e4f10f264045ba13818e46d0a49, type: 2}
+    rewardCost: 4
+  - minMineLevel: 25
+    rewardItem: {fileID: 11400000, guid: 1d2985a1d0568354888d7e7dfcc9ce7f, type: 2}
+    rewardCost: 10
+  - minMineLevel: 25
+    rewardItem: {fileID: 11400000, guid: d8ba5dd1d621f4140be56b78fc8532e2, type: 2}
+    rewardCost: 15
+  _armorT2Reward:
+  - minMineLevel: 50
+    rewardItem: {fileID: 11400000, guid: 6185a7dedf7ea064eb991c8b241d0ba0, type: 2}
+    rewardCost: 50
+  - minMineLevel: 100
+    rewardItem: {fileID: 11400000, guid: 82752c6d7d9e89f4cbd80fc47728bf0b, type: 2}
+    rewardCost: 100
+  - minMineLevel: 150
+    rewardItem: {fileID: 11400000, guid: 3f8aa099d7d60064cbc6b4359ccaa2fb, type: 2}
+    rewardCost: 150
+  - minMineLevel: 200
+    rewardItem: {fileID: 11400000, guid: 6b18bc555aaeffd47a450e5968d6f856, type: 2}
+    rewardCost: 200
+  _weaponT3Reward:
+  - minMineLevel: 0
+    rewardItem: {fileID: 11400000, guid: 250eef1012f3b4c4aaacabc8107c05a2, type: 2}
+    rewardCost: 2
+  - minMineLevel: 100
+    rewardItem: {fileID: 11400000, guid: 818fa1dbc786e7f44a975a6b415c77fc, type: 2}
+    rewardCost: 100
+  - minMineLevel: 200
+    rewardItem: {fileID: 11400000, guid: 998100926db5b8046856e7b9e6757fce, type: 2}
+    rewardCost: 200
+  - minMineLevel: 100
+    rewardItem: {fileID: 11400000, guid: 789073a0ee4c4bc4dbdc923f8962bb9e, type: 2}
+    rewardCost: 100
+  - minMineLevel: 300
+    rewardItem: {fileID: 11400000, guid: 71d543c9541ca6d44a482f7bc8af5d23, type: 2}
+    rewardCost: 300
+  - minMineLevel: 300
+    rewardItem: {fileID: 11400000, guid: fa974c8a878d93a448141209b708e11b, type: 2}
+    rewardCost: 300
+  - minMineLevel: 600
+    rewardItem: {fileID: 11400000, guid: 9beebb8b69fe46346ab0aba85cd28564, type: 2}
+    rewardCost: 600
+  - minMineLevel: 1000
+    rewardItem: {fileID: 11400000, guid: b20704c23e2eba74d992dd3adba844fb, type: 2}
+    rewardCost: 1000
+  _advancedAlienReward:
+  - minMineLevel: 0
+    rewardItem: {fileID: 11400000, guid: dfde4a46e3640fb48b6b570cb7493bf8, type: 2}
+    rewardCost: 10
+  - minMineLevel: 100
+    rewardItem: {fileID: 11400000, guid: 464db8242915f2a4ea5006ee2e8e33cf, type: 2}
+    rewardCost: 100
+  - minMineLevel: 150
+    rewardItem: {fileID: 11400000, guid: 3098cebb2fc0be84a882cb19457830fe, type: 2}
+    rewardCost: 150
+  - minMineLevel: 200
+    rewardItem: {fileID: 11400000, guid: 124964250bdd1d942bf2da3d2aeb64fa, type: 2}
+    rewardCost: 200
+  - minMineLevel: 400
+    rewardItem: {fileID: 11400000, guid: 68eede69e04daf5478fac56f7a6c3ede, type: 2}
+    rewardCost: 400
+  - minMineLevel: 600
+    rewardItem: {fileID: 11400000, guid: cafa9865160fc644782e49373b08d85e, type: 2}
+    rewardCost: 600
+  - minMineLevel: 1200
+    rewardItem: {fileID: 11400000, guid: 7430623b2a73a4747b4c15afc9d83f6e, type: 2}
+    rewardCost: 1200
+  - minMineLevel: 2000
+    rewardItem: {fileID: 11400000, guid: 8aeaf171e89710f4c8b514879a67a352, type: 2}
+    rewardCost: 2000
+  _technologicalReward:
+  - minMineLevel: 0
+    rewardItem: {fileID: 11400000, guid: 8ebc3ef699bbbc147bb0729238a67d21, type: 2}
+    rewardCost: 1
+  - minMineLevel: 0
+    rewardItem: {fileID: 11400000, guid: 587923231e4264c4fa83db7bf1266abe, type: 2}
+    rewardCost: 1
+  - minMineLevel: 0
+    rewardItem: {fileID: 11400000, guid: b41af372334669140a794f9f910f703e, type: 2}
+    rewardCost: 1
+  - minMineLevel: 0
+    rewardItem: {fileID: 11400000, guid: 52e4142cc0310384bb1b2b010f47aa69, type: 2}
+    rewardCost: 2
+  - minMineLevel: 0
+    rewardItem: {fileID: 11400000, guid: ea04758f96f347349831396e93e5a5a4, type: 2}
+    rewardCost: 4
+  - minMineLevel: 0
+    rewardItem: {fileID: 11400000, guid: f7b2956a05b1b9d4e803c0e8aa87858a, type: 2}
+    rewardCost: 6
+  - minMineLevel: 30
+    rewardItem: {fileID: 11400000, guid: 0756d9157caeef04f9d09631080b13e5, type: 2}
+    rewardCost: 30
+  - minMineLevel: 20
+    rewardItem: {fileID: 11400000, guid: 336c1acf24424bf4a8037bd58256addd, type: 2}
+    rewardCost: 20
+  - minMineLevel: 10
+    rewardItem: {fileID: 11400000, guid: 062476ceb018718428efca07c00ef4f1, type: 2}
+    rewardCost: 10
+  - minMineLevel: 100
+    rewardItem: {fileID: 11400000, guid: 92370802ccce8f341873b964ca274166, type: 2}
+    rewardCost: 100
+  _ammunitionReward:
+  - minMineLevel: 0
+    rewardItem: {fileID: 11400000, guid: dfde4a46e3640fb48b6b570cb7493bf8, type: 2}
+    rewardCost: 10
+  - minMineLevel: 0
+    rewardItem: {fileID: 11400000, guid: 1a511e4f10f264045ba13818e46d0a49, type: 2}
+    rewardCost: 4
+  - minMineLevel: 0
+    rewardItem: {fileID: 11400000, guid: 3a41bf2e0aa76384f820a81f271a8c47, type: 2}
+    rewardCost: 1
+  - minMineLevel: 0
+    rewardItem: {fileID: 11400000, guid: 250eef1012f3b4c4aaacabc8107c05a2, type: 2}
+    rewardCost: 2
+  _armorT3Reward:
+  - minMineLevel: 0
+    rewardItem: {fileID: 11400000, guid: dfde4a46e3640fb48b6b570cb7493bf8, type: 2}
+    rewardCost: 10
+  - minMineLevel: 0
+    rewardItem: {fileID: 11400000, guid: 41831dfd08d42394da7e313f0dcc85d0, type: 2}
+    rewardCost: 20
+  - minMineLevel: 1000
+    rewardItem: {fileID: 11400000, guid: 2fed0cdedda535347bae22e47508d10a, type: 2}
+    rewardCost: 1000
+  - minMineLevel: 2000
+    rewardItem: {fileID: 11400000, guid: cd09648797a536746845febf0821b245, type: 2}
+    rewardCost: 2000
+  - minMineLevel: 3000
+    rewardItem: {fileID: 11400000, guid: 2be67e8c2d5d9544e9507e42c0f5e252, type: 2}
+    rewardCost: 3000
+  - minMineLevel: 4000
+    rewardItem: {fileID: 11400000, guid: bb09656b3566aa3428c98b75beddff66, type: 2}
+    rewardCost: 4000
+  _geckReward:
+  - minMineLevel: 720
+    rewardItem: {fileID: 11400000, guid: ca8df26ee6cc08c4f8f302387d6f87f4, type: 2}
+    rewardCost: 720
+  - minMineLevel: 0
+    rewardItem: {fileID: 11400000, guid: baf94ee6a11ffbe4a990dcd4bda57cc5, type: 2}
+    rewardCost: 30
+  - minMineLevel: 10000
+    rewardItem: {fileID: 11400000, guid: 6b598929f48501c41abfbb68336ae5b7, type: 2}
+    rewardCost: 10000

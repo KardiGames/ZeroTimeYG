@@ -9,6 +9,22 @@ public class MineNpcRewardData : ScriptableObject
 {
     [SerializeField] private List<NpcData> _junkNpc;
     [SerializeField] private List<RewardData> _junkReward;
+    [SerializeField] private List<RewardData> _poorResReward;
+    [SerializeField] private List<RewardData> _simpleMaterialsReward;
+    [SerializeField] private List<RewardData> _weaponT1Reward;
+    [SerializeField] private List<RewardData> _rawResReward;
+    [SerializeField] private List<RewardData> _armorT1Reward;
+    [SerializeField] private List<RewardData> _highTechReward;
+    [SerializeField] private List<RewardData> _weaponT2Reward;
+    [SerializeField] private List<RewardData> _rareResReward;
+    [SerializeField] private List<RewardData> _alienReward;
+    [SerializeField] private List<RewardData> _armorT2Reward;
+    [SerializeField] private List<RewardData> _weaponT3Reward;
+    [SerializeField] private List<RewardData> _advancedAlienReward;
+    [SerializeField] private List<RewardData> _technologicalReward;
+    [SerializeField] private List<RewardData> _ammunitionReward;
+    [SerializeField] private List<RewardData> _armorT3Reward;
+    [SerializeField] private List<RewardData> _geckReward;
 
     [Serializable]
     private class NpcData
@@ -51,7 +67,71 @@ public class MineNpcRewardData : ScriptableObject
         if (mineType=="Junk")
         {
             return (_junkNpc, _junkReward);
+        } 
+        else if (mineType== "PoorRes") {
+            return (_junkNpc, _poorResReward);
         }
+        else if (mineType == "SimpleMaterials")
+        {
+            return (_junkNpc, _simpleMaterialsReward);
+        }
+        else if (mineType == "WeaponT1")
+        {
+            return (_junkNpc, _weaponT1Reward);
+        }
+        else if (mineType == "RawRes")
+        {
+            return (_junkNpc, _rawResReward);
+        }
+        else if (mineType == "ArmorT1")
+        {
+            return (_junkNpc, _armorT1Reward);
+        }
+        else if (mineType == "HighTech")
+        {
+            return (_junkNpc, _highTechReward);
+        }
+        else if (mineType == "WeaponT2")
+        {
+            return (_junkNpc, _weaponT2Reward);
+        }
+        else if (mineType == "RareRes")
+        {
+            return (_junkNpc, _rareResReward);
+        }
+        else if (mineType == "Alien")
+        {
+            return (_junkNpc, _alienReward);
+        }
+        else if (mineType == "ArmorT2")
+        {
+            return (_junkNpc, _armorT2Reward);
+        }
+        else if (mineType == "WeaponT3")
+        {
+            return (_junkNpc, _weaponT3Reward);
+        }
+        else if (mineType == "AdvancedAlien")
+        {
+            return (_junkNpc, _advancedAlienReward);
+        }
+        else if (mineType == "Technological")
+        {
+            return (_junkNpc, _technologicalReward);
+        }
+        else if (mineType == "Ammunition")
+        {
+            return (_junkNpc, _ammunitionReward);
+        }
+        else if (mineType == "ArmorT3")
+        {
+            return (_junkNpc, _armorT3Reward);
+        }
+        else if (mineType == "Geck")
+        {
+            return (_junkNpc, _geckReward);
+        }
+        
         Debug.Log($"Error! Invalid Type Of Myne {mineType} requested");
         throw new ArgumentException();
         //return (new List<NpcData>(), new List<RewardData>());

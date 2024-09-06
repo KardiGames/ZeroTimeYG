@@ -45,4 +45,5 @@ public class RewardManager: MonoBehaviour
     internal void GiveReward(float rewardPoints, Inventory inventoryForReward) => GiveReward(GetReward(rewardPoints), inventoryForReward);
     internal void GiveReward(float rewardPoints) => GiveReward(rewardPoints, _mine.GetComponent<Inventory>());
 
+
 }

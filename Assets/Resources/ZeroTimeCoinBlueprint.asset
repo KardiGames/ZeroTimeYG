@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af6a67d6e5a10954ab9e9c335c2f25b9, type: 3}
+  m_Name: ZeroTimeCoinBlueprint
+  m_EditorClassIdentifier: 
+  _itemName: Zero Time Coin Blueprint
+  _stackable: 1
+  _amount: 1
+  _itemToCreate: {fileID: 11400000, guid: ca8df26ee6cc08c4f8f302387d6f87f4, type: 2}
+  _secondsToFinish: 1
+  _listOfResourses:
+  - {fileID: 11400000, guid: 977927d9b543c3b4881e067d5391c514, type: 2}
+  - {fileID: 11400000, guid: e919629bbe2b0a848b3a2c6680417d49, type: 2}
+  - {fileID: 11400000, guid: 062476ceb018718428efca07c00ef4f1, type: 2}
+  _amountOfResourses: 010000000000000003000000000000000400000000000000
