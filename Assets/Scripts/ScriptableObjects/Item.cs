@@ -66,6 +66,9 @@ public class Item : ScriptableObject
         if (!IsTheSameItem(itemToAdd))
             return false;
 
+        if (!Stackable)
+            return false;
+
         _amount += itemToAdd.Amount;
         Destroy(itemToAdd);
 
