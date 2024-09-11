@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CarbonJacketBlueprint
   m_EditorClassIdentifier: 
   _itemName: Carbon Jacket Blueprint
-  _stackable: 0
+  _stackable: 1
   _amount: 1
   _itemToCreate: {fileID: 11400000, guid: b91aa284c91ee1545bc77673a9df0f3e, type: 2}
   _secondsToFinish: 6000

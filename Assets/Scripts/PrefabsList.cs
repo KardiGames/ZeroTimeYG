@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PrefabsList : MonoBehaviour
 {
-    //Singltone var
+    //Singleton var
     public static PrefabsList instance { get; internal set; }
     
     //Prefabs for different NPC

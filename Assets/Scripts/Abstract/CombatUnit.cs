@@ -35,8 +35,9 @@ public abstract class CombatUnit : MonoBehaviour
     //Secondary stats properties
     public abstract int MaxHP { get; }
     public abstract int MeleeDamageBonus { get; }
-    public abstract int TotalAP { get; } //Action points (ochki deystvija)
-    public abstract int AC { get; } //Acmor class
+    public abstract int TotalAP { get; } //Action points
+    public abstract int AC { get; } //Armor class
+	public abstract int DamageResistance { get; }
     public abstract Weapon RightHandWeapon { get; }
     public abstract Weapon LeftHandWeapon { get; }
 

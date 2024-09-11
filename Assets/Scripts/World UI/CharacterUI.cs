@@ -10,7 +10,7 @@ public class CharacterUI : MonoBehaviour
 	
 	[SerializeField] private List<SkillUI> _skillUIPrefabPool;
     [SerializeField] private List<string> _skills = new ();
-    [SerializeField] private Dictionary<string, SkillUI> _skillsUI = new Dictionary<string, SkillUI>(); //TODO Delete SerField
+    private Dictionary<string, SkillUI> _skillsUI = new Dictionary<string, SkillUI>(); //TODO Delete SerField
     [SerializeField] private TextMeshProUGUI _nameText;
     [SerializeField] private TextMeshProUGUI ST; //Strength
 	[SerializeField] private Button _improveSTButton;

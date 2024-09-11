@@ -75,6 +75,9 @@ public class Weapon : Item
          _ammoAmount += reloadingAmmo;
     }
 
+    public void FillAmmo() =>
+        _ammoAmount = _ammoMaxAmount;
+
     public bool IsAbleToReload (Inventory inventoryAmmoFrom)
     {
         if (_ammoType == ""
@@ -96,6 +99,8 @@ public class Weapon : Item
             return false;
 
         if (itemToCompare is Weapon weaponToCompare
+			&& _quality==_maxQuality
+			&& weaponToCompare._quality==weaponToCompare._maxQuality
             && weaponToCompare.RangedAttack == _rangedAttack
             && weaponToCompare.Range == _range
             && weaponToCompare.DamageInfo == DamageInfo

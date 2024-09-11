@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: TitanArmorBlueprint
   m_EditorClassIdentifier: 
   _itemName: Titan armor Blueprint
-  _stackable: 0
+  _stackable: 1
   _amount: 1
   _itemToCreate: {fileID: 11400000, guid: 30622bda08505a34f990d473d0896106, type: 2}
   _secondsToFinish: 12000

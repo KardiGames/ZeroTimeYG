@@ -36,6 +36,10 @@ public class CombatCharacter : CombatUnit
     {
         get => AG + _playerCharacter.Equipment.AC + _bonusAC;
     }
+	public override int DamageResistance {
+		get => _playerCharacter.Equipment.DamageResistance;
+	}
+	
     public override Weapon RightHandWeapon =>
         _playerCharacter.Equipment[Equipment.Slot.RightHand] == null ? _fist : _playerCharacter.Equipment[Equipment.Slot.RightHand] as Weapon;
     public override Weapon LeftHandWeapon => 
@@ -61,6 +65,9 @@ public class CombatCharacter : CombatUnit
     {
         ResetAP();
         HP = MaxHP;
+        for (int i = 0; i <= 1; i++)
+            if (_playerCharacter.Equipment[i] is Weapon weapon)
+                weapon.FillAmmo();
         OverheadText.ShowHP();
         ResetPlanning();
         CreateClickZones();

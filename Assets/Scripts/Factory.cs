@@ -28,16 +28,10 @@ public class Factory : MonoBehaviour, ITimerable, IWorldBuilding
 			return;
 		}
 		
-		bool check = _storage.TryToAdd(this, _factoryLines[action].Clone());
+		bool check = _storage.TryToAdd(this, _factoryLines[action]);
 		if (check) 
 			_factoryLines.Remove(action);
     }
-
-    // Start is called before the first frame update
-    public void Start()
-    {
-        _taskTimer = GetComponent<TaskTimer>();
-	}
 
     public void AddFactoryLine(Blueprint blueprint, bool startProductionImmediately = false)
     {
@@ -54,8 +48,8 @@ public class Factory : MonoBehaviour, ITimerable, IWorldBuilding
 		if (_taskTimer.Contains(productionTask))
         {
 			SpendResources(blueprint);
-			_factoryLines.Add(productionTask, blueprint.ItemToCreate);
-			_storage.RemoveThisItem(this, blueprint);
+			_factoryLines.Add(productionTask, blueprint.ItemToCreate.Clone());
+			_storage.Remove(this, blueprint);
 			Destroy(blueprint);
 		} else
         {
@@ -124,8 +118,10 @@ public class Factory : MonoBehaviour, ITimerable, IWorldBuilding
 		for (int i=0; i<taskTimerArray.Length; i++)
         {
 			itemToLine = Item.GetItem(jsonFactory.factoryLinesNames[i]);
-			if (itemToLine == null)
+			if (itemToLine == null || taskTimerArray[i].TaskName!=itemToLine.ItemName) {
+				print ("Wasn't load line with "+taskTimerArray[i].TaskName+"to "+_name);
 				continue;
+			}
 			itemToLine.FromJson(jsonFactory.factoryJsonLines[i]);
 			if (itemToLine != null)
 				_factoryLines.Add(taskTimerArray[i], itemToLine); //TODO Make test if deserialization error

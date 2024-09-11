@@ -6,6 +6,7 @@ using UnityEngine;
 public class Armor : Item
 {
     [SerializeField] private int _ac =0;
+    [SerializeField] private int _damageResistance=0;
 	[SerializeField] private Equipment.Slot _slot = Equipment.Slot.Body;
 	[SerializeField] private int _quality;
 	[SerializeField] private int _maxQuality;
@@ -15,6 +16,7 @@ public class Armor : Item
 	public override bool Stackable => false;
     public override long Amount { get => 1; }
     public override int AC { get { if (_quality > 0) return _ac; else return 0; } }
+	public int DamageResistance => _damageResistance;
     public Equipment.Slot Slot => _slot;
 
 	public override bool IsTheSameItem(Item itemToCompare) 
@@ -23,8 +25,10 @@ public class Armor : Item
 			return false;
 	
 		if (itemToCompare is Armor armorToCompare
+			&& _quality==_maxQuality
+			&& armorToCompare._quality==armorToCompare._maxQuality
 			&& armorToCompare.AC == _ac 
-			&& armorToCompare.Slot==_slot
+			&& armorToCompare.Slot==_slot			
 		)
 			return true;
 		else

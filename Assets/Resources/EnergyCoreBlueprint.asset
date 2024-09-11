@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: EnergyCoreBlueprint
   m_EditorClassIdentifier: 
   _itemName: Energy core Blueprint
-  _stackable: 0
+  _stackable: 1
   _amount: 1
   _itemToCreate: {fileID: 11400000, guid: 977927d9b543c3b4881e067d5391c514, type: 2}
   _secondsToFinish: 600

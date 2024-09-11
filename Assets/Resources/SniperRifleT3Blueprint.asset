@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SniperRifleT3Blueprint
   m_EditorClassIdentifier: 
   _itemName: Sniper Rifle T3 Blueprint
-  _stackable: 0
+  _stackable: 1
   _amount: 1
   _itemToCreate: {fileID: 11400000, guid: cc3e9cf586b2647448aeda235c7edad0, type: 2}
   _secondsToFinish: 48000

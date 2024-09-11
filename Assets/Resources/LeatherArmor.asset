@@ -16,6 +16,7 @@ MonoBehaviour:
   _stackable: 0
   _amount: 1
   _ac: 10
+  _damageResistance: 0
   _slot: 2
   _quality: 25
   _maxQuality: 25

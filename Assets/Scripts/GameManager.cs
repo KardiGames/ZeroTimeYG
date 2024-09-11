@@ -16,7 +16,6 @@ public class GameManager : MonoBehaviour
     {
 		Item.LoadItems();
         Location.LoadBattleMap();
-        _saveData.LoadSaveSystem();
         _saveData.LoadFromObject();
     }
 

@@ -24,6 +24,18 @@ public class Equipment : MonoBehaviour
             return ac;
         }
     }
+	public int DamageResistance
+	{
+		get 
+		{
+			int dr=0;
+			foreach (Item item in _equipment)
+				if (item is Armor armor)
+					dr+=armor.DamageResistance;
+			return dr;
+		}
+	}
+			
 
     public Item this[int index]
     {

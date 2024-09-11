@@ -30,6 +30,8 @@ public class NonPlayerCharacter : CombatUnit
         get => _ac + _bonusAC;
     }
 
+    public override int DamageResistance => 0;
+
     public override int MeleeDamageBonus => 0;
 
     public override Weapon RightHandWeapon => _npcAttack;

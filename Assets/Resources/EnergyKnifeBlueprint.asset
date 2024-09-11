@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: EnergyKnifeBlueprint
   m_EditorClassIdentifier: 
   _itemName: Energy Knife Blueprint
-  _stackable: 0
+  _stackable: 1
   _amount: 1
   _itemToCreate: {fileID: 11400000, guid: fb97bdedf1536bc47bb721f0c69a1308, type: 2}
   _secondsToFinish: 12000

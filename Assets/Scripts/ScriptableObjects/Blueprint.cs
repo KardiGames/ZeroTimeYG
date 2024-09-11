@@ -6,9 +6,6 @@ using UnityEngine;
 [CreateAssetMenu (fileName = "Blueprint", menuName = "Items/Blueprint")]
 public class Blueprint : Item
 {
-    public new long Amount => 1;
-    public new bool Stackable => false;
-    
     [SerializeField] private Item _itemToCreate;
 	[SerializeField] private float _secondsToFinish;
 

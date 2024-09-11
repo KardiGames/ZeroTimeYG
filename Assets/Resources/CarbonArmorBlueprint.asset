@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CarbonArmorBlueprint
   m_EditorClassIdentifier: 
   _itemName: CarbonArmorBlueprint
-  _stackable: 0
+  _stackable: 1
   _amount: 1
   _itemToCreate: {fileID: 11400000, guid: 7742df7de40ad8b439a65b8fb9e994fc, type: 2}
   _secondsToFinish: 120000

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SwordT3Blueprint
   m_EditorClassIdentifier: 
   _itemName: Sword T3 Blueprint
-  _stackable: 0
+  _stackable: 1
   _amount: 1
   _itemToCreate: {fileID: 11400000, guid: ced48c665318a084cb003661b19fee0d, type: 2}
   _secondsToFinish: 18000

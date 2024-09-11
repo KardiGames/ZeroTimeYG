@@ -142,7 +142,6 @@ public class CombatAction
         if (action == "move")
         {
             bool checkList = Mathf.Abs(subject.pos[0] - place[0]) <= 1 && Mathf.Abs(subject.pos[1] - place[1]) <= 1;
-            //bool checkList = (!(Mathf.Abs(subject.pos[0] - place[0]) > 1) || (Mathf.Abs(subject.pos[1] - place[1]) > 1)); //TODO Delete comment if works
 
             //TODO ADD cheching for unavailable place
 
@@ -206,8 +205,14 @@ public class CombatAction
                             damage += subject.MeleeDamageBonus;
 
 					damage = damage * subject.GetSkillValue("Weapon damage")/100;
+					
+					if (usedWeapon.AmmoType == "Energy cell")
+						damage = damage * subject.GetSkillValue("Beam damage")/100;
+					
+					damage = damage-target.DamageResistance;
+					
 					if (damage <1)
-						damage = 1;
+						damage = 1; //Minimum 1 damage anyway
                     target.TakeDamage(damage);
                     //print(cA.target.name + "'s got " + damage + " damage. Hit chance was " + hitChanse);
                     DamageDone = damage;

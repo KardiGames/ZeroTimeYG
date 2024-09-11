@@ -11,8 +11,8 @@ public class SaveData : MonoBehaviour
     [SerializeField] private string _playerJson;
     [SerializeField] private string _mapJson;
  	[SerializeField] private SaveScrObj _saveObject;
-    private WorldCharacter _playerCharacter;
-    private WorldMap _map;
+    [SerializeField] private WorldCharacter _playerCharacter;
+    [SerializeField] private WorldMap _map;
     private string _filePath = "savefile.txt";
 
     public IEnumerable<(int, int)> AreasWithBuildings()
@@ -112,7 +112,7 @@ public class SaveData : MonoBehaviour
     private WorldBuildingData FindBuildingOnMap(IWorldBuilding building) => _globalMapBuildings
         .Find(b => (b.X == building.X && b.Y == building.Y && b.Name == building.Name));
 
-    internal void LoadSaveSystem()
+    internal void InitSaveSystem()
     {
         _playerCharacter = GameObject.Find("PlayerCharacter").GetComponent<WorldCharacter>();
         _map = GameObject.Find("map to test").GetComponent<WorldMap>();

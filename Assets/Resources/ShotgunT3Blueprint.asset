@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ShotgunT3Blueprint
   m_EditorClassIdentifier: 
   _itemName: Shotgun T3 Blueprint
-  _stackable: 0
+  _stackable: 1
   _amount: 1
   _itemToCreate: {fileID: 11400000, guid: 79d3f7bfc41b2724db1830174934fbe1, type: 2}
   _secondsToFinish: 24000

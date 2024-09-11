@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SwordBlueprint
   m_EditorClassIdentifier: 
   _itemName: Sword Blueprint
-  _stackable: 0
+  _stackable: 1
   _amount: 1
   _itemToCreate: {fileID: 11400000, guid: f41c6415877303b4cbe69d0ed615e182, type: 2}
   _secondsToFinish: 180

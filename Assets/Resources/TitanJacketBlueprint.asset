@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: TitanJacketBlueprint
   m_EditorClassIdentifier: 
   _itemName: Titan jacket Blueprint
-  _stackable: 0
+  _stackable: 1
   _amount: 1
   _itemToCreate: {fileID: 11400000, guid: df0424631279cfb49a0e1a0106c63299, type: 2}
   _secondsToFinish: 6000
