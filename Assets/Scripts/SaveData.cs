@@ -11,6 +11,7 @@ public class SaveData : MonoBehaviour
     [SerializeField] private string _playerJson;
     [SerializeField] private string _mapJson;
  	[SerializeField] private SaveScrObj _saveObject;
+ 	[SerializeField] private SaveScrObj _blankSaveObject;
     [SerializeField] private WorldCharacter _playerCharacter;
     [SerializeField] private WorldMap _map;
     private string _filePath = "savefile.txt";
@@ -23,7 +24,16 @@ public class SaveData : MonoBehaviour
              select (building.X, building.Y)).Distinct<(int, int)>()
         );
         return areasWithBuildings;
-    } 
+    }
+
+    internal void CreateNewSave()
+    {
+        if (_saveObject!=null && _saveObject.Save!="")
+            print ("Exists currant save!! But new one will be created anyway");
+
+        _saveObject = Instantiate(_blankSaveObject);
+    }
+
     public string[] TypesOfBuildingsOnArea (int x, int y)
     {
         List<string> allBuildingsOnArea = new (
@@ -112,14 +122,6 @@ public class SaveData : MonoBehaviour
     private WorldBuildingData FindBuildingOnMap(IWorldBuilding building) => _globalMapBuildings
         .Find(b => (b.X == building.X && b.Y == building.Y && b.Name == building.Name));
 
-    internal void InitSaveSystem()
-    {
-        _playerCharacter = GameObject.Find("PlayerCharacter").GetComponent<WorldCharacter>();
-        _map = GameObject.Find("map to test").GetComponent<WorldMap>();
-        if (_globalMapBuildings.Count != 0)
-            return;
-    }
-
     public void LoadFromFile()
     {
 		if (!File.Exists(_filePath))
@@ -136,22 +138,22 @@ public class SaveData : MonoBehaviour
 		File.WriteAllText(_filePath, saveText);
 	}
 	
-	public void LoadFromObject()
+	public bool TryLoadFromObject()
     {
-		if (_saveObject==null)
-			return;
-        SaveScrObj tmpSave = _saveObject;
+		if (_saveObject==null || _saveObject.Save=="")
+			return false;
         JsonUtility.FromJsonOverwrite(_saveObject.Save, this);
-        _saveObject = tmpSave;
         LoadCharacter();
         LoadMap();
+        return true;
     }
 	
 	public void SaveToOject() 
 	{
 		if (_saveObject==null)
 			return;
-		_saveObject.Save = JsonUtility.ToJson(this);
+        SaveJsonData jsonData = new SaveJsonData() { _globalMapBuildings = _globalMapBuildings, _playerJson= _playerJson, _mapJson= _mapJson};
+		_saveObject.Save = JsonUtility.ToJson(jsonData);
 	}
 	
     [Serializable]
@@ -164,6 +166,14 @@ public class SaveData : MonoBehaviour
         public BuildingType type;
         public string Name;
         public string jSonString;
+    }
+
+    [Serializable]
+    private class SaveJsonData
+    {
+        public List<WorldBuildingData> _globalMapBuildings;
+        public string _playerJson;
+        public string _mapJson;
     }
 }
 

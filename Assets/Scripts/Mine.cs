@@ -23,17 +23,6 @@ public class Mine : MonoBehaviour, IWorldBuilding
     }
     public string MineType => _mineType;
 
-    /*public void SetLevel(float rewardPoints)
-    {
-        _level = CalculateMineLevel(rewardPoints);
-    }
-    public static int CalculateMineLevel (float rewardPoints)
-    {
-        return rewardPoints>0 ? 
-            (int)(20.0f * Mathf.Log10(rewardPoints)) 
-            : 0;
-    }*/
-
     public string ToJson()
     {
         return JsonUtility.ToJson(this);

@@ -86,7 +86,6 @@ public class Item : ScriptableObject
         ItemJsonData itemJson = new ItemJsonData()
         {
             a = Amount,
-            st = Stackable
         };
 		return JsonUtility.ToJson(itemJson);
     }
@@ -98,7 +97,6 @@ public class Item : ScriptableObject
 			Debug.Log ("Error! Mistake on FromJson() in SrcItem (item is destroying)");
             Destroy(this);
 		}
-		_stackable=jsonItem.st;
 		_amount=jsonItem.a;
     }
 
@@ -114,7 +112,6 @@ public class Item : ScriptableObject
 	
 	[Serializable]
 	protected class ItemJsonData {
-		public bool st;
 		public long a;
 	}
 }

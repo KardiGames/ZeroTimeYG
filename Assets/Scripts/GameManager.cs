@@ -16,7 +16,17 @@ public class GameManager : MonoBehaviour
     {
 		Item.LoadItems();
         Location.LoadBattleMap();
-        _saveData.LoadFromObject();
+        if (!_saveData.TryLoadFromObject())
+        {
+            _saveData.CreateNewSave();
+            if (!_saveData.TryLoadFromObject())
+            {
+                print("ERROR!!! Save wasn't loaded or correctly created ( You can't play :( ");
+                return;
+            }
+            print("Character creation 1");
+            _worldUI.CreateNewCharacter();
+        }
     }
 
     public void NesessaryAction () //Action for some button

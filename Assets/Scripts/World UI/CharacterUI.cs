@@ -37,16 +37,23 @@ public class CharacterUI : MonoBehaviour
 			return;
 		}
 
-		_nameText.text = $"{_worldCharacter.CharacterName} ({_worldCharacter.Level} level) {_worldCharacter.Experience}/{_worldCharacter.ExperienceToLevelUp} exp";
+		if (_worldCharacter.CharacterName=="")
+			print("Character creation 3");
+		ShowNameLevelText();
 		_AP.text = "AP" + _worldCharacter.AP;
 
 		ReloadAttributes();
 		
         _worldCharacter.Skills.TaskTimer.CompletePastTasks();
 		GlobalUserInterface.Instance.SaveSystem.SaveCharacter();
+
 		ReloadSkills();
     }
 	
+	public void ShowNameLevelText() {
+		_nameText.text = $"{_worldCharacter.CharacterName} ({_worldCharacter.Level} level) {_worldCharacter.Experience}/{_worldCharacter.ExperienceToLevelUp} exp";
+	}
+
 	public void ReloadSkills() {
 		if (_worldCharacter==null)
 			return;

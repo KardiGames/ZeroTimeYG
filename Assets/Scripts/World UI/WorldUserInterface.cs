@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System;
 
 public class WorldUserInterface : MonoBehaviour
 {
     [SerializeField] private WorldCharacter _playerCharacter;
     [SerializeField] private GameObject _playerUIInventory;
     [SerializeField] private GameObject _targetUIInventory;
-    [SerializeField] private GameObject _taskTimer; //TODO Delete it? Why it is here?
- 
-    [SerializeField] private TextMeshProUGUI bigMessage;
+    [SerializeField] private TextMeshProUGUI _bigMessage;
+    [SerializeField] private CharacterCreator _characterCreator;
     public void ShowDamage ()
     {
         print((_playerCharacter.Equipment[0] as Weapon).FormDamageDiapason()+ " "+ (_playerCharacter.Equipment[1] as Weapon).FormDamageDiapason());
@@ -23,6 +23,7 @@ public class WorldUserInterface : MonoBehaviour
         _targetUIInventory.SetActive(true);
         _targetUIInventory.GetComponent<InventoryUIContentFiller>().Inventory=inventory;
     }
+
     public void OpenPlayerInventory()
     {
         _playerUIInventory.SetActive(true);
@@ -30,16 +31,16 @@ public class WorldUserInterface : MonoBehaviour
     }
     public void ShowBigMessage(string message)
     {
-        if (bigMessage.gameObject.activeSelf)
+        if (_bigMessage.gameObject.activeSelf)
         {
             print("ERROR!!! Big message " + message + " was not shown");
             return;
         }
-        bigMessage.gameObject.SetActive(true);
-        Color color = bigMessage.color;
+        _bigMessage.gameObject.SetActive(true);
+        Color color = _bigMessage.color;
         color.a = 0f;
-        bigMessage.color = color;
-        bigMessage.text = message;
+        _bigMessage.color = color;
+        _bigMessage.text = message;
         StartCoroutine(ShowAndHide());
 
         IEnumerator ShowAndHide()
@@ -50,7 +51,7 @@ public class WorldUserInterface : MonoBehaviour
             {
                 alpha += 3 / 3 * Time.deltaTime;
                 color.a = alpha;
-                bigMessage.color = color;
+                _bigMessage.color = color;
                 yield return null;
             }
             show = false;
@@ -60,10 +61,18 @@ public class WorldUserInterface : MonoBehaviour
             {
                 alpha -= 3 / 3 * Time.deltaTime;
                 color.a = alpha;
-                bigMessage.color = color;
+                _bigMessage.color = color;
                 yield return null;
             }
-            bigMessage.gameObject.SetActive(false);
+            _bigMessage.gameObject.SetActive(false);
         }
+    }
+    public void CreateNewCharacter()
+    {
+        print("Character creation 2");
+        _characterCreator.gameObject.SetActive(true);
+        print("Character creation 4");
+        _characterCreator.enabled = true;
+        print("Character creation 6");
     }
 }

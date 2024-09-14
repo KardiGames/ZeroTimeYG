@@ -43,16 +43,12 @@ public class WorldCharacter : MonoBehaviour
     }
 
 
-    public void FulfillCharacter(string name, int strength, int perception, int endurance, int agility, int intelligence)
+    public void SetName(string name)
     {
-        if (_charName != "")
-            return;
-        _charName = name;
-        ST = strength;
-        PE = perception;
-        EN = endurance;
-        AG = agility;
-        IN = intelligence;
+		if (_charName == "")
+			_charName = name;
+		else
+			print("Error. Try to set new name " + name + " to current character have been declined.");
     }
 	
 	
