@@ -11,6 +11,7 @@ public class WorldCharacter : MonoBehaviour
 	[SerializeField] private Equipment _equipment;
     [SerializeField] private Inventory _inventory;
 	[SerializeField] private Skills _skills;
+	[SerializeField] private TaskTimer _skillsTimer;
 	[SerializeField] private ActionPoints _worldAP;
 
     [SerializeField] private string _charName;
@@ -24,6 +25,8 @@ public class WorldCharacter : MonoBehaviour
     public string CharacterName => _charName;
     public Equipment Equipment => _equipment;
 	public Inventory Inventory=> _inventory;
+	public TaskTimer SkillsTimer => _skillsTimer;
+
 	public Skills Skills => _skills;
 	public int X => (int)transform.position.x;
 	public int Y => (int)transform.position.y;	
@@ -41,7 +44,6 @@ public class WorldCharacter : MonoBehaviour
         }
 
     }
-
 
     public void SetName(string name)
     {
@@ -119,6 +121,7 @@ public class WorldCharacter : MonoBehaviour
 		jsonPlayer.inventoryJsonString=_inventory.ToJson();
 		jsonPlayer.equipmentJsonString=_equipment.ToJson();
 		jsonPlayer.skillsJsonString=_skills.ToJson();
+		jsonPlayer.taskTimerJsonString = _skillsTimer.ToJson(_skills);
 		jsonPlayer.apJsonString=_worldAP.ToJson();			
 
 		return JsonUtility.ToJson(jsonPlayer);
@@ -144,6 +147,8 @@ public class WorldCharacter : MonoBehaviour
 		_inventory.FromJson(jsonPlayer.inventoryJsonString);
 		_equipment.FromJson(jsonPlayer.equipmentJsonString);
 		_skills.FromJson(jsonPlayer.skillsJsonString);
+		_skillsTimer.FromJson(jsonPlayer.taskTimerJsonString, _skills);
+		_skillsTimer.CompletePastTasks();
 		_worldAP.FromJson(jsonPlayer.apJsonString);
 	}
 	
@@ -162,8 +167,8 @@ public class WorldCharacter : MonoBehaviour
         public int IN;
         public string inventoryJsonString;
         public string equipmentJsonString;
-        public string taskTimerJsonString;
         public string skillsJsonString;
+		public string taskTimerJsonString;
 		public string apJsonString;
     }
 

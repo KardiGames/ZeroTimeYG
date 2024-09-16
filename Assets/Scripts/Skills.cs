@@ -6,9 +6,9 @@ public class Skills : MonoBehaviour, ITimerable
 {
 	public const int WORKING_SKILLS_NUMBER = 10;
 	public const int MAXIMUM_TOTAL_SKILL = 200;
-	private const int skillToCostImprove = 50;
+	private const int SKILL_TO_COST_INCREASE = 50;
 	private const int MAXIMUM_IMPROVED_BY_LEVEL = 5;
-	private const float timeToTrainMultipler = 4.3817804600413289076557582624064f;
+	private const float TIME_TO_TRAIN_MULTIPLER = 4.3817804600413289076557582624064f;
 
 
 	[SerializeField] private WorldCharacter _playerCharacter;
@@ -92,7 +92,7 @@ public class Skills : MonoBehaviour, ITimerable
 	public int UnspentPoints => _unspentPoints;
 	private int SkillPointEachLevel => WORKING_SKILLS_NUMBER+_playerCharacter.IN+_playerCharacter.Level;
 
-	public float GetSkillMiltipler(string skillName)
+	public float GetSkillMultipler(string skillName)
     {
 		return (float)GetTrainedValue(skillName)/100.0f;
 	}
@@ -113,9 +113,14 @@ public class Skills : MonoBehaviour, ITimerable
 
 	public int GetImprovedValue (string skillName)
     {
-		int skillNumber = GetSkillNumber(skillName);
-		return _minimalSkills[skillNumber](_playerCharacter) + _trained[skillNumber] + _untrained[skillNumber];
+		return GetImprovedValue(GetSkillNumber(skillName));
 	}
+
+	private int GetImprovedValue (int skillNumber)
+    {
+		return _minimalSkills[skillNumber](_playerCharacter) + _trained[skillNumber] + _untrained[skillNumber];
+
+    }
 	public int GetMaximalValue(string skillName)
 	{
 		int skillNumber = GetSkillNumber(skillName);
@@ -136,8 +141,8 @@ public class Skills : MonoBehaviour, ITimerable
 			return false;
 		
         if (_unspentPoints >= SkillPointsToImprove(skillNumber)
-				&& (_playerCharacter.Level * MAXIMUM_IMPROVED_BY_LEVEL) > _trained[skillNumber]
-                && GetTrainedValue(skillNumber) < MAXIMUM_TOTAL_SKILL)
+				&& (_playerCharacter.Level * MAXIMUM_IMPROVED_BY_LEVEL) > (_trained[skillNumber]+_untrained[skillNumber])
+                && GetImprovedValue(skillNumber) < MAXIMUM_TOTAL_SKILL)
             return true;
         else
             return false;
@@ -154,7 +159,7 @@ public class Skills : MonoBehaviour, ITimerable
     }
 
 	public int SkillPointsToImprove (int skillNumber) =>
-		(_trained[skillNumber] + _untrained[skillNumber]) / skillToCostImprove + 1;
+		(_trained[skillNumber] + _untrained[skillNumber]) / SKILL_TO_COST_INCREASE + 1;
 
 	public bool IsPossibleToTrain(string skillName) =>
 		IsPossibleToTrain(GetSkillNumber(skillName));
@@ -171,9 +176,9 @@ public class Skills : MonoBehaviour, ITimerable
 		int skillNumber = GetSkillNumber(skillName);
 		if (IsPossibleToTrain(skillNumber))
 		{
-			int timeToTrain = (int)(Mathf.Pow(timeToTrainMultipler * (_trained[skillNumber] + 1), 2) / _playerCharacter.IN);
+			int timeToTrain = (int)(Mathf.Pow(TIME_TO_TRAIN_MULTIPLER * (_trained[skillNumber] + 1), 2) / _playerCharacter.IN);
 			_skillsTimer.AddTask(this, timeToTrain, skillName, true);
-			print($"Skill {skillName} must be started to train for {timeToTrain} seconds.");
+			print($"Skill {skillName} looks started to train for {timeToTrain} seconds.");
 		}
 		else
 			print($"Error. Skill {skillName} can't be trained. Bud it seems the button works (");
@@ -201,10 +206,6 @@ public class Skills : MonoBehaviour, ITimerable
 		}
 		return _skillNumbers[skillName];
 	}
-	
-	private void Start () {
-		_skillsTimer.SetupTaskTimer(3, 1);
-	}
 
 	public string ToJson()
 	{
@@ -212,7 +213,6 @@ public class Skills : MonoBehaviour, ITimerable
 		jsonSkills.trained=_trained;
 		jsonSkills.untrained=_untrained;
 		jsonSkills.unspent = _unspentPoints;
-		jsonSkills.taskTimerJsonString = _skillsTimer.ToJson(this);
 
 		return JsonUtility.ToJson(jsonSkills);
 	}
@@ -223,8 +223,6 @@ public class Skills : MonoBehaviour, ITimerable
 		_trained=jsonSkills.trained;
 		_untrained=jsonSkills.untrained;
 		_unspentPoints = jsonSkills.unspent;
-		_skillsTimer.FromJson(jsonSkills.taskTimerJsonString, this);
-		_skillsTimer.CompletePastTasks();
 	}
 
 	[Serializable]
@@ -233,6 +231,5 @@ public class Skills : MonoBehaviour, ITimerable
 		public int unspent;
 		public List<int> trained;
 		public List<int> untrained;
-		public string taskTimerJsonString;
 	}
 }

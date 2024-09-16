@@ -7,10 +7,10 @@ using System;
 public class WorldUserInterface : MonoBehaviour
 {
     [SerializeField] private WorldCharacter _playerCharacter;
+    [SerializeField] private CharacterCreator _characterCreator;
     [SerializeField] private GameObject _playerUIInventory;
     [SerializeField] private GameObject _targetUIInventory;
     [SerializeField] private TextMeshProUGUI _bigMessage;
-    [SerializeField] private CharacterCreator _characterCreator;
     public void ShowDamage ()
     {
         print((_playerCharacter.Equipment[0] as Weapon).FormDamageDiapason()+ " "+ (_playerCharacter.Equipment[1] as Weapon).FormDamageDiapason());
@@ -69,10 +69,7 @@ public class WorldUserInterface : MonoBehaviour
     }
     public void CreateNewCharacter()
     {
-        print("Character creation 2");
         _characterCreator.gameObject.SetActive(true);
-        print("Character creation 4");
         _characterCreator.enabled = true;
-        print("Character creation 6");
     }
 }

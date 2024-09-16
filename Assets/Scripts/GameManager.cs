@@ -24,7 +24,6 @@ public class GameManager : MonoBehaviour
                 print("ERROR!!! Save wasn't loaded or correctly created ( You can't play :( ");
                 return;
             }
-            print("Character creation 1");
             _worldUI.CreateNewCharacter();
         }
     }

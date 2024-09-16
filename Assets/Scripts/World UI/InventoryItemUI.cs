@@ -67,7 +67,7 @@ public class InventoryItemUI : MonoBehaviour
     private void StartProductionInFactory ()
     {
         Factory activeFactory = InventoryUI.Inventory.gameObject.GetComponent<Factory>();
-        activeFactory.AddFactoryLine(item as Blueprint);
+        activeFactory.AddFactoryLine(item as Blueprint, true);
     }
 
     private void Equip() => InventoryUI.Inventory.gameObject.GetComponent<Equipment>().Equip(InventoryUI.Inventory, item);

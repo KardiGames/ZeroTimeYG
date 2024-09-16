@@ -1089,7 +1089,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ver. 0.3.a
+  m_text: ver. 0.42.a
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
   m_sharedMaterial: {fileID: 2147374, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
@@ -5091,9 +5091,9 @@ RectTransform:
   m_Father: {fileID: 735386875}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: -17, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &154102867
 MonoBehaviour:
@@ -9307,6 +9307,7 @@ RectTransform:
   - {fileID: 1496278990}
   - {fileID: 717776693}
   - {fileID: 1533928819}
+  - {fileID: 1258855648}
   m_Father: {fileID: 529936201}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -12238,12 +12239,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 476735862}
+  - component: {fileID: 476735870}
   - component: {fileID: 476735863}
   - component: {fileID: 476735865}
   - component: {fileID: 476735869}
   - component: {fileID: 476735867}
   - component: {fileID: 476735868}
-  - component: {fileID: 476735870}
   - component: {fileID: 476735871}
   m_Layer: 0
   m_Name: ScriptObject
@@ -12355,7 +12356,7 @@ MonoBehaviour:
   _globalMapBuildings: []
   _playerJson: 
   _mapJson: 
-  _saveObject: {fileID: 0}
+  _saveObject: {fileID: 11400000, guid: 2f2730646a0cb774e98d7bbdef1fbb06, type: 2}
   _blankSaveObject: {fileID: 11400000, guid: 3f5f529906534414b8598159f028a1ca, type: 2}
   _playerCharacter: {fileID: 1486608456}
   _map: {fileID: 2053013091}
@@ -13467,7 +13468,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 361402522}
-  - {fileID: 1258855648}
   - {fileID: 2083296924}
   - {fileID: 84277843}
   - {fileID: 1136325773}
@@ -13503,10 +13503,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerCharacter: {fileID: 1486608456}
+  _characterCreator: {fileID: 2137705336}
   _playerUIInventory: {fileID: 2083296923}
   _targetUIInventory: {fileID: 84277842}
   _bigMessage: {fileID: 1351843930}
-  _characterCreator: {fileID: 2137705336}
 --- !u!1 &532487452
 GameObject:
   m_ObjectHideFlags: 0
@@ -14451,7 +14451,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 225.48425, y: -60.230896}
+  m_AnchoredPosition: {x: 225.48438, y: -60.230957}
   m_SizeDelta: {x: 328.3985, y: 51.2971}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &565064879
@@ -21935,7 +21935,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 476735870}
         m_TargetAssemblyTypeName: SaveData, GameAssembly
-        m_MethodName: SaveToOject
+        m_MethodName: SaveToObject
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -29989,17 +29989,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1258855647}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2095000910}
-  m_Father: {fileID: 529936201}
+  m_Father: {fileID: 361402522}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -282.7461, y: -203}
+  m_AnchoredPosition: {x: 1160.3539, y: -119.63379}
   m_SizeDelta: {x: 420.5077, y: 385.90002}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1258855649
@@ -32264,8 +32264,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 2098443095}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 0.61476696}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -33678,6 +33678,7 @@ MonoBehaviour:
   _equipment: {fileID: 1486608458}
   _inventory: {fileID: 1486608457}
   _skills: {fileID: 1486608460}
+  _skillsTimer: {fileID: 1486608459}
   _worldAP: {fileID: 1486608461}
   _charName: Alex Kardi
 --- !u!114 &1486608457
@@ -33832,6 +33833,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 476735870}
+        m_TargetAssemblyTypeName: SaveData, GameAssembly
+        m_MethodName: SaveCharacter
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
       - m_Target: {fileID: 2137705330}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
@@ -41663,7 +41676,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1785526324
 RectTransform:
   m_ObjectHideFlags: 0
@@ -43847,9 +43860,9 @@ RectTransform:
   m_Father: {fileID: 735386875}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 20}
+  m_SizeDelta: {x: -17, y: 20}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1849428522
 MonoBehaviour:
@@ -49872,7 +49885,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2137705331
 RectTransform:
   m_ObjectHideFlags: 0
@@ -49953,28 +49966,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _worldCharacter: {fileID: 1486608456}
-  _skillUIPrefabPool:
-  - {fileID: 1785526325}
-  - {fileID: 1328947290}
-  - {fileID: 195993960}
-  - {fileID: 433086731}
-  - {fileID: 1086634923}
-  - {fileID: 1115802480}
-  - {fileID: 15316277}
-  - {fileID: 419289605}
-  - {fileID: 2144588624}
-  - {fileID: 100992480}
-  _skills:
-  - Unarmed
-  - Melee
-  - Pistols
-  - Rifles
-  - Heavy
-  - Weapon damage
-  - Beam damage
-  - Attentive search
-  - Dangerous mining
-  - Familiar paths
+  _saveData: {fileID: 476735870}
+  _skillsButton: {fileID: 1816718459}
   _nameText: {fileID: 1453013452}
   ST: {fileID: 2044534073}
   _improveSTButton: {fileID: 1710758817}
@@ -49989,7 +49982,28 @@ MonoBehaviour:
   _AP: {fileID: 1650800559}
   _attributePoints: {fileID: 1535275882}
   _unspentSkillPoints: {fileID: 913437145}
-  _skillsButton: {fileID: 1816718459}
+  _skills:
+  - Unarmed
+  - Melee
+  - Pistols
+  - Rifles
+  - Heavy
+  - Weapon damage
+  - Beam damage
+  - Attentive search
+  - Dangerous mining
+  - Familiar paths
+  _skillUIPrefabPool:
+  - {fileID: 1785526325}
+  - {fileID: 1328947290}
+  - {fileID: 195993960}
+  - {fileID: 433086731}
+  - {fileID: 1086634923}
+  - {fileID: 1115802480}
+  - {fileID: 15316277}
+  - {fileID: 419289605}
+  - {fileID: 2144588624}
+  - {fileID: 100992480}
 --- !u!114 &2137705336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50003,6 +50017,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerCharacter: {fileID: 1486608456}
+  _worldMap: {fileID: 2053013091}
   _characterUI: {fileID: 2137705335}
   _mainMenu: {fileID: 361402519}
   _nameField: {fileID: 565064879}

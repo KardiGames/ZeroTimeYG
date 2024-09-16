@@ -8,12 +8,10 @@ public class GlobalUserInterface : MonoBehaviour
 {
     [SerializeField] private BattleManager _battleManager;
     [SerializeField] private BattleUserInterface _battleUI;
-	[SerializeField] private SaveData _saveSystem;
-
+	[SerializeField] private SaveData _saveSystem; //TODO in was for one of the crutches. Delete this after check
     public static GlobalUserInterface Instance { get; private set; }
     public BattleManager BattleManager => _battleManager; //TODO This is crutch (( Much better to delete this
     public BattleUserInterface BattleUI => _battleUI; //TODO This is crutch (( Much better to delete this
-	public SaveData SaveSystem => _saveSystem; //TODO This is crutch (( Much better to delete this
 
     private void Awake()
     {

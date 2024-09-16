@@ -44,7 +44,7 @@ public class Factory : MonoBehaviour, ITimerable, IWorldBuilding
 		if (productionTask==null)
 			return;
         
-		_taskTimer.AddTask(productionTask);
+		_taskTimer.AddTask(productionTask, startProductionImmediately);
 		if (_taskTimer.Contains(productionTask))
         {
 			SpendResources(blueprint);

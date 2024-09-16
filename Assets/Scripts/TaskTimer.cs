@@ -212,26 +212,31 @@ public class TaskTimer : MonoBehaviour
 
 	public void FromJson(string jsonString, ITimerable sourceToSet)
 	{
+		print(jsonString);
 		_tasksList.Clear();
 		TaskTimerJsonData jsonTimer = JsonUtility.FromJson<TaskTimerJsonData>(jsonString);
 		if (jsonTimer == null)
+        {
+			print("Error! TaskTimer tryed to load, but in haven't happend ( Loaded empty basic");
 			return;
+        }
 		_simultaneouslyTasks=jsonTimer.simultaneouslyTasks;
 		_maximumTasks=jsonTimer.maximumTasks;
 		
-		TaskByTimerJsonData taskDataToAdd=new();
+		TaskByTimerJsonData taskDataToAdd;
 		for (int i=0; i<jsonTimer.taskByTimerJsonList.Count; i++)
         {
 			taskDataToAdd = JsonUtility.FromJson<TaskByTimerJsonData>(jsonTimer.taskByTimerJsonList[i]);
 			if (taskDataToAdd!=null) 
 				_tasksList.Add(new TaskByTimer(
-					sourceToSet, 
-					taskDataToAdd.secondsToFinish, 
-					taskDataToAdd.TaskTag, 
-					taskDataToAdd.TaskName, 
-					taskDataToAdd.Description, 
-					DateTime.ParseExact(taskDataToAdd.FinishTime,"ddMMyyyyHHmmss",null)
-				)); //TODO Make test if deserialization error
+					sourceToSet,
+					taskDataToAdd.secondsToFinish,
+					taskDataToAdd.TaskTag,
+					taskDataToAdd.TaskName,
+					taskDataToAdd.Description,
+					DateTime.ParseExact(taskDataToAdd.FinishTime, "ddMMyyyyHHmmss", null)
+					)
+				); //TODO Make test if deserialization error
         }
 	}
 
@@ -258,7 +263,7 @@ public class TaskTimer : MonoBehaviour
 			Description = taskToConvert.Description;
 			TaskTag = taskToConvert.TaskTag;
 			FinishTime = taskToConvert.FinishTime.ToString("ddMMyyyyHHmmss");
-			secondsToFinish = taskToConvert.secondsToFinish;
+			secondsToFinish = taskToConvert.SecondsToFinish;
 		}
 		public TaskByTimerJsonData() { }
 	}

@@ -56,7 +56,7 @@ public class WorldMap : MonoBehaviour
     }
     private void OnMouseUp()
     {
-        if (EventSystem.current.IsPointerOverGameObject() || _playerIsMoving)
+        if (EventSystem.current.IsPointerOverGameObject() || _playerIsMoving || !enabled)
             return;
         Vector3 mousePosition = Input.mousePosition;
 

@@ -7,10 +7,9 @@ using UnityEngine.UI;
 public class CharacterUI : MonoBehaviour
 {
     [SerializeField] private WorldCharacter _worldCharacter;
-	
-	[SerializeField] private List<SkillUI> _skillUIPrefabPool;
-    [SerializeField] private List<string> _skills = new ();
-    private Dictionary<string, SkillUI> _skillsUI = new Dictionary<string, SkillUI>(); //TODO Delete SerField
+
+	[SerializeField] private SaveData _saveData;
+	[SerializeField] private Button _skillsButton;
     [SerializeField] private TextMeshProUGUI _nameText;
     [SerializeField] private TextMeshProUGUI ST; //Strength
 	[SerializeField] private Button _improveSTButton;
@@ -26,8 +25,9 @@ public class CharacterUI : MonoBehaviour
 	[SerializeField] private TextMeshProUGUI _attributePoints;
 	[SerializeField] private TextMeshProUGUI _unspentSkillPoints;
 	
-	[SerializeField] private Button _skillsButton;
-	
+    [SerializeField] private List<string> _skills = new ();
+	[SerializeField] private List<SkillUI> _skillUIPrefabPool;
+    private Dictionary<string, SkillUI> _skillsUI = new Dictionary<string, SkillUI>(); //TODO Delete SerField
 	private List<SkillUI> _timers=new();
 
     public void OnEnable () {
@@ -37,15 +37,13 @@ public class CharacterUI : MonoBehaviour
 			return;
 		}
 
-		if (_worldCharacter.CharacterName=="")
-			print("Character creation 3");
 		ShowNameLevelText();
 		_AP.text = "AP" + _worldCharacter.AP;
 
 		ReloadAttributes();
 		
         _worldCharacter.Skills.TaskTimer.CompletePastTasks();
-		GlobalUserInterface.Instance.SaveSystem.SaveCharacter();
+		_saveData.SaveCharacter();
 
 		ReloadSkills();
     }

@@ -7,6 +7,7 @@ using TMPro;
 public class CharacterCreator : MonoBehaviour
 {
     [SerializeField] private WorldCharacter _playerCharacter;
+    [SerializeField] private WorldMap _worldMap;
     [SerializeField] private CharacterUI _characterUI;
     [SerializeField] private GameObject _mainMenu;
     [SerializeField] private TMP_InputField _nameField;
@@ -24,7 +25,7 @@ public class CharacterCreator : MonoBehaviour
 
     private void OnEnable()
     {
-        print("Character creation 5");
+        _worldMap.enabled = false;
         _nameText.gameObject.SetActive(false);
         _nameField.gameObject.SetActive(true);
         _setNameButton.gameObject.SetActive(true);
@@ -42,7 +43,6 @@ public class CharacterCreator : MonoBehaviour
             return;
         }
 
-        print("Character creation 7");
         _playerCharacter.SetName(_nameField.text);
         _errorText.gameObject.SetActive(false);
         _setNameButton.gameObject.SetActive(false);
@@ -51,12 +51,12 @@ public class CharacterCreator : MonoBehaviour
         _characterUI.ShowNameLevelText();
         _mainMenu.SetActive(true);
         _closeCross.gameObject.SetActive(true);
+        _worldMap.enabled = true;
 
-        print("Character creation 8 - looks like completed. Check is CharacterCreator script disabled");
         this.enabled = false;
     }
 
-    //TODO Bad plase for this method. Move some way or delete it.
+    //TODO Bad plañe for this method. Move some way or delete it.
     public string FormWeaponText(Weapon weapon)
     {
         string weaponText = $"{weapon.ItemName} [ {weapon.APCost} AP ]\n";

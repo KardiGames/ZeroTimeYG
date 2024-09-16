@@ -148,7 +148,7 @@ public class SaveData : MonoBehaviour
         return true;
     }
 	
-	public void SaveToOject() 
+	public void SaveToObject() 
 	{
 		if (_saveObject==null)
 			return;

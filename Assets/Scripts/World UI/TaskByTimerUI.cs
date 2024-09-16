@@ -32,7 +32,7 @@ public class TaskByTimerUI : MonoBehaviour
         }
         else
         {
-            countdown = new TimeSpan(0, 0, (int)task.secondsToFinish);
+            countdown = new TimeSpan(0, 0, (int)task.SecondsToFinish);
             FormTimerText();
         }
 
