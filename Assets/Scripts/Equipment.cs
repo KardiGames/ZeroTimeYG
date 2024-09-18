@@ -49,19 +49,24 @@ public class Equipment : MonoBehaviour
         get => _equipment[(int)slotIndex];
     }
 
-    public bool IsAbleToEquip(Item item, bool replaceInSlot)
+    public bool IsAbleToEquip(Item item, bool replaceInSlot=false)
     {
+        
+        
         if (item is Weapon weapon)
         {
+            if (replaceInSlot)
+                return true;
+
             if (weapon.TwoHanded)
             {
-                if (replaceInSlot || (_equipment[(int)Slot.RightHand] == null && _equipment[(int)Slot.LeftHand] != null))
+                if (_equipment[(int)Slot.RightHand] == null && _equipment[(int)Slot.LeftHand] == null)
                     return true;
                 else
                     return false;
             } else
             {
-                if (replaceInSlot || _equipment[(int)Slot.RightHand] == null || _equipment[(int)Slot.LeftHand] == null)
+                if (_equipment[(int)Slot.RightHand] == null || _equipment[(int)Slot.LeftHand] == null)
                     return true;
                 else
                     return false;
@@ -70,7 +75,10 @@ public class Equipment : MonoBehaviour
 
         else if (item is Armor armor)
         {
-            if (replaceInSlot || _equipment[(int)armor.Slot] == null)
+            if (replaceInSlot)
+                return true;
+
+            if (_equipment[(int)armor.Slot] == null)
                 return true;
             else
                 return false;
@@ -109,7 +117,7 @@ public class Equipment : MonoBehaviour
             return;
 
         if (TryToEquip(inventoryFrom, item, replaceInSlot))
-            inventoryFrom.RemoveThisItem(this, item);
+            inventoryFrom.RemoveThisStack(this, item);
     }
     private bool TryToEquip(object sender, Item item, bool replaceInSlot)
     {

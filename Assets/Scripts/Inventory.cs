@@ -75,39 +75,35 @@ public class Inventory : MonoBehaviour
 
 	public void Remove(object sender, string itemName, long amount = 1) => RemoveByArray(sender, GetAllItems(itemName), amount);
 	public void Remove(object sender, Item itemOfType, long amount = 1) => RemoveByArray(sender, GetAllItems(itemOfType), amount);
-	public void RemoveThisItem(object sender, Item item) => RemoveByArray(sender, new Item[] { item }, item.Amount);
+	public void RemoveThisStack(object sender, Item item) => RemoveByArray(sender, new Item[] { item }, item.Amount);
 
 	private void RemoveByArray(object sender, Item[] items, long amount) {
 		if (items.Length == 0)
 			return;
-
-		if (!items[0].Stackable)
-		{
-			inventoryItems.Remove(items[0]);
-			OnInventoryContentChanged?.Invoke();
+		if (amount < 1)
 			return;
-		}
-		else if (amount < 0)
-			return;
+		 
 
-
-		int count = items.Length;
-		for (int i = count - 1; i >= 0; i--)
-		{
-			if (items[i].Amount >= amount)
+			int count = items.Length;
+			for (int i = count - 1; i >= 0; i--)
 			{
-				items[i].Amount -= amount;
-				if (items[i].Amount <= 0)
-					inventoryItems.Remove(items[i]);
-				OnInventoryItemRemovedEvent?.Invoke(sender, items[i], amount);
-				break;
-			}
+				if (items[i].Amount >= amount)
+				{
+					items[i].Amount -= amount;
+					if (items[i].Amount <= 0) { 
+						inventoryItems.Remove(items[i]);
+						OnInventoryItemRemovedEvent?.Invoke(sender, items[i], amount);
+					}
+					OnInventoryContentChanged?.Invoke();
+					break;
+				}
 
-			amount -= items[i].Amount;
-			inventoryItems.Remove(items[i]);
-			OnInventoryItemRemovedEvent?.Invoke(sender, items[i], items[i].Amount);
-			OnInventoryContentChanged?.Invoke();
+				amount -= items[i].Amount;
+				inventoryItems.Remove(items[i]);
+				OnInventoryItemRemovedEvent?.Invoke(sender, items[i], items[i].Amount);
+				OnInventoryContentChanged?.Invoke();
 		}
+
 	}
 
 	public void ClearInventory(object sender) {
