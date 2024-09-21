@@ -7,13 +7,15 @@ public class NonPlayerCharacter : CombatUnit
     private const int NPC_WEAPON_DAMAGE_SKILL = 100;
 
     //Variables for NPC
+    
     private string _name;
     private int _level;
     private int _maxHP;
     private int _totalAP; 
     private int _ac;
     [SerializeField] private float _difficulty = 1;
-    
+    [SerializeField] private string _ai = "";
+
     private NpcAttack _npcAttack;
     private Dictionary<string, int> _skillValues = new Dictionary<string, int>();
 
@@ -39,6 +41,7 @@ public class NonPlayerCharacter : CombatUnit
     public override Weapon LeftHandWeapon => _npcAttack;
 
     public float Difficulty => _difficulty;
+    public override string AI => _ai;
 
     public override int GetSkillValue(string skillName)
     {

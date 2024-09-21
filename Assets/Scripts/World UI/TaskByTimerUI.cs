@@ -12,9 +12,22 @@ public class TaskByTimerUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI startStopText;
     [SerializeField] private Button startPauseButton;
 
-    private TimeSpan countdown;
+    private TimeSpan _countdown;
 
     private TaskByTimer task;
+
+    public static string FormTimerText(int secondsToFinish)
+    {
+        return FormTimerText(new TimeSpan(0, 0, secondsToFinish));
+    }
+    public static string FormTimerText(TimeSpan countdown)
+    {
+        string timerText = "";
+        if (countdown.TotalDays >= 1)
+            timerText += (int)countdown.TotalDays + "d ";
+        timerText += $"{countdown.Hours}:{countdown.Minutes}:{countdown.Seconds}";
+        return timerText;
+    }
 
     public void Init(TaskByTimer task)
     {
@@ -32,8 +45,8 @@ public class TaskByTimerUI : MonoBehaviour
         }
         else
         {
-            countdown = new TimeSpan(0, 0, (int)task.SecondsToFinish);
-            FormTimerText();
+            _countdown = new TimeSpan(0, 0, (int)task.SecondsToFinish);
+            SetTimerText();
         }
 
         SetStartPauseButtonText();
@@ -50,28 +63,27 @@ public class TaskByTimerUI : MonoBehaviour
 
     private void UpdateSec()
     {
-        countdown = countdown.Add(new TimeSpan(0, 0, -1));
-        if (countdown.TotalSeconds <= 0)
+        _countdown = _countdown.Add(new TimeSpan(0, 0, -1));
+        if (_countdown.TotalSeconds <= 0)
         {
             task.Source.TaskTimer.CompletePastTasks();
-            countdown = TimeSpan.Zero;
+            _countdown = TimeSpan.Zero;
         }
-        FormTimerText();
+        SetTimerText();
     }
 
     private void UpdateTimer()
     {
-        countdown = task.FinishTime - DateTime.Now;
-        FormTimerText();
+        _countdown = task.FinishTime - DateTime.Now;
+        SetTimerText();
     }
 
-    private void FormTimerText()
+    private void SetTimerText()
     {
-        timerText.text = "";
-        if (countdown.TotalDays >= 1)
-            timerText.text += (int)countdown.TotalDays + "d ";
-        timerText.text += $"{countdown.Hours}:{countdown.Minutes}:{countdown.Seconds}";
+        timerText.text = FormTimerText(_countdown);
     }
+
+
 
     public void StartPauseTask()
     {

@@ -11,13 +11,13 @@ public class InventoryItemUI : MonoBehaviour
     [SerializeField] private Button transferPartButton;
     [SerializeField] private Button thirdButton;
     public InventoryUIContentFiller InventoryUI { get; private set; }
-    private Item item;
+    private Item _item;
 
 
     public void Init(Item item, InventoryUIContentFiller inventoryUI)
     {
-        if (this.item == null)
-            this.item = item;
+        if (this._item == null)
+            this._item = item;
         this.InventoryUI = inventoryUI;
 
         itemName.text = item.ItemName;
@@ -51,24 +51,25 @@ public class InventoryItemUI : MonoBehaviour
         if (InventoryUI == null || InventoryUI.Inventory == null || InventoryUI.TargetInventory == null)
             return;
 
-        InventoryUI.Inventory.TransferTo(InventoryUI.Inventory, InventoryUI.TargetInventory, item, item.Amount);
+        InventoryUI.Inventory.TransferTo(InventoryUI.Inventory, InventoryUI.TargetInventory, _item, _item.Amount);
     }
 
     public void TransferPart()
     {
-        if (!item.Stackable || item.Amount <= 1)
+        if (!_item.Stackable || _item.Amount <= 1)
             return;
 
         InventoryUI.TransferPartPanel.gameObject.SetActive(true);
-        InventoryUI.TransferPartPanel.Init(InventoryUI, item);
+        InventoryUI.TransferPartPanel.Init(InventoryUI, _item);
     }
 
+    public void ShowItemInfo() => InventoryUI.ShowItemInfo(_item);
 
     private void StartProductionInFactory ()
     {
         Factory activeFactory = InventoryUI.Inventory.gameObject.GetComponent<Factory>();
-        activeFactory.AddFactoryLine(item as Blueprint, true);
+        activeFactory.AddFactoryLine(_item as Blueprint, true);
     }
 
-    private void Equip() => InventoryUI.Inventory.gameObject.GetComponent<Equipment>().Equip(InventoryUI.Inventory, item);
+    private void Equip() => InventoryUI.Inventory.gameObject.GetComponent<Equipment>().Equip(InventoryUI.Inventory, _item);
 }

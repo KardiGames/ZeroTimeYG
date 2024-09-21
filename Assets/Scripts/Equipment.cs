@@ -5,12 +5,12 @@ using UnityEngine;
 
 public class Equipment : MonoBehaviour
 {
-    private const int SLOTS_NUMBER = 3;
+    private const int SLOTS_COUNT = 3;
 
     public event Action OnEquipmentContentChanged;
     public enum Slot { RightHand = 0, LeftHand = 1, Body = 2 };
 
-    [SerializeField] private Item[] _equipment = new Item[SLOTS_NUMBER];
+    [SerializeField] private Item[] _equipment = new Item[SLOTS_COUNT];
     //TODO Actual size (is 3) and may be not equal SLOTS_NUMBER, it is set by Inspector.
 
     public int AC
@@ -51,8 +51,6 @@ public class Equipment : MonoBehaviour
 
     public bool IsAbleToEquip(Item item, bool replaceInSlot=false)
     {
-        
-        
         if (item is Weapon weapon)
         {
             if (replaceInSlot)
@@ -121,23 +119,43 @@ public class Equipment : MonoBehaviour
     }
     private bool TryToEquip(object sender, Item item, bool replaceInSlot)
     {
+        //Any item storage may try to equip, but ONLY INVENTARIES SENDERS may use TRUE in "replaceInSlot"
+        
         int slotNumber = 0;
-        if (item is Armor armor)
-            slotNumber = (int)armor.Slot;
-        else if (_equipment[0] == null)
-            slotNumber = 0;
-        else if (_equipment[1] == null)
-            slotNumber = 1;
-
-        if (!replaceInSlot && _equipment[slotNumber] != null)
-            return false;
-        if (item is Weapon weapon && weapon.TwoHanded)
+        Inventory inventoryToUnequip = null;
+        if (replaceInSlot)
         {
+            if (sender is Inventory inventoryFrom)
+                inventoryToUnequip = inventoryFrom;
+            else
+                return false;
+        }
+        
+        if (item is Weapon twoHandedWeapon && twoHandedWeapon.TwoHanded)
+        {
+             if (replaceInSlot)
+             {
+                if (_equipment[0] != null)
+                    Unequip((Slot)0, inventoryToUnequip);
+                if (_equipment[1] != null)
+                    Unequip((Slot)1, inventoryToUnequip);
+             }
             _equipment[0] = item;
             _equipment[1] = item;
-        }
-        else
+        } else
+        {
+            if (item is Armor armor)
+                slotNumber = (int)armor.Slot;
+            else if (_equipment[0] == null)
+                slotNumber = 0;
+            else if (_equipment[1] == null)
+                slotNumber = 1;
+
+            if (replaceInSlot && _equipment[slotNumber] != null)
+                Unequip((Slot)slotNumber, inventoryToUnequip);
+            
             _equipment[slotNumber] = item;
+        }
 
         OnEquipmentContentChanged?.Invoke();
         return true;
@@ -145,7 +163,7 @@ public class Equipment : MonoBehaviour
 
     public void FromJson(string jsonString)
     {
-        _equipment = new Item[SLOTS_NUMBER];
+        _equipment = new Item[SLOTS_COUNT];
         EquipmentJsonData jsonEquipment = JsonUtility.FromJson<EquipmentJsonData>(jsonString);
         if (jsonEquipment == null || jsonEquipment.eqNames.Count!=jsonEquipment.eqJsons.Count)
 			return;

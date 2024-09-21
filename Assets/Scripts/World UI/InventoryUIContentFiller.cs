@@ -12,6 +12,7 @@ public class InventoryUIContentFiller : MonoBehaviour
 
     [SerializeField] private Inventory inventory;
     [SerializeField] private InventoryUIContentFiller targetInventoryUI;
+    [SerializeField] private InformationPanelUI _itemInfoPanel;
     [SerializeField] private Button _thisInventoryButton;
 
     [SerializeField] private float _percentSpaceBetweenObjects = 0.05f;
@@ -129,5 +130,13 @@ public class InventoryUIContentFiller : MonoBehaviour
 
         }
         _contentTransform.sizeDelta = new Vector2(_contentTransform.sizeDelta.x, nextYPosition);
+    }
+
+    public void ShowItemInfo(Item item) {
+        _itemInfoPanel.gameObject.SetActive(true);
+        if (item is Blueprint blueprint)
+            _itemInfoPanel.ShowBlueprintInfo(blueprint, inventory);
+        else
+            _itemInfoPanel.ShowItemInfo(item);
     }
 }

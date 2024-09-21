@@ -10,6 +10,7 @@ public class WorldUserInterface : MonoBehaviour
     [SerializeField] private CharacterCreator _characterCreator;
     [SerializeField] private GameObject _playerUIInventory;
     [SerializeField] private GameObject _targetUIInventory;
+    [SerializeField] private InformationPanelUI _informationUI;
     [SerializeField] private TextMeshProUGUI _bigMessage;
     public void ShowDamage ()
     {
@@ -71,5 +72,11 @@ public class WorldUserInterface : MonoBehaviour
     {
         _characterCreator.gameObject.SetActive(true);
         _characterCreator.enabled = true;
+    }
+
+    public void ShowItemInfo(Item item)
+    {
+        _informationUI.gameObject.SetActive(true);
+        _informationUI.ShowItemInfo(item);
     }
 }

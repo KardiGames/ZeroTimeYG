@@ -6,7 +6,7 @@ public class HotKeys : MonoBehaviour
 
     private void Update()
     {
-        if (_battleManager.Status != "planning" || _battleManager.AllCombatCharacters[_battleManager.Player]._ai!="")
+        if (_battleManager.Status != "planning" || _battleManager.AllCombatCharacters[_battleManager.Player].AI!="")
             return;
         if (Input.GetKeyDown(KeyCode.Space))
             _battleManager.BattleUI.EndTurn();

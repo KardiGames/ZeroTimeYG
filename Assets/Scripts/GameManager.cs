@@ -32,7 +32,13 @@ public class GameManager : MonoBehaviour
     {
         WorldCharacter worldChar = GameObject.Find("PlayerCharacter").GetComponent<WorldCharacter>();
         worldChar.CollectExperience(worldChar.ExperienceToLevelUp/2+2);
-        GameObject.Find("PlayerCharacter").GetComponent<Inventory>().TryToAdd(this, Item.GetItem("Pistol Blueprint"));
+        worldChar.GetComponent<Inventory>().TryToAdd(this, Item.GetItem("Pistol"));
+        worldChar.GetComponent<Inventory>().TryToAdd(this, Item.GetItem("Knife"));
+        worldChar.GetComponent<Inventory>().TryToAdd(this, Item.GetItem("Rifle"));
+        worldChar.GetComponent<Inventory>().TryToAdd(this, Item.GetItem("Shotgun"));
+        worldChar.GetComponent<Inventory>().TryToAdd(this, Item.GetItem("Sword"));
+        worldChar.GetComponent<Inventory>().TryToAdd(this, Item.GetItem("Exoskeleton jacket"));
+  
     }
 
     private void Start()
@@ -49,10 +55,8 @@ public class GameManager : MonoBehaviour
         _saveData.SaveBuilding(GameObject.Find("Factory").GetComponent<Factory>());
         _saveData.SaveBuilding(GameObject.Find("Mine").GetComponent<Mine>());
         _saveData.SaveToOject();
-        
-        
+
         */
-        GameObject.Find("PlayerCharacter").GetComponent<Inventory>().TryToAdd(this, Item.GetItem("Bullet"));
     }
     public void StartBattle(Mine mine)
     {
@@ -64,7 +68,7 @@ public class GameManager : MonoBehaviour
         _battleMap.SetActive(true);
         _battleManager.StartBattle(mine, _player);
     }
-    public void EndBattle(float rewardPoins, Mine mine, bool death)
+    public void EndBattle(float rewardPoins, Mine mine, bool dead)
     {
         _battleUI.gameObject.SetActive(false);
         _worldUI.gameObject.SetActive(true);
@@ -72,12 +76,15 @@ public class GameManager : MonoBehaviour
         _worldMap.gameObject.SetActive(true);
         Camera.main.transform.parent = _player.transform;
         Camera.main.transform.localPosition = new Vector3(0, 0, Camera.main.transform.localPosition.z);
-        if (!death)
+        
+        //TODO Add here option to change dead to survived
+
+        if (!dead)
             _player.CollectExperience((int)rewardPoins);
         else
             _player.CollectExperience((int)rewardPoins / 4);
 
-        if (!death)
+        if (!dead)
             mine.Level=(int)(Mathf.Max(rewardPoins,mine.Level) / 2);
         else
             mine.Level = (int)(Mathf.Max(rewardPoins, mine.Level) / 4);

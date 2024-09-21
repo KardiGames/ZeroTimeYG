@@ -2,12 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class EquipmentUI : MonoBehaviour
 {
-    [SerializeField] private List<SlotUI> _slotList = new ();
     [SerializeField] private Equipment _equipment;
+    [SerializeField] private WorldUserInterface _worldUI;
+    [SerializeField] private List<SlotUI> _slotList = new ();
     private Inventory _inventoryToUnequip;
 
     public Equipment Equipment
@@ -57,9 +59,9 @@ public class EquipmentUI : MonoBehaviour
             return;
         }
 
-        for (int i=0; i<_slotList.Count; i++)
+        for (int i = 0; i < _slotList.Count; i++)
         {
-            if (_equipment[i]==null)
+            if (_equipment[i] == null)
             {
                 _slotList[i].ItemImage.color = Color.red;
                 _slotList[i].Cross.SetActive(false);
@@ -70,6 +72,8 @@ public class EquipmentUI : MonoBehaviour
                 _slotList[i].Cross.SetActive(true);
             }
         }
+
+
     }
 
     public void Unequip(int slot)
@@ -80,6 +84,11 @@ public class EquipmentUI : MonoBehaviour
             return;
         }
         _equipment.Unequip((Equipment.Slot)slot, _inventoryToUnequip);
+    }
+    public void ShowItemInfo(int slotNumber)
+    {
+        if (Equipment[slotNumber] != null)
+            _worldUI.ShowItemInfo(Equipment[slotNumber]);
     }
     private void OnDisable()
     {

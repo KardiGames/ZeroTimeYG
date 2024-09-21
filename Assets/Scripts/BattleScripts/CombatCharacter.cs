@@ -9,7 +9,6 @@ public class CombatCharacter : CombatUnit
     private int[] xOddCorrArray = new int[] { 1, 1, 1, 0, -1, 0 }; //for Odd row
     private int[] xEvenCorrArray = new int[] { 0, 1, 0, -1, -1, -1 }; //for Even row
     private int[] yCorrArray = new int[] { 1, 0, -1, -1, 0, 1 };
-    //private bool _isCreated = false; //TODO delete this?
 
     private List<GameObject> clickZones = new List<GameObject>(6);
 
@@ -29,16 +28,16 @@ public class CombatCharacter : CombatUnit
     public Inventory Inventory => _playerCharacter.Inventory;
 
     //Secondary stats properties
-    public override int MaxHP { get => 15 + (ST + (2 * EN));}
-    public override int MeleeDamageBonus { get => ST; }
-    public override int TotalAP { get => (AG / 2) + 5; }
-    public override int AC
-    {
-        get => AG + _playerCharacter.Equipment.AC + _bonusAC;
-    }
-	public override int DamageResistance {
-		get => _playerCharacter.Equipment.DamageResistance;
-	}
+    public override int MaxHP => 15 + (ST + (2 * EN));
+    public override int MeleeDamageBonus => 
+        CalculateMeleeDamageBonus(_playerCharacter);
+    public override int TotalAP => 
+        (AG / 2) + 5;
+    public override int AC => 
+        AG + _playerCharacter.Equipment.AC + _bonusAC;
+
+	public override int DamageResistance
+		=> _playerCharacter.Equipment.DamageResistance;
 	
     public override Weapon RightHandWeapon =>
         _playerCharacter.Equipment[Equipment.Slot.RightHand] == null ? _fist : _playerCharacter.Equipment[Equipment.Slot.RightHand] as Weapon;
@@ -72,7 +71,6 @@ public class CombatCharacter : CombatUnit
         ResetPlanning();
         CreateClickZones();
     }
-
 
     private void OnEnable()
     {
@@ -177,7 +175,7 @@ public class CombatCharacter : CombatUnit
         foreach (CombatUnit cC in _battleManager.AllCombatCharacters)
         {
             cC.attackZone.SetActive(start);
-            if (cC == this || cC._ai=="")
+            if (cC == this || cC.AI=="")
             {
                 cC.attackZone.SetActive(false);
             }
@@ -274,5 +272,6 @@ public class CombatCharacter : CombatUnit
     {
         _skillBoostings.Clear();
     }
-
+    public static int CalculateMeleeDamageBonus (WorldCharacter damager)
+        => damager.ST;
 }

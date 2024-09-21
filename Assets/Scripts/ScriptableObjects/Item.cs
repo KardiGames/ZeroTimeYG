@@ -20,8 +20,10 @@ public class Item : ScriptableObject
         get => _amount;
         set //TODO m.b.delete setter
         {
-            if (_stackable && value > 0)
+            if (Stackable && value >= 0)
                 _amount = value;
+            else
+                Debug.Log("Trying to set negative value (" + value + ") to Item " + ItemName+". Or change value of NotStackable item");
         }
     }
     public virtual int AC => 0;

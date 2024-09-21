@@ -44,7 +44,7 @@ public class Movie : MonoBehaviour
                 moveVector.y = CoordArray.cArray[(combatLog[_battleManager.MovieAct].place[0]), (combatLog[_battleManager.MovieAct].place[1]), 1] - combatLog[_battleManager.MovieAct].subject.transform.position.y;
 
                 //TODO - edit crutch with choosing sound
-                if (thisAction.subject._ai=="")
+                if (thisAction.subject.AI=="")
                     thisAction.subject.Sound.clip = moveSound;
                 else
                     thisAction.subject.Sound.clip = enemyMoveSound;
@@ -103,7 +103,7 @@ public class Movie : MonoBehaviour
                 }
 
                 //TODO - edit crutch with choosing sound
-                if (thisAction.subject._ai == "")
+                if (thisAction.subject.AI == "")
                     if (usedWeapon.RangedAttack)
                         thisAction.subject.Sound.PlayOneShot(shootSound);
                     else

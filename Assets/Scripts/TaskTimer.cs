@@ -212,7 +212,6 @@ public class TaskTimer : MonoBehaviour
 
 	public void FromJson(string jsonString, ITimerable sourceToSet)
 	{
-		print(jsonString);
 		_tasksList.Clear();
 		TaskTimerJsonData jsonTimer = JsonUtility.FromJson<TaskTimerJsonData>(jsonString);
 		if (jsonTimer == null)

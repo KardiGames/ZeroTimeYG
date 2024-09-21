@@ -112,7 +112,7 @@ public class BattleManager : MonoBehaviour
 
         foreach (CombatUnit cChar in AllCombatCharacters)
         {
-            if (cChar._ai != "" && cChar is NonPlayerCharacter npc)
+            if (cChar.AI != "" && cChar is NonPlayerCharacter npc)
             {
                 if (npc.Dead)
                 {

@@ -51,7 +51,7 @@ public abstract class CombatUnit : MonoBehaviour
     }
 
     //AI Stats
-    public string _ai = "";
+    public virtual string AI { get => ""; }
 
     //Planning stuff
     public int PlanningAP { get; protected set; }

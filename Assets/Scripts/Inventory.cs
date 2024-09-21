@@ -36,6 +36,16 @@ public class Inventory : MonoBehaviour
 		return amount;
 	}
 
+	public long GetItemAmount(Item itemOfType)
+    {
+		long amount = 0;
+		foreach (Item item in GetAllItems(itemOfType))
+		{
+			amount += item.Amount;
+		}
+		return amount;
+	}
+
 	public void TransferTo(object sender, Inventory toInventory, Item item, long amount = 1)
 	{
 		if (item == null || amount < 1 || item.Amount < amount || !inventoryItems.Contains(item))
@@ -84,24 +94,25 @@ public class Inventory : MonoBehaviour
 			return;
 		 
 
-			int count = items.Length;
-			for (int i = count - 1; i >= 0; i--)
+		int count = items.Length;
+		for (int i = count - 1; i >= 0; i--)
+		{
+			if (items[i].Amount >= amount)
 			{
-				if (items[i].Amount >= amount)
-				{
+				if (items[i].Stackable)
 					items[i].Amount -= amount;
-					if (items[i].Amount <= 0) { 
-						inventoryItems.Remove(items[i]);
-						OnInventoryItemRemovedEvent?.Invoke(sender, items[i], amount);
-					}
-					OnInventoryContentChanged?.Invoke();
-					break;
+				if (items[i].Amount <= 0 || !items[i].Stackable) { 
+					inventoryItems.Remove(items[i]);					
+					OnInventoryItemRemovedEvent?.Invoke(sender, items[i], amount);
 				}
-
-				amount -= items[i].Amount;
-				inventoryItems.Remove(items[i]);
-				OnInventoryItemRemovedEvent?.Invoke(sender, items[i], items[i].Amount);
 				OnInventoryContentChanged?.Invoke();
+				break;
+			}
+
+			amount -= items[i].Amount;
+			inventoryItems.Remove(items[i]);
+			OnInventoryItemRemovedEvent?.Invoke(sender, items[i], items[i].Amount);
+			OnInventoryContentChanged?.Invoke();
 		}
 
 	}

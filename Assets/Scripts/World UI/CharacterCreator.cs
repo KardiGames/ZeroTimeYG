@@ -55,17 +55,4 @@ public class CharacterCreator : MonoBehaviour
 
         this.enabled = false;
     }
-
-    //TODO Bad plañe for this method. Move some way or delete it.
-    public string FormWeaponText(Weapon weapon)
-    {
-        string weaponText = $"{weapon.ItemName} [ {weapon.APCost} AP ]\n";
-        weaponText += "Damage: " + weapon.FormDamageDiapason(0) + " ";
-        if (weapon.RangedAttack)
-            weaponText += "Range: " + weapon.Range + "\n";
-        else
-            weaponText += "Melee\n";
-        return weaponText;
-    }
-
 }

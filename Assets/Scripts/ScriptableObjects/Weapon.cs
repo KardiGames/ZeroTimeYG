@@ -47,6 +47,9 @@ public class Weapon : Item
         }
     }
 
+    public int MinimalDamage => damageRandomMultipler + damageAddition;
+    public int MaximalDamage => damageRandomMultipler * damageRandomTo + damageAddition;
+
     public virtual int  MaxQuality => _maxQuality;
 
     public (int multipler, int dice, int addition) DamageTuple => new(damageRandomMultipler, damageRandomTo, damageAddition);
@@ -90,7 +93,7 @@ public class Weapon : Item
 
     public string FormDamageDiapason(int flatBonus = 0)
     {
-        return (damageRandomMultipler + damageAddition + flatBonus) + "-" + (damageRandomMultipler * damageRandomTo + damageAddition + flatBonus);
+        return (MinimalDamage+flatBonus) + "-" + (MaximalDamage + flatBonus);
     }
 
     public override bool IsTheSameItem(Item itemToCompare)
@@ -110,6 +113,40 @@ public class Weapon : Item
             return true;
         else
             return false;
+    }
+
+    public int ApplyDamageModifiers (int baseDamage, CombatUnit subject) => ApplyDamageModifiers (
+        baseDamage,
+        subject.AI=="", 
+        subject.MeleeDamageBonus, 
+        subject.GetSkillValue("Weapon damage"), 
+        subject.GetSkillValue("Beam damage")
+        );
+
+    public int ApplyDamageModifiers(int baseDamage, WorldCharacter player) => ApplyDamageModifiers(
+        baseDamage, 
+        true,
+        CombatCharacter.CalculateMeleeDamageBonus(player),
+        player.Skills.GetTrainedValue("Weapon damage"),
+        player.Skills.GetTrainedValue("Beam damage")
+        );
+
+    private int ApplyDamageModifiers (int damage, bool applyMeleeBonus, int meleeDamageBonus, int weaponDamageSkill, int beamDamageSkill)
+    {
+        if (!RangedAttack && applyMeleeBonus)
+            if (TwoHanded)
+                damage += meleeDamageBonus * 2;
+            else
+                damage += meleeDamageBonus;
+
+        damage = damage * weaponDamageSkill / 100;
+
+        if (AmmoType == "Energy cell")
+            damage = damage * beamDamageSkill / 100;
+
+        if (damage < 1)
+            damage = 1; //Minimum 1 damage anyway
+        return damage;
     }
 
     public override string ToJson()

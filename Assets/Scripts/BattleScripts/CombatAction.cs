@@ -198,21 +198,13 @@ public class CombatAction
                 if (Random.Range(0, 100) < hitChanse)
                 {
                     int damage = GetWeaponDamage (usedWeapon);
-                    if (!usedWeapon.RangedAttack && subject._ai=="")
-                        if (usedWeapon.TwoHanded)
-                            damage += subject.MeleeDamageBonus*2;
-                        else
-                            damage += subject.MeleeDamageBonus;
+                    damage = usedWeapon.ApplyDamageModifiers(damage, subject);
 
-					damage = damage * subject.GetSkillValue("Weapon damage")/100;
-					
-					if (usedWeapon.AmmoType == "Energy cell")
-						damage = damage * subject.GetSkillValue("Beam damage")/100;
-					
-					damage = damage-target.DamageResistance;
-					
-					if (damage <1)
-						damage = 1; //Minimum 1 damage anyway
+                    damage = damage - target.DamageResistance;
+
+                    if (damage < 1)
+                        damage = 1; //Minimum 1 damage anyway
+
                     target.TakeDamage(damage);
                     //print(cA.target.name + "'s got " + damage + " damage. Hit chance was " + hitChanse);
                     DamageDone = damage;
@@ -221,7 +213,7 @@ public class CombatAction
                 else  
                 {
                     //print(cA.subject.name + " have missed ((( HitChanse was " + hitChanse);
-                    if (subject is CombatCharacter player && player._ai=="" && Location.Distance(player.pos, target.pos) <= (player.PE - 1) )
+                    if (subject is CombatCharacter player && player.AI=="" && Location.Distance(player.pos, target.pos) <= (player.PE - 1) )
                         player.BoostSkill(usedWeapon.SkillName);
                 }
             }
@@ -271,7 +263,7 @@ public class CombatAction
             }
             summ += damageTuple.addition;
 
-            if ((counterOf1 >= (damageTuple.multipler / 2)) && subject is CombatCharacter player && player._ai == "")
+            if ((counterOf1 >= (damageTuple.multipler / 2)) && subject is CombatCharacter player && player.AI == "")
                 player.BoostSkill("Weapon damage");
 
             return summ;
