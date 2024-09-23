@@ -13,7 +13,7 @@ public class MoveUI : MonoBehaviour
     public void Init(int apCost, bool canMove)
     {
         gameObject.SetActive(true);
-        _apText.text = apCost + " AP";
+        _apText.text = apCost + GlobalUserInterface.Instance.Localisation.Translate (" AP");
         if (canMove)
         {
             _apText.color = _canMoveTextColor;

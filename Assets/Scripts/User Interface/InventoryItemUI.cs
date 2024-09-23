@@ -33,7 +33,7 @@ public class InventoryItemUI : MonoBehaviour
         if ((item is Weapon || item is Armor) && inventoryUI.Inventory.gameObject.name == "PlayerCharacter")
         {
             thirdButton.gameObject.SetActive(true);
-            thirdButton.GetComponentInChildren<TextMeshProUGUI>().text = "Equip";
+            thirdButton.GetComponentInChildren<TextMeshProUGUI>().text = GlobalUserInterface.Instance.Localisation.Translate("Equip");  
             if (inventoryUI.Inventory.gameObject.GetComponent<Equipment>().IsAbleToEquip(item, false))
                 thirdButton.onClick.AddListener(Equip);
             else
@@ -41,7 +41,7 @@ public class InventoryItemUI : MonoBehaviour
         } else if (item is Blueprint && inventoryUI.Inventory.gameObject.name == "Factory")
         {
             thirdButton.gameObject.SetActive(true);
-            thirdButton.GetComponentInChildren<TextMeshProUGUI>().text = "Produce";
+            thirdButton.GetComponentInChildren<TextMeshProUGUI>().text = GlobalUserInterface.Instance.Localisation.Translate("Produce");
             thirdButton.onClick.AddListener(StartProductionInFactory);
         }
     }

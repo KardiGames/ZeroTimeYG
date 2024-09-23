@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: IN
   m_EditorClassIdentifier: 
   _name: INTELLIGENCE (IN)
-  _type: Main statictics
+  _type: Statistics
   _text: Increases the number of skill points earned for each level Up. Speeds up
     skill training time.

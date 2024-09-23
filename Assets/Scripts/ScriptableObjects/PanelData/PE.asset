@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: PE
   m_EditorClassIdentifier: 
   _name: PERCETPION (PE)
-  _type: Main statictics
+  _type: Statistics
   _text: Ability to longer distance aiming.

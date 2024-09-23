@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private SaveData _saveData;
+    [SerializeField] private Localisation _localisation;
     [SerializeField] private BattleManager _battleManager;
     [SerializeField] private WorldUserInterface _worldUI;
     [SerializeField] private BattleUserInterface _battleUI;
@@ -15,6 +16,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
 		Item.LoadItems();
+        _localisation.InitLanguage();
         Location.LoadBattleMap();
         if (!_saveData.TryLoadFromObject())
         {
@@ -38,7 +40,7 @@ public class GameManager : MonoBehaviour
         worldChar.GetComponent<Inventory>().TryToAdd(this, Item.GetItem("Shotgun"));
         worldChar.GetComponent<Inventory>().TryToAdd(this, Item.GetItem("Sword"));
         worldChar.GetComponent<Inventory>().TryToAdd(this, Item.GetItem("Exoskeleton jacket"));
-  
+        GlobalUserInterface.Instance.ShowError("Here some Error\nJust for test...");
     }
 
     private void Start()

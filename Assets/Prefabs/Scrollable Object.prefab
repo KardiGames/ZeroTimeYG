@@ -132,6 +132,7 @@ GameObject:
   - component: {fileID: 7952715534027733882}
   - component: {fileID: 665387749903669483}
   - component: {fileID: 1584310543670823973}
+  - component: {fileID: 1961113833514114032}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -255,6 +256,22 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &1961113833514114032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2085171447313294554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8169f0b226b5c4f42b465677f01e5ee4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _localisation: {fileID: 0}
+  _translatingText: {fileID: 1584310543670823973}
+  _english: Transfer Part
+  _russian: "\u041F\u0435\u0440\u0435\u043D\u0435\u0441\u0442\u0438 \u0447\u0430\u0441\u0442\u044C"
 --- !u!1 &2831946718985597243
 GameObject:
   m_ObjectHideFlags: 0
@@ -350,9 +367,9 @@ MonoBehaviour:
   m_fontSize: 30
   m_fontSizeBase: 30
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 30
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -667,6 +684,7 @@ GameObject:
   - component: {fileID: 8117479024487757451}
   - component: {fileID: 8117479024487757453}
   - component: {fileID: 8117479024487757450}
+  - component: {fileID: 8916536460754791704}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -751,9 +769,9 @@ MonoBehaviour:
   m_fontSize: 30
   m_fontSizeBase: 30
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 30
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -790,6 +808,22 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &8916536460754791704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8117479024487757448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8169f0b226b5c4f42b465677f01e5ee4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _localisation: {fileID: 0}
+  _translatingText: {fileID: 8117479024487757450}
+  _english: Transfer
+  _russian: "\u041F\u0435\u0440\u0435\u043D\u0435\u0441\u0442\u0438"
 --- !u!1 &8117479024554318675
 GameObject:
   m_ObjectHideFlags: 0

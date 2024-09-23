@@ -13,7 +13,6 @@ public class TaskByTimerUI : MonoBehaviour
     [SerializeField] private Button startPauseButton;
 
     private TimeSpan _countdown;
-
     private TaskByTimer task;
 
     public static string FormTimerText(int secondsToFinish)
@@ -24,7 +23,7 @@ public class TaskByTimerUI : MonoBehaviour
     {
         string timerText = "";
         if (countdown.TotalDays >= 1)
-            timerText += (int)countdown.TotalDays + "d ";
+            timerText += (int)countdown.TotalDays + GlobalUserInterface.Instance.Localisation.Translate("d ");
         timerText += $"{countdown.Hours}:{countdown.Minutes}:{countdown.Seconds}";
         return timerText;
     }
@@ -35,7 +34,8 @@ public class TaskByTimerUI : MonoBehaviour
             this.task = task;
         else
             throw new Exception("TaskByTimerUI element is not empty and can't be Initialized.");
-        taskName.text = task.TaskName;
+
+        taskName.text = GlobalUserInterface.Instance.Localisation.Translate (task.TaskName);
 
         if (task.IsStarted())
         {
@@ -60,7 +60,7 @@ public class TaskByTimerUI : MonoBehaviour
             Timer.Instance.EveryMinuteAction -= UpdateTimer;
         }
     }
-
+    
     private void UpdateSec()
     {
         _countdown = _countdown.Add(new TimeSpan(0, 0, -1));
@@ -110,13 +110,9 @@ public class TaskByTimerUI : MonoBehaviour
     private void SetStartPauseButtonText()
     {
         if (task.IsStarted())
-            startStopText.text = "Pause";
+            startStopText.text = GlobalUserInterface.Instance.Localisation.Translate("Pause");
         else
-            startStopText.text = "Start";
+            startStopText.text = GlobalUserInterface.Instance.Localisation.Translate("Start");
     }
 
-    public void PauseUnpauseTask()
-    {
-
-	}
 }

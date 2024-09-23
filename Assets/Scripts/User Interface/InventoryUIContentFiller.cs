@@ -8,6 +8,7 @@ public class InventoryUIContentFiller : MonoBehaviour
 
     [SerializeField] private GameObject _objectToFill;
     [SerializeField] private TransferPartPanel _transferPartPanel;
+    [SerializeField] private Location _localisation;
     private RectTransform _contentTransform;
 
     [SerializeField] private Inventory inventory;

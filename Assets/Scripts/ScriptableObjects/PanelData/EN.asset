@@ -13,6 +13,5 @@ MonoBehaviour:
   m_Name: EN
   m_EditorClassIdentifier: 
   _name: ENDURANCE (EN)
-  _type: Main statictics
-  _text: "Measures the body\u2019s constitution and overall health.\nIncreases maximum
-    health points (HP)."
+  _type: Statistics
+  _text: '@EN'

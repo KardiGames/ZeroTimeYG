@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ST
   m_EditorClassIdentifier: 
   _name: STRENGTH (ST)
-  _type: Main statictics
+  _type: Statistics
   _text: 'Physical power.
 
     Increases melee damage.'

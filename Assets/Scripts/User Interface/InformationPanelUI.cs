@@ -8,6 +8,7 @@ using System;
 public class InformationPanelUI : MonoBehaviour
 {
     [SerializeField] WorldCharacter _playerCharacter;
+    [SerializeField] Localisation _localisation;
     [SerializeField] TextMeshProUGUI _nameText;
     [SerializeField] TextMeshProUGUI _typeText;
     [SerializeField] TextMeshProUGUI _infoText;
@@ -30,10 +31,10 @@ public class InformationPanelUI : MonoBehaviour
     {
         gameObject.SetActive(true);
         ClearElements();
-        _nameText.text = elementName;
-        _typeText.text = elementType;
+        _nameText.text = Translate(elementName);
+        _typeText.text = Translate(elementType);
         _infoText.gameObject.SetActive(true);
-        _infoText.text = infoText;
+        _infoText.text = Translate(infoText);
     }
 
     public void ShowElementInfo(InfoPanelData data) =>
@@ -51,10 +52,10 @@ public class InformationPanelUI : MonoBehaviour
         }
         
         ClearElements();
-        _nameText.text = item.ItemName;
-        _typeText.text = item.GetType().ToString();
+        _nameText.text = Translate(item.ItemName);
+        _typeText.text = Translate (item.GetType().ToString());
         if (item.Stackable)
-            _itemTagsText.text += "Amount: " + item.Amount + "\n";
+            _itemTagsText.text += Translate("Amount: ") + item.Amount + "\n";
         _itemInfoText.gameObject.SetActive(true);
 
         if (item is Weapon weapon)
@@ -67,7 +68,7 @@ public class InformationPanelUI : MonoBehaviour
 
     private void AddArmorInfo(Armor armor)
     {
-        _itemTagsText.text += "Quality: " + armor.Quality + "/" + armor.MaxQuality + "\n";
+        _itemTagsText.text += Translate("Quality: ") + armor.Quality + "/" + armor.MaxQuality + "\n";
         _itemInfoText.text = "Armor class (AC): " + armor.AC + "\n";
         _itemInfoText.text += "Damage resistance (DR): " + armor.DamageResistance + "\n";
     }
@@ -75,30 +76,30 @@ public class InformationPanelUI : MonoBehaviour
     private void AddWeaponInfo(Weapon weapon)
     {
         
-        _itemTagsText.text += "Quality: "+weapon.Quality+"/"+weapon.MaxQuality+"\n";
+        _itemTagsText.text += Translate("Quality: ")+weapon.Quality+"/"+weapon.MaxQuality+"\n";
         _itemTagsText.text = "";
         if (weapon.TwoHanded)
-            _itemTagsText.text += "Two handed\n";
+            _itemTagsText.text += Translate("Two handed")+"\n";
         if (weapon.RangedAttack)
-            _itemTagsText.text += "Ranged\n";
+            _itemTagsText.text += Translate("Ranged") +"\n";
         else 
-            _itemTagsText.text += "Melee\n";
+            _itemTagsText.text += Translate("Melee") + "\n";
         if (weapon.AmmoType=="Energy Cell")
-            _itemTagsText.text += "Beam\n";
+            _itemTagsText.text += Translate("Beam") + "\n";
 
-        _itemInfoText.text = "Attack cost: "+weapon.APCost+" AP\n";
-        _itemInfoText.text += "Base damage: " + weapon.FormDamageDiapason() + "\n";
+        _itemInfoText.text = Translate("Attack cost: ") +weapon.APCost+ " AP" + "\n";
+        _itemInfoText.text += Translate("Base damage: ") + weapon.FormDamageDiapason() + "\n";
         if (weapon.RangedAttack)
-            _itemInfoText.text += "Range: " + weapon.Range + "\n";
+            _itemInfoText.text += Translate("Range: ") + weapon.Range + "\n";
         if (weapon.AmmoType!="")
         {
-            _itemInfoText.text += "Ammo type: " + weapon.AmmoType+ "\n";
-            _itemInfoText.text += "Ammo capacity: " + weapon.AmmoMaxAmount + "\n";
-            _itemInfoText.text += "Ammo per shot: " + weapon.AmmoPerShot+ "\n";
+            _itemInfoText.text += Translate("Ammo type: ") + weapon.AmmoType+ "\n";
+            _itemInfoText.text += Translate("Ammo capacity: ") + weapon.AmmoMaxAmount + "\n";
+            _itemInfoText.text += Translate("Ammo per shot: ") + weapon.AmmoPerShot+ "\n";
         }
 
-        _itemInfoText.text+="\nSkill:\n"+weapon.SkillName+" ("+_playerCharacter.Skills.GetTrainedValue(weapon.SkillName)+"%)\n";
-        _itemInfoText.text += "Result damage: " + weapon.ApplyDamageModifiers(weapon.MinimalDamage, _playerCharacter)+"\n";
+        _itemInfoText.text+="\n"+ Translate("Skill:") +"\n"+weapon.SkillName+" ("+_playerCharacter.Skills.GetTrainedValue(weapon.SkillName)+"%)\n";
+        _itemInfoText.text += "Result damage: " + weapon.ApplyDamageModifiers(weapon.MinimalDamage, _playerCharacter) + " - " + weapon.ApplyDamageModifiers(weapon.MaximalDamage, _playerCharacter)+"\n";
     }
 
     public void ShowBlueprintInfo(Blueprint blueprint, Inventory inventory)
@@ -108,17 +109,17 @@ public class InformationPanelUI : MonoBehaviour
 
         ClearElements();
         _nameText.text = blueprint.ItemName;
-        _typeText.text = "Blueprint";
+        _typeText.text = Translate("Blueprint");
         if (blueprint.Stackable)
             _itemTagsText.text += "Amount: " + blueprint.Amount + "\n";
         _itemInfoText.gameObject.SetActive(true);
         _itemTagsText.text = "=======>\n=======>\n=======>";
         _producedItemIcon.gameObject.SetActive(true);
         _blueprintProductionItem = blueprint.ItemToCreate;  
-        _itemInfoText.text = "Produses in factory " + _blueprintProductionItem.ItemName + " x" + _blueprintProductionItem.Amount + "\n";
-        _itemInfoText.text += "Time to produse: " + TaskByTimerUI.FormTimerText((int)blueprint.SecondsToFinish) + "\n";
+        _itemInfoText.text = Translate("Produses in factory ") + _blueprintProductionItem.ItemName + " x" + _blueprintProductionItem.Amount + "\n";
+        _itemInfoText.text += Translate("Time to produse: ") + TaskByTimerUI.FormTimerText((int)blueprint.SecondsToFinish) + "\n";
 
-        _itemInfoText.text += "\nResourses:\n";
+        _itemInfoText.text += "\n"+ Translate("Resourses:") +"\n";
         for (int i=0; i<blueprint.ListOfResourses.Count; i++)
         {
             if (inventory!=null)
@@ -143,4 +144,17 @@ public class InformationPanelUI : MonoBehaviour
         else
             print("Error! Produced item is null");
     }
+
+    private void OnEnable ()
+    {
+        _localisation.OnLanguageChangedEvent += ClosePanel;
+    }
+
+    private void OnDisable()
+    {
+        _localisation.OnLanguageChangedEvent -= ClosePanel;
+    }
+    private void ClosePanel(string s) => gameObject.SetActive(false);
+
+    private string Translate(string text) => _localisation.Translate(text);
 }

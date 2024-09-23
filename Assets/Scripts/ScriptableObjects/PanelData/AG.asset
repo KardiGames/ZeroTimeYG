@@ -13,8 +13,5 @@ MonoBehaviour:
   m_Name: AG
   m_EditorClassIdentifier: 
   _name: AGILITY (AG)
-  _type: Main statictics
-  _text: 'Measures the speed of a character''s reactions.
-
-    Increases the number
-    of Action Points in battle.'
+  _type: Statistics
+  _text: '@AG'
