@@ -16,9 +16,12 @@ public class Blueprint : Item
     public float SecondsToFinish => _secondsToFinish;
 	public List<Item> ListOfResourses => new List<Item>(_listOfResourses);
 	public List<long> AmountsOfResourses => new List<long>(_amountOfResourses);
+	public override Sprite Icon => ItemToCreate.Icon;
+	public override Color IconColor => new Color(0f, 0.5f, 1.0f);
 
 
-	public bool IsAnoughResourses (Inventory factoryStorage) {
+
+    public bool IsAnoughResourses (Inventory factoryStorage) {
 		if (_listOfResourses.Count != _amountOfResourses.Count)
 			return false;
 		

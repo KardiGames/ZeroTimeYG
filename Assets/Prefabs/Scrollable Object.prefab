@@ -1116,6 +1116,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: {fileID: 8117479024032698296}
+  _itemImage: {fileID: 8117479024592481344}
   transferAllButton: {fileID: 8117479024554318677}
   transferPartButton: {fileID: 9053617175992996937}
   thirdButton: {fileID: 7878751883673235217}

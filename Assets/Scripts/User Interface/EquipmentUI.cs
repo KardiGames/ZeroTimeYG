@@ -63,12 +63,14 @@ public class EquipmentUI : MonoBehaviour
         {
             if (_equipment[i] == null)
             {
+                _slotList[i].ItemImage.sprite = null;
                 _slotList[i].ItemImage.color = Color.red;
                 _slotList[i].Cross.SetActive(false);
             }
             else
             {
-                _slotList[i].ItemImage.color = Color.blue;
+                _slotList[i].ItemImage.sprite = _equipment[i].Icon;
+                _slotList[i].ItemImage.color = _equipment[i].IconColor;
                 _slotList[i].Cross.SetActive(true);
             }
         }

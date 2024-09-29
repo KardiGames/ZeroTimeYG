@@ -15,3 +15,4 @@ MonoBehaviour:
   _itemName: Energy cell
   _stackable: 1
   _amount: 100
+  _icon: {fileID: 21300000, guid: 69d324dad298f8349b63ee7c67194dda, type: 3}

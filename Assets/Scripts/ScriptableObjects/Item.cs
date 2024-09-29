@@ -12,6 +12,7 @@ public class Item : ScriptableObject
 	[SerializeField] protected string _itemName = "ErrorItem";
     [SerializeField] private bool _stackable=false;
     [SerializeField] private long _amount = 1;
+    [SerializeField] private Sprite _icon;
 
     public string ItemName => _itemName;
     public virtual bool Stackable { get => _stackable; }
@@ -27,6 +28,8 @@ public class Item : ScriptableObject
         }
     }
     public virtual int AC => 0;
+    public virtual Sprite Icon => _icon;
+    public virtual Color IconColor => Color.white;
 
 
     public static void LoadItems() {

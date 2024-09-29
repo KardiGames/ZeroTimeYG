@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class InventoryItemUI : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI itemName;
+    [SerializeField] private Image _itemImage;
     [SerializeField] private Button transferAllButton;
     [SerializeField] private Button transferPartButton;
     [SerializeField] private Button thirdButton;
@@ -23,6 +24,10 @@ public class InventoryItemUI : MonoBehaviour
         itemName.text = item.ItemName;
         if (item.Stackable)
             itemName.text += " x" + item.Amount;
+
+        _itemImage.sprite = _item.Icon;
+        if (_item.Icon!=null)
+            _itemImage.color = _item.IconColor;
 
         if (true) //TODO add here and below condition if we know where to transfer    
             transferAllButton.gameObject.SetActive(true);

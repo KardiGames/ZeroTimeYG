@@ -54,6 +54,10 @@ public class InformationPanelUI : MonoBehaviour
         ClearElements();
         _nameText.text = Translate(item.ItemName);
         _typeText.text = Translate (item.GetType().ToString());
+        _itemIcon.gameObject.SetActive(true);
+        _itemIcon.sprite = item.Icon;
+        _itemIcon.color = item.IconColor;
+
         if (item.Stackable)
             _itemTagsText.text += Translate("Amount: ") + item.Amount + "\n";
         _itemInfoText.gameObject.SetActive(true);
@@ -77,7 +81,6 @@ public class InformationPanelUI : MonoBehaviour
     {
         
         _itemTagsText.text += Translate("Quality: ")+weapon.Quality+"/"+weapon.MaxQuality+"\n";
-        _itemTagsText.text = "";
         if (weapon.TwoHanded)
             _itemTagsText.text += Translate("Two handed")+"\n";
         if (weapon.RangedAttack)
@@ -110,12 +113,18 @@ public class InformationPanelUI : MonoBehaviour
         ClearElements();
         _nameText.text = blueprint.ItemName;
         _typeText.text = Translate("Blueprint");
+        _itemIcon.gameObject.SetActive(true);
+        _itemIcon.sprite = blueprint.Icon;
+        _itemIcon.color = blueprint.IconColor;
         if (blueprint.Stackable)
             _itemTagsText.text += "Amount: " + blueprint.Amount + "\n";
         _itemInfoText.gameObject.SetActive(true);
         _itemTagsText.text = "=======>\n=======>\n=======>";
+
+        _blueprintProductionItem = blueprint.ItemToCreate; 
         _producedItemIcon.gameObject.SetActive(true);
-        _blueprintProductionItem = blueprint.ItemToCreate;  
+        _producedItemIcon.sprite = _blueprintProductionItem.Icon;
+        _producedItemIcon.color = _blueprintProductionItem.IconColor;
         _itemInfoText.text = Translate("Produses in factory ") + _blueprintProductionItem.ItemName + " x" + _blueprintProductionItem.Amount + "\n";
         _itemInfoText.text += Translate("Time to produse: ") + TaskByTimerUI.FormTimerText((int)blueprint.SecondsToFinish) + "\n";
 
@@ -137,6 +146,7 @@ public class InformationPanelUI : MonoBehaviour
 
     public void ShowBlueprintProductionItem()
     {
+        print("Click Accepted");
         if (_blueprintProductionItem != null)
         {
             ShowItemInfo(_blueprintProductionItem);

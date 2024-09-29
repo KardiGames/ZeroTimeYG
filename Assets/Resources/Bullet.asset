@@ -15,3 +15,4 @@ MonoBehaviour:
   _itemName: Bullet
   _stackable: 1
   _amount: 100
+  _icon: {fileID: 21300000, guid: b1fccd6f995a9db41a70feff391bfbc4, type: 3}
