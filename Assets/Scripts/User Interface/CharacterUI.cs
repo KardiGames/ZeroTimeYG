@@ -9,6 +9,7 @@ public class CharacterUI : MonoBehaviour
     [SerializeField] private WorldCharacter _worldCharacter;
 
 	[SerializeField] private SaveData _saveData;
+	[SerializeField] private Localisation _localisation;
 	[SerializeField] private Button _skillsButton;
     [SerializeField] private TextMeshProUGUI _nameText;
     [SerializeField] private TextMeshProUGUI ST; //Strength
@@ -49,7 +50,7 @@ public class CharacterUI : MonoBehaviour
     }
 	
 	public void ShowNameLevelText() {
-		_nameText.text = $"{_worldCharacter.CharacterName} ({_worldCharacter.Level} level) {_worldCharacter.Experience}/{_worldCharacter.ExperienceToLevelUp} exp";
+		_nameText.text = _worldCharacter.CharacterName+" ("+_worldCharacter.Level+Translate(" level")+") "+_worldCharacter.Experience+"/"+_worldCharacter.ExperienceToLevelUp+Translate(" exp");
 	}
 
 	public void ReloadSkills() {
@@ -173,4 +174,5 @@ public class CharacterUI : MonoBehaviour
         }
     }
 
+	private string Translate(string text) => _localisation.Translate(text); 
 }

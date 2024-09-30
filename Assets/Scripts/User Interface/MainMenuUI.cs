@@ -35,6 +35,7 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] private SaveData _saveData;
     [SerializeField] private WorldCharacter _character;
     [SerializeField] private WorldMap _map;
+    [SerializeField] private InformationPanelUI _informationPanel;
 
     public void EnterLocation ()
     {
@@ -119,5 +120,10 @@ public class MainMenuUI : MonoBehaviour
 			_enterFactoryButton.interactable=false;
 		else
 			_enterFactoryButton.interactable=true;
+    }
+
+    public void FactoryInfo ()
+    {
+
     }
 }
