@@ -2763,6 +2763,7 @@ GameObject:
   - component: {fileID: 112604823}
   - component: {fileID: 112604825}
   - component: {fileID: 112604824}
+  - component: {fileID: 112604826}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -2809,7 +2810,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 3
+  m_text: Info
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2886,6 +2887,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 112604822}
   m_CullTransparentMesh: 1
+--- !u!114 &112604826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 112604822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8169f0b226b5c4f42b465677f01e5ee4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _localisation: {fileID: 630941250}
+  _translatingText: {fileID: 112604824}
+  _english: Info
+  _russian: "\u0418\u043D\u0444\u043E"
 --- !u!1 &120059146
 GameObject:
   m_ObjectHideFlags: 0
@@ -2964,11 +2981,23 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 120059149}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1258855651}
+        m_TargetAssemblyTypeName: InformationPanelUI, GameAssembly
+        m_MethodName: ShowElementInfo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 11400000, guid: 21621f114ea83be48bbfa91dcc574c63, type: 2}
+          m_ObjectArgumentAssemblyTypeName: InfoPanelData, GameAssembly
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &120059149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14561,7 +14590,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 630619981}
   m_OnClick:
     m_PersistentCalls:
@@ -19732,12 +19761,12 @@ GameObject:
   - component: {fileID: 911063917}
   - component: {fileID: 911063916}
   m_Layer: 5
-  m_Name: Fourth Button
+  m_Name: Help Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &911063915
 RectTransform:
   m_ObjectHideFlags: 0
@@ -19797,11 +19826,23 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 911063917}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1258855651}
+        m_TargetAssemblyTypeName: InformationPanelUI, GameAssembly
+        m_MethodName: ShowElementInfo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 11400000, guid: 65a297d5186f1f04ca9c67247039cdb5, type: 2}
+          m_ObjectArgumentAssemblyTypeName: InfoPanelData, GameAssembly
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &911063917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22638,7 +22679,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
+  m_TargetGraphic: {fileID: 1057978912}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -22976,7 +23017,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.3137255, g: 0.31764707, b: 0.31764707, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -24425,12 +24466,12 @@ GameObject:
   - component: {fileID: 1118661586}
   - component: {fileID: 1118661585}
   m_Layer: 5
-  m_Name: Third Button
+  m_Name: Info Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1118661584
 RectTransform:
   m_ObjectHideFlags: 0
@@ -24490,11 +24531,23 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 1118661586}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1258855651}
+        m_TargetAssemblyTypeName: InformationPanelUI, GameAssembly
+        m_MethodName: ShowMineInfo
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1651241622}
+          m_ObjectArgumentAssemblyTypeName: Mine, GameAssembly
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1118661586
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30087,7 +30140,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.3137255, g: 0.31764707, b: 0.31764707, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -34510,7 +34563,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.3137255, g: 0.31764707, b: 0.31764707, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -43049,6 +43102,7 @@ GameObject:
   - component: {fileID: 2025520908}
   - component: {fileID: 2025520910}
   - component: {fileID: 2025520909}
+  - component: {fileID: 2025520911}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -43095,7 +43149,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 4
+  m_text: Help
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -43172,6 +43226,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2025520907}
   m_CullTransparentMesh: 1
+--- !u!114 &2025520911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2025520907}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8169f0b226b5c4f42b465677f01e5ee4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _localisation: {fileID: 630941250}
+  _translatingText: {fileID: 2025520909}
+  _english: Help
+  _russian: "\u041F\u043E\u043C\u043E\u0449\u044C"
 --- !u!1 &2028277421
 GameObject:
   m_ObjectHideFlags: 0

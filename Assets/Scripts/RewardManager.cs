@@ -13,9 +13,15 @@ public class RewardManager: MonoBehaviour
     {
         return Item.GetAllItems().Select(r => r.Clone()).ToArray();
     }
+    
+    private List <Item> RewardList(Mine mine)
+    {
+        return new List<Item> (_rewardData.GetItemsDictionary(int.MaxValue, mine.MineType).Keys);
+    }
+    public List<Item> RewardList() => RewardList(_mine);
     private Item[] GetReward (float rewardPoints)
     {
-        Dictionary<Item, float> potentialReward = _rewardData.GetItemsDictionary(rewardPoints, "Junk");
+        Dictionary<Item, float> potentialReward = _rewardData.GetItemsDictionary(rewardPoints, _mine.MineType);
         List<Item> reward = new();
         List<Item> keys = new List<Item>(potentialReward.Keys);
         Item chosenRewardItem;

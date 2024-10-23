@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af6a67d6e5a10954ab9e9c335c2f25b9, type: 3}
   m_Name: CarbonArmorBlueprint
   m_EditorClassIdentifier: 
-  _itemName: CarbonArmorBlueprint
+  _itemName: Carbon armor Blueprint
   _stackable: 1
   _amount: 1
+  _icon: {fileID: 0}
   _itemToCreate: {fileID: 11400000, guid: 7742df7de40ad8b439a65b8fb9e994fc, type: 2}
   _secondsToFinish: 120000
   _listOfResourses:

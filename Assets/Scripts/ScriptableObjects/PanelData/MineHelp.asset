@@ -9,10 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2be6dc2126856ae4890004e1e1bb5ec8, type: 3}
-  m_Name: ZeroTimeCoin
+  m_Script: {fileID: 11500000, guid: 4313f566df01d05468b0b9d8624e8840, type: 3}
+  m_Name: EN
   m_EditorClassIdentifier: 
-  _itemName: Zero Time Coin
-  _stackable: 1
-  _amount: 10
-  _icon: {fileID: 0}
+  _name: Ruins
+  _type: Combat location
+  _text: '@MineHelp'

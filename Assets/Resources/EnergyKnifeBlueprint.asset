@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af6a67d6e5a10954ab9e9c335c2f25b9, type: 3}
   m_Name: EnergyKnifeBlueprint
   m_EditorClassIdentifier: 
-  _itemName: Energy Knife Blueprint
+  _itemName: Energy knife Blueprint
   _stackable: 1
   _amount: 1
+  _icon: {fileID: 0}
   _itemToCreate: {fileID: 11400000, guid: fb97bdedf1536bc47bb721f0c69a1308, type: 2}
   _secondsToFinish: 12000
   _listOfResourses:

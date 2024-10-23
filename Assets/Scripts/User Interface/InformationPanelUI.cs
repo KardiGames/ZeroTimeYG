@@ -27,18 +27,22 @@ public class InformationPanelUI : MonoBehaviour
         _itemInfoText.gameObject.SetActive(false);
         _producedItemIcon.gameObject.SetActive(false);
     }
-    public void ShowElementInfo (string elementName, string elementType, string infoText)
+
+    public void ShowElementInfo(string elementName, string elementType, string infoText)
     {
         gameObject.SetActive(true);
         ClearElements();
-        _nameText.text = Translate(elementName);
-        _typeText.text = Translate(elementType);
+        _nameText.text = elementName;
+        _typeText.text = elementType;
         _infoText.gameObject.SetActive(true);
-        _infoText.text = Translate(infoText);
+        _infoText.text = infoText;
     }
 
+    public void ShowTranslatedElement(string elementName, string elementType, string infoText) =>
+        ShowElementInfo(Translate(elementName), Translate(elementType), Translate(infoText));
+
     public void ShowElementInfo(InfoPanelData data) =>
-        ShowElementInfo(data.Name, data.Type, data.Text);
+        ShowTranslatedElement(data.Name, data.Type, data.Text);
 
     public void ShowItemInfo (Item item)
     {
@@ -146,7 +150,6 @@ public class InformationPanelUI : MonoBehaviour
 
     public void ShowBlueprintProductionItem()
     {
-        print("Click Accepted");
         if (_blueprintProductionItem != null)
         {
             ShowItemInfo(_blueprintProductionItem);
@@ -159,6 +162,25 @@ public class InformationPanelUI : MonoBehaviour
     {
         _localisation.OnLanguageChangedEvent += ClosePanel;
     }
+	
+	public void ShowMineInfo (Mine mine) {
+        if (mine.Name == "")
+            return;
+        bool firstItem = true;
+
+		string rewardInfo=Translate ("Potential loot")+":\n";
+        foreach (var item in mine.GetComponent<RewardManager>().RewardList())
+        {
+            if (firstItem)
+                firstItem = false;
+            else
+                rewardInfo += ", ";
+            rewardInfo += Translate(item.ItemName);
+        }
+            
+		
+		ShowElementInfo(Translate (mine.Name), Translate ("Threat level")+": "+mine.Level, rewardInfo); 
+	}
 
     private void OnDisable()
     {

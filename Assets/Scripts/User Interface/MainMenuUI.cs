@@ -121,9 +121,4 @@ public class MainMenuUI : MonoBehaviour
 		else
 			_enterFactoryButton.interactable=true;
     }
-
-    public void FactoryInfo ()
-    {
-
-    }
 }

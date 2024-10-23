@@ -11,11 +11,14 @@ public class EquipmentUI : MonoBehaviour
     [SerializeField] private WorldUserInterface _worldUI;
     [SerializeField] private List<SlotUI> _slotList = new ();
     private Inventory _inventoryToUnequip;
+    private Color _emptySlotColor;
 
     public Equipment Equipment
     {
         get => _equipment; set
         {
+            if (_emptySlotColor == Color.clear)
+                _emptySlotColor = _slotList[0].ItemImage.color;
             if (_equipment != value || value == null)
             {
                 Unsubscribe();
@@ -64,7 +67,7 @@ public class EquipmentUI : MonoBehaviour
             if (_equipment[i] == null)
             {
                 _slotList[i].ItemImage.sprite = null;
-                _slotList[i].ItemImage.color = Color.red;
+                _slotList[i].ItemImage.color = _emptySlotColor;
                 _slotList[i].Cross.SetActive(false);
             }
             else
