@@ -27,11 +27,12 @@ public class TMProLocalisator : MonoBehaviour
             _english = _translatingText.text;
             print("English text on TMPro have been automaticaly copied from object");
         }
-        ChangeText(_localisation.CurrentLanguage);
+        ChangeText();
     }
 
-    private void ChangeText(string language)
+    private void ChangeText()
     {
+        string language = _localisation.CurrentLanguage;
         if (language == "ru_ru" && _russian != "")
             _translatingText.text = _russian;
         else if (language == "en_en" && _english != "")

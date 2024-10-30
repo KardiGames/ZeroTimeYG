@@ -8,7 +8,7 @@ public class InventoryUIContentFiller : MonoBehaviour
 
     [SerializeField] private GameObject _objectToFill;
     [SerializeField] private TransferPartPanel _transferPartPanel;
-    [SerializeField] private Location _localisation;
+    [SerializeField] private Localisation _localisation;
     private RectTransform _contentTransform;
 
     [SerializeField] private Inventory inventory;
@@ -75,6 +75,9 @@ public class InventoryUIContentFiller : MonoBehaviour
         {
             inventory.OnInventoryContentChanged += Clear;
             inventory.OnInventoryContentChanged += Fill;
+            _localisation.OnLanguageChangedEvent += Clear;
+            _localisation.OnLanguageChangedEvent += Fill;
+
             Clear();
             Fill();
         }
@@ -86,6 +89,8 @@ public class InventoryUIContentFiller : MonoBehaviour
         {
             inventory.OnInventoryContentChanged -= Clear;
             inventory.OnInventoryContentChanged -= Fill;
+            _localisation.OnLanguageChangedEvent -= Clear;
+            _localisation.OnLanguageChangedEvent -= Fill;
         }
     }
 

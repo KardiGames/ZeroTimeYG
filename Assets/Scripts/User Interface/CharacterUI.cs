@@ -33,13 +33,14 @@ public class CharacterUI : MonoBehaviour
 
     public void OnEnable () {
         _skillsButton.interactable=false;
+		_localisation.OnLanguageChangedEvent += Refresh;
 		if (_worldCharacter == null) {
 		    gameObject.SetActive(false);			
 			return;
 		}
 
 		ShowNameLevelText();
-		_AP.text = "AP" + _worldCharacter.AP;
+		_AP.text = Translate("AP") + _worldCharacter.AP;
 
 		ReloadAttributes();
 		
@@ -84,7 +85,7 @@ public class CharacterUI : MonoBehaviour
 		if (_timers.Count > 0)
 			UpdateTimers();
 
-		_unspentSkillPoints.text = $"You have {_worldCharacter.Skills.UnspentPoints} unspent Skill Points";
+		_unspentSkillPoints.text = Translate("You have ")+_worldCharacter.Skills.UnspentPoints+Translate(" unspent Skill Points");
 	}
 	
 	private void ReloadAttributes () {
@@ -121,7 +122,7 @@ public class CharacterUI : MonoBehaviour
 		else
 			_improveAGButton.interactable=false;
 		
-		_attributePoints.text=$"You have {_worldCharacter.AttributePoints} unspent Attribute Points";
+		_attributePoints.text= Translate("You have ") + _worldCharacter.AttributePoints + Translate(" unspent Attribute Points");
 	}
 
 	private void UpdateTimers () {
@@ -147,6 +148,7 @@ public class CharacterUI : MonoBehaviour
 	}
 	
 	private void OnDisable () {
+		_localisation.OnLanguageChangedEvent -= Refresh;
 		if (_timers.Count != 0) {
 			Timer.Instance.EverySecondAction-=UpdateTimers;
 			_timers.Clear();
@@ -173,6 +175,14 @@ public class CharacterUI : MonoBehaviour
                 break;
         }
     }
+
+	private void Refresh()
+    {
+		ShowNameLevelText();
+		_AP.text = Translate("AP") + _worldCharacter.AP;
+		ReloadAttributes();
+		ReloadSkills();
+	}
 
 	private string Translate(string text) => _localisation.Translate(text); 
 }

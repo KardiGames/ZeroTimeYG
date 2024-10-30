@@ -21,7 +21,7 @@ public class InventoryItemUI : MonoBehaviour
             this._item = item;
         this.InventoryUI = inventoryUI;
 
-        itemName.text = item.ItemName;
+        itemName.text = GlobalUserInterface.Instance.Localisation.Translate(item.ItemName);
         if (item.Stackable)
             itemName.text += " x" + item.Amount;
 

@@ -39,7 +39,7 @@ public class SkillUI : MonoBehaviour
         _characterSkills = characterSkills;
         _characterUI = characterUI;
 
-        _nameText.text = name;
+        _nameText.text = GlobalUserInterface.Instance.Localisation.Translate(name);
 
         float lineWidth = _emptyLine.rect.width;
         int maximalValue = characterSkills.GetMaximalValue(name);

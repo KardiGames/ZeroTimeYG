@@ -62,6 +62,8 @@ public class TaskTimerUIContentFiller : MonoBehaviour
         children.Clear();
     }
 
+    private void ClosePanel() => gameObject.SetActive(false);
+
     public void Fill() => Fill(taskTimer.GetAllItems());
     
     public void Fill (IEnumerable<TaskByTimer> list)
@@ -93,6 +95,7 @@ public class TaskTimerUIContentFiller : MonoBehaviour
         {
             taskTimer.OnTaskOrTimerChanged += Clear;
             taskTimer.OnTaskOrTimerChanged += Fill;
+            GlobalUserInterface.Instance.Localisation.OnLanguageChangedEvent += ClosePanel;
             Clear();
             Fill(taskTimer.GetAllItems());
         }
@@ -104,6 +107,7 @@ public class TaskTimerUIContentFiller : MonoBehaviour
         {
             taskTimer.OnTaskOrTimerChanged -= Clear;
             taskTimer.OnTaskOrTimerChanged -= Fill;
+            GlobalUserInterface.Instance.Localisation.OnLanguageChangedEvent -= ClosePanel;
         }
     }
 }

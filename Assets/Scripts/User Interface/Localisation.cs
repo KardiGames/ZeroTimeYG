@@ -5,10 +5,11 @@ using UnityEngine;
 
 public class Localisation : MonoBehaviour
 {
-    public event Action<string> OnLanguageChangedEvent;
+    public event Action OnLanguageChangedEvent;
 
     [SerializeField] private string _currentLanguage;
     [SerializeField] private TranslationData _data;
+	[SerializeField] [TextArea(2,20)] private string _json;
     private Dictionary<string, string> _russianPhrases = new Dictionary<string, string>();
     
     public void InitLanguage ()
@@ -54,6 +55,41 @@ public class Localisation : MonoBehaviour
     private void ChangeLanguage()
     {
         InitLanguage();
-        OnLanguageChangedEvent?.Invoke(_currentLanguage);
+        OnLanguageChangedEvent?.Invoke();
     }
+	
+	public void SaveDictionary () {
+		_json=JsonUtility.ToJson(_data);
+	}
+	
+	public void ReplaceDictionary () {
+		_data = Instantiate (_data);
+		JsonUtility.FromJsonOverwrite(_json, _data);
+	}
+	
+	public void AppendDictionary () {
+        TranslationData data = Instantiate(_data);
+		JsonUtility.FromJsonOverwrite(_json, data);
+		
+		int exists_phrases = 0;
+		int exists_texts = 0;
+
+        foreach (TranslationData.TranslationPhrase phrase in data.Phrases)
+        {
+            if (!_data.Phrases.Exists(ph => ph.English == phrase.English))
+                _data.Phrases.Add(phrase);
+            else
+                exists_phrases++;
+        }
+
+        foreach (TranslationData.TranslationText text in data.Texts)
+        {
+            if (!_data.Texts.Exists(t => t.Tag == text.Tag))
+                _data.Texts.Add(text);
+            else
+                exists_texts++;
+        }	
+		print ((data.Phrases.Count-exists_phrases) + " phrases added (" + exists_phrases + " NOT)");
+		print ((data.Texts.Count-exists_texts) + " texts added (" + exists_texts + " NOT)");
+	}
 }

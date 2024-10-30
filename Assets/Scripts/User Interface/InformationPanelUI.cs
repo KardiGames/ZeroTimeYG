@@ -181,12 +181,19 @@ public class InformationPanelUI : MonoBehaviour
 		
 		ShowElementInfo(Translate (mine.Name), Translate ("Threat level")+": "+mine.Level, rewardInfo); 
 	}
+    public void ShowFactoryInfo(Factory factory)
+    {
+        if (factory.Name == "")
+            return;
+
+        ShowElementInfo(Translate(factory.Name), Translate("Threat level") + ": ", Translate("@FactoryGeneralInfo"));
+    }
 
     private void OnDisable()
     {
         _localisation.OnLanguageChangedEvent -= ClosePanel;
     }
-    private void ClosePanel(string s) => gameObject.SetActive(false);
+    private void ClosePanel() => gameObject.SetActive(false);
 
     private string Translate(string text) => _localisation.Translate(text);
 }
