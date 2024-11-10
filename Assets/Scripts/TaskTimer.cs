@@ -43,6 +43,8 @@ public class TaskTimer : MonoBehaviour
         }
     }
 
+	public int QueuedTasks => _tasksList.Count;
+
     public void SetupTaskTimer(int maximumTasks = 1, int simultaneously = 1)
     {
 

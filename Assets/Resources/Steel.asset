@@ -15,3 +15,4 @@ MonoBehaviour:
   _itemName: Steel
   _stackable: 1
   _amount: 10
+  _icon: {fileID: 21300000, guid: 0d94c237825c4c640ba2e09c458dd88f, type: 3}

@@ -15,6 +15,7 @@ MonoBehaviour:
   _itemName: Exoskeleton jacket Blueprint
   _stackable: 1
   _amount: 1
+  _icon: {fileID: 21300000, guid: b53ebb616843899439cf278635da6fe9, type: 3}
   _itemToCreate: {fileID: 11400000, guid: d97205f7c843212418bffd208cabcd0c, type: 2}
   _secondsToFinish: 600000
   _listOfResourses:

@@ -15,7 +15,7 @@ MonoBehaviour:
   _itemName: Kevlar plate Blueprint
   _stackable: 1
   _amount: 1
-  _icon: {fileID: 0}
+  _icon: {fileID: 21300000, guid: 6ae4b674118cf68469e52d616e9fa894, type: 3}
   _itemToCreate: {fileID: 11400000, guid: eed6549d3ae898a4a88da95bca3cd311, type: 2}
   _secondsToFinish: 60
   _listOfResourses:

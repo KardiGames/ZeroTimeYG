@@ -15,3 +15,4 @@ MonoBehaviour:
   _itemName: Sand
   _stackable: 1
   _amount: 1
+  _icon: {fileID: 21300000, guid: 765d5ee80c3570d468c9cdfe95fec3a5, type: 3}

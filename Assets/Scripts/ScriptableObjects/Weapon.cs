@@ -46,11 +46,11 @@ public class Weapon : Item
                 _quality = value;
         }
     }
+    public virtual int  MaxQuality => _maxQuality;
 
     public int MinimalDamage => damageRandomMultipler + damageAddition;
     public int MaximalDamage => damageRandomMultipler * damageRandomTo + damageAddition;
 
-    public virtual int  MaxQuality => _maxQuality;
 
     public (int multipler, int dice, int addition) DamageTuple => new(damageRandomMultipler, damageRandomTo, damageAddition);
 
@@ -127,8 +127,8 @@ public class Weapon : Item
         baseDamage, 
         true,
         CombatCharacter.CalculateMeleeDamageBonus(player),
-        player.Skills.GetTrainedValue("Weapon damage"),
-        player.Skills.GetTrainedValue("Beam damage")
+        player.Skills.GetSkillValue("Weapon damage"),
+        player.Skills.GetSkillValue("Beam damage")
         );
 
     private int ApplyDamageModifiers (int damage, bool applyMeleeBonus, int meleeDamageBonus, int weaponDamageSkill, int beamDamageSkill)

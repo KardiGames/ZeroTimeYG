@@ -94,10 +94,10 @@ public class Skills : MonoBehaviour, ITimerable
 
 	public float GetSkillMultipler(string skillName)
     {
-		return (float)GetTrainedValue(skillName)/100.0f;
+		return (float)GetSkillValue(skillName)/100.0f;
 	}
 		
-	public int GetTrainedValue (string skillName) =>
+	public int GetSkillValue (string skillName) =>
 		GetTrainedValue(GetSkillNumber(skillName));
 
 	private int GetTrainedValue(int skillNumber)

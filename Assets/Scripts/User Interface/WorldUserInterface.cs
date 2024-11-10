@@ -12,6 +12,8 @@ public class WorldUserInterface : MonoBehaviour
     [SerializeField] private GameObject _targetUIInventory;
     [SerializeField] private InformationPanelUI _informationUI;
     [SerializeField] private TextMeshProUGUI _bigMessage;
+
+    public InformationPanelUI InformationPanelUI =>_informationUI;
     public void ShowDamage ()
     {
         print((_playerCharacter.Equipment[0] as Weapon).FormDamageDiapason()+ " "+ (_playerCharacter.Equipment[1] as Weapon).FormDamageDiapason());

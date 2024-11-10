@@ -15,3 +15,4 @@ MonoBehaviour:
   _itemName: Oil
   _stackable: 1
   _amount: 1
+  _icon: {fileID: 21300000, guid: 20b832e802df7da4d95d447e8b085885, type: 3}

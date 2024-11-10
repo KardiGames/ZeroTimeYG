@@ -15,6 +15,7 @@ MonoBehaviour:
   _itemName: Glass Blueprint
   _stackable: 1
   _amount: 1
+  _icon: {fileID: 21300000, guid: 62f5e546e07487849a8e968d694487a5, type: 3}
   _itemToCreate: {fileID: 11400000, guid: 3bd33af27cf2ef84daed138860c4d52e, type: 2}
   _secondsToFinish: 600
   _listOfResourses:

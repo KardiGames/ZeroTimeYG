@@ -10,7 +10,19 @@ public class Armor : Item
 	[SerializeField] private Equipment.Slot _slot = Equipment.Slot.Body;
 	[SerializeField] private int _quality;
 	[SerializeField] private int _maxQuality;
-	public int Quality => _quality;
+	public int Quality
+	{
+		get => _quality;
+		set
+		{
+			if (value > _maxQuality)
+				_quality = value;
+			else if (value < 0)
+				_quality = 0;
+			else
+				_quality = value;
+		}
+	}
 	public int MaxQuality => _maxQuality;
 
 	public override bool Stackable => false;

@@ -15,6 +15,7 @@ MonoBehaviour:
   _itemName: Laser pistol Blueprint
   _stackable: 1
   _amount: 1
+  _icon: {fileID: 21300000, guid: b8de1acdf375a5448b8fd772f73ef454, type: 3}
   _itemToCreate: {fileID: 11400000, guid: a26fc95299e462641a51eafc5e3bcdc2, type: 2}
   _secondsToFinish: 2400
   _listOfResourses:

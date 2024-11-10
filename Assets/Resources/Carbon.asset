@@ -15,3 +15,4 @@ MonoBehaviour:
   _itemName: Carbon
   _stackable: 1
   _amount: 1
+  _icon: {fileID: 21300000, guid: 339824de7a2da4c489661107fc7eca7e, type: 3}

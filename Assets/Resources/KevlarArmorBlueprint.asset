@@ -15,6 +15,7 @@ MonoBehaviour:
   _itemName: Kevlar armor Blueprint
   _stackable: 1
   _amount: 1
+  _icon: {fileID: 21300000, guid: eaf05dd5acefc6f4e9b17fc9ec42dda8, type: 3}
   _itemToCreate: {fileID: 11400000, guid: f1dee6ed9eb49de4e8d384327e573532, type: 2}
   _secondsToFinish: 12000
   _listOfResourses:

@@ -47,7 +47,7 @@ public class SkillUI : MonoBehaviour
         Vector2 lineSizeDelta = _emptyLine.sizeDelta;
         lineSizeDelta.x = lineWidth * characterSkills.GetImprovedValue(name) / maximalValue;
         _improvedLine.sizeDelta = lineSizeDelta;
-        lineSizeDelta.x = lineWidth * characterSkills.GetTrainedValue(name) / maximalValue;
+        lineSizeDelta.x = lineWidth * characterSkills.GetSkillValue(name) / maximalValue;
         _trainedLine.sizeDelta = lineSizeDelta;
         lineSizeDelta.x = lineWidth * characterSkills.GetMinimalValue(name) / maximalValue;
         _minimalLine.sizeDelta = lineSizeDelta;
@@ -85,7 +85,7 @@ public class SkillUI : MonoBehaviour
     }
     public void ShowTrained()
     {
-        _valueText.text = _characterSkills.GetTrainedValue(_name).ToString();
+        _valueText.text = _characterSkills.GetSkillValue(_name).ToString();
     }
     public void ShowImroved()
     {

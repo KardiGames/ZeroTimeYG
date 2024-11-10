@@ -15,6 +15,7 @@ MonoBehaviour:
   _itemName: Diamond reflector armor Blueprint
   _stackable: 1
   _amount: 1
+  _icon: {fileID: 21300000, guid: 58c1b9d426c20e448912fc900dae7499, type: 3}
   _itemToCreate: {fileID: 11400000, guid: 5f11d2fed91b5954b9405ce68fae47d0, type: 2}
   _secondsToFinish: 120000
   _listOfResourses:

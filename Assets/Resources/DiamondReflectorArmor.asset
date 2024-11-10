@@ -15,6 +15,7 @@ MonoBehaviour:
   _itemName: Diamond reflector armor
   _stackable: 0
   _amount: 1
+  _icon: {fileID: 21300000, guid: 58c1b9d426c20e448912fc900dae7499, type: 3}
   _ac: 30
   _damageResistance: 30
   _slot: 2

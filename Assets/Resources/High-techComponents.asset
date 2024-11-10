@@ -15,3 +15,4 @@ MonoBehaviour:
   _itemName: High-tech components
   _stackable: 1
   _amount: 5
+  _icon: {fileID: 21300000, guid: cd53e9b649766c7409527f20fb9abbdb, type: 3}

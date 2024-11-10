@@ -15,6 +15,7 @@ MonoBehaviour:
   _itemName: Diamond Blueprint
   _stackable: 1
   _amount: 1
+  _icon: {fileID: 21300000, guid: ab235703ab3f79d4f9160030b4ef346b, type: 3}
   _itemToCreate: {fileID: 11400000, guid: 336c1acf24424bf4a8037bd58256addd, type: 2}
   _secondsToFinish: 900
   _listOfResourses:

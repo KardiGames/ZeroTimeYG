@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class SearchPoint : MonoBehaviour
 {
-    public const int SEARCH_COST = 10;
-
     [SerializeField] GameObject _wideAreaCircle;
     [SerializeField] SpriteRenderer _wideAreaSprite;
     [SerializeField] GameObject _tinyAreaCircle;

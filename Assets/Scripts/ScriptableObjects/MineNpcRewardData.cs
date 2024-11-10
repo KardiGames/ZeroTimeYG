@@ -49,14 +49,14 @@ public class MineNpcRewardData : ScriptableObject
             .ToArray();
     }
 
-    public Dictionary<Item, float> GetItemsDictionary(float mineLevel, string mineType) => GetItemsDictionary((int)mineLevel, mineType);
-    public Dictionary<Item, float> GetItemsDictionary(int mineLevel, string mineType)
+    public Dictionary<Item, float> GetItemsDictionary(float rewardPoints, string mineType) => GetItemsDictionary((int)rewardPoints, mineType);
+    public Dictionary<Item, float> GetItemsDictionary(int rewardPoints, string mineType)
     {
         Dictionary<Item, float> reward = new();
 
         foreach (RewardData item in Get2ListsByMineType(mineType).Item2)
         {
-            if (item.minMineLevel <= mineLevel)
+            if (item.minMineLevel <= rewardPoints && item.rewardCost<= rewardPoints)
                 reward.Add(item.rewardItem, item.rewardCost);
         }
 

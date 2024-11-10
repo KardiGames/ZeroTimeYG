@@ -22,22 +22,22 @@ MonoBehaviour:
   - minMineLevel: 0
     rewardItem: {fileID: 11400000, guid: a3694a245acaeb2418d6e69bb6cfdd16, type: 2}
     rewardCost: 3
-  - minMineLevel: 5
+  - minMineLevel: 0
     rewardItem: {fileID: 11400000, guid: d834e11a35e08804c98bbcff8f3e7b4f, type: 2}
     rewardCost: 9
   - minMineLevel: 0
     rewardItem: {fileID: 11400000, guid: 6436f4de575fc024bb7e2e31fa0a8f74, type: 2}
     rewardCost: 6
-  - minMineLevel: 15
+  - minMineLevel: 0
     rewardItem: {fileID: 11400000, guid: abe02e52996d6ed418c834481e6464ad, type: 2}
     rewardCost: 12
-  - minMineLevel: 15
+  - minMineLevel: 0
     rewardItem: {fileID: 11400000, guid: 2f3f4108d30d1464da2d417f0f4e60e9, type: 2}
     rewardCost: 12
-  - minMineLevel: 25
+  - minMineLevel: 0
     rewardItem: {fileID: 11400000, guid: 5e4160785885a3044999b8513b55ee2e, type: 2}
     rewardCost: 24
-  - minMineLevel: 25
+  - minMineLevel: 0
     rewardItem: {fileID: 11400000, guid: ecf10a64c2149e844ae4193413d1137e, type: 2}
     rewardCost: 24
   - minMineLevel: 0

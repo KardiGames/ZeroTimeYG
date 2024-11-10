@@ -15,6 +15,7 @@ MonoBehaviour:
   _itemName: Multiwave laser
   _stackable: 0
   _amount: 1
+  _icon: {fileID: 21300000, guid: 5e65b89191e1f6a4891c981a672c95b0, type: 3}
   _rangedAttack: 1
   _twoHanded: 2
   damageRandomMultipler: 5

@@ -26,14 +26,14 @@ public class RewardManager: MonoBehaviour
         List<Item> keys = new List<Item>(potentialReward.Keys);
         Item chosenRewardItem;
 
-        while (rewardPoints>0)
-        {
-
-            chosenRewardItem = keys[Random.Range(0, keys.Count)];
-            rewardPoints -= potentialReward[chosenRewardItem];
-            if (rewardPoints>0)
-                reward.Add(chosenRewardItem.Clone());
-        }
+        if (keys.Count > 0)
+            while (rewardPoints > 0)
+            {
+                chosenRewardItem = keys[Random.Range(0, keys.Count)];
+                rewardPoints -= potentialReward[chosenRewardItem];
+                if (rewardPoints > 0)
+                    reward.Add(chosenRewardItem.Clone());
+            }
 
         return reward.ToArray();
     }

@@ -15,6 +15,7 @@ MonoBehaviour:
   _itemName: Kevlar jacket Blueprint
   _stackable: 1
   _amount: 1
+  _icon: {fileID: 21300000, guid: a8c8623820fc2584d9ab71ded91f23a8, type: 3}
   _itemToCreate: {fileID: 11400000, guid: fd40905d06748564b8587ce93a9add21, type: 2}
   _secondsToFinish: 6000
   _listOfResourses:

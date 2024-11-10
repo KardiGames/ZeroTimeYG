@@ -15,6 +15,7 @@ MonoBehaviour:
   _itemName: Energy cell Blueprint
   _stackable: 1
   _amount: 1
+  _icon: {fileID: 21300000, guid: 69d324dad298f8349b63ee7c67194dda, type: 3}
   _itemToCreate: {fileID: 11400000, guid: d36d87241e6c8ac4b85fdef5e1c730ec, type: 2}
   _secondsToFinish: 300
   _listOfResourses:

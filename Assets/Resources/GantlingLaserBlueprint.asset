@@ -15,6 +15,7 @@ MonoBehaviour:
   _itemName: Gantling laser Blueprint
   _stackable: 1
   _amount: 1
+  _icon: {fileID: 21300000, guid: 1cbbfd4e58816fe4e9912b79003c35fa, type: 3}
   _itemToCreate: {fileID: 11400000, guid: e89187dfd4c0c3f48b970d8e17647ac6, type: 2}
   _secondsToFinish: 96000
   _listOfResourses:

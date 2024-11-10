@@ -15,3 +15,4 @@ MonoBehaviour:
   _itemName: Glass
   _stackable: 1
   _amount: 5
+  _icon: {fileID: 21300000, guid: 62f5e546e07487849a8e968d694487a5, type: 3}

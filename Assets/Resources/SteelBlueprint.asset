@@ -15,7 +15,8 @@ MonoBehaviour:
   _itemName: Steel Blueprint
   _stackable: 1
   _amount: 10
-  _itemToCreate: {fileID: 0}
+  _icon: {fileID: 0}
+  _itemToCreate: {fileID: 11400000, guid: adf498d9694b6094497121744649309c, type: 2}
   _secondsToFinish: 600
   _listOfResourses:
   - {fileID: 11400000, guid: 8ebc3ef699bbbc147bb0729238a67d21, type: 2}

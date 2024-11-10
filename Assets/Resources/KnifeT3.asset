@@ -15,6 +15,7 @@ MonoBehaviour:
   _itemName: Knife T3
   _stackable: 0
   _amount: 1
+  _icon: {fileID: 21300000, guid: ef7c3cdc9e3d7464cb94415b6ad57da4, type: 3}
   _rangedAttack: 0
   _twoHanded: 0
   damageRandomMultipler: 3

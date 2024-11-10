@@ -63,7 +63,7 @@ public class BattleUserInterface : MonoBehaviour
     {
         string scoreInfoText = "\nMine: " + Mathf.Max(mineLevel, (int)rewardPoints) + " lvl"; ;
         scoreInfoText += "\nEnemyes difficulty "+(int)enemiesDifficulty;
-        scoreInfoText += $"\nScore: {(int)_battleManager.RewardPoints} ({(int)rewardPoints})";
+        scoreInfoText += $"\nScore: {(int)_battleManager.KillPoints} ({(int)rewardPoints})";
         
         scoreInfoField.text = scoreInfoText;
     }
@@ -71,13 +71,13 @@ public class BattleUserInterface : MonoBehaviour
     public void RefreshCharInfo() => RefreshCharInfo(_battleManager.AllCombatCharacters[_battleManager.Player] as CombatCharacter);
     public void RefreshCharInfo(CombatCharacter player)
     {
-        string charInfoText = $"{player.CharName} [ {player.Level} lvl ]\n"
+        /*string charInfoText = $"{player.CharName} [ {player.Level} lvl ]\n"
                             + $"ST {player.ST} [+{player.MeleeDamageBonus} melee damage]\n"
                             + $"PE {player.PE} [{player.PE-1} aim shoot range]\n" //TODO Change range formula to Property??
                             + $"EN {player.EN} [{player.MaxHP} Max HP]\n"
                             + $"AG {player.AG} [{player.TotalAP} AP, {player.AC} AC]\n"
                             + $"IN {player.IN} [better skill boosting]";
-        playerInfoField.text = charInfoText;
+        playerInfoField.text = charInfoText;*/
     }
 
     public void ShowEnemyInfo(NonPlayerCharacter npc)

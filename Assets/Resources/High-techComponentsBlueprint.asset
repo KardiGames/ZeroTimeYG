@@ -15,6 +15,7 @@ MonoBehaviour:
   _itemName: High-tech components Blueprint
   _stackable: 1
   _amount: 1
+  _icon: {fileID: 21300000, guid: cd53e9b649766c7409527f20fb9abbdb, type: 3}
   _itemToCreate: {fileID: 11400000, guid: e919629bbe2b0a848b3a2c6680417d49, type: 2}
   _secondsToFinish: 600
   _listOfResourses:

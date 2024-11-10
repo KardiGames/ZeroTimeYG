@@ -6,23 +6,23 @@ using UnityEngine.UI;
 public class TaskTimerUIContentFiller : MonoBehaviour
 {
     
-    [SerializeField] private TaskTimer taskTimer;
+    [SerializeField] private TaskTimer _taskTimer;
     
-    [SerializeField] private GameObject objectToFill;
-    private RectTransform contentTransform;
+    [SerializeField] private GameObject _objectToFill;
+    private RectTransform _contentTransform;
 
-    [SerializeField] private float percentSpaceBetweenObjects = 0.05f;
-    private float scrollableObjectHeight;
-    private List<GameObject> children = new();
+    [SerializeField] private float _percentSpaceBetweenObjects = 0.05f;
+    private float _scrollableObjectHeight;
+    private List<GameObject> _childrenTimers = new();
 
     public TaskTimer TaskTimer 
 	{
-		get => taskTimer; set
+		get => _taskTimer; set
         {
-            if (taskTimer!=value || value==null)
+            if (_taskTimer!=value || value==null)
             {
                 Unsubscribe();
-                taskTimer = value;
+                _taskTimer = value;
                 SubscribeAndRefresh();
             } else
             {
@@ -36,15 +36,15 @@ public class TaskTimerUIContentFiller : MonoBehaviour
 
     private void Start()
     {
-        if (contentTransform != null)
+        if (_contentTransform != null)
             return;
-        contentTransform = gameObject.GetComponent<ScrollRect>().content;
-        scrollableObjectHeight = objectToFill.GetComponent<RectTransform>().sizeDelta.y;
+        _contentTransform = gameObject.GetComponent<ScrollRect>().content;
+        _scrollableObjectHeight = _objectToFill.GetComponent<RectTransform>().sizeDelta.y;
 
-        if (contentTransform.childCount != 0)
+        if (_contentTransform.childCount != 0)
         {
-            for (int i = 0; i < contentTransform.childCount; i++)
-                children.Add(contentTransform.GetChild(i).gameObject);
+            for (int i = 0; i < _contentTransform.childCount; i++)
+                _childrenTimers.Add(_contentTransform.GetChild(i).gameObject);
         }
 
         SubscribeAndRefresh();
@@ -57,56 +57,56 @@ public class TaskTimerUIContentFiller : MonoBehaviour
 
     private void Clear()
     {
-        foreach (GameObject child in children)
+        foreach (GameObject child in _childrenTimers)
             Destroy(child);
-        children.Clear();
+        _childrenTimers.Clear();
     }
 
     private void ClosePanel() => gameObject.SetActive(false);
 
-    public void Fill() => Fill(taskTimer.GetAllItems());
+    public void Fill() => Fill(_taskTimer.GetAllItems());
     
     public void Fill (IEnumerable<TaskByTimer> list)
     {
-        if (contentTransform == null)
+        if (_contentTransform == null)
             Start();
         float nextYPosition = 0;
 
         foreach (var scrollableItem in list)
         {
-            GameObject newScrollableObject = Instantiate(objectToFill,contentTransform);
+            GameObject newScrollableObject = Instantiate(_objectToFill,_contentTransform);
             if (newScrollableObject != null)
-                children.Add(newScrollableObject);
+                _childrenTimers.Add(newScrollableObject);
             else
                 break;
 
             newScrollableObject.transform.localPosition = new Vector3(0, -nextYPosition);
             newScrollableObject.GetComponent<TaskByTimerUI>().Init(scrollableItem);
 
-            nextYPosition += scrollableObjectHeight * (1.0f + percentSpaceBetweenObjects);
+            nextYPosition += _scrollableObjectHeight * (1.0f + _percentSpaceBetweenObjects);
 
         }
-        contentTransform.sizeDelta = new Vector2(contentTransform.sizeDelta.x, nextYPosition);
+        _contentTransform.sizeDelta = new Vector2(_contentTransform.sizeDelta.x, nextYPosition);
     }
 	
 	private void SubscribeAndRefresh()
     {
-        if (taskTimer != null && contentTransform!=null)
+        if (_taskTimer != null && _contentTransform!=null)
         {
-            taskTimer.OnTaskOrTimerChanged += Clear;
-            taskTimer.OnTaskOrTimerChanged += Fill;
+            _taskTimer.OnTaskOrTimerChanged += Clear;
+            _taskTimer.OnTaskOrTimerChanged += Fill;
             GlobalUserInterface.Instance.Localisation.OnLanguageChangedEvent += ClosePanel;
             Clear();
-            Fill(taskTimer.GetAllItems());
+            Fill(_taskTimer.GetAllItems());
         }
     }
 
     private void Unsubscribe()
     {
-        if (taskTimer != null)
+        if (_taskTimer != null)
         {
-            taskTimer.OnTaskOrTimerChanged -= Clear;
-            taskTimer.OnTaskOrTimerChanged -= Fill;
+            _taskTimer.OnTaskOrTimerChanged -= Clear;
+            _taskTimer.OnTaskOrTimerChanged -= Fill;
             GlobalUserInterface.Instance.Localisation.OnLanguageChangedEvent -= ClosePanel;
         }
     }

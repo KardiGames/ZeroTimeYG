@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class ActionPoints : MonoBehaviour
 {
-    private const int SECONDS_TO_ADD_AP = 3600;
+	public const int ADDITIONAL_DEATH_AP_COST = 4;
+	private const int SECONDS_TO_ADD_AP = 3600;
 	public event Action OnAPValueChanged;
 
 	[SerializeField] private WorldCharacter _playerCharacter;

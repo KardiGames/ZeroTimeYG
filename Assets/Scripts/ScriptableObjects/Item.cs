@@ -7,7 +7,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Item", menuName = "Items/Item")]
 public class Item : ScriptableObject
 {
-    private static List<Item> allItems=new();
+    private static List<Item> _allItems=new();
+    public static Item[] AllItems => _allItems.ToArray(); //TODO detele it after. exists just for tests
 	
 	[SerializeField] protected string _itemName = "ErrorItem";
     [SerializeField] private bool _stackable=false;
@@ -35,8 +36,8 @@ public class Item : ScriptableObject
     public static void LoadItems() {
 		foreach (object objectToLoad in Resources.LoadAll("", Type.GetType("Item", true, false)))
 			if (objectToLoad is Item itemToLoad)
-				if (allItems.Find(item => item.ItemName == itemToLoad.ItemName) == null)
-					allItems.Add(itemToLoad);
+				if (_allItems.Find(item => item.ItemName == itemToLoad.ItemName) == null)
+					_allItems.Add(itemToLoad);
 				else
 					Debug.Log("Error! Have tryed to load items with same name "+ itemToLoad.ItemName);
     }
@@ -107,12 +108,12 @@ public class Item : ScriptableObject
 
     public static Item GetItem(string itemName)
     {
-        return allItems.Find (item => item.ItemName == itemName).Clone();
+        return _allItems.Find (item => item.ItemName == itemName).Clone();
     }
 
     public static Item[] GetAllItems()
     {
-        return allItems.Select(item => item.Clone()).ToArray();
+        return _allItems.Select(item => item.Clone()).ToArray();
     }
 	
 	[Serializable]

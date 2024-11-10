@@ -77,8 +77,8 @@ public class InformationPanelUI : MonoBehaviour
     private void AddArmorInfo(Armor armor)
     {
         _itemTagsText.text += Translate("Quality: ") + armor.Quality + "/" + armor.MaxQuality + "\n";
-        _itemInfoText.text = "Armor class (AC): " + armor.AC + "\n";
-        _itemInfoText.text += "Damage resistance (DR): " + armor.DamageResistance + "\n";
+        _itemInfoText.text = Translate("Armor class (AC): ") + armor.AC + "\n";
+        _itemInfoText.text += Translate("Damage resistance (DR): ") + armor.DamageResistance + "\n";
     }
 
     private void AddWeaponInfo(Weapon weapon)
@@ -105,8 +105,26 @@ public class InformationPanelUI : MonoBehaviour
             _itemInfoText.text += Translate("Ammo per shot: ") + weapon.AmmoPerShot+ "\n";
         }
 
-        _itemInfoText.text+="\n"+ Translate("Skill:") +"\n"+weapon.SkillName+" ("+_playerCharacter.Skills.GetTrainedValue(weapon.SkillName)+"%)\n";
-        _itemInfoText.text += "Result damage: " + weapon.ApplyDamageModifiers(weapon.MinimalDamage, _playerCharacter) + " - " + weapon.ApplyDamageModifiers(weapon.MaximalDamage, _playerCharacter)+"\n";
+        _itemInfoText.text+="\n"+ Translate("Skill:") +"\n"+weapon.SkillName+" ("+_playerCharacter.Skills.GetSkillValue(weapon.SkillName)+"%)\n";
+        _itemInfoText.text += Translate("Result damage: ") + weapon.ApplyDamageModifiers(weapon.MinimalDamage, _playerCharacter) + " - " + weapon.ApplyDamageModifiers(weapon.MaximalDamage, _playerCharacter)+"\n";
+    }
+
+    internal void ShowEndBattleInfo(int killPoints, int mineLevel, int experience, int rewardPoints, bool dead)
+    {
+        string headerText = dead ? "You died in battle!" : "You survived!";
+        string pointsText = Translate("You have got") + ":\n" + killPoints + Translate(" battle points");
+
+        string infoText = Translate("Considering the result of the battle, you got:") + "\n";
+        infoText += experience + Translate(" experience poins") + (dead ? " (" + Translate("Dangerous mining") + " " + _playerCharacter.Skills.GetSkillValue("Dangerous mining") + "%)" : "") +".\n";
+
+        infoText += Translate("Loot for ") + rewardPoints + Translate (" points") + " (" + Translate("Attentive search")+ " " + _playerCharacter.Skills.GetSkillValue("Attentive search") + "%).\n";
+        infoText += Translate("Threat level") +" "+ (dead ? Translate ("decreased to ") : (mineLevel<=killPoints) ? Translate("increased to ") : Translate("remained at ")) + mineLevel + ".\n";
+        if (dead) { 
+            infoText += "\n" + Translate("Equipment received additional damage.") + "\n";
+            infoText += Translate("You have spent additional ") + ActionPoints.ADDITIONAL_DEATH_AP_COST + Translate("AP to restoration") + ".\n"; 
+        }
+
+        ShowElementInfo(Translate(headerText), pointsText, infoText);
     }
 
     public void ShowBlueprintInfo(Blueprint blueprint, Inventory inventory)
@@ -115,13 +133,13 @@ public class InformationPanelUI : MonoBehaviour
             return;
 
         ClearElements();
-        _nameText.text = blueprint.ItemName;
+        _nameText.text = Translate (blueprint.ItemName);
         _typeText.text = Translate("Blueprint");
         _itemIcon.gameObject.SetActive(true);
         _itemIcon.sprite = blueprint.Icon;
         _itemIcon.color = blueprint.IconColor;
         if (blueprint.Stackable)
-            _itemTagsText.text += "Amount: " + blueprint.Amount + "\n";
+            _itemTagsText.text += Translate("Amount: ") + blueprint.Amount + "\n";
         _itemInfoText.gameObject.SetActive(true);
         _itemTagsText.text = "=======>\n=======>\n=======>";
 
@@ -143,7 +161,7 @@ public class InformationPanelUI : MonoBehaviour
                 else
                     _itemInfoText.text += currentResourceAmount + " / ";
             }
-            _itemInfoText.text += blueprint.AmountsOfResourses[i] + " x "+blueprint.ListOfResourses[i].ItemName+"\n";
+            _itemInfoText.text += blueprint.AmountsOfResourses[i] + " x "+ Translate(blueprint.ListOfResourses[i].ItemName)+"\n";
         }
 
     }
@@ -168,7 +186,7 @@ public class InformationPanelUI : MonoBehaviour
             return;
         bool firstItem = true;
 
-		string rewardInfo=Translate ("Potential loot")+":\n";
+        string rewardInfo = Translate("Potential loot") + ":\n";
         foreach (var item in mine.GetComponent<RewardManager>().RewardList())
         {
             if (firstItem)
@@ -177,16 +195,18 @@ public class InformationPanelUI : MonoBehaviour
                 rewardInfo += ", ";
             rewardInfo += Translate(item.ItemName);
         }
-            
-		
-		ShowElementInfo(Translate (mine.Name), Translate ("Threat level")+": "+mine.Level, rewardInfo); 
-	}
+
+
+        ShowElementInfo(Translate(mine.Name), Translate("Threat level") + ": " + mine.Level, rewardInfo);
+    }
+
     public void ShowFactoryInfo(Factory factory)
     {
         if (factory.Name == "")
             return;
+        TaskTimer timer = factory.TaskTimer;
 
-        ShowElementInfo(Translate(factory.Name), Translate("Threat level") + ": ", Translate("@FactoryGeneralInfo"));
+        ShowElementInfo(Translate(factory.Name), Translate("Lines") + ": " +timer.StartedTasks+"/"+timer.SimultaniouslyTasks + "\n" + Translate("Queue") + ": " + timer.QueuedTasks + "/" + timer.MaximumTasks, Translate("@FactoryGeneralInfo"));
     }
 
     private void OnDisable()

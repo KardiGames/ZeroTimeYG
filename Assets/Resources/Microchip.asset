@@ -15,3 +15,4 @@ MonoBehaviour:
   _itemName: Microchip
   _stackable: 1
   _amount: 1
+  _icon: {fileID: 21300000, guid: de789b08ce3745845bbd57bc8f63225f, type: 3}

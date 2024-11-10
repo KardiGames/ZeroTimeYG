@@ -6,6 +6,7 @@ using UnityEngine;
 public class Equipment : MonoBehaviour
 {
     private const int SLOTS_COUNT = 3;
+    private const int DEATH_QUALITY_LOSS = 5;
 
     public event Action OnEquipmentContentChanged;
     public enum Slot { RightHand = 0, LeftHand = 1, Body = 2 };
@@ -100,7 +101,7 @@ public class Equipment : MonoBehaviour
 
         if (!inventoryTo.TryToAdd(this, itemInSlot))
         {
-            print("Error!!! Item isn't added to inventory on unequip. Item is LOST");
+            GlobalUserInterface.Instance.ShowError("Error!!! Item haven't added to inventory on unequip. Item is LOST");
             return;
         }
 
@@ -161,6 +162,41 @@ public class Equipment : MonoBehaviour
         return true;
     }
 
+    public void BreakEquipment (bool dead)
+    {
+        int pointsToBreak = 1;
+        if (dead)
+            pointsToBreak = DEATH_QUALITY_LOSS;
+        bool haveSomethingBroken=false;
+        for(int i=0; i<_equipment.Length; i++)
+        {
+            if (_equipment[i] is Weapon weapon)
+            {
+                weapon.Quality -= pointsToBreak;
+                if (weapon.Quality<=0)
+                {
+                    haveSomethingBroken = true;
+                    _equipment[i] = null;
+                }
+
+            } else if (_equipment[i] is Armor armor)
+            {
+                armor.Quality -= pointsToBreak;
+                if (armor.Quality <= 0)
+                {
+                    haveSomethingBroken = true;
+                    _equipment[i] = null;
+                }
+            }
+
+            if (haveSomethingBroken)
+            {
+                GlobalUserInterface.Instance.ShowError("An equipped item have totally broken!");
+                OnEquipmentContentChanged?.Invoke();
+            }
+
+        }
+    }
     public void FromJson(string jsonString)
     {
         _equipment = new Item[SLOTS_COUNT];

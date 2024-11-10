@@ -15,4 +15,4 @@ MonoBehaviour:
   _itemName: Zero Time Coin
   _stackable: 1
   _amount: 10
-  _icon: {fileID: 0}
+  _icon: {fileID: 21300000, guid: 5e4cc1f2a46cca54588d869886e7ba0c, type: 3}

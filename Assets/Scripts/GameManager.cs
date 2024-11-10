@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    private const float DEATH_POINTS_DIVIDER = 2f;
+
     [SerializeField] private SaveData _saveData;
     [SerializeField] private Localisation _localisation;
     [SerializeField] private BattleManager _battleManager;
@@ -30,22 +32,29 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void NesessaryAction () //Action for some button
+    public void NesessaryAction () //Action for test button
     {
         WorldCharacter worldChar = GameObject.Find("PlayerCharacter").GetComponent<WorldCharacter>();
-        worldChar.CollectExperience(worldChar.ExperienceToLevelUp/2+2);
-        worldChar.GetComponent<Inventory>().TryToAdd(this, Item.GetItem("Pistol"));
-        worldChar.GetComponent<Inventory>().TryToAdd(this, Item.GetItem("Knife"));
-        worldChar.GetComponent<Inventory>().TryToAdd(this, Item.GetItem("Rifle"));
-        worldChar.GetComponent<Inventory>().TryToAdd(this, Item.GetItem("Shotgun"));
-        worldChar.GetComponent<Inventory>().TryToAdd(this, Item.GetItem("Sword"));
-        worldChar.GetComponent<Inventory>().TryToAdd(this, Item.GetItem("Exoskeleton jacket"));
-        GlobalUserInterface.Instance.ShowError("Here some Error\nJust for test...");
+        //worldChar.CollectExperience(worldChar.ExperienceToLevelUp/2+2);
+        foreach (var item in Item.AllItems)
+            worldChar.GetComponent<Inventory>().TryToAdd(this, item.Clone());
+        GlobalUserInterface.Instance.ShowError("Faild to start a battle.");
     }
 
 
     public void StartBattle(Mine mine)
     {
+        if (mine == null)
+        {
+            GlobalUserInterface.Instance.ShowError("Failed to start a battle.");
+            return;
+        }
+        if (!_player.ActionPoints.TrySpendAP(1))
+        {
+            GlobalUserInterface.Instance.ShowError("You need at least 1 AP to start a battle.");
+            return;
+        }
+
         _worldUI.gameObject.SetActive(false);
         Camera.main.transform.parent = null;
         Camera.main.transform.position = new Vector3(0, 0, Camera.main.transform.position.z);
@@ -54,7 +63,7 @@ public class GameManager : MonoBehaviour
         _battleMap.SetActive(true);
         _battleManager.StartBattle(mine, _player);
     }
-    public void EndBattle(float rewardPoins, Mine mine, bool dead)
+    public void EndBattle(float killPoints, Mine mine, bool dead)
     {
         _battleUI.gameObject.SetActive(false);
         _worldUI.gameObject.SetActive(true);
@@ -62,21 +71,37 @@ public class GameManager : MonoBehaviour
         _worldMap.gameObject.SetActive(true);
         Camera.main.transform.parent = _player.transform;
         Camera.main.transform.localPosition = new Vector3(0, 0, Camera.main.transform.localPosition.z);
-        
+
         //TODO Add here option to change dead to survived
 
-        if (!dead)
-            _player.CollectExperience((int)rewardPoins);
-        else
-            _player.CollectExperience((int)rewardPoins / 4);
+        if (dead)
+            if (_player.AP >= ActionPoints.ADDITIONAL_DEATH_AP_COST)
+                _player.ActionPoints.TrySpendAP(ActionPoints.ADDITIONAL_DEATH_AP_COST);
+            else
+                _player.ActionPoints.TrySpendAP(_player.AP);
 
-        if (!dead)
-            mine.Level=(int)(Mathf.Max(rewardPoins,mine.Level) / 2);
-        else
-            mine.Level = (int)(Mathf.Max(rewardPoins, mine.Level) / 4);
+        float mineLevel = Mathf.Max(killPoints, mine.Level);
+        if (dead)
+            mineLevel = mineLevel / DEATH_POINTS_DIVIDER * _player.Skills.GetSkillMultipler("Dangerous mining");
+        mine.Level = (int)mineLevel;
 
-        mine.GetComponent<RewardManager>().GiveReward(rewardPoins);
+        float experience = killPoints;
+        if (dead)
+            experience = experience / DEATH_POINTS_DIVIDER * _player.Skills.GetSkillMultipler("Dangerous mining");
+        _player.CollectExperience((int)experience);
+
+        _player.Equipment.BreakEquipment(dead);
+
+        //TODO save here?
+
+        float rewardPoints = killPoints*(1 + _player.Skills.GetSkillMultipler("Attentive search"));
+        if (dead)
+            rewardPoints = rewardPoints / DEATH_POINTS_DIVIDER * _player.Skills.GetSkillMultipler("Dangerous mining");
+        mine.GetComponent<RewardManager>().GiveReward(rewardPoints);
         _worldUI.OpenPlayerInventory();
+        _worldUI.InformationPanelUI.ShowEndBattleInfo((int)killPoints, (int)mineLevel, (int)experience, (int)rewardPoints, dead);
+
+
     }
 
 }

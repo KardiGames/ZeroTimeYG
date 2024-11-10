@@ -110,7 +110,11 @@ public class WorldMap : MonoBehaviour
 
     public void Search()
     {
-        if (!_player.ActionPoints.TrySpendAP(SearchPoint.SEARCH_COST))
+        int searchCost = _player.Level;
+        if (searchCost < 1)
+            searchCost = 1;
+
+        if (!_player.ActionPoints.TrySpendAP(searchCost))
         {
             print("You haven't anough Action Points");
             return;

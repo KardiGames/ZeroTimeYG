@@ -9,6 +9,7 @@ public class BattleManager : MonoBehaviour
     [SerializeField] private BattleUserInterface _battleUI;
     [SerializeField] private MineNpcRewardData _npcSpawnData;
     [SerializeField] private GameObject _ñombatCharacterPrefab;
+    private WorldCharacter _singlePlayer;
 
     //List of all Combat Characters in the scenes
     public List<CombatUnit> AllCombatCharacters= new(); //TODO Change list type to ICombatCharacter, incapsulate it & make it IEnumerable?
@@ -18,7 +19,7 @@ public class BattleManager : MonoBehaviour
     private List<CombatAction> _planningList = new List<CombatAction>();
 
     public string Status { get; private set; } = "starting";
-    public float RewardPoints { get; private set; } = 0;
+    public float KillPoints { get; private set; } = 0;
 
     private Mine _mine;
 
@@ -79,11 +80,11 @@ public class BattleManager : MonoBehaviour
         Turn = 0;
         Player = 0;
         MovieAct = 0;
-        RewardPoints = 0;
+        KillPoints = 0;
 
         PlaceCombatCharacter(player);
         SpawnEnemies(0, 0f);
-        _battleUI.RefreshLevelInfo(0, RewardPoints, _mine.Level);
+        _battleUI.RefreshLevelInfo(0, KillPoints, _mine.Level);
 
         bool readyForBattle = true;
         foreach (CombatUnit checkingCharacter in AllCombatCharacters)
@@ -116,7 +117,10 @@ public class BattleManager : MonoBehaviour
             {
                 if (npc.Dead)
                 {
-                    RewardPoints += npc.Level * npc.Difficulty;
+                    float killPoints = npc.Level * npc.Difficulty;
+                    if (killPoints < _mine.Level && _singlePlayer != null)
+                        killPoints += killPoints * _singlePlayer.Skills.GetSkillMultipler("Familiar paths");
+                    KillPoints += killPoints;
                     Destroy(npc.gameObject);
                 }
                 else
@@ -136,7 +140,7 @@ public class BattleManager : MonoBehaviour
         }
 
         SpawnEnemies(enemiesNumber, enemiesDifficulty);
-        _battleUI.RefreshLevelInfo(enemiesDifficulty, RewardPoints, _mine.Level);
+        _battleUI.RefreshLevelInfo(enemiesDifficulty, KillPoints, _mine.Level);
         Turn++;
 
         //Preparing next turn
@@ -184,7 +188,7 @@ public class BattleManager : MonoBehaviour
             return;
         }
 
-        int mineLevel = Mathf.Max(_mine.Level, (int)RewardPoints);
+        int mineLevel = Mathf.Max(_mine.Level, (int)KillPoints);
 
         float totalEnemiesDifficulty = difficultyProgressionSpeed * mineLevel; //Formula from TechAss.
 
@@ -235,7 +239,7 @@ public class BattleManager : MonoBehaviour
     {
         Status = "starting";
         AllCombatCharacters.ForEach(u => Destroy(u.gameObject));
-        _gameManager.EndBattle(RewardPoints, _mine, death);
+        _gameManager.EndBattle(KillPoints, _mine, death);
     }
 
     private void PlaceCombatCharacter (WorldCharacter player)

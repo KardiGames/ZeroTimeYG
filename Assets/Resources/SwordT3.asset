@@ -15,6 +15,7 @@ MonoBehaviour:
   _itemName: Sword T3
   _stackable: 0
   _amount: 1
+  _icon: {fileID: 21300000, guid: cc42612cfc46b7b4389f0bcf7dffd361, type: 3}
   _rangedAttack: 0
   _twoHanded: 1
   damageRandomMultipler: 4

@@ -15,6 +15,7 @@ MonoBehaviour:
   _itemName: Gantling laser
   _stackable: 0
   _amount: 1
+  _icon: {fileID: 21300000, guid: 1cbbfd4e58816fe4e9912b79003c35fa, type: 3}
   _rangedAttack: 1
   _twoHanded: 1
   damageRandomMultipler: 6

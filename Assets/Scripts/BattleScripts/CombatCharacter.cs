@@ -45,7 +45,7 @@ public class CombatCharacter : CombatUnit
         _playerCharacter.Equipment[Equipment.Slot.LeftHand] == null ? _fist : _playerCharacter.Equipment[Equipment.Slot.LeftHand] as Weapon;
     public override int GetSkillValue(string skillName)
     {
-        int skillValue = _playerCharacter.Skills.GetTrainedValue(skillName);
+        int skillValue = _playerCharacter.Skills.GetSkillValue(skillName);
         if (_skillBoostings.ContainsKey(skillName))
             skillValue += _skillBoostings[skillName];
         return skillValue;

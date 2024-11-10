@@ -21,6 +21,9 @@ MonoBehaviour:
     _russian: "\u041A\u0430\u0447\u0435\u0441\u0442\u0432\u043E: "
   - _english: 'Armor class (AC): '
     _russian: "\u041A\u043B\u0430\u0441\u0441 \u0431\u0440\u043E\u043D\u0438 (\u041A\u0411): "
+  - _english: 'Damage resistance (DR): '
+    _russian: "\u0421\u043E\u043F\u0440\u043E\u0442\u0438\u0432\u043B\u0435\u043D\u0438\u0435
+      \u0443\u0440\u043E\u043D\u0443 (\u0421\u0423): "
   - _english: Two handed
     _russian: "\u0414\u0432\u0443\u0440\u0443\u0447\u043D\u043E\u0435"
   - _english: Ranged
@@ -301,17 +304,32 @@ MonoBehaviour:
     _russian: "\u042D\u043D\u0435\u0440\u0433\u043E\u044F\u0447\u0435\u0439\u043A\u0430"
   - _english: Knife
     _russian: "\u041D\u043E\u0436"
+  - _english: Junk Knife
+    _russian: "\u0411/\u0443 \u041D\u043E\u0436"
+  - _english: Junk Sword
+    _russian: "\u0411/\u0443 \u041C\u0435\u0447"
   - _english: Sword
     _russian: "\u041C\u0435\u0447"
+  - _english: Junk Pistol
+    _russian: "\u0411/\u0443 \u041F\u0438\u0441\u0442\u043E\u043B\u0435\u0442"
   - _english: Pistol
     _russian: "\u041F\u0438\u0441\u0442\u043E\u043B\u0435\u0442"
+  - _english: Junk Rifle
+    _russian: "\u0411/\u0443 \u0410\u0432\u0442\u043E\u043C\u0430\u0442"
   - _english: Rifle
     _russian: "\u0410\u0432\u0442\u043E\u043C\u0430\u0442"
+  - _english: Junk Shotgun
+    _russian: "\u0411/\u0443 \u0414\u0440\u043E\u0431\u043E\u0432\u0438\u043A"
   - _english: Shotgun
     _russian: "\u0414\u0440\u043E\u0431\u043E\u0432\u0438\u043A"
+  - _english: Junk Sniper rifle
+    _russian: "\u0411/\u0443 \u0421\u043D\u0430\u0439\u043F\u0435\u0440\u0441\u043A\u0430\u044F
+      \u0432\u0438\u043D\u0442\u043E\u0432\u043A\u0430"
   - _english: Sniper rifle
     _russian: "\u0421\u043D\u0430\u0439\u043F\u0435\u0440\u0441\u043A\u0430\u044F
       \u0432\u0438\u043D\u0442\u043E\u0432\u043A\u0430"
+  - _english: Junk Machinegun
+    _russian: "\u0411/\u0443 \u041F\u0443\u043B\u0435\u043C\u0435\u0442"
   - _english: Machinegun
     _russian: "\u041F\u0443\u043B\u0435\u043C\u0435\u0442"
   - _english: Leather jacket
@@ -537,6 +555,79 @@ MonoBehaviour:
   - _english: Exoskeleton armor Blueprint
     _russian: "\u0411\u0440\u043E\u043D\u044F \u0441 \u044D\u043A\u0437\u043E\u0441\u043A\u0435\u043B\u0435\u0442\u043E\u043C
       \u0427\u0435\u0440\u0442\u0435\u0436"
+  - _english: Lines
+    _russian: "\u041B\u0438\u043D\u0438\u0438"
+  - _english: Queue
+    _russian: "\u041E\u0447\u0435\u0440\u0435\u0434\u044C"
+  - _english: Game Ending City Kit
+    _russian: "\u0413\u0440\u0430\u0434\u043E\u043E\u0431\u0440\u0430\u0437\u0443\u044E\u0449\u0438\u0439
+      \u042D\u043A\u0441\u043F\u0435\u0440\u0438\u043C\u0435\u043D\u0442\u0430\u043B\u044C\u043D\u044B\u0439
+      \u041A\u043E\u043C\u043F\u043B\u0435\u043A\u0442 \u041A\u043E\u043B\u043E\u043D\u0438\u0437\u0430\u0446\u0438\u0438"
+  - _english: Radioactives From Coal Blueprint
+    _russian: "\u0420\u0430\u0434.\u044D\u043B\u0435\u043C\u0435\u043D\u0442\u044B
+      \u0438\u0437 \u0423\u0433\u043B\u044F \u0427\u0435\u0440\u0442\u0435\u0436"
+  - _english: Radioactives From Iron Blueprint
+    _russian: "\u0420\u0430\u0434.\u044D\u043B\u0435\u043C\u0435\u043D\u0442\u044B
+      \u0438\u0437 \u0416\u0435\u043B\u0435\u0437\u0430 \u0427\u0435\u0440\u0442\u0435\u0436"
+  - _english: Radioactives From Oil Blueprint
+    _russian: "\u0420\u0430\u0434.\u044D\u043B\u0435\u043C\u0435\u043D\u0442\u044B
+      \u0438\u0437 \u041D\u0435\u0444\u0442\u0438 \u0427\u0435\u0440\u0442\u0435\u0436"
+  - _english: Radioactives From Organics Blueprint
+    _russian: "\u0420\u0430\u0434.\u044D\u043B\u0435\u043C\u0435\u043D\u0442\u044B
+      \u0438\u0437 \u041E\u0440\u0433\u0430\u043D\u0438\u043A\u0438 \u0427\u0435\u0440\u0442\u0435\u0436"
+  - _english: Radioactives From Sand Blueprint
+    _russian: "\u0420\u0430\u0434.\u044D\u043B\u0435\u043C\u0435\u043D\u0442\u044B
+      \u0438\u0437 \u041F\u0435\u0441\u043A\u0430 \u0427\u0435\u0440\u0442\u0435\u0436"
+  - _english: Radioactives From Titan Blueprint
+    _russian: "\u0420\u0430\u0434.\u044D\u043B\u0435\u043C\u0435\u043D\u0442\u044B
+      \u0438\u0437 \u0422\u0438\u0442\u0430\u043D\u0430 \u0427\u0435\u0440\u0442\u0435\u0436"
+  - _english: Fist
+    _russian: "\u041A\u0443\u043B\u0430\u043A"
+  - _english: You died in battle!
+    _russian: "\u0422\u044B \u043F\u043E\u0433\u0438\u0431 \u0432 \u0431\u043E\u044E!"
+  - _english: You survived!
+    _russian: "\u0422\u044B \u0432\u044B\u0436\u0438\u043B \u0432 \u0431\u043E\u044E!"
+  - _english: You have got
+    _russian: "\u0422\u044B \u043F\u043E\u043B\u0443\u0447\u0438\u043B"
+  - _english: ' battle points'
+    _russian: " \u0431\u043E\u0435\u0432\u044B\u0445 \u043E\u0447\u043A\u043E\u0432"
+  - _english: 'Considering the result of the battle, you got:'
+    _russian: "C \u0443\u0447\u0435\u0442\u043E\u043C \u0440\u0435\u0437\u0443\u043B\u044C\u0442\u0430\u0442\u0430
+      \u0431\u043E\u044F, \u0442\u044B \u043F\u043E\u043B\u0443\u0447\u0438\u043B:"
+  - _english: ' experience poins'
+    _russian: " \u043E\u0447\u043A\u043E\u0432 \u043E\u043F\u044B\u0442\u0430"
+  - _english: ' points'
+    _russian: " \u043E\u0447\u043A\u043E\u0432"
+  - _english: 'decreased to '
+    _russian: "\u0443\u043C\u0435\u043D\u044C\u0448\u0435\u043D \u0434\u043E "
+  - _english: 'increased to '
+    _russian: "\u0443\u0432\u0435\u043B\u0438\u0447\u0435\u043D \u0434\u043E "
+  - _english: 'remains at '
+    _russian: "\u0441\u043E\u0445\u0440\u0430\u043D\u0438\u043B\u0441\u044F \u043D\u0430 "
+  - _english: 'Loot for '
+    _russian: "\u0414\u043E\u0431\u044B\u0447\u0443 \u043D\u0430 "
+  - _english: Equipment received additional damage.
+    _russian: "\u042D\u043A\u0438\u043F\u0438\u0440\u043E\u0432\u043A\u0430 \u043F\u043E\u0432\u0440\u0435\u0434\u0438\u043B\u0430\u0441\u044C
+      \u0441\u0438\u043B\u044C\u043D\u0435\u0435."
+  - _english: 'You have spent additional '
+    _russian: "\u0422\u044B \u043F\u043E\u0442\u0440\u0430\u0442\u0438\u043B "
+  - _english: AP to restoration
+    _russian: "\u041E\u0414 \u043D\u0430 \u0432\u043E\u0441\u0441\u0442\u0430\u043D\u043E\u0432\u043B\u0435\u043D\u0438\u0435"
+  - _english: Failed to start a battle.
+    _russian: "\u041D\u0435 \u0443\u0434\u0430\u043B\u043E\u0441\u044C \u043D\u0430\u0447\u0430\u0442\u044C
+      \u0431\u043E\u0439."
+  - _english: You need at least 1 AP to start a battle.
+    _russian: "\u041D\u0443\u0436\u043D\u043E \u043A\u0430\u043A \u043C\u0438\u043D\u0438\u043C\u0443\u043C
+      1 \u041E\u0414 \u0434\u043B\u044F \u043D\u0430\u0447\u0430\u043B\u0430 \u0431\u043E\u044F."
+  - _english: Error!!! Item haven't added to inventory on unequip. Item is LOST
+    _russian: "\u041E\u0448\u0438\u0431\u043A\u0430!!! \u041F\u0440\u0435\u0434\u043C\u0435\u0442
+      \u043D\u0435 \u0434\u043E\u0431\u0430\u0432\u0438\u043B\u0441\u044F \u0432
+      \u0438\u043D\u0432\u0435\u043D\u0442\u0430\u0440\u044C. \u041F\u0440\u0435\u0434\u043C\u0435\u0442
+      \u041F\u041E\u0422\u0415\u0420\u042F\u041D"
+  - _english: An equipped item have totally broken!
+    _russian: "\u0427\u0430\u0441\u0442\u044C \u044D\u043A\u0438\u043F\u0438\u0440\u043E\u0432\u043A\u0438
+      \u0431\u044B\u043B\u0430 \u043F\u043E\u043B\u043D\u043E\u0441\u0442\u044C\u044E
+      \u0438\u0437\u043D\u043E\u0448\u0435\u043D\u0430!"
   _texts:
   - _tag: '@MineHelp'
     _english: 'The ruins of a mine or building where the invaders'' reproduction

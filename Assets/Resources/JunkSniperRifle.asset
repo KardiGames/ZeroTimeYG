@@ -15,6 +15,7 @@ MonoBehaviour:
   _itemName: Junk Sniper rifle
   _stackable: 0
   _amount: 1
+  _icon: {fileID: 21300000, guid: bb64a27fe16b8114096561bc60555aad, type: 3}
   _rangedAttack: 1
   _twoHanded: 1
   damageRandomMultipler: 3
