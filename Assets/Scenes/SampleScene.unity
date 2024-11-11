@@ -9532,7 +9532,7 @@ GameObject:
   - component: {fileID: 414239017}
   - component: {fileID: 414239016}
   m_Layer: 5
-  m_Name: Cross
+  m_Name: Left Cross
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9550,11 +9550,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1063427794}
+  m_Father: {fileID: 1136325773}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -23, y: 30}
+  m_AnchoredPosition: {x: -45.03174, y: -512.50006}
   m_SizeDelta: {x: 46.4621, y: 46.462}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &414239016
@@ -10021,7 +10021,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.83496094, y: -430.991}
+  m_AnchoredPosition: {x: 0.83496094, y: -434}
   m_SizeDelta: {x: -3.0100098, y: 134.17627}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &433086731
@@ -15757,6 +15757,38 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1258855651}
+          m_TargetAssemblyTypeName: InformationPanelUI, GameAssembly
+          m_MethodName: Scale
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1258855651}
+          m_TargetAssemblyTypeName: InformationPanelUI, GameAssembly
+          m_MethodName: Unscale
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &693425279
 GameObject:
   m_ObjectHideFlags: 0
@@ -18935,8 +18967,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _localisation: {fileID: 630941250}
   _translatingText: {fileID: 867068475}
-  _english: Mine
-  _russian: "\u0428\u0430\u0445\u0442\u0430"
+  _english: Ruins
+  _russian: "\u0420\u0443\u0438\u043D\u044B"
 --- !u!1 &871931552
 GameObject:
   m_ObjectHideFlags: 0
@@ -22113,7 +22145,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 361402523}
         m_TargetAssemblyTypeName: MainMenuUI, GameAssembly
-        m_MethodName: OnFactoryDropdownChange
+        m_MethodName: OnMineDropdownChange
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -22714,8 +22746,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 414239015}
+  m_Children: []
   m_Father: {fileID: 1136325773}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
@@ -22781,6 +22812,38 @@ MonoBehaviour:
         - m_Target: {fileID: 1136325776}
           m_TargetAssemblyTypeName: EquipmentUI, GameAssembly
           m_MethodName: ShowItemInfo
+          m_Mode: 3
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 1
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1136325776}
+          m_TargetAssemblyTypeName: EquipmentUI, GameAssembly
+          m_MethodName: Scale
+          m_Mode: 3
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 1
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1136325776}
+          m_TargetAssemblyTypeName: EquipmentUI, GameAssembly
+          m_MethodName: Unscale
           m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -22954,7 +23017,7 @@ GameObject:
   - component: {fileID: 1073806294}
   - component: {fileID: 1073806293}
   m_Layer: 5
-  m_Name: Cross
+  m_Name: Right Cross
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22972,11 +23035,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1425417160}
+  m_Father: {fileID: 1136325773}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -23, y: 30}
+  m_AnchoredPosition: {x: -334.03174, y: -512.50006}
   m_SizeDelta: {x: 46.4621, y: 46.462}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1073806293
@@ -23686,7 +23749,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Switch mine
+  m_text: Switch ruins
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -23777,8 +23840,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _localisation: {fileID: 630941250}
   _translatingText: {fileID: 1106921003}
-  _english: Switch mine
-  _russian: "\u0421\u043C\u0435\u043D\u0438\u0442\u044C \u0448\u0430\u0445\u0442\u0443"
+  _english: Switch ruins
+  _russian: "\u0421\u043C\u0435\u043D\u0438\u0442\u044C \u0440\u0443\u0438\u043D\u044B"
 --- !u!1 &1111070711
 GameObject:
   m_ObjectHideFlags: 0
@@ -24147,7 +24210,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.83496094, y: -671.99097}
+  m_AnchoredPosition: {x: 0.83496094, y: -675}
   m_SizeDelta: {x: -3.0100098, y: 134.17627}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1115802480
@@ -24472,8 +24535,11 @@ RectTransform:
   m_Children:
   - {fileID: 649532295}
   - {fileID: 1425417160}
+  - {fileID: 1073806292}
   - {fileID: 1063427794}
+  - {fileID: 414239015}
   - {fileID: 1638834692}
+  - {fileID: 1242638727}
   - {fileID: 141140270}
   m_Father: {fileID: 529936201}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -26689,7 +26755,7 @@ GameObject:
   - component: {fileID: 1242638729}
   - component: {fileID: 1242638728}
   m_Layer: 5
-  m_Name: Cross
+  m_Name: Armor Cross
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26707,11 +26773,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1638834692}
+  m_Father: {fileID: 1136325773}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -23, y: 30}
+  m_AnchoredPosition: {x: -189.03174, y: -249.50006}
   m_SizeDelta: {x: 46.4621, y: 46.462}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1242638728
@@ -29906,8 +29972,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1073806292}
+  m_Children: []
   m_Father: {fileID: 1136325773}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
@@ -29973,6 +30038,38 @@ MonoBehaviour:
         - m_Target: {fileID: 1136325776}
           m_TargetAssemblyTypeName: EquipmentUI, GameAssembly
           m_MethodName: ShowItemInfo
+          m_Mode: 3
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1136325776}
+          m_TargetAssemblyTypeName: EquipmentUI, GameAssembly
+          m_MethodName: Scale
+          m_Mode: 3
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1136325776}
+          m_TargetAssemblyTypeName: EquipmentUI, GameAssembly
+          m_MethodName: Unscale
           m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -34781,8 +34878,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1242638727}
+  m_Children: []
   m_Father: {fileID: 1136325773}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
@@ -34848,6 +34944,38 @@ MonoBehaviour:
         - m_Target: {fileID: 1136325776}
           m_TargetAssemblyTypeName: EquipmentUI, GameAssembly
           m_MethodName: ShowItemInfo
+          m_Mode: 3
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 2
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1136325776}
+          m_TargetAssemblyTypeName: EquipmentUI, GameAssembly
+          m_MethodName: Scale
+          m_Mode: 3
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 2
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1136325776}
+          m_TargetAssemblyTypeName: EquipmentUI, GameAssembly
+          m_MethodName: Unscale
           m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -40183,7 +40311,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1979504628}
   m_Direction: 0
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -46893,7 +47021,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0.9905625, y: 1}
-  m_AnchoredPosition: {x: -12.955017, y: -22.210999}
+  m_AnchoredPosition: {x: -12.955078, y: -22.210938}
   m_SizeDelta: {x: -1009.55005, y: -124.369995}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2137705333

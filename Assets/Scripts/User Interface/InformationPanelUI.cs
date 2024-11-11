@@ -215,5 +215,8 @@ public class InformationPanelUI : MonoBehaviour
     }
     private void ClosePanel() => gameObject.SetActive(false);
 
+    public void Scale() => _producedItemIcon.transform.localScale = new Vector3(InventoryItemUI.ITEM_SCALE_MULTIPLER, InventoryItemUI.ITEM_SCALE_MULTIPLER);
+    public void Unscale() => _producedItemIcon.transform.localScale = Vector3.one;
+
     private string Translate(string text) => _localisation.Translate(text);
 }

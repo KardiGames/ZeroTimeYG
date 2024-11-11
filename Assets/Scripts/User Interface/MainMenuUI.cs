@@ -37,11 +37,12 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] private WorldMap _map;
     [SerializeField] private InformationPanelUI _informationPanel;
 
+    private string[] _buildingNames;
     public void EnterLocation ()
     {
         if (!_map.AreBuildingsFound(_character.X, _character.Y))
         {
-            print("You don't know are there some objects here. Search here before");
+            GlobalUserInterface.Instance.ShowError("You don't know are there some objects here. Search here before");
             return;
         }
 
@@ -75,8 +76,8 @@ public class MainMenuUI : MonoBehaviour
         _laboratoryButton.interactable = false;
     }
 	
-	public void EnterFactory() => EnterBuilding(_factoryDropdown.options[_factoryDropdown.value].text, _factoryOnGameObject);
-	public void EnterMine() => EnterBuilding(_mineDropdown.options[_mineDropdown.value].text, _mineOnGameObject);
+	public void EnterFactory() => EnterBuilding(_buildingNames[_factoryDropdown.value], _factoryOnGameObject);
+	public void EnterMine() => EnterBuilding(_buildingNames[_mineDropdown.value], _mineOnGameObject);
 
 	
 	private void EnterBuilding (string buildingName, IWorldBuilding buildingOnGameObject)
@@ -95,30 +96,41 @@ public class MainMenuUI : MonoBehaviour
 
     public void OpenFactoryPanel()
     {
-        string[] buildingNames = _saveData.BuildingsOfTypeOnArea(_character.X, _character.Y, _factoryOnGameObject);
-		if (buildingNames.Length==0)
+        _buildingNames = _saveData.BuildingsOfTypeOnArea(_character.X, _character.Y, _factoryOnGameObject);
+		if (_buildingNames.Length==0)
 			return;
         _factoryDropdown.options.Clear();
-		_factoryDropdown.AddOptions(new List <string> (buildingNames));
-		EnterBuilding(buildingNames[0], _factoryOnGameObject);
+		_factoryDropdown.AddOptions(new List <string> (_buildingNames.Select(n=>Translate(n))));
+		EnterBuilding(_buildingNames[0], _factoryOnGameObject);
     }
 
     public void OpenMinePanel()
         {
-        string[] buildingNames = _saveData.BuildingsOfTypeOnArea(_character.X, _character.Y, _mineOnGameObject);
-        if (buildingNames.Length == 0)
+        _buildingNames = _saveData.BuildingsOfTypeOnArea(_character.X, _character.Y, _mineOnGameObject);
+        if (_buildingNames.Length == 0)
             return;
         _mineDropdown.options.Clear();
-        _mineDropdown.AddOptions(new List<string>(buildingNames));
-        EnterBuilding(buildingNames[0], _mineOnGameObject);
+        _mineDropdown.AddOptions(new List<string>(_buildingNames.Select(n => Translate(n))));
+        EnterBuilding(_buildingNames[0], _mineOnGameObject);
     }
 
 
     public void OnFactoryDropdownChange()
     {
-        if (_factoryDropdown.options[_factoryDropdown.value].text == _factoryOnGameObject.Name)
+        if (_buildingNames[_factoryDropdown.value] == _factoryOnGameObject.Name)
 			_enterFactoryButton.interactable=false;
 		else
 			_enterFactoryButton.interactable=true;
     }
+
+    public void OnMineDropdownChange()
+    {
+        if (_buildingNames[_mineDropdown.value] == _mineOnGameObject.Name)
+            _enterMineButton.interactable = false;
+        else
+            _enterMineButton.interactable = true;
+    }
+
+    private string Translate(string text) =>
+        GlobalUserInterface.Instance.Localisation.Translate(text);
 }

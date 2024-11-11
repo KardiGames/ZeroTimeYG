@@ -95,6 +95,17 @@ public class EquipmentUI : MonoBehaviour
         if (Equipment[slotNumber] != null)
             _worldUI.ShowItemInfo(Equipment[slotNumber]);
     }
+    public void Scale(int slotNumber)
+    {
+        if (_equipment[slotNumber] != null)
+            _slotList[slotNumber].ItemImage.transform.localScale = new Vector3(InventoryItemUI.ITEM_SCALE_MULTIPLER, InventoryItemUI.ITEM_SCALE_MULTIPLER);
+
+
+    }
+    public void Unscale(int slotNumber) {
+        _slotList[slotNumber].ItemImage.transform.localScale = Vector3.one;
+    }
+
     private void OnDisable()
     {
         Equipment = null;

@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class InventoryItemUI : MonoBehaviour
 {
+    public const float ITEM_SCALE_MULTIPLER = 1.1f;
+    
     [SerializeField] private TextMeshProUGUI itemName;
     [SerializeField] private Image _itemImage;
     [SerializeField] private Button transferAllButton;
@@ -77,4 +79,6 @@ public class InventoryItemUI : MonoBehaviour
     }
 
     private void Equip() => InventoryUI.Inventory.gameObject.GetComponent<Equipment>().Equip(InventoryUI.Inventory, _item);
+    public void Scale() => _itemImage.transform.localScale = new Vector3(ITEM_SCALE_MULTIPLER, ITEM_SCALE_MULTIPLER);
+    public void Unscale() => _itemImage.transform.localScale = Vector3.one;
 }

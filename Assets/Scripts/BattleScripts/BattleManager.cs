@@ -208,7 +208,9 @@ public class BattleManager : MonoBehaviour
 
         enemiesSpawnNumber = Mathf.Min(enemiesSpawnNumber, (Location.xSize + Location.ySize));
 
-        float eachEnemyDifficulty = ((float)totalEnemiesDifficulty-enemiesDifficultyInBattle) / enemiesSpawnNumber;
+        //TODO Choose better realisation
+        //float eachEnemyDifficulty = ((float)totalEnemiesDifficulty-enemiesDifficultyInBattle) / enemiesSpawnNumber;
+        float eachEnemyDifficulty = totalEnemiesDifficulty / expectedEnemiesNumber;
 
         NpcBlank[] potencialEnemies = _npcSpawnData.GetNpcList(mineLevel, _mine.MineType);
         int chosenEnemyIndex;
