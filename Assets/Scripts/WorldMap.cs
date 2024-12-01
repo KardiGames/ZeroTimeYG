@@ -110,20 +110,20 @@ public class WorldMap : MonoBehaviour
 
     public void Search()
     {
+        SearchPoint searchPoint;
+        if (!IsAbleToSearch(out searchPoint))
+        {
+            GlobalUserInterface.Instance.ShowError("You are standing inside exiting search area! Go to the center or outside of area.");
+            return;
+        }
+
         int searchCost = _player.Level;
         if (searchCost < 1)
             searchCost = 1;
 
         if (!_player.ActionPoints.TrySpendAP(searchCost))
         {
-            print("You haven't anough Action Points");
-            return;
-        }
-
-        SearchPoint searchPoint;
-        if (!IsAbleToSearch(out searchPoint))
-        {
-            print("You are standing inside exiting search area! Go to the center or outside of area");
+            GlobalUserInterface.Instance.ShowError("You haven't anough Action Points.");
             return;
         }
 

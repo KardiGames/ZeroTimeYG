@@ -74,7 +74,27 @@ public class InventoryItemUI : MonoBehaviour
 
     private void StartProductionInFactory ()
     {
+        ActionPoints playerAP = InventoryUI.TargetInventory.gameObject.GetComponent<ActionPoints>();
         Factory activeFactory = InventoryUI.Inventory.gameObject.GetComponent<Factory>();
+
+        if (playerAP == null || activeFactory == null)
+        {
+            GlobalUserInterface.Instance.ShowError(GlobalUserInterface.Instance.Localisation.Translate("Error #") + "1");
+            return;
+        }
+
+        if (!(_item as Blueprint).IsAnoughResourses(InventoryUI.Inventory))
+        {
+            GlobalUserInterface.Instance.ShowError("You have not anough resources to start production.");
+            return;
+        }
+
+        if (!playerAP.TrySpendAP(1))
+        {
+            GlobalUserInterface.Instance.ShowError("You need at least 1 AP to start production.");
+            return;
+        }
+
         activeFactory.AddFactoryLine(_item as Blueprint, true);
     }
 

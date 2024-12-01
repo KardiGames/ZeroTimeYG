@@ -105,7 +105,7 @@ public class InformationPanelUI : MonoBehaviour
             _itemInfoText.text += Translate("Ammo per shot: ") + weapon.AmmoPerShot+ "\n";
         }
 
-        _itemInfoText.text+="\n"+ Translate("Skill:") +"\n"+weapon.SkillName+" ("+_playerCharacter.Skills.GetSkillValue(weapon.SkillName)+"%)\n";
+        _itemInfoText.text+="\n"+ Translate("Skill:") +"\n"+ Translate(weapon.SkillName)+" ("+_playerCharacter.Skills.GetSkillValue(weapon.SkillName)+"%)\n";
         _itemInfoText.text += Translate("Result damage: ") + weapon.ApplyDamageModifiers(weapon.MinimalDamage, _playerCharacter) + " - " + weapon.ApplyDamageModifiers(weapon.MaximalDamage, _playerCharacter)+"\n";
     }
 

@@ -95,6 +95,12 @@ public class SkillUI : MonoBehaviour
     {
         _valueText.text = _characterSkills.GetMaximalValue(_name).ToString();
     }
+
+    public void ShowSkillInfo()
+    {
+        _characterUI.InfoPanel.ShowTranslatedElement(_name, "Skill", "@"+ _name);
+    }
+
     public void StartCountdown(DateTime finishTime)
     {
 		FinishTime=finishTime;

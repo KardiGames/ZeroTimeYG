@@ -5,7 +5,7 @@ using UnityEngine;
 public class WorldCharacter : MonoBehaviour
 {
     public const int MAX_ATTRIBUTE_VALUE=10;
-	private const int LEVEL_UP_EXPERIENCE_MULTIPLER=25;
+	private const int LEVEL_UP_EXPERIENCE_MULTIPLER=15;
 	private const int START_ATTRIBUTE_POINTS=20;
 		
 	[SerializeField] private Equipment _equipment;

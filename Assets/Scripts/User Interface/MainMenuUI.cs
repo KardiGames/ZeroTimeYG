@@ -13,12 +13,13 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] private Button _mineButton;
     [SerializeField] private Button _laboratoryButton;
 	
-	[Header("Character buttons")]
+	[Header("Character buttons+")]
     [SerializeField] private Button _inventoryButton;
     [SerializeField] private Button _equipmentButton;
     [SerializeField] private Button _skillsButton;
+    [SerializeField] private TextMeshProUGUI _playerAPText;
 
-	[Header("Factory panel")]
+    [Header("Factory panel")]
     [SerializeField] private Factory _factoryOnGameObject;
     [SerializeField] private GameObject _factoryPanel;
 	[SerializeField] private TMP_Dropdown _factoryDropdown;
@@ -36,8 +37,10 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] private WorldCharacter _character;
     [SerializeField] private WorldMap _map;
     [SerializeField] private InformationPanelUI _informationPanel;
+    [SerializeField] private Localisation _localisatiuon;
 
     private string[] _buildingNames;
+
     public void EnterLocation ()
     {
         if (!_map.AreBuildingsFound(_character.X, _character.Y))
@@ -131,6 +134,25 @@ public class MainMenuUI : MonoBehaviour
             _enterMineButton.interactable = true;
     }
 
+    private void UpdateAP ()
+    {
+        _playerAPText.text = _character.ActionPoints.Value+ " " + Translate("AP");
+    }
+
+    private void OnEnable()
+    {
+        _character.ActionPoints.OnAPValueChanged += UpdateAP;
+        _localisatiuon.OnLanguageChangedEvent += UpdateAP;
+        if (_character.CharacterName != "")
+            UpdateAP();
+    }
+
+    private void OnDisable()
+    {
+        _character.ActionPoints.OnAPValueChanged -= UpdateAP;
+        _localisatiuon.OnLanguageChangedEvent -= UpdateAP;
+    }
+
     private string Translate(string text) =>
-        GlobalUserInterface.Instance.Localisation.Translate(text);
+        _localisatiuon.Translate(text);
 }

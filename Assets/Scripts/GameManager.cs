@@ -92,7 +92,7 @@ public class GameManager : MonoBehaviour
 
         _player.Equipment.BreakEquipment(dead);
 
-        //TODO save here?
+        _saveData.SaveBuilding(mine);
 
         float rewardPoints = killPoints*(1 + _player.Skills.GetSkillMultipler("Attentive search"));
         if (dead)
@@ -100,8 +100,6 @@ public class GameManager : MonoBehaviour
         mine.GetComponent<RewardManager>().GiveReward(rewardPoints);
         _worldUI.OpenPlayerInventory();
         _worldUI.InformationPanelUI.ShowEndBattleInfo((int)killPoints, (int)mineLevel, (int)experience, (int)rewardPoints, dead);
-
-
     }
 
 }

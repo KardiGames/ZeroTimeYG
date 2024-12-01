@@ -90,6 +90,7 @@ public class SaveData : MonoBehaviour
     public void SaveCharacter ()
     {
         _playerJson = _playerCharacter.ToJson();
+        SaveToObject(); //TODO this is temporal autosave
     }
     public void LoadCharacter()
     {
@@ -153,6 +154,7 @@ public class SaveData : MonoBehaviour
 		if (_saveObject==null)
 			return;
         SaveJsonData jsonData = new SaveJsonData() { _globalMapBuildings = _globalMapBuildings, _playerJson= _playerJson, _mapJson= _mapJson};
+        print("Saved to Object " + (JsonUtility.ToJson(jsonData).Length / 1000) + "K");
 		_saveObject.Save = JsonUtility.ToJson(jsonData);
 	}
 	

@@ -10,6 +10,7 @@ public class CharacterUI : MonoBehaviour
 
 	[SerializeField] private SaveData _saveData;
 	[SerializeField] private Localisation _localisation;
+	[SerializeField] private InformationPanelUI _infoPanel;
 	[SerializeField] private Button _skillsButton;
     [SerializeField] private TextMeshProUGUI _nameText;
     [SerializeField] private TextMeshProUGUI ST; //Strength
@@ -31,6 +32,7 @@ public class CharacterUI : MonoBehaviour
     private Dictionary<string, SkillUI> _skillsUI = new Dictionary<string, SkillUI>(); //TODO Delete SerField
 	private List<SkillUI> _timers=new();
 
+	public InformationPanelUI InfoPanel => _infoPanel;
     public void OnEnable () {
         _skillsButton.interactable=false;
 		_localisation.OnLanguageChangedEvent += Refresh;
