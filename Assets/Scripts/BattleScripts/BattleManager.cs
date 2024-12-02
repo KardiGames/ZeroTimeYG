@@ -32,7 +32,7 @@ public class BattleManager : MonoBehaviour
 
     //Public properties to access
     public BattleUserInterface BattleUI => _battleUI;
-
+	public int MineLevel => _mine.Level;
     
 
     public void NextMovieAct ()
@@ -84,7 +84,6 @@ public class BattleManager : MonoBehaviour
 
         PlaceCombatCharacter(player);
         SpawnEnemies(0, 0f);
-        _battleUI.RefreshLevelInfo(0, KillPoints, _mine.Level);
 
         bool readyForBattle = true;
         foreach (CombatUnit checkingCharacter in AllCombatCharacters)
@@ -140,7 +139,6 @@ public class BattleManager : MonoBehaviour
         }
 
         SpawnEnemies(enemiesNumber, enemiesDifficulty);
-        _battleUI.RefreshLevelInfo(enemiesDifficulty, KillPoints, _mine.Level);
         Turn++;
 
         //Preparing next turn

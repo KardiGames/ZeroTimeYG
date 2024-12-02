@@ -67,7 +67,6 @@ public class CombatCharacter : CombatUnit
         for (int i = 0; i <= 1; i++)
             if (_playerCharacter.Equipment[i] is Weapon weapon)
                 weapon.FillAmmo();
-        OverheadText.ShowHP();
         ResetPlanning();
         CreateClickZones();
     }
@@ -249,7 +248,7 @@ public class CombatCharacter : CombatUnit
     public void BoostSkill(string skillname)
     {
         //float difficulty = 0.2f; //<1 - much easier to train; >1 - much more difficult; 0-always trains
-        float difficulty = -0.0444444f * IN + 0.5444444f; //Formula how difficulty depends of INtelligence
+        float difficulty = -0.0444444f * IN + 0.5444444f; //Formula of dependency difficulty by INtelligence
 
         if (GetSkillValue(skillname) >= Skills.MAXIMUM_TOTAL_SKILL)
             return;
@@ -264,7 +263,7 @@ public class CombatCharacter : CombatUnit
                 _skillBoostings[skillname]++;
             else
                 _skillBoostings.Add(skillname, 1);
-            OverheadText.ShowGreen($"{skillname} {GetSkillValue(skillname)} ( +1)");
+            OverheadText.ShowGreen($"{GlobalUserInterface.Instance.Localisation.Translate(skillname)} {GetSkillValue(skillname)} ( +1)");
         } else
             print("Skill " + skillname + "'v not improved. Chanse " + chanse + " < roll "+roll);
     }

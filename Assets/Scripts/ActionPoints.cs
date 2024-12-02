@@ -23,27 +23,31 @@ public class ActionPoints : MonoBehaviour
 		AddPointsByTimer();
 		return _ap;
 	}}
-	
-	public int MaxValue
-	{
-		get
-		{
-			int maxAp = MAX_AP_BASE + _playerCharacter.Level * MAX_AP_LEVEL_INCREASE;
-			if (DateTime.Now < _vipFinishTime)
-				maxAp *= MAX_AP_VIP_MULTIPLER;
-			return maxAp;
-		}
+
+	public int MaxValue => PastMaxValue(DateTime.Now);
+
+	private int PastMaxValue (DateTime pastTime)
+    {
+		if (pastTime == null || pastTime > DateTime.Now)
+			pastTime = DateTime.Now;
+		int maxAp = MAX_AP_BASE + _playerCharacter.Level * MAX_AP_LEVEL_INCREASE;
+		if (pastTime < _vipFinishTime)
+			maxAp *= MAX_AP_VIP_MULTIPLER;
+		return maxAp;
 	}
 	
 	private void AddPointsByTimer() {
 
+		bool apChanged = false;
 		while (_timeToAddAP<DateTime.Now) {
-			if (_ap<MaxValue) {
+			if (_ap< PastMaxValue(_timeToAddAP)) {
 				_ap++;
-				OnAPValueChanged?.Invoke();
+				apChanged = true;
 			}
 			_timeToAddAP=_timeToAddAP.AddSeconds(SECONDS_TO_ADD_AP);
 		}
+		if (apChanged)
+			OnAPValueChanged?.Invoke();
 	}
 	
 	public bool TrySpendAP (int actionPoints) {
@@ -70,7 +74,7 @@ public class ActionPoints : MonoBehaviour
 
 	public string ToJson()
 	{
-		ActionPointsJsonData jsonAP = new() { Points= _ap, FinishTime = _timeToAddAP.ToString("ddMMyyyyHHmmss")};
+		ActionPointsJsonData jsonAP = new() { Points= _ap, FinishTime = _timeToAddAP.ToString("ddMMyyyyHHmmss"), VipFinishTime = _vipFinishTime.ToString("ddMMyyyyHHmmss") };
 		return JsonUtility.ToJson(jsonAP);
 	}
 
@@ -84,8 +88,10 @@ public class ActionPoints : MonoBehaviour
 		_timeToAddAP=DateTime.ParseExact(jsonAP.FinishTime, "ddMMyyyyHHmmss", null);
 		if (jsonAP.VipFinishTime=="")
 			jsonAP.VipFinishTime="22112024143646";
-		_vipFinishTime=DateTime.ParseExact(jsonAP.FinishTime, "ddMMyyyyHHmmss", null);
-		AddPointsByTimer();
+		_vipFinishTime=DateTime.ParseExact(jsonAP.VipFinishTime, "ddMMyyyyHHmmss", null);
+		print("TTA "+ _timeToAddAP+" VIP "+ _vipFinishTime);
+
+
 		OnAPValueChanged?.Invoke();
 	}
 

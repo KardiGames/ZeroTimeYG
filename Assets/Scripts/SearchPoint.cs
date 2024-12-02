@@ -2,20 +2,31 @@ using UnityEngine;
 
 public class SearchPoint : MonoBehaviour
 {
-    [SerializeField] GameObject _wideAreaCircle;
+    private const float ENLARGE_LEVEL_MULTIPLER = 0.1f;
+	
+	[SerializeField] GameObject _wideAreaCircle;
     [SerializeField] SpriteRenderer _wideAreaSprite;
     [SerializeField] GameObject _tinyAreaCircle;
     [SerializeField] ClickPointOnMap _clickPoint;
     [SerializeField] private float _size; 
+	private WorldCharacter _player;
     
     public float X=>transform.localPosition.x;
     public float Y=>transform.localPosition.y;
     public float Size=>_size;
     public float Radius => _size / 2.0f;
     public float TinyRadius => _size / 4.0f;
-    public void Init(float x, float y, float size, WorldMap map)
+	public bool Initiated => (_player!=null);
+	
+    public void Init(float x, float y, float size, WorldMap map, WorldCharacter player)
     {
-        Vector3 positionVector = transform.localPosition;
+        if (map==null || player==null)
+        {
+            Destroy(this);
+			return;
+        }
+		_player=player;
+		Vector3 positionVector = transform.localPosition;
         positionVector.x = x;
         positionVector.y = y;
         transform.localPosition = positionVector;
@@ -25,8 +36,8 @@ public class SearchPoint : MonoBehaviour
     }
     public void Enlarge ()
     {
-        //Formula to add area equals to fist created circle (with radius of 0.5)
-        float enlargedRadius = Mathf.Sqrt(0.25f + (Radius*Radius));
+        //Formula to add area equals to fist created circle (with radius of 0.5+skillImprovement)
+        float enlargedRadius = Mathf.Sqrt(0.25f*(1+ENLARGE_LEVEL_MULTIPLER*_player.Level*_player.Skills.GetSkillMultipler("World exploring")) + (Radius*Radius));
         _size = enlargedRadius * 2.0f;
         VisualizeSize();
     }

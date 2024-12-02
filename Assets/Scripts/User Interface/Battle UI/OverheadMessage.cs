@@ -4,30 +4,32 @@ using TMPro;
 
 public class OverheadMessage : MonoBehaviour
 {
-    private float messageTime = 1.5f;
-    private float messageMoveUpDistance = 0.8f;
+    private float _messageTime = 1.5f;
+    private float _messageMoveUpDistance = 0.8f;
     
-    [SerializeField] private TextMeshProUGUI overheadText;
-    [SerializeField] private TextMeshProUGUI redText;
-    [SerializeField] private TextMeshProUGUI greenText;
-    private CombatUnit combatUnit;
+    [SerializeField] private TextMeshProUGUI _overheadText;
+    [SerializeField] private TextMeshProUGUI _redText;
+    [SerializeField] private TextMeshProUGUI _greenText;
+    private CombatUnit _combatUnit;
+    private Localisation _localisation;
 
-    private Vector3 startPosition;
+    private Vector3 _startPosition;
 
     // Start is called before the first frame update
     void Start()
     {
-        combatUnit = GetComponentInParent<CombatUnit>();
-        startPosition = redText.transform.localPosition;
+        _combatUnit = GetComponentInParent<CombatUnit>();
+        _localisation = GlobalUserInterface.Instance.Localisation;
+        _startPosition = _redText.transform.localPosition;
         ShowHP();
     }
 
-    public void ShowHP() => overheadText.text=(combatUnit?.HP<0 ? "Dead" : combatUnit?.HP.ToString()+ " HP");
-    public void ShowHP(int hp) => overheadText.text = (hp < 0 ? "Dead" : hp.ToString() + " HP");
-    public void Show(string text) => overheadText.text = text;
+    public void ShowHP() => _overheadText.text=(_combatUnit?.HP<0 ? _localisation.Translate("Dead") : _combatUnit?.HP.ToString()+ _localisation.Translate(" HP"));
+    public void ShowHP(int hp) => _overheadText.text = (hp < 0 ? _localisation.Translate("Dead") : hp.ToString() + _localisation.Translate(" HP"));
+    public void Show(string text) => _overheadText.text = text;
 
-    public void ShowRed(string text) => MoveUpMessage(text, redText); 
-    public void ShowGreen(string text) => MoveUpMessage(text, greenText);
+    public void ShowRed(string text) => MoveUpMessage(text, _redText); 
+    public void ShowGreen(string text) => MoveUpMessage(text, _greenText);
 
     private void MoveUpMessage(string text, TextMeshProUGUI movingObject)
     {
@@ -39,12 +41,12 @@ public class OverheadMessage : MonoBehaviour
 
         IEnumerator MoveTextUp()
         {
-            while (textTransform.localPosition.y < (startPosition.y + messageMoveUpDistance))
+            while (textTransform.localPosition.y < (_startPosition.y + _messageMoveUpDistance))
             {
-                textTransform.Translate(Vector3.up * messageMoveUpDistance / messageTime * Time.deltaTime);
+                textTransform.Translate(Vector3.up * _messageMoveUpDistance / _messageTime * Time.deltaTime);
                 yield return null;
             }
-            textTransform.localPosition = startPosition;
+            textTransform.localPosition = _startPosition;
             movingObject.gameObject.SetActive(false);
         }
     }

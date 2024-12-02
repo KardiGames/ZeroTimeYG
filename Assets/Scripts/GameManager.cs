@@ -88,7 +88,10 @@ public class GameManager : MonoBehaviour
         float experience = killPoints;
         if (dead)
             experience = experience / DEATH_POINTS_DIVIDER * _player.Skills.GetSkillMultipler("Dangerous mining");
+        int levelBeforeExpCollecting = _player.Level; //TODO m.b. move it to Action and subscription
         _player.CollectExperience((int)experience);
+        if (levelBeforeExpCollecting < _player.Level)
+            _worldUI.ShowBigMessage("Level up!!!");
 
         _player.Equipment.BreakEquipment(dead);
 

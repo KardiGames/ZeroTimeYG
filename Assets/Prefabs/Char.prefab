@@ -377,9 +377,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9b2c48efea42e54cb83d0188a9b1522, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  overheadText: {fileID: 6359727020056061473}
-  redText: {fileID: 6359727021395603062}
-  greenText: {fileID: 6359727020265721862}
+  _overheadText: {fileID: 6359727020056061473}
+  _redText: {fileID: 6359727021395603062}
+  _greenText: {fileID: 6359727020265721862}
 --- !u!1 &6359727020642126619
 GameObject:
   m_ObjectHideFlags: 0

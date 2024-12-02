@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Skills : MonoBehaviour, ITimerable
 {
-	public const int WORKING_SKILLS_NUMBER = 10;
+	public const int WORKING_SKILLS_NUMBER = 11;
 	public const int MAXIMUM_TOTAL_SKILL = 200;
 	private const int SKILL_TO_COST_INCREASE = 50;
 	private const int MAXIMUM_IMPROVED_BY_LEVEL = 5;
@@ -28,7 +28,7 @@ public class Skills : MonoBehaviour, ITimerable
 		{ "Reserve 2",10 },
 		{ "Traveling",11 },
 		{ "Road traveling",12 },
-		{ "Scouting",13 },
+		{ "World exploring",13 },
 		{ "Reserve 3",14 },
 		{ "Production",15 },
 		{ "Production efficiency",16 },
@@ -63,7 +63,7 @@ public class Skills : MonoBehaviour, ITimerable
 		(WorldCharacter c) => 0,//"Reserve 2"=10,
 		(WorldCharacter c) => 10+3*c.EN + c.PE,//"Traveling"=11,
 		(WorldCharacter c) => 20+ 4*c.EN,//"Road traveling"=12,
-		(WorldCharacter c) => 10+ c.IN+c.EN,//"Scouting"=13,
+		(WorldCharacter c) => 10+ c.IN+c.EN,//"World exploring"=13,
 		(WorldCharacter c) => 0,//"Reserve 3"=14,
 		(WorldCharacter c) => 10+2*c.IN+c.EN,//"Production"=15,
 		(WorldCharacter c) => 0+2*(c.IN+c.EN),//"Production efficiency"=16,

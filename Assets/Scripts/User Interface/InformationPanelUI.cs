@@ -100,7 +100,7 @@ public class InformationPanelUI : MonoBehaviour
             _itemInfoText.text += Translate("Range: ") + weapon.Range + "\n";
         if (weapon.AmmoType!="")
         {
-            _itemInfoText.text += Translate("Ammo type: ") + weapon.AmmoType+ "\n";
+            _itemInfoText.text += Translate("Ammo type: ") + Translate(weapon.AmmoType)+ "\n";
             _itemInfoText.text += Translate("Ammo capacity: ") + weapon.AmmoMaxAmount + "\n";
             _itemInfoText.text += Translate("Ammo per shot: ") + weapon.AmmoPerShot+ "\n";
         }

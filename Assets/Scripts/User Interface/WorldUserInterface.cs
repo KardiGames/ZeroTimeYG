@@ -6,6 +6,8 @@ using System;
 
 public class WorldUserInterface : MonoBehaviour
 {
+    private const float BIG_MESSAGE_TIME = 8f;
+
     [SerializeField] private WorldCharacter _playerCharacter;
     [SerializeField] private CharacterCreator _characterCreator;
     [SerializeField] private GameObject _playerUIInventory;
@@ -32,18 +34,19 @@ public class WorldUserInterface : MonoBehaviour
         _playerUIInventory.SetActive(true);
         _playerUIInventory.GetComponent<InventoryUIContentFiller>().Inventory = _playerCharacter.Inventory;
     }
+
     public void ShowBigMessage(string message)
     {
         if (_bigMessage.gameObject.activeSelf)
         {
-            print("ERROR!!! Big message " + message + " was not shown");
+            GlobalUserInterface.Instance.ShowError("ERROR!!! Big message " + message + " was not shown");
             return;
         }
         _bigMessage.gameObject.SetActive(true);
         Color color = _bigMessage.color;
         color.a = 0f;
         _bigMessage.color = color;
-        _bigMessage.text = message;
+        _bigMessage.text = GlobalUserInterface.Instance.Localisation.Translate(message);
         StartCoroutine(ShowAndHide());
 
         IEnumerator ShowAndHide()
@@ -52,17 +55,17 @@ public class WorldUserInterface : MonoBehaviour
             float alpha = 0f;
             while (show && (alpha < 1f))
             {
-                alpha += 3 / 3 * Time.deltaTime;
+                alpha += 3 / BIG_MESSAGE_TIME * Time.deltaTime;
                 color.a = alpha;
                 _bigMessage.color = color;
                 yield return null;
             }
             show = false;
-            yield return new WaitForSeconds(3 / 3);
+            yield return new WaitForSeconds(BIG_MESSAGE_TIME / 3);
 
             while (!show && (alpha > 0))
             {
-                alpha -= 3 / 3 * Time.deltaTime;
+                alpha -= 3 / BIG_MESSAGE_TIME * Time.deltaTime;
                 color.a = alpha;
                 _bigMessage.color = color;
                 yield return null;
@@ -70,6 +73,7 @@ public class WorldUserInterface : MonoBehaviour
             _bigMessage.gameObject.SetActive(false);
         }
     }
+
     public void CreateNewCharacter()
     {
         _characterCreator.gameObject.SetActive(true);

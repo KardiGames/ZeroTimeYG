@@ -42,7 +42,7 @@ public class CharacterUI : MonoBehaviour
 		}
 
 		ShowNameLevelText();
-		_AP.text = Translate("AP") + _worldCharacter.AP;
+		RefreshAP();
 
 		ReloadAttributes();
 		
@@ -181,9 +181,14 @@ public class CharacterUI : MonoBehaviour
 	private void Refresh()
     {
 		ShowNameLevelText();
-		_AP.text = Translate("AP") + _worldCharacter.AP;
+		RefreshAP();
 		ReloadAttributes();
 		ReloadSkills();
+	}
+
+	private void RefreshAP ()
+    {
+		_AP.text = Translate("AP") + " " + _worldCharacter.AP+"/"+_worldCharacter.ActionPoints.MaxValue;
 	}
 
 	private string Translate(string text) => _localisation.Translate(text); 

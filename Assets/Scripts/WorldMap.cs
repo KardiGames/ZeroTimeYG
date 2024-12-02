@@ -83,7 +83,7 @@ public class WorldMap : MonoBehaviour
         _movePosition.x = x;
         _movePosition.y = y;
 
-        _movingPanel.Init(MoveCost(), true);
+        _movingPanel.Init(MoveCost(), IsAbleToMove());
 
         _movePosition.z = _player.transform.position.z;
         Vector3 panelPosition = Input.mousePosition;
@@ -110,6 +110,13 @@ public class WorldMap : MonoBehaviour
 
     public void Search()
     {
+        if (_searchPoints.Count > 0 && !_searchPoints[0].gameObject.activeInHierarchy)
+        {
+            foreach (SearchPoint point in _searchPoints)
+                point.gameObject.SetActive(true);
+            return;
+        }
+        
         SearchPoint searchPoint;
         if (!IsAbleToSearch(out searchPoint))
         {
@@ -123,18 +130,19 @@ public class WorldMap : MonoBehaviour
 
         if (!_player.ActionPoints.TrySpendAP(searchCost))
         {
-            GlobalUserInterface.Instance.ShowError("You haven't anough Action Points.");
+            GlobalUserInterface.Instance.ShowError("You haven't enough Action Points.");
             return;
         }
 
         if (searchPoint == null)
         {
             searchPoint = Instantiate(_searchPointPrefab, transform);
-            if (searchPoint != null)
+            searchPoint.Init(_player.transform.position.x, _player.transform.position.y, 1.0f, this, _player);
+			
+            if (searchPoint.Initiated)
                 _searchPoints.Add(searchPoint);
             else
-                throw new Exception("For some reashon search point wasn't instantiated");
-            searchPoint.Init(_player.transform.position.x, _player.transform.position.y, 1.0f, this);
+                throw new Exception("For some reason search point wasn't initiated");
         } else
         {
             searchPoint.Enlarge();
@@ -210,9 +218,12 @@ public class WorldMap : MonoBehaviour
 		MapJsonData mapJson = JsonUtility.FromJson<MapJsonData>(jsonString);
 		int i=0;
 		while (i< mapJson.searchPointsXYSize.Count) {
-			_searchPoints.Add(Instantiate(_searchPointPrefab, transform));
-			_searchPoints[_searchPoints.Count-1].Init(mapJson.searchPointsXYSize[i++], mapJson.searchPointsXYSize[i++], mapJson.searchPointsXYSize[i++], this);
-		}
+            SearchPoint point = Instantiate(_searchPointPrefab, transform);
+            point.Init(mapJson.searchPointsXYSize[i++], mapJson.searchPointsXYSize[i++], mapJson.searchPointsXYSize[i++], this, _player);
+            point.gameObject.SetActive(false);
+		    if (point.Initiated)
+                _searchPoints.Add(point);
+        }
 		i=0;
 		while (i<mapJson.foundPointsXY.Count)
 			_foundPoints.Add((mapJson.foundPointsXY[i++], mapJson.foundPointsXY[i++]));

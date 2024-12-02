@@ -12,22 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a5e3e88916291648a526efe6f7748e8, type: 3}
   m_Name: Save3
   m_EditorClassIdentifier: 
-  Save: '{"_globalMapBuildings":[{"X":0,"Y":0,"type":0,"Name":"Factory","jSonString":"{\"_name\":\"Factory\",\"x\":0,\"y\":0,\"storageJsonString\":\"{\\\"invNames\\\":[],\\\"invJsons\\\":[]}\",\"taskTimerJsonString\":\"{\\\"simultaneouslyTasks\\\":2,\\\"maximumTasks\\\":2,\\\"taskByTimerJsonList\\\":[]}\",\"factoryLinesNames\":[],\"factoryJsonLines\":[]}"},{"X":0,"Y":1,"type":1,"Name":"Junk
+  Save: ' {"_globalMapBuildings":[{"X":0,"Y":0,"type":0,"Name":"Factory","jSonString":"{\"_name\":\"Factory\",\"x\":0,\"y\":0,\"storageJsonString\":\"{\\\"invNames\\\":[],\\\"invJsons\\\":[]}\",\"taskTimerJsonString\":\"{\\\"simultaneouslyTasks\\\":2,\\\"maximumTasks\\\":2,\\\"taskByTimerJsonList\\\":[]}\",\"factoryLinesNames\":[],\"factoryJsonLines\":[]}"},{"X":0,"Y":1,"type":1,"Name":"Junk
     mine","jSonString":"{\"_saveSystem\":{\"instanceID\":26574},\"<X>k__BackingField\":0,\"<Y>k__BackingField\":1,\"_name\":\"Junk
-    mine\",\"_level\":1,\"_mineType\":\"Junk\"}"},{"X":1,"Y":2,"type":0,"Name":"Second
+    mine\",\"_level\":36,\"_mineType\":\"Junk\"}"},{"X":1,"Y":2,"type":0,"Name":"Second
     factory","jSonString":"{\"_name\":\"Second factory\",\"x\":1,\"y\":2,\"storageJsonString\":\"{\\\"invNames\\\":[],\\\"invJsons\\\":[]}\",\"taskTimerJsonString\":\"{\\\"simultaneouslyTasks\\\":1,\\\"maximumTasks\\\":2,\\\"taskByTimerJsonList\\\":[]}\",\"factoryLinesNames\":[],\"factoryJsonLines\":[]}"},{"X":2,"Y":-2,"type":1,"Name":"Poor
-    res mine","jSonString":"{\"_saveSystem\":{\"instanceID\":25246},\"<X>k__BackingField\":2,\"<Y>k__BackingField\":-2,\"_name\":\"Poor
-    res mine\",\"_level\":0,\"_mineType\":\"PoorRes\"}"},{"X":1,"Y":4,"type":1,"Name":"Simple
-    materials lab ruins","jSonString":"{\"_saveSystem\":{\"instanceID\":25246},\"<X>k__BackingField\":1,\"<Y>k__BackingField\":4,\"_name\":\"Simple
+    res mine","jSonString":"{\"_saveSystem\":{\"instanceID\":26574},\"<X>k__BackingField\":2,\"<Y>k__BackingField\":-2,\"_name\":\"Poor
+    res mine\",\"_level\":18,\"_mineType\":\"PoorRes\"}"},{"X":1,"Y":4,"type":1,"Name":"Simple
+    materials lab ruins","jSonString":"{\"_saveSystem\":{\"instanceID\":26574},\"<X>k__BackingField\":1,\"<Y>k__BackingField\":4,\"_name\":\"Simple
     materials lab ruins\",\"_level\":0,\"_mineType\":\"SimpleMaterials\"}"},{"X":-5,"Y":1,"type":1,"Name":"Human
-    weapon T1 lab ruins","jSonString":"{\"_saveSystem\":{\"instanceID\":25246},\"<X>k__BackingField\":-5,\"<Y>k__BackingField\":1,\"_name\":\"Human
-    weapon T1 lab ruins\",\"_level\":0,\"_mineType\":\"WeaponT1\"}"},{"X":0,"Y":-6,"type":1,"Name":"Poor
-    res mine #2","jSonString":"{\"_saveSystem\":{\"instanceID\":25246},\"<X>k__BackingField\":0,\"<Y>k__BackingField\":-6,\"_name\":\"Poor
+    weapon T1 lab ruins","jSonString":"{\"_saveSystem\":{\"instanceID\":26588},\"<X>k__BackingField\":-5,\"<Y>k__BackingField\":1,\"_name\":\"Human
+    weapon T1 lab ruins\",\"_level\":13,\"_mineType\":\"WeaponT1\"}"},{"X":0,"Y":-6,"type":1,"Name":"Poor
+    res mine #2","jSonString":"{\"_saveSystem\":{\"instanceID\":26574},\"<X>k__BackingField\":0,\"<Y>k__BackingField\":-6,\"_name\":\"Poor
     res mine #2\",\"_level\":0,\"_mineType\":\"PoorRes\"}"},{"X":6,"Y":4,"type":1,"Name":"Raw
     res mine","jSonString":"{\"_saveSystem\":{\"instanceID\":25246},\"<X>k__BackingField\":6,\"<Y>k__BackingField\":4,\"_name\":\"Raw
     res mine\",\"_level\":0,\"_mineType\":\"RawRes\"}"},{"X":-6,"Y":2,"type":1,"Name":"Simple
-    materials lab ruins #2","jSonString":"{\"_saveSystem\":{\"instanceID\":25246},\"<X>k__BackingField\":-6,\"<Y>k__BackingField\":2,\"_name\":\"Simple
-    materials lab ruins #2\",\"_level\":0,\"_mineType\":\"SimpleMaterials\"}"},{"X":4,"Y":-7,"type":1,"Name":"Armor
+    materials lab ruins #2","jSonString":"{\"_saveSystem\":{\"instanceID\":26574},\"<X>k__BackingField\":-6,\"<Y>k__BackingField\":2,\"_name\":\"Simple
+    materials lab ruins #2\",\"_level\":1,\"_mineType\":\"SimpleMaterials\"}"},{"X":4,"Y":-7,"type":1,"Name":"Armor
     T1 lab ruins","jSonString":"{\"_saveSystem\":{\"instanceID\":25246},\"<X>k__BackingField\":4,\"<Y>k__BackingField\":-7,\"_name\":\"Armor
     T1 lab ruins\",\"_level\":0,\"_mineType\":\"ArmorT1\"}"},{"X":9,"Y":0,"type":0,"Name":"Third
     factory","jSonString":"{\"_name\":\"Third factory\",\"x\":9,\"y\":0,\"storageJsonString\":\"{\\\"invNames\\\":[],\\\"invJsons\\\":[]}\",\"taskTimerJsonString\":\"{\\\"simultaneouslyTasks\\\":1,\\\"maximumTasks\\\":3,\\\"taskByTimerJsonList\\\":[]}\",\"factoryLinesNames\":[],\"factoryJsonLines\":[]}"},{"X":4,"Y":-9,"type":1,"Name":"Human
@@ -90,9 +90,14 @@ MonoBehaviour:
     mine #4\",\"_level\":0,\"_mineType\":\"Geck\"}"},{"X":29,"Y":14,"type":1,"Name":"G.E.C.K.
     mine #5","jSonString":"{\"_saveSystem\":{\"instanceID\":25246},\"<X>k__BackingField\":29,\"<Y>k__BackingField\":14,\"_name\":\"G.E.C.K.
     mine #5\",\"_level\":0,\"_mineType\":\"Geck\"}"}],"_playerJson":"{\"name\":\"Alex
-    Kardi\",\"x\":0.00009999999747378752,\"y\":1.000100016593933,\"level\":2,\"experience\":30,\"ST\":4,\"PE\":5,\"EN\":4,\"AG\":4,\"IN\":5,\"inventoryJsonString\":\"{\\\"invNames\\\":[\\\"Pistol
-    Blueprint\\\",\\\"Bullet\\\",\\\"Pistol\\\"],\\\"invJsons\\\":[\\\"{\\\\\\\"a\\\\\\\":4}\\\",\\\"{\\\\\\\"a\\\\\\\":100}\\\",\\\"{\\\\\\\"q\\\\\\\":3}\\\"]}\",\"equipmentJsonString\":\"{\\\"eqNames\\\":[\\\"Junk
-    Knife\\\",\\\"\\\",\\\"\\\"],\\\"eqJsons\\\":[\\\"{\\\\\\\"q\\\\\\\":3}\\\",\\\"\\\",\\\"\\\"]}\",\"skillsJsonString\":\"{\\\"unspent\\\":0,\\\"trained\\\":[2,1,0,6,0,0,7,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0],\\\"untrained\\\":[0,0,0,4,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]}\",\"taskTimerJsonString\":\"{\\\"simultaneouslyTasks\\\":1,\\\"maximumTasks\\\":3,\\\"taskByTimerJsonList\\\":[\\\"{\\\\\\\"TaskName\\\\\\\":\\\\\\\"Task
-    Default Name\\\\\\\",\\\\\\\"Description\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"TaskTag\\\\\\\":\\\\\\\"Rifles\\\\\\\",\\\\\\\"FinishTime\\\\\\\":\\\\\\\"01122024230441\\\\\\\",\\\\\\\"secondsToFinish\\\\\\\":-1.0}\\\",\\\"{\\\\\\\"TaskName\\\\\\\":\\\\\\\"Task
+    Kardi\",\"x\":2.0000998973846437,\"y\":-2.0000998973846437,\"level\":6,\"experience\":8,\"ST\":4,\"PE\":5,\"EN\":4,\"AG\":5,\"IN\":8,\"inventoryJsonString\":\"{\\\"invNames\\\":[\\\"Bullet\\\",\\\"Pistol\\\",\\\"Iron\\\",\\\"Oil\\\",\\\"Junk
+    Rifle\\\",\\\"Junk Knife\\\",\\\"Junk Shotgun\\\",\\\"Junk Sniper rifle\\\",\\\"Junk
+    Rifle\\\",\\\"Junk Pistol\\\",\\\"Junk Sniper rifle\\\",\\\"Powder Blueprint\\\",\\\"Bullet
+    Blueprint\\\",\\\"Sword Blueprint\\\",\\\"Knife Blueprint\\\",\\\"Junk Rifle\\\",\\\"Junk
+    Sword\\\",\\\"Organics\\\",\\\"Coal\\\"],\\\"invJsons\\\":[\\\"{\\\\\\\"a\\\\\\\":100}\\\",\\\"{\\\\\\\"q\\\\\\\":3}\\\",\\\"{\\\\\\\"a\\\\\\\":19}\\\",\\\"{\\\\\\\"a\\\\\\\":13}\\\",\\\"{\\\\\\\"q\\\\\\\":5}\\\",\\\"{\\\\\\\"q\\\\\\\":3}\\\",\\\"{\\\\\\\"q\\\\\\\":6}\\\",\\\"{\\\\\\\"q\\\\\\\":6}\\\",\\\"{\\\\\\\"q\\\\\\\":5}\\\",\\\"{\\\\\\\"q\\\\\\\":3}\\\",\\\"{\\\\\\\"q\\\\\\\":6}\\\",\\\"{\\\\\\\"a\\\\\\\":1}\\\",\\\"{\\\\\\\"a\\\\\\\":4}\\\",\\\"{\\\\\\\"a\\\\\\\":3}\\\",\\\"{\\\\\\\"a\\\\\\\":3}\\\",\\\"{\\\\\\\"q\\\\\\\":1}\\\",\\\"{\\\\\\\"q\\\\\\\":1}\\\",\\\"{\\\\\\\"a\\\\\\\":2}\\\",\\\"{\\\\\\\"a\\\\\\\":6}\\\"]}\",\"equipmentJsonString\":\"{\\\"eqNames\\\":[\\\"Junk
+    Rifle\\\",\\\"\\\",\\\"\\\"],\\\"eqJsons\\\":[\\\"{\\\\\\\"q\\\\\\\":1}\\\",\\\"\\\",\\\"\\\"]}\",\"skillsJsonString\":\"{\\\"unspent\\\":0,\\\"trained\\\":[3,10,4,20,0,0,22,2,0,0,0,0,0,3,0,0,0,0,0,0,0,0,8,4,5,0,0,0,0,0,0,0],\\\"untrained\\\":[0,4,4,4,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,4,2,0,0,0,0,0,0,0]}\",\"taskTimerJsonString\":\"{\\\"simultaneouslyTasks\\\":1,\\\"maximumTasks\\\":3,\\\"taskByTimerJsonList\\\":[\\\"{\\\\\\\"TaskName\\\\\\\":\\\\\\\"Task
+    Default Name\\\\\\\",\\\\\\\"Description\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"TaskTag\\\\\\\":\\\\\\\"Attentive
+    search\\\\\\\",\\\\\\\"FinishTime\\\\\\\":\\\\\\\"07122024215023\\\\\\\",\\\\\\\"secondsToFinish\\\\\\\":-1.0}\\\",\\\"{\\\\\\\"TaskName\\\\\\\":\\\\\\\"Task
     Default Name\\\\\\\",\\\\\\\"Description\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"TaskTag\\\\\\\":\\\\\\\"Weapon
-    damage\\\\\\\",\\\\\\\"FinishTime\\\\\\\":\\\\\\\"01010001000000\\\\\\\",\\\\\\\"secondsToFinish\\\\\\\":245.0}\\\"]}\",\"apJsonString\":\"{\\\"Points\\\":508,\\\"FinishTime\\\":\\\"01122024230500\\\",\\\"VipFinishTime\\\":\\\"\\\"}\"}","_mapJson":"{\"searchPointsXYSize\":[0.0,0.0,4.898979187011719],\"foundPointsXY\":[0,0,0,1,1,2]}"}'
+    damage\\\\\\\",\\\\\\\"FinishTime\\\\\\\":\\\\\\\"01010001000000\\\\\\\",\\\\\\\"secondsToFinish\\\\\\\":1269.0}\\\",\\\"{\\\\\\\"TaskName\\\\\\\":\\\\\\\"Task
+    Default Name\\\\\\\",\\\\\\\"Description\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"TaskTag\\\\\\\":\\\\\\\"Rifles\\\\\\\",\\\\\\\"FinishTime\\\\\\\":\\\\\\\"01010001000000\\\\\\\",\\\\\\\"secondsToFinish\\\\\\\":1058.0}\\\"]}\",\"apJsonString\":\"{\\\"Points\\\":31,\\\"FinishTime\\\":\\\"07122024215500\\\",\\\"VipFinishTime\\\":\\\"08122024232003\\\"}\"}","_mapJson":"{\"searchPointsXYSize\":[0.0,0.0,5.291502475738525,4.949847221374512,-0.12034863978624344,5.221493721008301,2.422247886657715,-3.6069202423095705,3.928358554840088,-1.0547688007354737,-4.023497581481934,4.58257532119751,-4.683042049407959,-1.723284363746643,5.0990190505981449,-3.8459999561309816,2.363055467605591,4.795831203460693,2.7320175170898439,4.183490753173828,4.898979187011719,-0.9079567193984985,4.968958854675293,5.4772257804870609,7.487434387207031,-4.984512805938721,4.657037734985352],\"foundPointsXY\":[0,0,0,1,1,2,2,-2,-5,1,1,4,-6,2,0,-6]}"}'

@@ -172,9 +172,15 @@ public class Equipment : MonoBehaviour
         {
             if (_equipment[i] is Weapon weapon)
             {
+                if (weapon.TwoHanded && i == 0)
+                    i++;
                 weapon.Quality -= pointsToBreak;
                 if (weapon.Quality<=0)
                 {
+                    if (weapon.TwoHanded)
+                    {
+                        _equipment[0] = null;
+                    }
                     haveSomethingBroken = true;
                     _equipment[i] = null;
                 }
@@ -213,6 +219,8 @@ public class Equipment : MonoBehaviour
 				continue;
 			itemToAdd.FromJson(jsonEquipment.eqJsons[i]);
             _equipment[i] = itemToAdd;
+            if (i==0 && itemToAdd is Weapon weapon && weapon.TwoHanded)
+                _equipment[++i] = itemToAdd;
         }
     }
 	
@@ -229,6 +237,12 @@ public class Equipment : MonoBehaviour
             {
                 jsonEquipment.eqNames.Add(_equipment[i].ItemName);
                 jsonEquipment.eqJsons.Add(_equipment[i].ToJson());
+                if (i == 0 && _equipment[i] is Weapon weapon && weapon.TwoHanded)
+                {
+                    jsonEquipment.eqNames.Add("");
+                    jsonEquipment.eqJsons.Add("");
+                    i++;
+                }
             }
         }
 		

@@ -5,10 +5,10 @@ using UnityEngine;
 public class Movie : MonoBehaviour
 {
     //Settings for the movie
-    private const float ACTION_TIME = 0.5f;
+    private const float ACTION_TIME = 1f;
     float spentActionTime = 0f;
 
-    //Loading prepetaions
+    //Loading preparations
     [SerializeField] private BattleManager _battleManager;
     [SerializeField] private GameObject bulletPrefab;
 

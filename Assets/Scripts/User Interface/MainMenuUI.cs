@@ -136,15 +136,15 @@ public class MainMenuUI : MonoBehaviour
 
     private void UpdateAP ()
     {
-        _playerAPText.text = _character.ActionPoints.Value+ " " + Translate("AP");
+        _playerAPText.text = _character.AP+ " " + Translate("AP");
     }
 
     private void OnEnable()
     {
-        _character.ActionPoints.OnAPValueChanged += UpdateAP;
-        _localisatiuon.OnLanguageChangedEvent += UpdateAP;
         if (_character.CharacterName != "")
             UpdateAP();
+        _character.ActionPoints.OnAPValueChanged += UpdateAP;
+        _localisatiuon.OnLanguageChangedEvent += UpdateAP;
     }
 
     private void OnDisable()

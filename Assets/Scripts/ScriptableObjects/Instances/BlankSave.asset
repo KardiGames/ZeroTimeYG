@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a5e3e88916291648a526efe6f7748e8, type: 3}
   m_Name: BlankSave
   m_EditorClassIdentifier: 
-  Save: '{"_globalMapBuildings":[{"X":0,"Y":0,"type":0,"Name":"Central factory","jSonString":"{\"_name\":\"Central factory\",\"x\":0,\"y\":0,\"storageJsonString\":\"{\\\"invNames\\\":[],\\\"invJsons\\\":[]}\",\"taskTimerJsonString\":\"{\\\"simultaneouslyTasks\\\":2,\\\"maximumTasks\\\":2,\\\"taskByTimerJsonList\\\":[]}\",\"factoryLinesNames\":[],\"factoryJsonLines\":[]}"},{"X":0,"Y":1,"type":1,"Name":"Junk
+  Save: '{"_globalMapBuildings":[ {"X":0,"Y":0,"type":0,"Name":"Central factory","jSonString":"{\"_name\":\"Central
+    factory\",\"x\":0,\"y\":0,\"storageJsonString\":\"{\\\"invNames\\\":[],\\\"invJsons\\\":[]}\",\"taskTimerJsonString\":\"{\\\"simultaneouslyTasks\\\":2,\\\"maximumTasks\\\":2,\\\"taskByTimerJsonList\\\":[]}\",\"factoryLinesNames\":[],\"factoryJsonLines\":[]}"},{"X":0,"Y":1,"type":1,"Name":"Junk
     mine","jSonString":"{\"_saveSystem\":{\"instanceID\":25246},\"<X>k__BackingField\":0,\"<Y>k__BackingField\":1,\"_name\":\"Junk
     mine\",\"_level\":0,\"_mineType\":\"Junk\"}"},{"X":1,"Y":2,"type":0,"Name":"Second
     factory","jSonString":"{\"_name\":\"Second factory\",\"x\":1,\"y\":2,\"storageJsonString\":\"{\\\"invNames\\\":[],\\\"invJsons\\\":[]}\",\"taskTimerJsonString\":\"{\\\"simultaneouslyTasks\\\":1,\\\"maximumTasks\\\":2,\\\"taskByTimerJsonList\\\":[]}\",\"factoryLinesNames\":[],\"factoryJsonLines\":[]}"},{"X":2,"Y":-2,"type":1,"Name":"Poor
