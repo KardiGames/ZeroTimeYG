@@ -15306,7 +15306,7 @@ MonoBehaviour:
   _battleUI: {fileID: 2118375719}
   _saveSystem: {fileID: 476735870}
   _errorText: {fileID: 398162690}
-  _bigMessage: {fileID: 0}
+  _blackMessage: {fileID: 0}
   _localisation: {fileID: 630941250}
 --- !u!114 &630941246
 MonoBehaviour:
@@ -31635,6 +31635,7 @@ GameObject:
   - component: {fileID: 1486608460}
   - component: {fileID: 1486608459}
   - component: {fileID: 1486608461}
+  - component: {fileID: 1486608462}
   m_Layer: 0
   m_Name: PlayerCharacter
   m_TagString: Untagged
@@ -31798,6 +31799,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerCharacter: {fileID: 1486608456}
+--- !u!114 &1486608462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1486608452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e895e529e2c0398469cd50d41fb1cfcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _player: {fileID: 0}
+  _globalUI: {fileID: 0}
+  _worldUI: {fileID: 0}
 --- !u!1 &1488705073
 GameObject:
   m_ObjectHideFlags: 0
@@ -44733,6 +44749,7 @@ GameObject:
   - component: {fileID: 2053013090}
   - component: {fileID: 2053013091}
   - component: {fileID: 2053013092}
+  - component: {fileID: 2053013093}
   m_Layer: 0
   m_Name: WorldMap
   m_TagString: Untagged
@@ -44826,6 +44843,7 @@ MonoBehaviour:
   _searchPointPrefab: {fileID: 8976624133055130988, guid: 9f4b7c6ac4bedeb4d94f9750672c99db, type: 3}
   _foundPointPrefab: {fileID: 6468304544706283717, guid: 16d73655fe7f96b49940bc5626b5aa44, type: 3}
   _player: {fileID: 1486608456}
+  _gameFinisher: {fileID: 2053013093}
 --- !u!61 &2053013092
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -44871,6 +44889,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 59.916573, y: 29.887218}
   m_EdgeRadius: 0
+--- !u!114 &2053013093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2053013088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e895e529e2c0398469cd50d41fb1cfcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _player: {fileID: 1486608456}
+  _globalUI: {fileID: 630941245}
+  _worldUI: {fileID: 529936202}
 --- !u!1 &2060934189
 GameObject:
   m_ObjectHideFlags: 0

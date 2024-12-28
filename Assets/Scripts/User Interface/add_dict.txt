@@ -1,45 +1,15 @@
 ﻿{
   "_phrases": [
     {
-      "_english": "HP",
-      "_russian": "ОЗ"
+      "_english": "You win the game!!!",
+      "_russian": "Игра пройдена!!!"
     },
-    {
-      "_english": "AC",
-      "_russian": "КБ"
-    },
-    {
-      "_english": "DR",
-      "_russian": "СУ"
-    },
-    {
-      "_english": "Miner",
-      "_russian": "Шахтер"
-    },
-    {
-      "_english": "Junk Sorter",
-      "_russian": "Сортировщик мусора"
-    },
-    {
-      "_english": "Plasma cutter",
-      "_russian": "Плазменный резак"
-    },
-    {
-      "_english": "Exit battle",
-      "_russian": "Покинуть бой"
-    },
-    {
-      "_english": "Exit costs ",
-      "_russian": "Выход требует "
-    },
-    {
-      "_english": " AP for you and takes one turn",
-      "_russian": " ОД и занимает один ход"
-    },
-    {
-      "_english": "You have not enough AP",
-      "_russian": "У тебя недостаточно ОД"
-    }
   ],
-  "_texts": []
+  "_texts": [
+    {
+      "_tag": "@WinGameMessage",
+      "_english": "",
+      "_russian": "Поздравляю с прохождением игры!\nВы доставили Градообразующий Экспериментальный Комплект Колонизации "
+    },
+  ]
 }

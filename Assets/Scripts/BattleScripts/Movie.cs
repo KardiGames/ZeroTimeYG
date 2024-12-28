@@ -53,8 +53,8 @@ public class Movie : MonoBehaviour
 
                 if (thisAction.subject.CharacterAnimator != null)
                 {
+                    TurnAnimatedObject(thisAction.subject, moveVector.x);
                     thisAction.subject.CharacterAnimator.SetBool("Run", true);
-                      TurnAnimatedObject(thisAction.subject, moveVector.x);
                 }
 
             }

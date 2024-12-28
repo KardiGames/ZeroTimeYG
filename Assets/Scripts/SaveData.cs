@@ -153,9 +153,14 @@ public class SaveData : MonoBehaviour
 	{
 		if (_saveObject==null)
 			return;
-        SaveJsonData jsonData = new SaveJsonData() { _globalMapBuildings = _globalMapBuildings, _playerJson= _playerJson, _mapJson= _mapJson};
+		_saveObject.Save = FormSaveText();
+	}
+	
+	private string FormSaveText () {
+	
+		SaveJsonData jsonData = new SaveJsonData() { _globalMapBuildings = _globalMapBuildings, _playerJson= _playerJson, _mapJson= _mapJson};
         print("Saved to Object " + (JsonUtility.ToJson(jsonData).Length / 1000) + "K");
-		_saveObject.Save = JsonUtility.ToJson(jsonData);
+		return JsonUtility.ToJson(jsonData);
 	}
 	
     [Serializable]

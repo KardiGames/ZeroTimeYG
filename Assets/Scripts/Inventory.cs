@@ -114,7 +114,6 @@ public class Inventory : MonoBehaviour
 			OnInventoryItemRemovedEvent?.Invoke(sender, items[i], items[i].Amount);
 			OnInventoryContentChanged?.Invoke();
 		}
-
 	}
 
 	public void ClearInventory(object sender) {
@@ -125,11 +124,12 @@ public class Inventory : MonoBehaviour
         OnInventoryContentChanged?.Invoke();
     } 
 	
-	public bool HasItem (string itemName, out Item item) {
+	public bool TryGetItem (string itemName, out Item item) {
 		item = GetItem(itemName);
 		return item != null;
 	}
 	public bool Contains(Item item) => inventoryItems.Contains(item);
+	public bool Contains(string itemName) => inventoryItems.Exists(item => item.ItemName == itemName);
 
 	public void FromJson(string jsonString)
 	{

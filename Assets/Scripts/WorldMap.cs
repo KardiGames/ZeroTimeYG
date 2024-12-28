@@ -16,14 +16,21 @@ public class WorldMap : MonoBehaviour
     [SerializeField] private SearchPoint _searchPointPrefab;
     [SerializeField] private ClickPointOnMap _foundPointPrefab;
     [SerializeField] private WorldCharacter _player;
-
+	[SerializeField] private GameFinisher _gameFinisher;
+	private Animator _playerAnimator;
+	
     private List<SearchPoint> _searchPoints = new();
     private List<(int x, int y)> _foundPoints = new();
     
     private Vector3 _movePosition;
     private bool _playerIsMoving=false;
 
-    public void Move()
+    private void Start () {
+		if (_playerAnimator==null)
+			_player.GetComponent<Animator>();
+	}
+	
+	public void Move()
     {
         Vector3 moveVector = Vector3.zero;
         int moveCost = MoveCost();
@@ -36,6 +43,11 @@ public class WorldMap : MonoBehaviour
                 return;
 
             _playerIsMoving = true;
+			
+			if (_playerAnimator!=null) {
+				TurnAnimatedObject(moveVector.x);
+				_playerAnimator.SetBool("Run", true);
+			}
             StartCoroutine(MoveEveryFrame());
         }
         else
@@ -50,8 +62,26 @@ public class WorldMap : MonoBehaviour
                 yield return null;
             }
             _player.transform.position = _movePosition;
+			_playerAnimator?.SetBool("Run", false);
+			TryFinishTheGame();
             _saveData.SaveCharacter();
             _playerIsMoving = false;
+        }
+		
+		void TurnAnimatedObject(float positiveToTheRight)
+        {
+            if (_playerAnimator == null) return;
+            if (positiveToTheRight > 0)
+            {
+                _playerAnimator.gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
+                _playerAnimator.SetBool("ToTheLeft", false);
+            }
+
+            else
+            {
+                _playerAnimator.gameObject.transform.rotation = Quaternion.Euler(0, 180, 0);
+                _playerAnimator.SetBool("ToTheLeft", true);
+            }
         }
     }
     private void OnMouseUp()
@@ -194,6 +224,13 @@ public class WorldMap : MonoBehaviour
         }
         return result;
     }
+	
+	private void TryFinishTheGame () {
+		if (_gameFinisher.IsFinished) 
+			return;
+		
+		_gameFinisher.TryFinish();
+	}
 
     public string ToJson()
     {
@@ -207,6 +244,7 @@ public class WorldMap : MonoBehaviour
 			mapJson.foundPointsXY.Add(_foundPoints[i].x);
 			mapJson.foundPointsXY.Add(_foundPoints[i].y);
 		}
+		mapJson.finisher=_gameFinisher.ToJson();
 		return JsonUtility.ToJson(mapJson);
     }
 	
@@ -229,6 +267,7 @@ public class WorldMap : MonoBehaviour
 			_foundPoints.Add((mapJson.foundPointsXY[i++], mapJson.foundPointsXY[i++]));
 		foreach ((int x, int y) point in _foundPoints)
 			PlaceFoundPointSignOnArea(point.x, point.y);
+		_gameFinisher.FromJson(mapJson.finisher); 
     }
 	
 	[Serializable]
@@ -236,5 +275,6 @@ public class WorldMap : MonoBehaviour
 	{
 		public List<float> searchPointsXYSize=new List<float>();
 		public List<int> foundPointsXY= new List <int>();
+		public string finisher;
 	}
 }

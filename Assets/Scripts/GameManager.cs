@@ -20,7 +20,8 @@ public class GameManager : MonoBehaviour
 		Item.LoadItems();
         _localisation.InitLanguage();
         Location.LoadBattleMap();
-        if (!_saveData.TryLoadFromObject())
+        
+		if (!_saveData.TryLoadFromObject())
         {
             _saveData.CreateNewSave();
             if (!_saveData.TryLoadFromObject())
@@ -30,6 +31,9 @@ public class GameManager : MonoBehaviour
             }
             _worldUI.CreateNewCharacter();
         }
+		
+		if (_player.Experience==0)
+			GlobalUserInterface.Instance.ShowBlackMessage("@Intro");
     }
 
     public void NesessaryAction () //Action for test button
@@ -40,7 +44,6 @@ public class GameManager : MonoBehaviour
             worldChar.GetComponent<Inventory>().TryToAdd(this, item.Clone());
         GlobalUserInterface.Instance.ShowError("Faild to start a battle.");
     }
-
 
     public void StartBattle(Mine mine)
     {
@@ -104,5 +107,4 @@ public class GameManager : MonoBehaviour
         _worldUI.OpenPlayerInventory();
         _worldUI.InformationPanelUI.ShowEndBattleInfo((int)killPoints, (int)mineLevel, (int)experience, (int)rewardPoints, dead);
     }
-
 }
