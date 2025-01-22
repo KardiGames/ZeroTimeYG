@@ -5,7 +5,7 @@ using UnityEngine;
 public class Movie : MonoBehaviour
 {
     //Settings for the movie
-    private const float ACTION_TIME = 1f;
+    private const float ACTION_TIME = 0.5f;
     float spentActionTime = 0f;
 
     //Loading preparations
