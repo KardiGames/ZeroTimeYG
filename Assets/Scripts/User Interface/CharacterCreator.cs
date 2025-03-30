@@ -9,6 +9,7 @@ public class CharacterCreator : MonoBehaviour
     [SerializeField] private WorldCharacter _playerCharacter;
     [SerializeField] private WorldMap _worldMap;
     [SerializeField] private CharacterUI _characterUI;
+    [SerializeField] private GlobalUserInterface _globalUI;
     [SerializeField] private GameObject _mainMenu;
     [SerializeField] private TMP_InputField _nameField;
     [SerializeField] private TextMeshProUGUI _errorText;
@@ -32,6 +33,7 @@ public class CharacterCreator : MonoBehaviour
         _closeCross.gameObject.SetActive(false);
         _mainMenu.SetActive(false);
         _nameField.text = nameList[Random.Range(0, nameList.Length)];
+        _globalUI.ShowBlackMessage("@Intro");
     }
 
     public void CreateCharacter()

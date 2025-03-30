@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a5e3e88916291648a526efe6f7748e8, type: 3}
   m_Name: BlankSave
   m_EditorClassIdentifier: 
-  Save: '{"_globalMapBuildings":[ {"X":0,"Y":0,"type":0,"Name":"Central factory","jSonString":"{\"_name\":\"Central
+  Save: '{"_globalMapBuildings":[{"X":0,"Y":0,"type":0,"Name":"Central factory","jSonString":"{\"_name\":\"Central
     factory\",\"x\":0,\"y\":0,\"storageJsonString\":\"{\\\"invNames\\\":[],\\\"invJsons\\\":[]}\",\"taskTimerJsonString\":\"{\\\"simultaneouslyTasks\\\":2,\\\"maximumTasks\\\":2,\\\"taskByTimerJsonList\\\":[]}\",\"factoryLinesNames\":[],\"factoryJsonLines\":[]}"},{"X":0,"Y":1,"type":1,"Name":"Junk
     mine","jSonString":"{\"_saveSystem\":{\"instanceID\":25246},\"<X>k__BackingField\":0,\"<Y>k__BackingField\":1,\"_name\":\"Junk
     mine\",\"_level\":0,\"_mineType\":\"Junk\"}"},{"X":1,"Y":2,"type":0,"Name":"Second
@@ -90,5 +90,5 @@ MonoBehaviour:
     mine #4","jSonString":"{\"_saveSystem\":{\"instanceID\":25246},\"<X>k__BackingField\":13,\"<Y>k__BackingField\":-29,\"_name\":\"G.E.C.K.
     mine #4\",\"_level\":0,\"_mineType\":\"Geck\"}"},{"X":29,"Y":14,"type":1,"Name":"G.E.C.K.
     mine #5","jSonString":"{\"_saveSystem\":{\"instanceID\":25246},\"<X>k__BackingField\":29,\"<Y>k__BackingField\":14,\"_name\":\"G.E.C.K.
-    mine #5\",\"_level\":0,\"_mineType\":\"Geck\"}"}],"_playerJson":"{\"name\":\"\",\"x\":0.0,\"y\":0.0,\"level\":0,\"experience\":0,\"ST\":1,\"PE\":1,\"EN\":1,\"AG\":1,\"IN\":1,\"inventoryJsonString\":\"{\\\"invNames\\\":[],\\\"invJsons\\\":[]}\",\"equipmentJsonString\":\"{\\\"eqNames\\\":[\\\"\\\",\\\"\\\",\\\"\\\"],\\\"eqJsons\\\":[\\\"\\\",\\\"\\\",\\\"\\\"]}\",\"skillsJsonString\":\"{\\\"trained\\\":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\\\"untrained\\\":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\\\"unspent\\\":0}\",\"taskTimerJsonString\":\"{\\\"simultaneouslyTasks\\\":1,\\\"maximumTasks\\\":3,\\\"taskByTimerJsonList\\\":[]}\",\"apJsonString\":\"{\\\"Points\\\":0,\\\"FinishTime\\\":\\\"01092024010000\\\"}\"}","_mapJson":"{\"searchPointsXYSize\":[],
+    mine #5\",\"_level\":0,\"_mineType\":\"Geck\"}"}],"_playerJson":"{\"name\":\"\",\"x\":0.0,\"y\":0.0,\"level\":0,\"experience\":0,\"ST\":1,\"PE\":1,\"EN\":1,\"AG\":1,\"IN\":1,\"inventoryJsonString\":\"{\\\"invNames\\\":[],\\\"invJsons\\\":[]}\",\"equipmentJsonString\":\"{\\\"eqNames\\\":[\\\"\\\",\\\"\\\",\\\"\\\"],\\\"eqJsons\\\":[\\\"\\\",\\\"\\\",\\\"\\\"]}\",\"skillsJsonString\":\"{\\\"trained\\\":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\\\"untrained\\\":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\\\"unspent\\\":0}\",\"taskTimerJsonString\":\"{\\\"simultaneouslyTasks\\\":1,\\\"maximumTasks\\\":3,\\\"taskByTimerJsonList\\\":[]}\",\"apJsonString\":\"{\\\"Points\\\":0,\\\"FinishTime\\\":\\\"01022025000001\\\",\\\"VipFinishTime\\\":\\\"01012025000001\\\"}\"}","_mapJson":"{\"searchPointsXYSize\":[],
     \"foundPointsXY\":[0,0]}"}'

@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class GameFinisher : MonoBehaviour
 {
-	private const string WIN_ITEM_NAME = "Game ending city key";
+	private const string WIN_ITEM_NAME = "Game Ending City Kit";
 	
 	[SerializeField] private WorldCharacter _player;
 	[SerializeField] private GlobalUserInterface _globalUI;
