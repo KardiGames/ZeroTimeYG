@@ -74,7 +74,7 @@ public class InventoryItemUI : MonoBehaviour
 
     private void StartProductionInFactory ()
     {
-        ActionPoints playerAP = InventoryUI.TargetInventory.gameObject.GetComponent<ActionPoints>();
+        ActionPoints playerAP = InventoryUI.TargetInventory.gameObject.GetComponent<ActionPoints>(); //TODO Ref Exception here on starting sword production
         Factory activeFactory = InventoryUI.Inventory.gameObject.GetComponent<Factory>();
 
         if (playerAP == null || activeFactory == null)
