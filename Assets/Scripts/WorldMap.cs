@@ -14,7 +14,7 @@ public class WorldMap : MonoBehaviour
     [SerializeField] private SaveData _saveData;
     [SerializeField] private MoveUI _movingPanel;
     [SerializeField] private SearchPoint _searchPointPrefab;
-    [SerializeField] private ClickPointOnMap _foundPointPrefab;
+    [SerializeField] private FoundPoint _foundPointPrefab;
     [SerializeField] private WorldCharacter _player;
 	[SerializeField] private GameFinisher _gameFinisher;
 	private Animator _playerAnimator;
@@ -203,7 +203,12 @@ public class WorldMap : MonoBehaviour
 
     private void PlaceFoundPointSignOnArea(int x, int y)
     {
-        Instantiate(_foundPointPrefab, new Vector3(x, y, _foundPointPrefab.transform.position.z+transform.position.z), _foundPointPrefab.transform.rotation, transform).Init(x, y, this); 
+        Instantiate(
+            _foundPointPrefab, 
+            new Vector3(x, y, _foundPointPrefab.transform.position.z+transform.position.z), 
+            _foundPointPrefab.transform.rotation, transform
+        )
+            .Init(x, y, this, _saveData.GetFirstBuildingName(x,y)); 
     }
     private bool IsAbleToSearch (out SearchPoint standingOnPoint)
     {
