@@ -1,6 +1,7 @@
 using UnityEngine;
+using TMPro;
 
-public class SearchPoint : MonoBehaviour
+public class FoundPoint : MonoBehaviour
 {
 	
     [SerializeField] ClickPointOnMap _clickPoint;
