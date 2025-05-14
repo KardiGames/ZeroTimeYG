@@ -59,11 +59,6 @@ public class ActionPoints : MonoBehaviour
 		return true;
 	}
 	
-/*	public void GetAP (int actionPoints) {
-		_ap+=actionPoints;
-		OnAPValueChanged?.Invoke();
-	}*/
-	
 	public void StartVip ()
     {
 		if (_vipFinishTime < DateTime.Now)
