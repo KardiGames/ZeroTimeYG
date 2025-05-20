@@ -56,6 +56,7 @@ public class SaveData : MonoBehaviour
 			.ToArray();
 	}
 
+
     public string GetFirstBuildingName (int x, int y) {
         WorldBuildingData foundBuilding = _globalMapBuildings.Find (
             building => building.X==x

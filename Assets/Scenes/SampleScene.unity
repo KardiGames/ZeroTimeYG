@@ -45816,7 +45816,7 @@ MonoBehaviour:
   _saveData: {fileID: 476735870}
   _movingPanel: {fileID: 1987202271}
   _searchPointPrefab: {fileID: 8976624133055130988, guid: 9f4b7c6ac4bedeb4d94f9750672c99db, type: 3}
-  _foundPointPrefab: {fileID: 6468304544706283717, guid: 16d73655fe7f96b49940bc5626b5aa44, type: 3}
+  _foundPointPrefab: {fileID: 8204576966026284340, guid: 16d73655fe7f96b49940bc5626b5aa44, type: 3}
   _player: {fileID: 1486608456}
   _gameFinisher: {fileID: 2053013093}
 --- !u!61 &2053013092
@@ -47765,7 +47765,7 @@ MonoBehaviour:
   _weaponInfoField: {fileID: 1780781563}
   _playerInfoField: {fileID: 700314350}
   _spendApInput: {fileID: 1533612403}
-  _gameManager: {fileID: 0}
+  _gameManager: {fileID: 476735868}
   _planningButtons:
   - {fileID: 1715042073}
   - {fileID: 177568990}
