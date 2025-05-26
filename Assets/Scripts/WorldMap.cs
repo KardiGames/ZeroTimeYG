@@ -17,7 +17,7 @@ public class WorldMap : MonoBehaviour
     [SerializeField] private FoundPoint _foundPointPrefab;
     [SerializeField] private WorldCharacter _player;
 	[SerializeField] private GameFinisher _gameFinisher;
-	private Animator _playerAnimator;
+    [SerializeField] private Animator _playerAnimator;
 	
     private List<SearchPoint> _searchPoints = new();
     private List<(int x, int y)> _foundPoints = new();
@@ -27,7 +27,7 @@ public class WorldMap : MonoBehaviour
 
     private void Start () {
 		if (_playerAnimator==null)
-			_player.GetComponent<Animator>();
+            _playerAnimator = _player.GetComponentInChildren<Animator>();
 	}
 	
 	public void Move()
@@ -43,11 +43,13 @@ public class WorldMap : MonoBehaviour
                 return;
 
             _playerIsMoving = true;
-			
-			if (_playerAnimator!=null) {
-				TurnAnimatedObject(moveVector.x);
-				_playerAnimator.SetBool("Run", true);
-			}
+
+            if (_playerAnimator != null)
+            {
+                TurnAnimatedObject(moveVector.x);
+                _playerAnimator.SetBool("Run", true);
+            }
+  
             StartCoroutine(MoveEveryFrame());
         }
         else
