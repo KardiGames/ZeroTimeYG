@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ClickPointOnMap : MonoBehaviour
 {
-    private float FLOAT_MISTAKE_CORRECTION = 0.0001f;
+    private const float FLOAT_MISTAKE_CORRECTION = 0.0001f;
     float _x;
     float _y;
     WorldMap _map;

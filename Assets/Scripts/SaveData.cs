@@ -55,6 +55,18 @@ public class SaveData : MonoBehaviour
 			.Select(building=>building.Name)
 			.ToArray();
 	}
+
+
+    public string GetFirstBuildingName (int x, int y) {
+        WorldBuildingData foundBuilding = _globalMapBuildings.Find (
+            building => building.X==x
+            && building.Y==y
+            );
+        if (foundBuilding==null)
+            return "";
+        else
+            return foundBuilding.Name;
+    }
 	
 	public string GetBuildingJsonString (int x, int y, string buildingName) {
 		foreach (var building in _globalMapBuildings)

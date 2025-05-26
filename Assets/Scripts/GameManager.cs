@@ -20,8 +20,11 @@ public class GameManager : MonoBehaviour
 		Item.LoadItems();
         _localisation.InitLanguage();
         Location.LoadBattleMap();
-        
-		if (!_saveData.TryLoadFromObject())
+    }
+
+    private void Start()
+    {
+        if (!_saveData.TryLoadFromObject())
         {
             _saveData.CreateNewSave();
             if (!_saveData.TryLoadFromObject())
@@ -31,18 +34,19 @@ public class GameManager : MonoBehaviour
             }
             _worldUI.CreateNewCharacter();
         }
-		
-		if (_player.Experience==0)
-			GlobalUserInterface.Instance.ShowBlackMessage("@Intro");
+
+        if (_player.Experience == 0)
+            GlobalUserInterface.Instance.ShowBlackMessage("@Intro");
     }
 
     public void NesessaryAction () //Action for test button
     {
         WorldCharacter worldChar = GameObject.Find("PlayerCharacter").GetComponent<WorldCharacter>();
         //worldChar.CollectExperience(worldChar.ExperienceToLevelUp/2+2);
-        foreach (var item in Item.AllItems)
+        Item item = Item.GetItem("Game Ending City Kit");
+        //foreach (var item in Item.AllItems)
             worldChar.GetComponent<Inventory>().TryToAdd(this, item.Clone());
-        GlobalUserInterface.Instance.ShowError("Faild to start a battle.");
+
     }
 
     public void StartBattle(Mine mine)

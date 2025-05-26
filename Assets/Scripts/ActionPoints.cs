@@ -59,11 +59,6 @@ public class ActionPoints : MonoBehaviour
 		return true;
 	}
 	
-/*	public void GetAP (int actionPoints) {
-		_ap+=actionPoints;
-		OnAPValueChanged?.Invoke();
-	}*/
-	
 	public void StartVip ()
     {
 		if (_vipFinishTime < DateTime.Now)
@@ -86,11 +81,10 @@ public class ActionPoints : MonoBehaviour
 		
 		_ap=jsonAP.Points;
 		_timeToAddAP=DateTime.ParseExact(jsonAP.FinishTime, "ddMMyyyyHHmmss", null);
-		if (jsonAP.VipFinishTime=="")
-			jsonAP.VipFinishTime="22112024143646";
+/*		if (jsonAP.VipFinishTime==null || jsonAP.VipFinishTime=="") //For fixing old saves
+			jsonAP.VipFinishTime="01012025000001";*/
 		_vipFinishTime=DateTime.ParseExact(jsonAP.VipFinishTime, "ddMMyyyyHHmmss", null);
 		print("TTA "+ _timeToAddAP+" VIP "+ _vipFinishTime);
-
 
 		OnAPValueChanged?.Invoke();
 	}

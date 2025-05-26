@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4313f566df01d05468b0b9d8624e8840, type: 3}
-  m_Name: EN
+  m_Name: MineHelp
   m_EditorClassIdentifier: 
   _name: Ruins
   _type: Combat location

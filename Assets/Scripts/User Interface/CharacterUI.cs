@@ -29,7 +29,7 @@ public class CharacterUI : MonoBehaviour
 	
     [SerializeField] private List<string> _skills = new ();
 	[SerializeField] private List<SkillUI> _skillUIPrefabPool;
-    private Dictionary<string, SkillUI> _skillsUI = new Dictionary<string, SkillUI>(); //TODO Delete SerField
+    private Dictionary<string, SkillUI> _skillsUI = new Dictionary<string, SkillUI>();
 	private List<SkillUI> _timers=new();
 
 	public InformationPanelUI InfoPanel => _infoPanel;
