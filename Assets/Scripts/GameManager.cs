@@ -67,6 +67,7 @@ public class GameManager : MonoBehaviour
         Camera.main.transform.position = new Vector3(0, 0, Camera.main.transform.position.z);
         _battleUI.gameObject.SetActive(true);
         _worldMap.gameObject.SetActive(false);
+        _player.gameObject.SetActive(false);
         _battleMap.SetActive(true);
         _battleManager.StartBattle(mine, _player);
     }
@@ -76,6 +77,7 @@ public class GameManager : MonoBehaviour
         _worldUI.gameObject.SetActive(true);
         _battleMap.SetActive(false);
         _worldMap.gameObject.SetActive(true);
+        _player.gameObject.SetActive(true);
         Camera.main.transform.parent = _player.transform;
         Camera.main.transform.localPosition = new Vector3(0, 0, Camera.main.transform.localPosition.z);
 
