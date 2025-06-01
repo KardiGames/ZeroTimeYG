@@ -2352,7 +2352,7 @@ GameObject:
   - component: {fileID: 84277845}
   - component: {fileID: 84277844}
   m_Layer: 5
-  m_Name: TargetInventory
+  m_Name: Target Inventory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8765,7 +8765,7 @@ GameObject:
   - component: {fileID: 361402520}
   - component: {fileID: 361402523}
   m_Layer: 5
-  m_Name: MainMenu
+  m_Name: Main Menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46995,7 +46995,7 @@ GameObject:
   - component: {fileID: 2083296925}
   - component: {fileID: 2083296928}
   m_Layer: 5
-  m_Name: UiInventory
+  m_Name: Player Inventory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

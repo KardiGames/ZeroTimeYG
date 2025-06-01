@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class InventoryItemUI : MonoBehaviour
 {
     public const float ITEM_SCALE_MULTIPLER = 1.1f;
-    
+
     [SerializeField] private TextMeshProUGUI itemName;
     [SerializeField] private Image _itemImage;
     [SerializeField] private Button transferAllButton;
@@ -28,24 +28,25 @@ public class InventoryItemUI : MonoBehaviour
             itemName.text += " x" + item.Amount;
 
         _itemImage.sprite = _item.Icon;
-        if (_item.Icon!=null)
+        if (_item.Icon != null)
             _itemImage.color = _item.IconColor;
 
         if (true) //TODO add here and below condition if we know where to transfer    
             transferAllButton.gameObject.SetActive(true);
 
-        if (true && item.Stackable && item.Amount>1)
+        if (true && item.Stackable && item.Amount > 1)
             transferPartButton.gameObject.SetActive(true);
 
         if ((item is Weapon || item is Armor) && inventoryUI.Inventory.gameObject.name == "PlayerCharacter")
         {
             thirdButton.gameObject.SetActive(true);
-            thirdButton.GetComponentInChildren<TextMeshProUGUI>().text = GlobalUserInterface.Instance.Localisation.Translate("Equip");  
+            thirdButton.GetComponentInChildren<TextMeshProUGUI>().text = GlobalUserInterface.Instance.Localisation.Translate("Equip");
             if (inventoryUI.Inventory.gameObject.GetComponent<Equipment>().IsAbleToEquip(item, false))
                 thirdButton.onClick.AddListener(Equip);
             else
                 thirdButton.interactable = false;
-        } else if (item is Blueprint && inventoryUI.Inventory.gameObject.name == "Factory")
+        }
+        else if (item is Blueprint && inventoryUI.Inventory.gameObject.name == "Factory")
         {
             thirdButton.gameObject.SetActive(true);
             thirdButton.GetComponentInChildren<TextMeshProUGUI>().text = GlobalUserInterface.Instance.Localisation.Translate("Produce");
@@ -53,7 +54,7 @@ public class InventoryItemUI : MonoBehaviour
         }
     }
 
-    public void TransferAll ()
+    public void TransferAll()
     {
         if (InventoryUI == null || InventoryUI.Inventory == null || InventoryUI.TargetInventory == null)
             return;
@@ -72,7 +73,7 @@ public class InventoryItemUI : MonoBehaviour
 
     public void ShowItemInfo() => InventoryUI.ShowItemInfo(_item);
 
-    private void StartProductionInFactory ()
+    private void StartProductionInFactory()
     {
         ActionPoints playerAP = InventoryUI.TargetInventory.gameObject.GetComponent<ActionPoints>(); //TODO Ref Exception here on starting sword production
         Factory activeFactory = InventoryUI.Inventory.gameObject.GetComponent<Factory>();

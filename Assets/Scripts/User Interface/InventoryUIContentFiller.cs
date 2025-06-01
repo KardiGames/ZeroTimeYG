@@ -35,7 +35,6 @@ public class InventoryUIContentFiller : MonoBehaviour
                 Clear();
                 Fill();
             }
-            
         }
     }
     public Inventory TargetInventory { get => targetInventoryUI.Inventory; }
@@ -64,7 +63,8 @@ public class InventoryUIContentFiller : MonoBehaviour
 
     private void OnDisable()
     {
-        Inventory = null;
+        if (gameObject.name == "Target Inventory")
+            Inventory = null;
         if (_thisInventoryButton != null)
             _thisInventoryButton.interactable = true;
     }
@@ -105,8 +105,7 @@ public class InventoryUIContentFiller : MonoBehaviour
         if (inventory != null ) 
             Fill(inventory.GetAllItems());
     }
-
-    
+        
     public void Fill (IEnumerable<Item> list)
     {
         if (_contentTransform == null)
