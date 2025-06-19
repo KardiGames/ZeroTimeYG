@@ -65,7 +65,8 @@ public class InventoryUIContentFiller : MonoBehaviour
 
     private void OnDisable()
     {
-        Inventory = null;
+        if (gameObject.name == "Target Inventory")
+            Inventory = null;
         if (_thisInventoryButton != null)
             _thisInventoryButton.interactable = true;
         RefreshTargetInventoryUI();
