@@ -35,8 +35,6 @@ public class Factory : MonoBehaviour, ITimerable, IWorldBuilding
 
     public void AddFactoryLine(Blueprint blueprint, bool startProductionImmediately = false)
     {
-        //TODO check IsAnoughSkill
-		
 		if (!_storage.Contains(blueprint) || !blueprint.IsAnoughResourses(_storage))
 			return;
 
@@ -50,9 +48,9 @@ public class Factory : MonoBehaviour, ITimerable, IWorldBuilding
 			SpendResources(blueprint);
 			_factoryLines.Add(productionTask, blueprint.ItemToCreate.Clone());
 			_storage.Remove(this, blueprint);
-			Destroy(blueprint);
 		} else
         {
+			GlobalUserInterface.Instance.ShowError(GlobalUserInterface.Instance.Localisation.Translate("Error #") + "2");
 			print("Error. Factory line is not created");
         }
 		

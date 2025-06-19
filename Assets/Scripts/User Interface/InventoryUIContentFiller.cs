@@ -35,6 +35,7 @@ public class InventoryUIContentFiller : MonoBehaviour
                 Clear();
                 Fill();
             }
+            
         }
     }
     public Inventory TargetInventory { get => targetInventoryUI.Inventory; }
@@ -59,14 +60,15 @@ public class InventoryUIContentFiller : MonoBehaviour
     {
         if (_thisInventoryButton != null)
             _thisInventoryButton.interactable = false;
+        RefreshTargetInventoryUI();
     }
 
     private void OnDisable()
     {
-        if (gameObject.name == "Target Inventory")
-            Inventory = null;
+        Inventory = null;
         if (_thisInventoryButton != null)
             _thisInventoryButton.interactable = true;
+        RefreshTargetInventoryUI();
     }
 
     private void SubscribeAndRefresh()
@@ -105,7 +107,8 @@ public class InventoryUIContentFiller : MonoBehaviour
         if (inventory != null ) 
             Fill(inventory.GetAllItems());
     }
-        
+
+    
     public void Fill (IEnumerable<Item> list)
     {
         if (_contentTransform == null)
@@ -143,5 +146,12 @@ public class InventoryUIContentFiller : MonoBehaviour
             _itemInfoPanel.ShowBlueprintInfo(blueprint, inventory);
         else
             _itemInfoPanel.ShowItemInfo(item);
+    }
+
+    private void RefreshTargetInventoryUI () {
+        if (targetInventoryUI!=null && targetInventoryUI.gameObject.activeInHierarchy){
+            targetInventoryUI.Clear();
+            targetInventoryUI.Fill();
+        }
     }
 }
