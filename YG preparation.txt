@@ -20,3 +20,23 @@ unityInstance.SetFullscreen(1);
 2.4 В соответствующих строках вместо 960pxх600px
     	canvas.style.width = "100%";
         canvas.style.height = "100%";
+
+3. SDK
+3.1 В head
+<!-- Yandex Games SDK -->
+<script src="/sdk.js"></script>
+
+3.2 Инициализация в класса YaGames
+<script>
+YaGames
+    .init()
+    .then(ysdk => {
+        console.log('Yandex SDK initialized');
+        window.ysdk = ysdk;
+    });
+</script>
+
+4. Реализация функций взаимодействия с JavaScript. Создать папку Plugins и положить туда файл .jslib
+
+4.1 Необходимое для авторизации тут:
+https://yandexgames-unity.notion.site/a90117ab63e246908695728c55baaf3d
