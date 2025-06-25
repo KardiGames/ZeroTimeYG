@@ -27,6 +27,7 @@
             .then(ysdk => {
                 console.log('Yandex SDK initialized');
                 window.ysdk = ysdk;
+                auth();
             });
 
             var player;
@@ -39,21 +40,24 @@
               });
             }
 
-            initPlayer().then(_player => {
-              if (_player.isAuthorized() === false) {
-            // Игрок не авторизован.
-                ysdk.auth.openAuthDialog().then(() => {
+            function auth() {
+
+              initPlayer().then(_player => {
+                if (_player.isAuthorized() === false) {
+                // Игрок не авторизован.
+                  ysdk.auth.openAuthDialog().then(() => {
                     // Игрок успешно авторизован.
-                  initPlayer().catch(err => {
+                    initPlayer().catch(err => {
                         // Ошибка при инициализации объекта Player.
-                  });
-                }).catch(() => {
+                    });
+                  }).catch(() => {
                     // Игрок не авторизован.
-                });
-              }
-            }).catch(err => {
-        // Ошибка при инициализации объекта Player.
-            });
+                  });
+                }
+              }).catch(err => {
+              // Ошибка при инициализации объекта Player.
+              });
+            }
     </script>
     <script>
 
@@ -132,12 +136,15 @@
 
       loadingBar.style.display = "block";
 
+      var myGameInstance = null;
+
       var script = document.createElement("script");
       script.src = loaderUrl;
       script.onload = () => {
         createUnityInstance(canvas, config, (progress) => {
           progressBarFull.style.width = 100 * progress + "%";
               }).then((unityInstance) => {
+                myGameInstance=unityInstance;
                 loadingBar.style.display = "none";
               }).catch((message) => {
                 alert(message);

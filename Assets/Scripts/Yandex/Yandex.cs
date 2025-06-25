@@ -13,16 +13,19 @@ public class Yandex : MonoBehaviour
     [DllImport("__Internal")]
     private static extern void Hello();
 
+    [DllImport("__Internal")]
+    private static extern void RequestPlayerData();
+
     [SerializeField] TextMeshProUGUI _nameText;
     [SerializeField] RawImage _photo;
 
     public void HelloButton()
     {
-        Hello();
+        RequestPlayerData();
     }
 
-    private void SetName(string name) { _nameText.text = name; }
-    private void SetPhoto(string url)
+    public void SetName(string name) { _nameText.text = name; }
+    public void SetPhoto(string url)
     {
         StartCoroutine(DownloadImage(url));
     }
