@@ -24,8 +24,20 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        if (!_saveData.TryLoadFromObject())
-        {
+#if UNITY_WEBGL
+        print ("START started in Unity");
+#endif
+
+#if UNITY_EDITOR
+       if (!_saveData.TryLoadFromObject())
+#endif
+            CreateNewSave();
+        if (_player.Experience == 0)
+            GlobalUserInterface.Instance.ShowBlackMessage("@Intro");
+    }
+
+
+    private void CreateNewSave() {
             _saveData.CreateNewSave();
             if (!_saveData.TryLoadFromObject())
             {
@@ -33,10 +45,6 @@ public class GameManager : MonoBehaviour
                 return;
             }
             _worldUI.CreateNewCharacter();
-        }
-
-        if (_player.Experience == 0)
-            GlobalUserInterface.Instance.ShowBlackMessage("@Intro");
     }
 
     public void NesessaryAction () //Action for test button

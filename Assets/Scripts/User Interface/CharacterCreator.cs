@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -23,6 +24,8 @@ public class CharacterCreator : MonoBehaviour
         "Logan", "Brick", "Rocco", "Toni", "Jeremy", "Wylde", "Quinton", "Parker", "Brass", 
         "Karlo", "Anthony", "Tyler" };
 
+    [DllImport("__Internal")]
+    private static extern void RequestPlayerName();
 
     private void OnEnable()
     {
@@ -33,6 +36,7 @@ public class CharacterCreator : MonoBehaviour
         _closeCross.gameObject.SetActive(false);
         _mainMenu.SetActive(false);
         _nameField.text = nameList[Random.Range(0, nameList.Length)];
+        RequestPlayerName();
         _globalUI.ShowBlackMessage("@Intro");
     }
 
@@ -41,7 +45,7 @@ public class CharacterCreator : MonoBehaviour
         if (_nameField.text=="")
         {
             _errorText.gameObject.SetActive(true);
-            _errorText.text = "ERROR! You must enter you name!";
+            _errorText.text = _globalUI.Localisation.Translate("ERROR! You must enter you name!");
             return;
         }
 

@@ -35,7 +35,7 @@
             function initPlayer() {
               return ysdk.getPlayer().then(_player => {
                 player = _player;
-
+                console.log('Player defined');
                 return player;
               });
             }
@@ -48,14 +48,20 @@
                   ysdk.auth.openAuthDialog().then(() => {
                     // Игрок успешно авторизован.
                     initPlayer().catch(err => {
-                        // Ошибка при инициализации объекта Player.
+                    // Ошибка при инициализации объекта Player.
+                    console.log('CATCH - не удалось повторно сделать initPlayer после окна авторизации');
                     });
-                  }).catch(() => {
-                    // Игрок не авторизован.
+                  }
+                  ).catch(() => {
+                    console.log('CATCH - не авторизован');
                   });
+                } else {
+                  console.log ('ELSE - уже ауторизован!!!');
                 }
+
               }).catch(err => {
-              // Ошибка при инициализации объекта Player.
+                // Ошибка при инициализации объекта Player.
+                console.log('CATCH - не удалось зацепить Player чтобы с проверить авторизацию');
               });
             }
     </script>
@@ -141,10 +147,12 @@
       var script = document.createElement("script");
       script.src = loaderUrl;
       script.onload = () => {
+        console.log('Starting creating Instance');
         createUnityInstance(canvas, config, (progress) => {
           progressBarFull.style.width = 100 * progress + "%";
               }).then((unityInstance) => {
                 myGameInstance=unityInstance;
+                console.log ("Instance created and set");
                 loadingBar.style.display = "none";
               }).catch((message) => {
                 alert(message);

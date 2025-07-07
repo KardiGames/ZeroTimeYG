@@ -8,11 +8,6 @@ using UnityEngine.UI;
 
 public class Yandex : MonoBehaviour
 {
-
-
-    [DllImport("__Internal")]
-    private static extern void Hello();
-
     [DllImport("__Internal")]
     private static extern void RequestPlayerData();
 
@@ -24,7 +19,8 @@ public class Yandex : MonoBehaviour
         RequestPlayerData();
     }
 
-    public void SetName(string name) { _nameText.text = name; }
+    public void SetSkillinfoName(string name) { if (name != "") _nameText.text = name; }
+    
     public void SetPhoto(string url)
     {
         StartCoroutine(DownloadImage(url));
