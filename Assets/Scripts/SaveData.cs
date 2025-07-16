@@ -60,7 +60,7 @@ public class SaveData : MonoBehaviour
     internal void CreateNewSave()
     {
         if (_saveObject!=null && _saveObject.Save!="")
-            print ("Exists currant save!! But new one will be created anyway");
+            print ("Exists currant save object!! But new one will be created anyway");
 
         _saveObject = Instantiate(_blankSaveObject);
     }

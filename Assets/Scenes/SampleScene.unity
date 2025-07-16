@@ -7609,13 +7609,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 067db18402bde0144b4cc10091ae12b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _globalMapBuildings: []
   _playerJson: 
   _mapJson: 
+  _yandexSDKConnector: {fileID: 1554634167}
   _saveObject: {fileID: 11400000, guid: 2f2730646a0cb774e98d7bbdef1fbb06, type: 2}
   _blankSaveObject: {fileID: 11400000, guid: 3f5f529906534414b8598159f028a1ca, type: 2}
-  _playerCharacter: {fileID: 1486608456}
   _map: {fileID: 2053013091}
+  _globalMapBuildings: []
+  _playerCharacter: {fileID: 1486608456}
 --- !u!114 &476735871
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10470,7 +10471,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -32, y: 40.00006}
+  m_AnchoredPosition: {x: -32, y: 40}
   m_SizeDelta: {x: 46.4621, y: 46.462}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &625135901
@@ -16003,37 +16004,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1047800469}
   m_CullTransparentMesh: 1
---- !u!1 &1054705958
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1054705959}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1054705959
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1054705958}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 572.3416, y: 426.63324, z: -3.479195}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1055208519
 GameObject:
   m_ObjectHideFlags: 0
@@ -24004,8 +23974,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d9d773dc01182341a7bfabd92d90d92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _nameText: {fileID: 567210805}
-  _photo: {fileID: 515885712}
+  _nameInput: {fileID: 567210805}
+  _gameManager: {fileID: 476735868}
 --- !u!4 &1554634168
 Transform:
   m_ObjectHideFlags: 0
@@ -33155,7 +33125,7 @@ MonoBehaviour:
   _characterUI: {fileID: 2137705335}
   _globalUI: {fileID: 630941245}
   _mainMenu: {fileID: 361402519}
-  _nameField: {fileID: 565064879}
+  _nameInput: {fileID: 0}
   _errorText: {fileID: 1237423398}
   _setNameButton: {fileID: 1971013118}
   _closeCross: {fileID: 1488705075}
@@ -33344,4 +33314,3 @@ SceneRoots:
   - {fileID: 1651241621}
   - {fileID: 630941249}
   - {fileID: 1554634168}
-  - {fileID: 1054705959}

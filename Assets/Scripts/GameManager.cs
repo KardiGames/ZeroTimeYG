@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
 
     private void CreateNewSave() {
             _saveData.CreateNewSave();
-            if (!_saveData.TryLoadFromObject())
+            if (!_saveData.TryLoad())
             {
                 print("ERROR!!! Save wasn't loaded or correctly created ( You can't play :( ");
                 return;

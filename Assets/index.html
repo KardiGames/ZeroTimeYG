@@ -83,7 +83,7 @@
             player.getData().then(jsonString => {
               const saveObject = JSON.stringify(jsonString);                     
               myGameInstance.SendMessage('YandexGameObject', 'LoadGame', saveObject);
-              myGameInstance.SendMessage('YandexGameObject', 'SetNewCharacterName', player.GetName());
+              myGameInstance.SendMessage('YandexGameObject', 'SetNewCharacterName', player.getName());
             });
           }
         }

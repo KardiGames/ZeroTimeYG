@@ -32,6 +32,12 @@ public class Yandex : MonoBehaviour
         Offline=true;
     }
 
+    public void SetNewJsonData(string jsonData)
+    {
+        if (SaveJsonData == "")
+            SaveJsonData = jsonData;            
+    }
+
     public bool HaveSaveSlot ()
     {
         return true;
@@ -44,7 +50,7 @@ public class Yandex : MonoBehaviour
 
         //TODO add here check for size
         //TOD0 add here counter check fo 5Minutes limit 
-
+        SaveJsonData = saveJson;
         SaveExtern(saveJson);
     }
     
