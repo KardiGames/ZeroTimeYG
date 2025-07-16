@@ -22,15 +22,16 @@ public class GameManager : MonoBehaviour
         Location.LoadBattleMap();
     }
 
-    private void Start()
-    {
-#if UNITY_WEBGL
-        print ("START started in Unity");
+#if UNITY_EDITOR
+    private void Start() {
+        print ("START started by UNITY_EDITOR");
+        StartGame();
+    }
 #endif
 
-#if UNITY_EDITOR
-       if (!_saveData.TryLoadFromObject())
-#endif
+    public void StartGame()
+    {
+       if (!_saveData.TryLoad())
             CreateNewSave();
         if (_player.Experience == 0)
             GlobalUserInterface.Instance.ShowBlackMessage("@Intro");

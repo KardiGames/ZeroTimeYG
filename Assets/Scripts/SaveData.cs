@@ -7,14 +7,45 @@ using UnityEngine;
 
 public class SaveData : MonoBehaviour
 {
-    [SerializeField] private List<WorldBuildingData> _globalMapBuildings=new(); //TODO check if need to make it SerField
     [SerializeField] private string _playerJson;
     [SerializeField] private string _mapJson;
+    [SerializeField] private Yandex _yandexSDKConnector;
  	[SerializeField] private SaveScrObj _saveObject;
  	[SerializeField] private SaveScrObj _blankSaveObject;
-    [SerializeField] private WorldCharacter _playerCharacter;
     [SerializeField] private WorldMap _map;
+    [SerializeField] private List<WorldBuildingData> _globalMapBuildings=new(); //TODO check if need to make it SerField
+    [SerializeField] private WorldCharacter _playerCharacter;
+
     private string _filePath = "savefile.txt";
+    private bool isBuildingOpen = false;
+
+    public bool TryLoad () {
+    #if UNITY_EDITOR
+        return TryLoadFromObject();
+    #endif
+        if (_yandexSDKConnector.Offline) 
+            return false;
+        if (_yandexSDKConnector.SaveJsonData=="")
+            return false;
+        try {
+        JsonUtility.FromJsonOverwrite(_yandexSDKConnector.SaveJsonData, this);
+        }
+        catch {return false;}
+        
+        if (_playerJson=="" || _mapJson=="" || _globalMapBuildings.Count == 0)
+            return false;
+        LoadCharacter();
+        LoadMap();
+        return true;
+    }
+
+    public void Save () {
+    #if UNITY_EDITOR
+        SaveToObject();
+        return;
+    #endif
+        _yandexSDKConnector.Save(FormSaveText());
+    }
 
     public IEnumerable<(int, int)> AreasWithBuildings()
     {
@@ -73,6 +104,7 @@ public class SaveData : MonoBehaviour
 			if (building.X==x && building.Y==y && building.Name==buildingName)
             {
                 SaveCharacter();
+                isBuildingOpen=true;
 				return building.jSonString;
             }
 		return "";
@@ -96,13 +128,15 @@ public class SaveData : MonoBehaviour
         savableData.Name = building.Name;
         savableData.type = BuildingTypeByObject(building);
         savableData.jSonString = building.ToJson();
+        isBuildingOpen = false;
         SaveCharacter();
     }
 
     public void SaveCharacter ()
     {
         _playerJson = _playerCharacter.ToJson();
-        SaveToObject(); //TODO this is temporal autosave
+        if (!isBuildingOpen)
+            Save();
     }
     public void LoadCharacter()
     {
@@ -167,11 +201,13 @@ public class SaveData : MonoBehaviour
 			return;
 		_saveObject.Save = FormSaveText();
 	}
+
+
 	
 	private string FormSaveText () {
 	
 		SaveJsonData jsonData = new SaveJsonData() { _globalMapBuildings = _globalMapBuildings, _playerJson= _playerJson, _mapJson= _mapJson};
-        print("Saved to Object " + (JsonUtility.ToJson(jsonData).Length / 1000) + "K");
+        print("Saved " + (JsonUtility.ToJson(jsonData).Length / 1000) + "K");
 		return JsonUtility.ToJson(jsonData);
 	}
 	

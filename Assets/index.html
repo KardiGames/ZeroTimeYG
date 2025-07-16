@@ -30,40 +30,69 @@
                 auth();
             });
 
-            var player;
+        var player;
+        var authCompleted = false;
+        var offlineMode = false;
 
-            function initPlayer() {
-              return ysdk.getPlayer().then(_player => {
-                player = _player;
-                console.log('Player defined');
-                return player;
-              });
-            }
+        function initPlayer() {
+          return ysdk.getPlayer().then(_player => {
+            player = _player;
+            console.log('Player defined');
+            return player;
+          });
+        }
 
-            function auth() {
+        function auth() {
 
-              initPlayer().then(_player => {
-                if (_player.isAuthorized() === false) {
-                // Игрок не авторизован.
-                  ysdk.auth.openAuthDialog().then(() => {
-                    // Игрок успешно авторизован.
-                    initPlayer().catch(err => {
-                    // Ошибка при инициализации объекта Player.
-                    console.log('CATCH - не удалось повторно сделать initPlayer после окна авторизации');
-                    });
-                  }
-                  ).catch(() => {
-                    console.log('CATCH - не авторизован');
-                  });
-                } else {
-                  console.log ('ELSE - уже ауторизован!!!');
-                }
-
-              }).catch(err => {
+          initPlayer().then(_player => {
+            if (_player.isAuthorized() === false) {
+            // Игрок не авторизован.
+              ysdk.auth.openAuthDialog().then(() => {
+                // Игрок успешно авторизован.
+                initPlayer().then(() => {
+                authCompleted = true;
+                tryStartGame();
+                }).catch(err => {
                 // Ошибка при инициализации объекта Player.
-                console.log('CATCH - не удалось зацепить Player чтобы с проверить авторизацию');
+                console.log('CATCH - не удалось повторно сделать initPlayer после окна авторизации');
+                startGameOffline();
+                });
+              }
+              ).catch(() => {
+                console.log('CATCH - не авторизован. Произошло непонятное. Игра не запускаетсяю.');
               });
+            } else {
+              authCompleted = true;
+              console.log ('ELSE - уже ауторизован!!!');
+              tryStartGame();
             }
+          }).catch(err => {
+            // Ошибка при инициализации объекта Player.
+            console.log('CATCH - не удалось зацепить Player чтобы с проверить авторизацию');
+            startGameOffline();
+          });
+        }
+
+        function tryStartGame () {
+          if (myGameInstance == null || authCompleted == false)
+            return;
+          
+          if (offlineMode===true) {
+            myGameInstance.SendMessage('YandexGameObject', 'StartGameOffline');
+          } else {
+            player.getData().then(jsonString => {
+              const saveObject = JSON.stringify(jsonString);                     
+              myGameInstance.SendMessage('YandexGameObject', 'LoadGame', saveObject);
+              myGameInstance.SendMessage('YandexGameObject', 'SetNewCharacterName', player.GetName());
+            });
+          }
+        }
+
+        function startGameOffline () {
+          offlineMode=true;
+          authCompleted=true;
+          tryStartGame();
+        } 
     </script>
     <script>
 
