@@ -135,7 +135,7 @@
         codeUrl: buildUrl + "/Build.wasm.unityweb",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "Kardi Games",
-        productName: "After Time Invasion",
+        productName: "After Invasion",
         productVersion: "0.9b",
         showBanner: unityShowBanner,
       };
@@ -183,6 +183,7 @@
                 myGameInstance=unityInstance;
                 console.log ("Instance created and set");
                 loadingBar.style.display = "none";
+                tryStartGame();
               }).catch((message) => {
                 alert(message);
               });

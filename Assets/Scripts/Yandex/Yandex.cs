@@ -22,14 +22,16 @@ public class Yandex : MonoBehaviour
     }
 
     public void LoadGame (string saveJsonData) {
-        //TODO add here check for string
         Offline=false;
         SaveJsonData=saveJsonData;
+        print ("UNITY does LoadGame");
         _gameManager.StartGame();
     }
 
     public void StartGameOffline () {
+        print ("UNITY does StartGameOffline");
         Offline=true;
+        _gameManager.StartGame();
     }
 
     public void SetNewJsonData(string jsonData)

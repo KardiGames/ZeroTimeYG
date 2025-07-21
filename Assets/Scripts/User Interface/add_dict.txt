@@ -3,6 +3,10 @@
     {
       "_english": "ERROR! You must enter you name!",
       "_russian": "Ошибка! Необходимо ввести имя!"
+    },
+    {
+      "_english": "Saving error! The data is corrupted. Restart the game to avoid data loss.",
+      "_russian": "Ошибка сохранения! Данные повреждены. Во избежания потери данных перезапустите игру."
     }
   ]
 }

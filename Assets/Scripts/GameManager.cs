@@ -31,14 +31,8 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
-       if (!_saveData.TryLoad())
-            CreateNewSave();
-        if (_player.Experience == 0)
-            GlobalUserInterface.Instance.ShowBlackMessage("@Intro");
-    }
+        if (!_saveData.TryLoad()) {
 
-
-    private void CreateNewSave() {
             _saveData.CreateNewSave();
             if (!_saveData.TryLoad())
             {
@@ -46,7 +40,15 @@ public class GameManager : MonoBehaviour
                 return;
             }
             _worldUI.CreateNewCharacter();
+        } else
+            print ("UNITY has loaded game by 1 time");
+
+        _worldUI.HideLoadingScreen();
+        if (_player.Experience == 0)
+            GlobalUserInterface.Instance.ShowBlackMessage("@Intro");
     }
+
+
 
     public void NesessaryAction () //Action for test button
     {

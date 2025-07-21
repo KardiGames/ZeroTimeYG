@@ -23,9 +23,7 @@ public class SaveData : MonoBehaviour
     #if UNITY_EDITOR
         return TryLoadFromObject();
     #endif
-        if (_yandexSDKConnector.Offline) 
-            return false;
-        if (_yandexSDKConnector.SaveJsonData=="")
+        if (_yandexSDKConnector.SaveJsonData=="") 
             return false;
         try {
         JsonUtility.FromJsonOverwrite(_yandexSDKConnector.SaveJsonData, this);
@@ -40,6 +38,11 @@ public class SaveData : MonoBehaviour
     }
 
     public void Save () {
+        if (_globalMapBuildings.Count==0 || _mapJson=="" || _playerJson == "") {
+            GlobalUserInterface.Instance.ShowError ("Saving error! The data is corrupted. Restart the game to avoid data loss.");
+            return;
+        }
+
     #if UNITY_EDITOR
         SaveToObject();
         return;
@@ -59,10 +62,9 @@ public class SaveData : MonoBehaviour
 
     internal void CreateNewSave()
     {
-        if (_saveObject!=null && _saveObject.Save!="")
-            print ("Exists currant save object!! But new one will be created anyway");
-
         _saveObject = Instantiate(_blankSaveObject);
+        print ("UNITY has created new save");
+        _yandexSDKConnector.SetNewJsonData(_saveObject.Save);
     }
 
     public string[] TypesOfBuildingsOnArea (int x, int y)
