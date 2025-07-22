@@ -1,18 +1,4 @@
-unauth
-Instance created and set
-31The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. <URL>
-e24fc549-04c1-449d-bce4-8275b1630671:10 Error! Transfer part button was not initializated
+unauth:
 
-index.html?draft=true&lang=ru&sdk=%2Fsdk%2F_%2Fv2.3d532c261bccf6952dd9.js:40 Player defined
-index.html?draft=true&lang=ru&sdk=%2Fsdk%2F_%2Fv2.3d532c261bccf6952dd9.js:62 CATCH - не авторизован. Произошло непонятное. Игра не запускаетсяю.
 
 Auth:
-Instance created and set
-62The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. <URL>
-d7ec1c6c-f378-4324-a014-d1d7f9dd1fca:10 UNITY does LoadGame
-
-d7ec1c6c-f378-4324-a014-d1d7f9dd1fca:10 UNITY has created new save
-
-d7ec1c6c-f378-4324-a014-d1d7f9dd1fca:10 ERROR!!! Save wasn't loaded or correctly created ( You can't play :( 
-
-d7ec1c6c-f378-4324-a014-d1d7f9dd1fca:10 Error! Transfer part button was not initializated

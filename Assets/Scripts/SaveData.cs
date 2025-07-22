@@ -28,10 +28,19 @@ public class SaveData : MonoBehaviour
         try {
         JsonUtility.FromJsonOverwrite(_yandexSDKConnector.SaveJsonData, this);
         }
-        catch {return false;}
+        catch {
+            print ("UNITY deserialization error. SaveJsonData:\n"+_yandexSDKConnector.SaveJsonData);
+            return false;
+        }
         
         if (_playerJson=="" || _mapJson=="" || _globalMapBuildings.Count == 0)
+        {
+            print("UNITY error after deserialization. SaveJsonData:\n_playerJson: " + _playerJson
+                + "\n_mapJson: "+ _mapJson
+                + "\n_globalMapBuildings.Count: "+ _globalMapBuildings.Count
+                + (_globalMapBuildings.Count>0 ? "\n_globalMapBuildings[0]" + _globalMapBuildings[0] : ""));
             return false;
+        }
         LoadCharacter();
         LoadMap();
         return true;

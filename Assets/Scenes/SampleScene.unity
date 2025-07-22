@@ -22530,7 +22530,6 @@ GameObject:
   - component: {fileID: 1457165197}
   - component: {fileID: 1457165200}
   - component: {fileID: 1457165199}
-  - component: {fileID: 1457165198}
   m_Layer: 5
   m_Name: Loading screen
   m_TagString: Untagged
@@ -22558,20 +22557,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1457165198
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1457165196}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2c1c49d4c5c44a4b89ac4d7c1cc918a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _errorText: {fileID: 1264075610}
-  _amountInput: {fileID: 0}
 --- !u!114 &1457165199
 MonoBehaviour:
   m_ObjectHideFlags: 0
