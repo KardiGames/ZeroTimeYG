@@ -73,7 +73,7 @@ public class SaveData : MonoBehaviour
     {
         _saveObject = Instantiate(_blankSaveObject);
         print ("UNITY has created new save");
-        _yandexSDKConnector.SetNewJsonData(_saveObject.Save);
+        _yandexSDKConnector.SetNewSaveJson(_saveObject);
     }
 
     public string[] TypesOfBuildingsOnArea (int x, int y)

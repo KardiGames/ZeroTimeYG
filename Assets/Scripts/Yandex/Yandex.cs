@@ -1,6 +1,7 @@
 using System.Runtime.InteropServices;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Yandex : MonoBehaviour
 {
@@ -10,8 +11,8 @@ public class Yandex : MonoBehaviour
     [DllImport("__Internal")]
     private static extern void SaveExtern(string jsonSave);
 
-    [SerializeField] TextMeshProUGUI  _nameInput;
     [SerializeField] GameManager _gameManager;
+    [SerializeField] TextMeshProUGUI _nameInput;
 
     public bool SaveCompleted {get; private set;} = true;
     public bool Offline {get; private set;} = true;
@@ -22,6 +23,8 @@ public class Yandex : MonoBehaviour
     }
 
     public void LoadGame (string saveJsonData) {
+        if (SaveJsonData != "")
+            return;
         Offline=false;
         SaveJsonData=saveJsonData;
         print ("UNITY does LoadGame");
@@ -34,10 +37,9 @@ public class Yandex : MonoBehaviour
         _gameManager.StartGame();
     }
 
-    public void SetNewJsonData(string jsonData)
+    public void SetNewSaveJson(SaveScrObj newSaveJson)
     {
-        if (SaveJsonData == "")
-            SaveJsonData = jsonData;            
+        SaveJsonData = newSaveJson.Save;
     }
 
     public bool HaveSaveSlot ()
