@@ -22,4 +22,8 @@ mergeInto(LibraryManager.library, {
       });
   },
 
+  UnityReady: function() {
+      console.log('UNITY calls UnityReady on Start');
+  },
+
 });

@@ -84,10 +84,12 @@
             return;
           
           if (offlineMode===true) {
+            console.log('Trying call StartGameOffline');
             myGameInstance.SendMessage('YandexGameObject', 'StartGameOffline');
           } else {
             player.getData().then(jsonString => {
-              const saveObject = JSON.stringify(jsonString);                     
+              const saveObject = JSON.stringify(jsonString);
+              console.log('Trying call LoadGame');                     
               myGameInstance.SendMessage('YandexGameObject', 'LoadGame', saveObject);
               myGameInstance.SendMessage('YandexGameObject', 'SetNewCharacterName', player.getName());
             });

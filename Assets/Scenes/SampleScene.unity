@@ -33354,7 +33354,7 @@ MonoBehaviour:
   _characterUI: {fileID: 2137705335}
   _globalUI: {fileID: 630941245}
   _mainMenu: {fileID: 361402519}
-  _nameInput: {fileID: 0}
+  _nameInput: {fileID: 565064879}
   _errorText: {fileID: 1237423398}
   _setNameButton: {fileID: 1971013118}
   _closeCross: {fileID: 1488705075}

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Yandex : MonoBehaviour
 {
     [DllImport("__Internal")]
-    private static extern void RequestPlayerData();
+    private static extern void UnityReady();
 
     [DllImport("__Internal")]
     private static extern void SaveExtern(string jsonSave);
@@ -16,7 +16,7 @@ public class Yandex : MonoBehaviour
 
     public bool SaveCompleted {get; private set;} = true;
     public bool Offline {get; private set;} = true;
-    public string SaveJsonData {get; private set;}
+    public string SaveJsonData { get; private set; } = "";
 
     public void SetNewCharacterName (string playerName) {
         _nameInput.text = name;
@@ -24,7 +24,11 @@ public class Yandex : MonoBehaviour
 
     public void LoadGame (string saveJsonData) {
         if (SaveJsonData != "")
+        {
+            print("UNITY doesn't LoadGame.");
+            print(SaveJsonData);
             return;
+        }
         Offline=false;
         SaveJsonData=saveJsonData;
         print ("UNITY does LoadGame");
@@ -57,12 +61,6 @@ public class Yandex : MonoBehaviour
         SaveJsonData = saveJson;
         SaveExtern(saveJson);
     }
-    
-    public void HelloButton()
-    {
-        RequestPlayerData();
-    }
 
     public void SetSkillinfoName(string name) { if (name != "") _nameInput.text = name; }
-
 }
