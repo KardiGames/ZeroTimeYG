@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
             print ("UNITY has loaded game by 1 time");
 
         _worldUI.HideLoadingScreen();
-        if (_player.Experience == 0)
+        if (_player.Level == 0 && _player.Experience == 0)
             GlobalUserInterface.Instance.ShowBlackMessage("@Intro");
     }
 
