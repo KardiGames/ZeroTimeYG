@@ -46,7 +46,7 @@ public class SaveData : MonoBehaviour
         return true;
     }
 
-    public void Save () {
+    public void Save (bool force=false) {
         if (_globalMapBuildings.Count==0 || _mapJson=="" || _playerJson == "") {
             GlobalUserInterface.Instance.ShowError ("Saving error! The data is corrupted. Restart the game to avoid data loss.");
             return;
@@ -56,7 +56,7 @@ public class SaveData : MonoBehaviour
         SaveToObject();
         return;
     #endif
-        _yandexSDKConnector.Save(FormSaveText());
+        _yandexSDKConnector.Save(FormSaveText(), force);
     }
 
     public IEnumerable<(int, int)> AreasWithBuildings()
@@ -141,6 +141,7 @@ public class SaveData : MonoBehaviour
         savableData.jSonString = building.ToJson();
         isBuildingOpen = false;
         SaveCharacter();
+        Save(true);
     }
 
     public void SaveCharacter ()

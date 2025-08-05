@@ -59,7 +59,8 @@ public class Yandex : MonoBehaviour
         //TODO add here check for size
         //TOD0 add here counter check fo 5Minutes limit 
         SaveJsonData = saveJson;
-        SaveExtern(saveJson);
+        if (force || HaveSaveSlot())
+            SaveExtern(saveJson);
     }
 
     public void SetSkillinfoName(string name) { if (name != "") _nameInput.text = name; }

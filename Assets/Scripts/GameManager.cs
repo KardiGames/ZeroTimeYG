@@ -73,6 +73,7 @@ public class GameManager : MonoBehaviour
             return;
         }
 
+        _saveData.SaveCharacter();
         _worldUI.gameObject.SetActive(false);
         Camera.main.transform.parent = null;
         Camera.main.transform.position = new Vector3(0, 0, Camera.main.transform.position.z);
