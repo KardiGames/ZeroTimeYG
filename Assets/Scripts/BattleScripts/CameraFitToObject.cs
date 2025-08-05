@@ -10,6 +10,8 @@ public class CameraFitToObject : MonoBehaviour
     private Bounds _bounds;
     private float _objectWidth;
     private float _objectHeight;
+    private int _screenWidth;
+    private int _screenHeight;
 
 
     private void Start()
@@ -24,10 +26,27 @@ public class CameraFitToObject : MonoBehaviour
         _objectHeight = _bounds.size.y;
     }
 
+
+
+    private void OnEnable()
+    {
+        print("Camera fitting Enabled");
+    }
+
+    private void OnDisable ()
+    {
+        print("Camera fitting Disabled");
+    }
     private void Update()
     {
+        if (Screen.width == _screenWidth && Screen.height == _screenHeight)
+            return;
+
+        _screenHeight= Screen.height;
+        _screenWidth= Screen.width;
+
         // Учитываем соотношение сторон экрана
-        float screenRatio = (float)Screen.width / Screen.height;
+        float screenRatio = (float)_screenWidth / _screenHeight;
         float targetRatio = _objectWidth / _objectHeight;
 
         // Выбираем, какой размер (по ширине или высоте) использовать для камеры
@@ -41,13 +60,5 @@ public class CameraFitToObject : MonoBehaviour
             // Ориентируемся по ширине с учётом соотношения сторон
             _camera.orthographicSize = ((_objectWidth / screenRatio) / 2f) + _padding;
         }
-
-        // Центрируем камеру на объекте
-        /*
-        transform.position = new Vector3(
-            _bounds.center.x,
-            _bounds.center.y,
-            transform.position.z
-        );*/
     }
 }
