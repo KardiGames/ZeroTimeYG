@@ -5,6 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Weapon", menuName = "Items/Weapon")]
 public class Weapon : Item
 {
+    public const float DAMAGE_SKILL_BOOST_DIVIDER = 2f;
+
     [SerializeField] protected bool _rangedAttack = true;
     [SerializeField] private bool _twoHanded = false;
     [SerializeField] protected int damageRandomMultipler = 1; //3 for 3d6

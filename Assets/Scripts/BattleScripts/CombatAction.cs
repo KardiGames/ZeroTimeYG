@@ -179,6 +179,7 @@ public class CombatAction
             if (target == null)
             {
                 //Find target from coordinates place[] and set a CombatCharacter or Object as target
+                return;
             }
                
             if (range < Location.Distance(subject.pos, target.pos))
@@ -198,6 +199,10 @@ public class CombatAction
                 if (Random.Range(0, 100) < hitChanse)
                 {
                     int damage = GetWeaponDamage (usedWeapon);
+                    if (subject is CombatCharacter player && player.AI == "" 
+                        && damage < (usedWeapon.MaximalDamage/Weapon.DAMAGE_SKILL_BOOST_DIVIDER))
+                        player.BoostSkill("Weapon damage");
+
                     damage = usedWeapon.ApplyDamageModifiers(damage, subject);
 
                     damage = damage - target.DamageResistance;
@@ -253,19 +258,12 @@ public class CombatAction
         {
             int summ = 0;
             (int multipler, int dice, int addition) damageTuple = weapon.DamageTuple;
-            int counterOf1 = 0;
             for (int i = 0; i < damageTuple.multipler; i++)
             {
                 int diceRoll = Random.Range(1, (damageTuple.dice + 1));
                 summ += diceRoll;
-                if (diceRoll == 1)
-                    counterOf1++;
             }
             summ += damageTuple.addition;
-
-            if ((counterOf1 >= (damageTuple.multipler / 2)) && subject is CombatCharacter player && player.AI == "")
-                player.BoostSkill("Weapon damage");
-
             return summ;
         }
     }
