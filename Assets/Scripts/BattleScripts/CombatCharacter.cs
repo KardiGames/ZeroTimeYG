@@ -78,7 +78,7 @@ public class CombatCharacter : CombatUnit
 
     public void CreateClickZones()
     {
-        KeyCode[] keyCodes = { KeyCode.W, KeyCode.F, KeyCode.D, KeyCode.S, KeyCode.A, KeyCode.Q };
+        KeyCode[] keyCodes = { KeyCode.E, KeyCode.F, KeyCode.D, KeyCode.S, KeyCode.A, KeyCode.W };
         
         //Create correct x+y corrections arrays
         int[] xCorrArray = new int[yCorrArray.Length];
