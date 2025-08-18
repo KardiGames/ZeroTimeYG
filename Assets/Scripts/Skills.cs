@@ -4,17 +4,20 @@ using UnityEngine;
 
 public class Skills : MonoBehaviour, ITimerable
 {
-	public const int WORKING_SKILLS_NUMBER = 11;
 	public const int MAXIMUM_TOTAL_SKILL = 200;
 	private const int SKILL_TO_COST_INCREASE = 50;
 	private const int MAXIMUM_IMPROVED_BY_LEVEL = 5;
 	private const float TIME_TO_TRAIN_MULTIPLER = 4.3817804600413289076557582624064f;
 
+	private static List<string> _implementedSkills = new List<string>()
+	{
+        "Unarmed", "Melee", "Pistols", "Rifles", "Heavy", "Weapon damage", "Beam damage", "Attentive search", "Dangerous mining", "Familiar paths", "World exploring"
+    };
 
 	[SerializeField] private WorldCharacter _playerCharacter;
 	[SerializeField] private TaskTimer _skillsTimer;
 
-	private static Dictionary<string, int> _skillNumbers = new Dictionary<string, int>() {
+	private static Dictionary<string, int> _skillNumbers = new Dictionary<string, int>() {	
 		{ "Unarmed",0 },
 		{ "Melee",1 },
 		{ "Pistols",2 },
@@ -84,13 +87,16 @@ public class Skills : MonoBehaviour, ITimerable
 		(WorldCharacter c) => 0,//"Reserve 6"=31
 	};
 
+	public static List<string> InmplementedSkills =>
+		new List<string>(_implementedSkills);
+
 	[SerializeField] private List<int> _trained;
 	[SerializeField] private List<int> _untrained;
 	private int _unspentPoints;
 
 	public TaskTimer TaskTimer => _skillsTimer;
 	public int UnspentPoints => _unspentPoints;
-	private int SkillPointEachLevel => WORKING_SKILLS_NUMBER+_playerCharacter.IN+_playerCharacter.Level;
+	private int SkillPointEachLevel => _implementedSkills.Count+_playerCharacter.IN+_playerCharacter.Level;
 
 	public float GetSkillMultipler(string skillName)
     {

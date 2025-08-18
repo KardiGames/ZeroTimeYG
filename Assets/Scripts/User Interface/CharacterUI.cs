@@ -28,6 +28,7 @@ public class CharacterUI : MonoBehaviour
 	[SerializeField] private TextMeshProUGUI _unspentSkillPoints;
 	
     [SerializeField] private List<string> _skills = new ();
+	//TODO change _skills to appropriate list of Skills class
 	[SerializeField] private List<SkillUI> _skillUIPrefabPool;
     private Dictionary<string, SkillUI> _skillsUI = new Dictionary<string, SkillUI>();
 	private List<SkillUI> _timers=new();
