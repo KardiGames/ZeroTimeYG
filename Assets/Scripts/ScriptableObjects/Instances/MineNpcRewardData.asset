@@ -92,7 +92,7 @@ MonoBehaviour:
     rewardItem: {fileID: 11400000, guid: 2100196e1bd4a1d40b8aa995d5b9a82f, type: 2}
     rewardCost: 10
   - minMineLevel: 50
-    rewardItem: {fileID: 11400000, guid: c108ac5eaecd67e48855468a6109ca7b, type: 2}
+    rewardItem: {fileID: 11400000, guid: d404acd4a66a58447b3bf283eb883c53, type: 2}
     rewardCost: 10
   _rawResReward:
   - minMineLevel: 0

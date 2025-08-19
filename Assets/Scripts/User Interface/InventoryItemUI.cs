@@ -86,9 +86,9 @@ public class InventoryItemUI : MonoBehaviour
             return;
         }
 
-        if (!(_item as Blueprint).IsAnoughResourses(InventoryUI.Inventory))
+        if (!(_item as Blueprint).IsEnoughResourses(InventoryUI.Inventory))
         {
-            GlobalUserInterface.Instance.ShowError("You have not anough resources to start production.");
+            GlobalUserInterface.Instance.ShowError("You have not enough resources to start production.");
             return;
         }
 

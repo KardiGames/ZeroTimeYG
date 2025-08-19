@@ -21,7 +21,7 @@ public class Blueprint : Item
 
 
 
-    public bool IsAnoughResourses (Inventory factoryStorage) {
+    public bool IsEnoughResourses (Inventory factoryStorage) {
 		if (_listOfResourses.Count != _amountOfResourses.Count)
 			return false;
 		
