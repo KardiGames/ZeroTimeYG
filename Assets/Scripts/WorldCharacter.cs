@@ -7,6 +7,8 @@ public class WorldCharacter : MonoBehaviour
     public const int MAX_ATTRIBUTE_VALUE=10;
 	private const int LEVEL_UP_EXPERIENCE_MULTIPLER=15;
 	private const int START_ATTRIBUTE_POINTS=20;
+
+	public event Action OnLeveUp;
 		
 	[SerializeField] private Equipment _equipment;
     [SerializeField] private Inventory _inventory;
@@ -100,6 +102,7 @@ public class WorldCharacter : MonoBehaviour
 		
 		Experience-=ExperienceToLevelUp;
 		Level++;
+		OnLeveUp?.Invoke();
 		_skills.LevelUp();
 	}
 	

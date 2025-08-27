@@ -26,4 +26,7 @@ mergeInto(LibraryManager.library, {
       console.log('UNITY calls UnityReady on Start');
   },
 
+  SetScore: function(score){
+      ysdk.leaderboards.setScore('Progress', score);
+  },
 });

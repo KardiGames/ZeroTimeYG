@@ -14,9 +14,6 @@ public class Skills : MonoBehaviour, ITimerable
         "Unarmed", "Melee", "Pistols", "Rifles", "Heavy", "Weapon damage", "Beam damage", "Attentive search", "Dangerous mining", "Familiar paths", "World exploring"
     };
 
-	[SerializeField] private WorldCharacter _playerCharacter;
-	[SerializeField] private TaskTimer _skillsTimer;
-
 	private static Dictionary<string, int> _skillNumbers = new Dictionary<string, int>() {	
 		{ "Unarmed",0 },
 		{ "Melee",1 },
@@ -89,6 +86,11 @@ public class Skills : MonoBehaviour, ITimerable
 
 	public static List<string> InmplementedSkills =>
 		new List<string>(_implementedSkills);
+
+	public event Action OnSkillTrained;
+	[SerializeField] private WorldCharacter _playerCharacter;
+	[SerializeField] private TaskTimer _skillsTimer;
+
 
 	[SerializeField] private List<int> _trained;
 	[SerializeField] private List<int> _untrained;
@@ -202,6 +204,7 @@ public class Skills : MonoBehaviour, ITimerable
         {
 			_untrained[skillNumber]--;
 			_trained[skillNumber]++;
+			OnSkillTrained?.Invoke();
         }
 	}
 	
