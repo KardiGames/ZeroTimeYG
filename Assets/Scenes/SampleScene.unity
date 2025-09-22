@@ -24245,7 +24245,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32e364cfaf736604a9d27ba0ce89309c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _player: {fileID: 0}
+  _player: {fileID: 1486608456}
+  _gameFinisher: {fileID: 2053013093}
+  _yandexSDKconnector: {fileID: 1554634167}
 --- !u!1 &1558260376
 GameObject:
   m_ObjectHideFlags: 0
