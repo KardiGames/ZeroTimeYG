@@ -24217,6 +24217,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameManager: {fileID: 476735868}
+  _localisation: {fileID: 630941250}
   _nameInput: {fileID: 567210805}
 --- !u!4 &1554634168
 Transform:
