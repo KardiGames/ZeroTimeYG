@@ -18,6 +18,7 @@ public class Yandex : MonoBehaviour
     private static extern void SaveExtern(string jsonSave);
 
     [SerializeField] private GameManager _gameManager;
+    [SerializeField] private Localisation _localisation;
     [SerializeField] private TextMeshProUGUI _nameInput;
     private List<int> _spentSlots = new List<int>();
 
@@ -85,6 +86,15 @@ public class Yandex : MonoBehaviour
     }
 
     public void SetSkillinfoName(string name) { if (name != "") _nameInput.text = name; }
+     
+    public void SetLanguage (string lang)
+    {
+        if (lang == "ru")
+            _localisation.CurrentLanguage = "ru_ru";
+        else
+            _localisation.CurrentLanguage = "en_en";
+            
+    }
 
     private void OnEnable()
     {

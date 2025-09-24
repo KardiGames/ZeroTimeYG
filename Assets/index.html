@@ -83,7 +83,9 @@
           if (myGameInstance == null || authCompleted == false)
             return;
           
-          if (offlineMode===true) {
+          myGameInstance.SendMessage('YandexGameObject', 'SetLanguage', ysdk.environment.i18n.lang);
+
+		      if (offlineMode===true) {
             console.log('Trying call StartGameOffline');
             myGameInstance.SendMessage('YandexGameObject', 'StartGameOffline');
           } else {
@@ -91,16 +93,19 @@
               const saveObject = JSON.stringify(jsonString);
               console.log('Trying call LoadGame');                     
               myGameInstance.SendMessage('YandexGameObject', 'LoadGame', saveObject);
-              myGameInstance.SendMessage('YandexGameObject', 'SetNewCharacterName', player.getName());
+              myGameInstance.SendMessage('YandexGameObject', 'SetSkillinfoName', player.getName());
             });
           }
+		  
+		  
         }
 
         function startGameOffline () {
           offlineMode=true;
           authCompleted=true;
           tryStartGame();
-        } 
+        }
+			
     </script>
     <script>
 
