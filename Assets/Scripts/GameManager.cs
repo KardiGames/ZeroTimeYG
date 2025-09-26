@@ -22,22 +22,33 @@ public class GameManager : MonoBehaviour
         Location.LoadBattleMap();
     }
 
-    private void Start()
+#if UNITY_EDITOR
+    private void Start() {
+        print ("START started by UNITY_EDITOR");
+        StartGame();
+    }
+#endif
+
+    public void StartGame()
     {
-        if (!_saveData.TryLoadFromObject())
-        {
+        if (!_saveData.TryLoad()) {
+
             _saveData.CreateNewSave();
-            if (!_saveData.TryLoadFromObject())
+            if (!_saveData.TryLoad())
             {
                 print("ERROR!!! Save wasn't loaded or correctly created ( You can't play :( ");
                 return;
             }
             _worldUI.CreateNewCharacter();
-        }
+        } else
+            print ("UNITY has loaded game by 1 time");
 
-        if (_player.Experience == 0)
+        _worldUI.HideLoadingScreen();
+        if (_player.Level == 0 && _player.Experience == 0)
             GlobalUserInterface.Instance.ShowBlackMessage("@Intro");
     }
+
+
 
     public void NesessaryAction () //Action for test button
     {
@@ -62,11 +73,13 @@ public class GameManager : MonoBehaviour
             return;
         }
 
+        _saveData.SaveCharacter();
         _worldUI.gameObject.SetActive(false);
         Camera.main.transform.parent = null;
         Camera.main.transform.position = new Vector3(0, 0, Camera.main.transform.position.z);
         _battleUI.gameObject.SetActive(true);
         _worldMap.gameObject.SetActive(false);
+        _player.gameObject.SetActive(false);
         _battleMap.SetActive(true);
         _battleManager.StartBattle(mine, _player);
     }
@@ -76,6 +89,7 @@ public class GameManager : MonoBehaviour
         _worldUI.gameObject.SetActive(true);
         _battleMap.SetActive(false);
         _worldMap.gameObject.SetActive(true);
+        _player.gameObject.SetActive(true);
         Camera.main.transform.parent = _player.transform;
         Camera.main.transform.localPosition = new Vector3(0, 0, Camera.main.transform.localPosition.z);
 

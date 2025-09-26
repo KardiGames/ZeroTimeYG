@@ -1,15 +1,12 @@
 ﻿{
   "_phrases": [
     {
-      "_english": "You win the game!!!",
-      "_russian": "Игра пройдена!!!"
+      "_english": "ERROR! You must enter you name!",
+      "_russian": "Ошибка! Необходимо ввести имя!"
     },
-  ],
-  "_texts": [
     {
-      "_tag": "@WinGameMessage",
-      "_english": "Congratulations! You have completed the game!\nYou have delivered a Game Ending City Kit to the Central factory. Using the technologies of the Kit and the production capabilities of the factory, a settlement have founded, which will become the center of attraction for survived people. \n In future versions, it is planned to implement:\n - Diverse behavior and tactics of enemies\n - New goals of resisting the invasion\n - Upgrades for the central base\n - Global multiplayer market\n - Expansion of the lore associated with the invasion\n - Другие элементы частичного мультиплеера",
-      "_russian": "Поздравляю с прохождением игры!\nВы доставили Градообразующий Экспериментальный Комплект Колонизации на Центральный завод. Используя технологии Комплекта и производственные возможности Завода, основано поселение, которое станет центром притяжения спасшихся представителей цивилизации.\n В будущих версиях планируется реализовать:\n - Разнообразное поведение и тактики противников\n - Новые цели сопротивления вторжению\n - Развитие центральной базы\n - Глобальный мультиплеер рынок\n - Расширение ЛОРа, связанного со вторжением\n - Other elements of partial multiplayer"
+      "_english": "Saving error! The data is corrupted. Restart the game to avoid data loss.",
+      "_russian": "Ошибка сохранения! Данные повреждены. Во избежания потери данных перезапустите игру."
     }
   ]
 }

@@ -92,7 +92,7 @@ MonoBehaviour:
     rewardItem: {fileID: 11400000, guid: 2100196e1bd4a1d40b8aa995d5b9a82f, type: 2}
     rewardCost: 10
   - minMineLevel: 50
-    rewardItem: {fileID: 11400000, guid: c108ac5eaecd67e48855468a6109ca7b, type: 2}
+    rewardItem: {fileID: 11400000, guid: d404acd4a66a58447b3bf283eb883c53, type: 2}
     rewardCost: 10
   _rawResReward:
   - minMineLevel: 0
@@ -122,13 +122,13 @@ MonoBehaviour:
     rewardCost: 5
   - minMineLevel: 50
     rewardItem: {fileID: 11400000, guid: e83699c2ecf96114bab10c4e5cc42a82, type: 2}
-    rewardCost: 5
-  - minMineLevel: 0
+    rewardCost: 10
+  - minMineLevel: 75
     rewardItem: {fileID: 11400000, guid: 8702cb87e9f4b9b429ca639c46d14910, type: 2}
-    rewardCost: 0
+    rewardCost: 15
   - minMineLevel: 100
     rewardItem: {fileID: 11400000, guid: 0467724907ca01f4992d81fcd41714b6, type: 2}
-    rewardCost: 15
+    rewardCost: 20
   _highTechReward:
   - minMineLevel: 0
     rewardItem: {fileID: 11400000, guid: 931e13bd2a89b7f438c8c8d6934ae090, type: 2}
@@ -329,12 +329,6 @@ MonoBehaviour:
     rewardItem: {fileID: 11400000, guid: bb09656b3566aa3428c98b75beddff66, type: 2}
     rewardCost: 4000
   _geckReward:
-  - minMineLevel: 720
-    rewardItem: {fileID: 11400000, guid: ca8df26ee6cc08c4f8f302387d6f87f4, type: 2}
-    rewardCost: 720
-  - minMineLevel: 0
-    rewardItem: {fileID: 11400000, guid: baf94ee6a11ffbe4a990dcd4bda57cc5, type: 2}
-    rewardCost: 30
   - minMineLevel: 10000
     rewardItem: {fileID: 11400000, guid: 6b598929f48501c41abfbb68336ae5b7, type: 2}
     rewardCost: 10000

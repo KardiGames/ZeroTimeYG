@@ -7,14 +7,57 @@ using UnityEngine;
 
 public class SaveData : MonoBehaviour
 {
-    [SerializeField] private List<WorldBuildingData> _globalMapBuildings=new(); //TODO check if need to make it SerField
     [SerializeField] private string _playerJson;
     [SerializeField] private string _mapJson;
+    [SerializeField] private Yandex _yandexSDKConnector;
  	[SerializeField] private SaveScrObj _saveObject;
  	[SerializeField] private SaveScrObj _blankSaveObject;
-    [SerializeField] private WorldCharacter _playerCharacter;
     [SerializeField] private WorldMap _map;
+    [SerializeField] private List<WorldBuildingData> _globalMapBuildings=new(); //TODO check if need to make it SerField
+    [SerializeField] private WorldCharacter _playerCharacter;
+
     private string _filePath = "savefile.txt";
+    private bool isBuildingOpen = false;
+
+    public bool TryLoad () {
+    #if UNITY_EDITOR
+        return TryLoadFromObject();
+    #endif
+        if (_yandexSDKConnector.SaveJsonData=="") 
+            return false;
+        try {
+        JsonUtility.FromJsonOverwrite(_yandexSDKConnector.SaveJsonData, this);
+        }
+        catch {
+            print ("UNITY deserialization error. SaveJsonData:\n"+_yandexSDKConnector.SaveJsonData);
+            return false;
+        }
+        
+        if (_playerJson=="" || _mapJson=="" || _globalMapBuildings.Count == 0)
+        {
+            print("UNITY error after deserialization. SaveJsonData:\n_playerJson: " + _playerJson
+                + "\n_mapJson: "+ _mapJson
+                + "\n_globalMapBuildings.Count: "+ _globalMapBuildings.Count
+                + (_globalMapBuildings.Count>0 ? "\n_globalMapBuildings[0]" + _globalMapBuildings[0] : ""));
+            return false;
+        }
+        LoadCharacter();
+        LoadMap();
+        return true;
+    }
+
+    public void Save (bool force=false) {
+        if (_globalMapBuildings.Count==0 || _mapJson=="" || _playerJson == "") {
+            GlobalUserInterface.Instance.ShowError ("Saving error! The data is corrupted. Restart the game to avoid data loss.");
+            return;
+        }
+
+    #if UNITY_EDITOR
+        SaveToObject();
+        return;
+    #endif
+        _yandexSDKConnector.Save(FormSaveText(), force);
+    }
 
     public IEnumerable<(int, int)> AreasWithBuildings()
     {
@@ -28,10 +71,9 @@ public class SaveData : MonoBehaviour
 
     internal void CreateNewSave()
     {
-        if (_saveObject!=null && _saveObject.Save!="")
-            print ("Exists currant save!! But new one will be created anyway");
-
         _saveObject = Instantiate(_blankSaveObject);
+        print ("UNITY has created new save");
+        _yandexSDKConnector.SetNewSaveJson(_saveObject);
     }
 
     public string[] TypesOfBuildingsOnArea (int x, int y)
@@ -73,6 +115,7 @@ public class SaveData : MonoBehaviour
 			if (building.X==x && building.Y==y && building.Name==buildingName)
             {
                 SaveCharacter();
+                isBuildingOpen=true;
 				return building.jSonString;
             }
 		return "";
@@ -96,13 +139,16 @@ public class SaveData : MonoBehaviour
         savableData.Name = building.Name;
         savableData.type = BuildingTypeByObject(building);
         savableData.jSonString = building.ToJson();
+        isBuildingOpen = false;
         SaveCharacter();
+        Save(true);
     }
 
     public void SaveCharacter ()
     {
         _playerJson = _playerCharacter.ToJson();
-        SaveToObject(); //TODO this is temporal autosave
+        if (!isBuildingOpen)
+            Save();
     }
     public void LoadCharacter()
     {
@@ -167,11 +213,13 @@ public class SaveData : MonoBehaviour
 			return;
 		_saveObject.Save = FormSaveText();
 	}
+
+
 	
 	private string FormSaveText () {
 	
 		SaveJsonData jsonData = new SaveJsonData() { _globalMapBuildings = _globalMapBuildings, _playerJson= _playerJson, _mapJson= _mapJson};
-        print("Saved to Object " + (JsonUtility.ToJson(jsonData).Length / 1000) + "K");
+        print("Saved " + (JsonUtility.ToJson(jsonData).Length / 1000) + "K");
 		return JsonUtility.ToJson(jsonData);
 	}
 	

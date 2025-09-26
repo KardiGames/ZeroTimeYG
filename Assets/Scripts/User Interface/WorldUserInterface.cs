@@ -13,6 +13,7 @@ public class WorldUserInterface : MonoBehaviour
     [SerializeField] private GameObject _playerUIInventory;
     [SerializeField] private GameObject _targetUIInventory;
     [SerializeField] private InformationPanelUI _informationUI;
+    [SerializeField] private GameObject _loadingScreen;
     [SerializeField] private TextMeshProUGUI _bigMessage;
 
     public InformationPanelUI InformationPanelUI =>_informationUI;
@@ -84,5 +85,10 @@ public class WorldUserInterface : MonoBehaviour
     {
         _informationUI.gameObject.SetActive(true);
         _informationUI.ShowItemInfo(item);
+    }
+
+    internal void HideLoadingScreen()
+    {
+        _loadingScreen.SetActive(false);
     }
 }

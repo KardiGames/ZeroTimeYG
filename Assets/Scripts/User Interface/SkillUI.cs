@@ -26,10 +26,7 @@ public class SkillUI : MonoBehaviour
     public TextMeshProUGUI NameText => _nameText;
     public TextMeshProUGUI ValueText => _valueText;
     public TextMeshProUGUI CountdownText => _countdownText;
-    /*public RectTransform EmptyLine => _emptyLine;
-    public RectTransform MinimalLine => _minimalLine;
-    public RectTransform TrainedLine => _trainedLine;
-    public RectTransform ImprovedLine => _improvedLine;*/
+
     public Button ImproveButton => _improveButton;
     public Button TrainButton => _trainButton;
 
