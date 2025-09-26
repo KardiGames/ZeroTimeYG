@@ -31,7 +31,10 @@ public class RewardManager: MonoBehaviour
             if (pricedItem.Value!=0f)
                 weightsSum+=1.0f/pricedItem.Value;
             else
-                potentialReward.Remove (pricedItem.Key);
+            {
+                print("ERROR! Item cost is 0 ! (( Loot destroyed.");
+                return reward.ToArray();
+            }    
         }
 
         if (potentialReward.Count == 0 || weightsSum == 0f)

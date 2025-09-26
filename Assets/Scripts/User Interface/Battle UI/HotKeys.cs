@@ -10,7 +10,7 @@ public class HotKeys : MonoBehaviour
             return;
         if (Input.GetKeyDown(KeyCode.Space))
             _battleManager.BattleUI.EndTurn();
-        else if (Input.GetKeyDown(KeyCode.E))
+        else if (Input.GetKeyDown(KeyCode.Q))
             _battleManager.BattleUI.ChangeWeapon();
         else if (Input.GetKeyDown(KeyCode.R))
             _battleManager.BattleUI.Reload();

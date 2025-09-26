@@ -23,7 +23,7 @@ MonoBehaviour:
   damageAddition: 0
   _range: 3
   _apCost: 6
-  _ammoType: 
+  _ammoType: Bullet
   _ammoAmount: 10
   _ammoMaxAmount: 10
   _ammoPerShot: 5

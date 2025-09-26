@@ -35,9 +35,7 @@ public class Factory : MonoBehaviour, ITimerable, IWorldBuilding
 
     public void AddFactoryLine(Blueprint blueprint, bool startProductionImmediately = false)
     {
-        //TODO check IsAnoughSkill
-		
-		if (!_storage.Contains(blueprint) || !blueprint.IsAnoughResourses(_storage))
+		if (!_storage.Contains(blueprint) || !blueprint.IsEnoughResourses(_storage))
 			return;
 
 		TaskByTimer productionTask = new(this, blueprint.SecondsToFinish, "", blueprint.ItemToCreate.ItemName, "Produce "+blueprint.ItemToCreate.Amount+ " "+ blueprint.ItemToCreate.ItemName);
@@ -50,9 +48,9 @@ public class Factory : MonoBehaviour, ITimerable, IWorldBuilding
 			SpendResources(blueprint);
 			_factoryLines.Add(productionTask, blueprint.ItemToCreate.Clone());
 			_storage.Remove(this, blueprint);
-			Destroy(blueprint);
 		} else
         {
+			GlobalUserInterface.Instance.ShowError(GlobalUserInterface.Instance.Localisation.Translate("Error #") + "2");
 			print("Error. Factory line is not created");
         }
 		
@@ -60,7 +58,7 @@ public class Factory : MonoBehaviour, ITimerable, IWorldBuilding
 
 	private void SpendResources(Blueprint blueprint)
 	{
-		//TODO think. m.b. check IsAnoughResourses
+		//TODO think. m.b. check IsEnoughResourses
 
 		List<Item> resoursesList = blueprint.ListOfResourses;
 		List<long> resoursesAmounts = blueprint.AmountsOfResourses;

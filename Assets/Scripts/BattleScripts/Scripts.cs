@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -94,7 +95,7 @@ public class Scripts : MonoBehaviour
                 {
                     int attacksAfterMove = (bot.PlanningAP - Location.map[enemy.pos[0], enemy.pos[1]].AP) / bot.RightHandWeapon.APCost;
                     float chanseToMove = (float)attacksAfterMove / attacksWithoutMove;
-                    if (Random.value < chanseToMove)
+                    if (UnityEngine.Random.value < chanseToMove)
                     {
                         enoughOD = Move(bot, enemy.pos[0], enemy.pos[1]);
                     }
@@ -168,5 +169,26 @@ public class Scripts : MonoBehaviour
     }
 	
 	public static int HitChanse (CombatUnit subject, CombatUnit target) => subject.usesOffHand ? HitChanse (subject, target, subject.LeftHandWeapon) : HitChanse (subject, target, subject.RightHandWeapon);
+    
+    public static int Rating (WorldCharacter player, bool isGameFinished=false)
+    {
+        int levelMultipler = 100;
+        int winGameMultipler = 2;
+        int expectedMaxLevel = 30;
         
+        int rating = 0;
+        rating += player.Level * levelMultipler;
+
+        foreach (string skill in Skills.InmplementedSkills)
+        {
+            rating += player.Skills.GetSkillValue(skill);
+        }
+
+        if (isGameFinished) {
+            int maxRating = expectedMaxLevel * levelMultipler + Skills.InmplementedSkills.Count * Skills.MAXIMUM_TOTAL_SKILL;
+            rating = maxRating * winGameMultipler - rating;
+        }
+
+        return rating;
+    }
 }

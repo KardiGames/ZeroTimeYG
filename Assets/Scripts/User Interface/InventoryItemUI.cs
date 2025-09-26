@@ -28,14 +28,17 @@ public class InventoryItemUI : MonoBehaviour
             itemName.text += " x" + item.Amount;
 
         _itemImage.sprite = _item.Icon;
-        if (_item.Icon!=null)
+        if (_item.Icon != null)
             _itemImage.color = _item.IconColor;
 
-        if (true) //TODO add here and below condition if we know where to transfer    
-            transferAllButton.gameObject.SetActive(true);
-
-        if (true && item.Stackable && item.Amount>1)
+        if (item.Stackable && item.Amount>1)
             transferPartButton.gameObject.SetActive(true);
+
+        if (InventoryUI.TargetInventory == null) 
+        {
+            transferAllButton.interactable=false;
+            transferPartButton.interactable=false;
+        }
 
         if ((item is Weapon || item is Armor) && inventoryUI.Inventory.gameObject.name == "PlayerCharacter")
         {
@@ -74,7 +77,7 @@ public class InventoryItemUI : MonoBehaviour
 
     private void StartProductionInFactory ()
     {
-        ActionPoints playerAP = InventoryUI.TargetInventory.gameObject.GetComponent<ActionPoints>(); //TODO Ref Exception here on starting sword production
+        ActionPoints playerAP = InventoryUI.TargetInventory.gameObject.GetComponent<ActionPoints>(); 
         Factory activeFactory = InventoryUI.Inventory.gameObject.GetComponent<Factory>();
 
         if (playerAP == null || activeFactory == null)
@@ -83,9 +86,9 @@ public class InventoryItemUI : MonoBehaviour
             return;
         }
 
-        if (!(_item as Blueprint).IsAnoughResourses(InventoryUI.Inventory))
+        if (!(_item as Blueprint).IsEnoughResourses(InventoryUI.Inventory))
         {
-            GlobalUserInterface.Instance.ShowError("You have not anough resources to start production.");
+            GlobalUserInterface.Instance.ShowError("You have not enough resources to start production.");
             return;
         }
 

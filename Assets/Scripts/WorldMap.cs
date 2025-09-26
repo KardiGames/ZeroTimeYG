@@ -65,9 +65,11 @@ public class WorldMap : MonoBehaviour
             }
             _player.transform.position = _movePosition;
 			_playerAnimator?.SetBool("Run", false);
-			TryFinishTheGame();
             _saveData.SaveCharacter();
             _playerIsMoving = false;
+
+            if (TryFinishTheGame())
+                _saveData.Save(true);
         }
 		
 		void TurnAnimatedObject(float positiveToTheRight)
@@ -232,11 +234,11 @@ public class WorldMap : MonoBehaviour
         return result;
     }
 	
-	private void TryFinishTheGame () {
+	private bool TryFinishTheGame () {
 		if (_gameFinisher.IsFinished) 
-			return;
+			return false;
 		
-		_gameFinisher.TryFinish();
+		return _gameFinisher.TryFinish();
 	}
 
     public string ToJson()

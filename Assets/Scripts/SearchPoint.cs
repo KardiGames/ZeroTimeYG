@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class SearchPoint : MonoBehaviour
 {
-    private const float ENLARGE_LEVEL_MULTIPLER = 0.1f;
+    private const float ENLARGE_LEVEL_MULTIPLER = 0.5f;
 	
 	[SerializeField] GameObject _wideAreaCircle;
     [SerializeField] SpriteRenderer _wideAreaSprite;
@@ -36,8 +36,8 @@ public class SearchPoint : MonoBehaviour
     }
     public void Enlarge ()
     {
-        //Formula to add area equals to fist created circle (with radius of 0.5+skillImprovement)
-        float enlargedRadius = Mathf.Sqrt(0.25f*(1+ENLARGE_LEVEL_MULTIPLER*_player.Level*_player.Skills.GetSkillMultipler("World exploring")) + (Radius*Radius));
+        //Formula to add area equals to fist created circle (with radius of 0.5) + more of them * Level * SKILL * MULTIPLER
+        float enlargedRadius = Mathf.Sqrt(0.25f*(1+_player.Level*ENLARGE_LEVEL_MULTIPLER*_player.Skills.GetSkillMultipler("World exploring")) + (Radius*Radius));
         _size = enlargedRadius * 2.0f;
         VisualizeSize();
     }
