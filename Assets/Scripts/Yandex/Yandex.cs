@@ -20,6 +20,7 @@ public class Yandex : MonoBehaviour
     [SerializeField] private GameManager _gameManager;
     [SerializeField] private Localisation _localisation;
     [SerializeField] private TextMeshProUGUI _nameInput;
+    [SerializeField] private List<GameObject> _languageButtons;
     private List<int> _spentSlots = new List<int>();
 
     public bool SaveCompleted {get; private set;} = true;
@@ -94,6 +95,11 @@ public class Yandex : MonoBehaviour
         else
             _localisation.CurrentLanguage = "en_en";
             
+        if (_languageButtons!=null)
+        {
+            foreach (var button in _languageButtons)
+                button.SetActive(false);
+        }
     }
 
     private void OnEnable()
