@@ -12,6 +12,13 @@ public class GlobalUserInterface : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _errorText;
     [SerializeField] private TextMeshProUGUI _blackMessage;
     [SerializeField] private Localisation _localisation;
+    [Header("Confirm panel")]
+    [SerializeField] private GameObject _confirmPanel;
+    [SerializeField] private TextMeshProUGUI _confirmHeader;
+    [SerializeField] private TextMeshProUGUI _confirmQuestion;
+    [SerializeField] private TextMeshProUGUI _confirmTrueText;
+    [SerializeField] private TextMeshProUGUI _confirmFalseText;
+
     public static GlobalUserInterface Instance { get; private set; }
     public BattleManager BattleManager => _battleManager; //TODO This is crutch (( Much better to delete this
     public BattleUserInterface BattleUI => _battleUI; //TODO This is crutch (( Much better to delete this

@@ -83,8 +83,9 @@
           if (myGameInstance == null || authCompleted == false)
             return;
           
-          SendLanguage ();
-		  if (offlineMode===true) {
+          myGameInstance.SendMessage('YandexGameObject', 'SetLanguage', ysdk.environment.i18n.lang);
+
+		      if (offlineMode===true) {
             console.log('Trying call StartGameOffline');
             myGameInstance.SendMessage('YandexGameObject', 'StartGameOffline');
           } else {
@@ -105,15 +106,6 @@
           tryStartGame();
         }
 			
-		function SendLanguage () {
-		
-		  var lang = ysdk.environment.i18n.lang;
-		  var bufferSize = lengthBytesUTF8(lang) + 1;
-		  var buffer = _malloc(bufferSize);
-		  stringToUTF8(lang, buffer, bufferSize);
-
-		  myGameInstance.SendMessage('YandexGameObject', 'SetLanguage', buffer);
-		}
     </script>
     <script>
 
