@@ -134,6 +134,23 @@ public class MainMenuUI : MonoBehaviour
             _enterMineButton.interactable = true;
     }
 
+    public void AskBuyVIP() {
+        GlobalUserInterface.Instance.AskConfirmation(
+            BuyVIP,
+            "@Confirm VIP",
+            "Buy", 
+            "Cancel", 
+            "Buy VIP status?");
+    }
+
+    private void BuyVIP (bool isConfirmed)
+    {
+        if (isConfirmed == false)
+            return;
+
+        _character.ActionPoints.AddVipTime();
+    }
+
     private void UpdateAP ()
     {
         _playerAPText.text = _character.AP+ " " + Translate("AP");
