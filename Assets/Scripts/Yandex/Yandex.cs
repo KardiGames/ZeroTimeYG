@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using TMPro;
@@ -17,11 +18,15 @@ public class Yandex : MonoBehaviour
     [DllImport("__Internal")]
     private static extern void SaveExtern(string jsonSave);
 
+    [DllImport("__Internal")]
+    private static extern void ShowAd();
+
     [SerializeField] private GameManager _gameManager;
     [SerializeField] private Localisation _localisation;
     [SerializeField] private TextMeshProUGUI _nameInput;
     [SerializeField] private List<GameObject> _languageButtons;
     private List<int> _spentSlots = new List<int>();
+    private event Action<bool> _onAdShown;
 
     public bool SaveCompleted {get; private set;} = true;
     public bool Offline {get; private set;} = true;
@@ -100,6 +105,26 @@ public class Yandex : MonoBehaviour
             foreach (var button in _languageButtons)
                 button.SetActive(false);
         }
+    }
+
+    public void ShowAdForReward(Action<bool> onAdShown)
+    {
+        if (onAdShown == null)
+        {
+            AdDidntShowCallback();
+            return;
+        }
+
+        ShowAd();
+    }
+
+    public void AdShownCallback ()
+    {
+
+    }
+    public void AdDidntShowCallback()
+    {
+
     }
 
     private void OnEnable()

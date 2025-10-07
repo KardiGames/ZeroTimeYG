@@ -94,14 +94,7 @@ public class GameManager : MonoBehaviour
         Camera.main.transform.localPosition = new Vector3(0, 0, Camera.main.transform.localPosition.z);
 
         //TODO Add here option to change dead to survived
-        
-        if (dead)
-            
-        else
-            ApplyBattleResult(killPoints, mine, dead);
-    }
-        
-    private void ApplyBattleResult(float killPoints, Mine mine, bool dead) {
+
         if (dead)
             if (_player.AP >= ActionPoints.ADDITIONAL_DEATH_AP_COST)
                 _player.ActionPoints.TrySpendAP(ActionPoints.ADDITIONAL_DEATH_AP_COST);

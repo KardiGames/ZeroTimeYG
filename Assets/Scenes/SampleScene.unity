@@ -11237,7 +11237,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _battleManager: {fileID: 476735863}
   _battleUI: {fileID: 2118375719}
-  _saveSystem: {fileID: 476735870}
   _errorText: {fileID: 398162690}
   _blackMessage: {fileID: 495125987}
   _localisation: {fileID: 630941250}
@@ -34126,6 +34125,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _battleManager: {fileID: 476735863}
   _localisation: {fileID: 630941250}
+  _yandex: {fileID: 1554634167}
   _actionPointsText: {fileID: 181479915}
   _weaponInfoField: {fileID: 1780781563}
   _playerInfoField: {fileID: 700314350}

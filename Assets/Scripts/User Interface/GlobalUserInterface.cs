@@ -7,7 +7,6 @@ public class GlobalUserInterface : MonoBehaviour
 {
     [SerializeField] private BattleManager _battleManager;
     [SerializeField] private BattleUserInterface _battleUI;
-	[SerializeField] private SaveData _saveSystem; //TODO it was for one of the crutches. Delete this after check
     [SerializeField] private TextMeshProUGUI _errorText;
     [SerializeField] private TextMeshProUGUI _blackMessage;
     [SerializeField] private Localisation _localisation;
@@ -44,7 +43,7 @@ public class GlobalUserInterface : MonoBehaviour
         _blackMessage.text = _localisation.Translate(message);
     }
 
-    public void AskConfirmation(Action<bool> onPlayerDecidedAction, string question, string trueAnswer, string falseAnswer, string header)
+    public void AskConfirmation(Action<bool> onPlayerDecidedAction, string question, string trueAnswer, string falseAnswer, string header="")
     {
         if (onPlayerDecidedAction == null)
             return;
