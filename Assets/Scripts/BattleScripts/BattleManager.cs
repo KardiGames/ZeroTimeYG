@@ -180,12 +180,10 @@ public class BattleManager : MonoBehaviour
     {
         Status = "starting";
         AllCombatCharacters.ForEach(u => Destroy(u.gameObject));
-        if (!death)
-            _gameManager.EndBattle(KillPoints, _mine, death);
-        else
-        {
+        if (death && _gameManager.IsOffline==false)
             _battleUI.AvoidDeath();
-        }
+        else
+            _gameManager.EndBattle(KillPoints, _mine, death);
     }
 
     internal void ExitAfterDeathAvoiding (bool stillDead)

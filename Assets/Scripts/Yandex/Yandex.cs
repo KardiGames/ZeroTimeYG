@@ -7,10 +7,10 @@ using UnityEngine.UI;
 
 public class Yandex : MonoBehaviour
 {
-    public static int SAVE_SIZE_LIMIT = 100;
-    public static int SAVE_SIZE_WARNING = 90;
-    private static int MINUTES_TO_RESET = 5;
-    private static int FREE_SLOTS = 75;
+    public const int SAVE_SIZE_LIMIT = 100;
+    public const int SAVE_SIZE_WARNING = 90;
+    private const int MINUTES_TO_RESET = 5;
+    private const int FREE_SLOTS = 75;
     
     [DllImport("__Internal")]
     private static extern void UnityReady();
@@ -24,6 +24,7 @@ public class Yandex : MonoBehaviour
     [SerializeField] private GameManager _gameManager;
     [SerializeField] private Localisation _localisation;
     [SerializeField] private TextMeshProUGUI _nameInput;
+    [SerializeField] private Button _buyVip;
     [SerializeField] private List<GameObject> _languageButtons;
     private List<int> _spentSlots = new List<int>();
     private event Action<bool> _onAdShown;
@@ -45,6 +46,7 @@ public class Yandex : MonoBehaviour
         }
         Offline=false;
         SaveJsonData=saveJsonData;
+        
         print ("UNITY does LoadGame");
         _gameManager.StartGame();
     }
@@ -111,20 +113,24 @@ public class Yandex : MonoBehaviour
     {
         if (onAdShown == null)
         {
-            AdDidntShowCallback();
+            GlobalUserInterface.Instance.ShowError(GlobalUserInterface.Instance.Localisation.Translate("Error #") + "3");
             return;
         }
-
+        _onAdShown= onAdShown;
         ShowAd();
     }
 
     public void AdShownCallback ()
     {
-
+        bool stillDead = false;
+        _onAdShown?.Invoke(stillDead);
+        _onAdShown = null;
     }
     public void AdDidntShowCallback()
     {
-
+        bool stillDead = true;
+        _onAdShown?.Invoke(stillDead);
+        _onAdShown = null;
     }
 
     private void OnEnable()

@@ -29,4 +29,25 @@ mergeInto(LibraryManager.library, {
   SetScore: function(score){
       ysdk.leaderboards.setScore('Progress', score);
   },
+
+  ShowAd: function () {
+    ysdk.adv.showRewardedVideo({
+      callbacks: {
+          onOpen: () => {
+            console.log('Unity AD started.');
+          },
+          onRewarded: () => {
+            console.log('Rewarded!');
+            myGameInstance.SendMessage('YandexGameObject', 'AdShownCallback');
+          },
+          onClose: () => {
+            console.log('Unity AD closed.');
+            myGameInstance.SendMessage('YandexGameObject', 'AdDidntShowCallback');
+          },
+          onError: (e) => {
+            console.log('Unity AD error. (Must be close message near. Check!):', e);
+          },
+      }
+    })
+  },
 });

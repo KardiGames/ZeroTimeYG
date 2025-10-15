@@ -175,21 +175,12 @@ public class BattleUserInterface : MonoBehaviour
     {
         if (watchAd)
         {
-            _yandex.ShowAdForReward(OnAdShown);
+            _yandex.ShowAdForReward(_battleManager.ExitAfterDeathAvoiding);
         }
         else
         {
             _battleManager.ExitAfterDeathAvoiding(true);
         }
     }
-
-    private void OnAdShown (bool isShown)
-    {
-        if (isShown)
-            _battleManager.ExitAfterDeathAvoiding(false);
-        else
-            _battleManager.ExitAfterDeathAvoiding(true);
-    }
-
             private string Translate(string text) => _localisation.Translate(text);
 }
