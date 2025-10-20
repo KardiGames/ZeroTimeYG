@@ -149,7 +149,7 @@ public class MainMenuUI : MonoBehaviour
         if (isConfirmed == false)
             return;
 #if UNITY_EDITOR
-        _yandex.VipBoughtCallback();
+        _yandex.VipBoughtCallback(Yandex.INNER_TOKEN);
         return;
 #endif
         Yandex.BuyVipExtern();

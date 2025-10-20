@@ -54,7 +54,11 @@ mergeInto(LibraryManager.library, {
   BuyVipExtern: function () {
 	  payments.purchase({ id: 'vipstatus' })
 		.then(purchase => {
-			myGameInstance.SendMessage('YandexGameObject', 'VipBoughtCallback');
+      var token = purchase.purchaseToken;
+      var bufferSize = lengthBytesUTF8(token) + 1;
+      var buffer = _malloc(bufferSize);
+      stringToUTF8(token, buffer, bufferSize);
+			myGameInstance.SendMessage('YandexGameObject', 'VipBoughtCallback', buffer);
 		}).catch(err => {
 			// Покупка не удалась: в Консоли разработчика не добавлен товар с таким id,
 			// пользователь не авторизовался, передумал и закрыл окно оплаты,

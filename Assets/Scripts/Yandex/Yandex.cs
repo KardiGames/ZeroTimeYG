@@ -10,11 +10,14 @@ public class Yandex : MonoBehaviour
 {
     public const int SAVE_SIZE_LIMIT = 100;
     public const int SAVE_SIZE_WARNING = 90;
+    public const string INNER_TOKEN = "Unity editor token";
     private const int MINUTES_TO_RESET = 5;
     private const int FREE_SLOTS = 75;
     
     [DllImport("__Internal")]
     public static extern void BuyVipExtern();
+    [DllImport("__Internal")]
+    private static extern void ConsumeTokenExtern(string token);
 
     [DllImport("__Internal")]
     private static extern void UnityReady();
@@ -140,11 +143,19 @@ public class Yandex : MonoBehaviour
         _onAdShown = null;
     }
 
-    public void VipBoughtCallback ()
+    public void VipBoughtCallback (string token)
     {
         _actionPoints.AddVipTime();
         _actionPoints.Restore();
+        if (token != INNER_TOKEN)
+        {
+            print("Unity VIP token: " + token);
+            ConsumeTokenExtern(token)
+        }
+
     }
+
+   
 
     private void OnEnable()
     {
