@@ -70,6 +70,12 @@ public class ActionPoints : MonoBehaviour
 		return true;
 	}
 	
+	public void Restore ()
+	{
+		if (_ap<MaxValue)
+			_ap = MaxValue;
+	}
+	
 	public void AddVipTime ()
     {
 		if (_vipFinishTime < DateTime.Now)

@@ -5968,6 +5968,7 @@ MonoBehaviour:
   _map: {fileID: 2053013091}
   _informationPanel: {fileID: 1258855651}
   _localisatiuon: {fileID: 630941250}
+  _yandex: {fileID: 1554634167}
 --- !u!1 &366788999
 GameObject:
   m_ObjectHideFlags: 0
@@ -24063,7 +24064,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 1496278992}
   m_OnClick:
     m_PersistentCalls:
@@ -25194,7 +25195,8 @@ MonoBehaviour:
   _gameManager: {fileID: 476735868}
   _localisation: {fileID: 630941250}
   _nameInput: {fileID: 567210805}
-  _buyVip: {fileID: 0}
+  _buyVip: {fileID: 1496278991}
+  _actionPoints: {fileID: 1486608461}
   _languageButtons:
   - {fileID: 1454449423}
   - {fileID: 1008148503}

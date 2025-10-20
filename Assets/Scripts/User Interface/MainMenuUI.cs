@@ -38,6 +38,7 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] private WorldMap _map;
     [SerializeField] private InformationPanelUI _informationPanel;
     [SerializeField] private Localisation _localisatiuon;
+    [SerializeField] private Yandex _yandex;
 
     private string[] _buildingNames;
 
@@ -147,8 +148,11 @@ public class MainMenuUI : MonoBehaviour
     {
         if (isConfirmed == false)
             return;
-
-        _character.ActionPoints.AddVipTime();
+#if UNITY_EDITOR
+        _yandex.VipBoughtCallback();
+        return;
+#endif
+        Yandex.BuyVipExtern();
     }
 
     private void UpdateAP ()

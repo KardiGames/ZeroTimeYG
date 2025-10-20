@@ -30,7 +30,7 @@ mergeInto(LibraryManager.library, {
       ysdk.leaderboards.setScore('Progress', score);
   },
 
-  ShowAd: function () {
+  ShowAdExtern: function () {
     ysdk.adv.showRewardedVideo({
       callbacks: {
           onOpen: () => {
@@ -50,4 +50,17 @@ mergeInto(LibraryManager.library, {
       }
     })
   },
+  
+  BuyVipExtern: function () {
+	  payments.purchase({ id: 'vipstatus' })
+		.then(purchase => {
+			myGameInstance.SendMessage('YandexGameObject', 'VipBoughtCallback');
+		}).catch(err => {
+			// Покупка не удалась: в Консоли разработчика не добавлен товар с таким id,
+			// пользователь не авторизовался, передумал и закрыл окно оплаты,
+			// истекло отведенное на покупку время, не хватило денег и т. д.
+			console.log('Unity buy VIP error.');
+		});
+  },
+  
 });

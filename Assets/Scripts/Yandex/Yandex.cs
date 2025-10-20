@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using TMPro;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 
 public class Yandex : MonoBehaviour
@@ -13,18 +14,23 @@ public class Yandex : MonoBehaviour
     private const int FREE_SLOTS = 75;
     
     [DllImport("__Internal")]
+    public static extern void BuyVipExtern();
+
+    [DllImport("__Internal")]
     private static extern void UnityReady();
 
     [DllImport("__Internal")]
     private static extern void SaveExtern(string jsonSave);
 
     [DllImport("__Internal")]
-    private static extern void ShowAd();
+    private static extern void ShowAdExtern();
 
     [SerializeField] private GameManager _gameManager;
     [SerializeField] private Localisation _localisation;
+    [SerializeField] private SaveData _saveData;
     [SerializeField] private TextMeshProUGUI _nameInput;
     [SerializeField] private Button _buyVip;
+    [SerializeField] ActionPoints _actionPoints;
     [SerializeField] private List<GameObject> _languageButtons;
     private List<int> _spentSlots = new List<int>();
     private event Action<bool> _onAdShown;
@@ -54,6 +60,7 @@ public class Yandex : MonoBehaviour
     public void StartGameOffline () {
         print ("UNITY does StartGameOffline");
         Offline=true;
+        _buyVip.interactable = false;
         _gameManager.StartGame();
     }
 
@@ -117,7 +124,7 @@ public class Yandex : MonoBehaviour
             return;
         }
         _onAdShown= onAdShown;
-        ShowAd();
+        ShowAdExtern();
     }
 
     public void AdShownCallback ()
@@ -131,6 +138,12 @@ public class Yandex : MonoBehaviour
         bool stillDead = true;
         _onAdShown?.Invoke(stillDead);
         _onAdShown = null;
+    }
+
+    public void VipBoughtCallback ()
+    {
+        _actionPoints.AddVipTime();
+        _actionPoints.Restore();
     }
 
     private void OnEnable()
