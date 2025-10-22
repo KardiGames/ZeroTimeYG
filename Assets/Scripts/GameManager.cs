@@ -50,8 +50,6 @@ public class GameManager : MonoBehaviour
             GlobalUserInterface.Instance.ShowBlackMessage("@Intro");
     }
 
-
-
     public void NesessaryAction () //Action for test button
     {
         WorldCharacter worldChar = GameObject.Find("PlayerCharacter").GetComponent<WorldCharacter>();

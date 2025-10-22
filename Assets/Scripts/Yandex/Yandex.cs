@@ -150,7 +150,7 @@ public class Yandex : MonoBehaviour
         if (token != INNER_TOKEN)
         {
             print("Unity VIP token: " + token);
-            ConsumeTokenExtern(token)
+            ConsumeTokenExtern(token);
         }
 
     }

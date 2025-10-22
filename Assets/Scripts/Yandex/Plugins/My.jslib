@@ -66,5 +66,25 @@ mergeInto(LibraryManager.library, {
 			console.log('Unity buy VIP error.');
 		});
   },
+
+  ConsumeLostPurchasesExtern: function () {
+    payments
+      .getPurchases()
+      .then(purchases => purchases
+      .forEach(purchase => {
+        var token = purchase.purchaseToken;
+        var bufferSize = lengthBytesUTF8(token) + 1;
+        var buffer = _malloc(bufferSize);
+        stringToUTF8(token, buffer, bufferSize);
+        myGameInstance.SendMessage('YandexGameObject', 'VipBoughtCallback', buffer);
+      })
+    ).catch(err => {
+      console.log('Unity FAILED get+consume purchases on start');
+    });
+  }
+
+  ConsumeToken: function (tokenString) {
+    payments.consumePurchase(tokenString);
+  },  
   
 });
