@@ -17,6 +17,8 @@ public class Yandex : MonoBehaviour
     [DllImport("__Internal")]
     public static extern void BuyVipExtern();
     [DllImport("__Internal")]
+    private static extern void ConsumeLostPurchasesExtern();
+    [DllImport("__Internal")]
     private static extern void ConsumeTokenExtern(string token);
 
     [DllImport("__Internal")]
@@ -58,6 +60,7 @@ public class Yandex : MonoBehaviour
         
         print ("UNITY does LoadGame");
         _gameManager.StartGame();
+        ConsumeLostPurchasesExtern();
     }
 
     public void StartGameOffline () {
@@ -134,11 +137,15 @@ public class Yandex : MonoBehaviour
     {
         bool stillDead = false;
         _onAdShown?.Invoke(stillDead);
+        if (_onAdShown == null)
+            print("Unity error. Unixpected AdShownCallback");
         _onAdShown = null;
     }
-    public void AdDidntShowCallback()
+    public void AdDidntShowCallback ()
     {
         bool stillDead = true;
+        if (_onAdShown == null)
+            print("Unity error. Unixpected AdDidntShowCallback");
         _onAdShown?.Invoke(stillDead);
         _onAdShown = null;
     }
@@ -154,8 +161,6 @@ public class Yandex : MonoBehaviour
         }
 
     }
-
-   
 
     private void OnEnable()
     {

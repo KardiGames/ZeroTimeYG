@@ -58,6 +58,7 @@ mergeInto(LibraryManager.library, {
       var bufferSize = lengthBytesUTF8(token) + 1;
       var buffer = _malloc(bufferSize);
       stringToUTF8(token, buffer, bufferSize);
+      console.log ('Unity is handling purchase. Token:'+buffer);
 			myGameInstance.SendMessage('YandexGameObject', 'VipBoughtCallback', buffer);
 		}).catch(err => {
 			// Покупка не удалась: в Консоли разработчика не добавлен товар с таким id,
@@ -76,14 +77,16 @@ mergeInto(LibraryManager.library, {
         var bufferSize = lengthBytesUTF8(token) + 1;
         var buffer = _malloc(bufferSize);
         stringToUTF8(token, buffer, bufferSize);
+        console.log ('Unity is handling lost purchase on start');
         myGameInstance.SendMessage('YandexGameObject', 'VipBoughtCallback', buffer);
       })
     ).catch(err => {
       console.log('Unity FAILED get+consume purchases on start');
     });
-  }
+  },
 
-  ConsumeToken: function (tokenString) {
+  ConsumeTokenExtern: function (tokenString) {
+    console.log ('Unity is consuming purchase. Token:'+tokenString);
     payments.consumePurchase(tokenString);
   },  
   
