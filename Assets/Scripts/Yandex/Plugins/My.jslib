@@ -37,7 +37,7 @@ mergeInto(LibraryManager.library, {
             console.log('Unity AD started.');
           },
           onRewarded: () => {
-            console.log('Rewarded!');
+            console.log('Unity Rewarded!');
             myGameInstance.SendMessage('YandexGameObject', 'AdShownCallback');
           },
           onClose: () => {
@@ -55,11 +55,8 @@ mergeInto(LibraryManager.library, {
 	  payments.purchase({ id: 'vipstatus' })
 		.then(purchase => {
       var token = purchase.purchaseToken;
-      var bufferSize = lengthBytesUTF8(token) + 1;
-      var buffer = _malloc(bufferSize);
-      stringToUTF8(token, buffer, bufferSize);
-      console.log ('Unity is handling purchase. Token:'+buffer);
-			myGameInstance.SendMessage('YandexGameObject', 'VipBoughtCallback', buffer);
+      console.log ('Unity is handling purchase. Token:'+token);
+			myGameInstance.SendMessage('YandexGameObject', 'VipBoughtCallback', token);
 		}).catch(err => {
 			// Покупка не удалась: в Консоли разработчика не добавлен товар с таким id,
 			// пользователь не авторизовался, передумал и закрыл окно оплаты,
@@ -74,11 +71,9 @@ mergeInto(LibraryManager.library, {
       .then(purchases => purchases
       .forEach(purchase => {
         var token = purchase.purchaseToken;
-        var bufferSize = lengthBytesUTF8(token) + 1;
-        var buffer = _malloc(bufferSize);
-        stringToUTF8(token, buffer, bufferSize);
         console.log ('Unity is handling lost purchase on start');
-        myGameInstance.SendMessage('YandexGameObject', 'VipBoughtCallback', buffer);
+        console.log ('Token:' + token);
+        myGameInstance.SendMessage('YandexGameObject', 'VipBoughtCallback', token);
       })
     ).catch(err => {
       console.log('Unity FAILED get+consume purchases on start');
@@ -86,6 +81,7 @@ mergeInto(LibraryManager.library, {
   },
 
   ConsumeTokenExtern: function (tokenString) {
+    tokenString=UTF8ToString(tokenString);
     console.log ('Unity is consuming purchase. Token:'+tokenString);
     payments.consumePurchase(tokenString);
   },  
