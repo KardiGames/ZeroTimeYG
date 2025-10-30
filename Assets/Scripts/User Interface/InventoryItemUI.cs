@@ -92,11 +92,18 @@ public class InventoryItemUI : MonoBehaviour
             return;
         }
 
+        if (!activeFactory.TaskTimer.HaveFreeTaskSlot)
+        {
+            GlobalUserInterface.Instance.ShowError("There are no available production lines.");
+            return;
+        }
+
         if (!playerAP.TrySpendAP(1))
         {
             GlobalUserInterface.Instance.ShowError("You need at least 1 AP to start production.");
             return;
         }
+
 
         activeFactory.AddFactoryLine(_item as Blueprint, true);
     }

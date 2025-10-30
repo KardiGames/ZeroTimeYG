@@ -27,25 +27,16 @@
             .then(ysdk => {
                 console.log('Yandex SDK initialized');
                 window.ysdk = ysdk;
+				initPayments();
                 auth();
             });
 
         var player = null;
+		var payments = null;
         var authCompleted = false;
         var offlineMode = false;
 
-        function initPlayer() {
-          return ysdk.getPlayer().then(_player => { 
-            player = _player;
-            if (player === null) {
-              console.log('Player still not defined');
-            } else {
-              console.log('Player defined');  
-            }
 
-            return player;
-          });
-        }
 
         function auth() {
 
@@ -78,6 +69,29 @@
             startGameOffline();
           });
         }
+		
+		function initPlayer() {
+          return ysdk.getPlayer().then(_player => { 
+            player = _player;
+            if (player === null) {
+              console.log('Player still not defined');
+            } else {
+              console.log('Player defined');  
+            }
+
+            return player;
+          });
+        }
+		
+		function initPayments() {
+          ysdk.getPayments()
+            .then(_payments => {
+                payments = _payments;
+                console.log(payments);
+            }).catch(err => {
+                console.log('Payments not defined');
+            });
+        }
 
         function tryStartGame () {
           if (myGameInstance == null || authCompleted == false)
@@ -85,7 +99,7 @@
           
           myGameInstance.SendMessage('YandexGameObject', 'SetLanguage', ysdk.environment.i18n.lang);
 
-		      if (offlineMode===true) {
+		  if (offlineMode===true) {
             console.log('Trying call StartGameOffline');
             myGameInstance.SendMessage('YandexGameObject', 'StartGameOffline');
           } else {
@@ -96,8 +110,6 @@
               myGameInstance.SendMessage('YandexGameObject', 'SetSkillinfoName', player.getName());
             });
           }
-		  
-		  
         }
 
         function startGameOffline () {

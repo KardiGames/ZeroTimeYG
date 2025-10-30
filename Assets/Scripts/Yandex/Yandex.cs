@@ -1,27 +1,44 @@
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using TMPro;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 
 public class Yandex : MonoBehaviour
 {
-    public static int SAVE_SIZE_LIMIT = 100;
-    public static int SAVE_SIZE_WARNING = 90;
-    private static int MINUTES_TO_RESET = 5;
-    private static int FREE_SLOTS = 75;
+    public const int SAVE_SIZE_LIMIT = 100;
+    public const int SAVE_SIZE_WARNING = 90;
+    public const string INNER_TOKEN = "Unity editor token";
+    private const int MINUTES_TO_RESET = 5;
+    private const int FREE_SLOTS = 75;
     
+    [DllImport("__Internal")]
+    public static extern void BuyVipExtern();
+    [DllImport("__Internal")]
+    private static extern void ConsumeLostPurchasesExtern();
+    [DllImport("__Internal")]
+    private static extern void ConsumeTokenExtern(string token);
+
     [DllImport("__Internal")]
     private static extern void UnityReady();
 
     [DllImport("__Internal")]
     private static extern void SaveExtern(string jsonSave);
 
+    [DllImport("__Internal")]
+    private static extern void ShowAdExtern();
+
     [SerializeField] private GameManager _gameManager;
     [SerializeField] private Localisation _localisation;
+    [SerializeField] private SaveData _saveData;
     [SerializeField] private TextMeshProUGUI _nameInput;
+    [SerializeField] private Button _buyVip;
+    [SerializeField] ActionPoints _actionPoints;
     [SerializeField] private List<GameObject> _languageButtons;
     private List<int> _spentSlots = new List<int>();
+    private event Action<bool> _onAdShown;
 
     public bool SaveCompleted {get; private set;} = true;
     public bool Offline {get; private set;} = true;
@@ -40,13 +57,16 @@ public class Yandex : MonoBehaviour
         }
         Offline=false;
         SaveJsonData=saveJsonData;
+        
         print ("UNITY does LoadGame");
         _gameManager.StartGame();
+        ConsumeLostPurchasesExtern();
     }
 
     public void StartGameOffline () {
         print ("UNITY does StartGameOffline");
         Offline=true;
+        _buyVip.interactable = false;
         _gameManager.StartGame();
     }
 
@@ -100,6 +120,46 @@ public class Yandex : MonoBehaviour
             foreach (var button in _languageButtons)
                 button.SetActive(false);
         }
+    }
+
+    public void ShowAdForReward(Action<bool> onAdShown)
+    {
+        if (onAdShown == null)
+        {
+            GlobalUserInterface.Instance.ShowError(GlobalUserInterface.Instance.Localisation.Translate("Error #") + "3");
+            return;
+        }
+        _onAdShown= onAdShown;
+        ShowAdExtern();
+    }
+
+    public void AdShownCallback ()
+    {
+        bool stillDead = false;
+        _onAdShown?.Invoke(stillDead);
+        if (_onAdShown == null)
+            print("Unity error. Unixpected AdShownCallback");
+        _onAdShown = null;
+    }
+    public void AdDidntShowCallback ()
+    {
+        bool stillDead = true;
+        if (_onAdShown == null)
+            print("Unity error. Unixpected AdDidntShowCallback");
+        _onAdShown?.Invoke(stillDead);
+        _onAdShown = null;
+    }
+
+    public void VipBoughtCallback (string token)
+    {
+        _actionPoints.AddVipTime();
+        _actionPoints.Restore();
+        if (token != INNER_TOKEN)
+        {
+            print("Unity VIP token: " + token);
+            ConsumeTokenExtern(token);
+        }
+
     }
 
     private void OnEnable()

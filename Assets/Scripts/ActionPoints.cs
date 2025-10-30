@@ -9,7 +9,7 @@ public class ActionPoints : MonoBehaviour
 	private const int SECONDS_TO_ADD_AP = 900;
 	private const int MAX_AP_BASE = 24;
 	private const int MAX_AP_LEVEL_INCREASE = 6;
-	private const int MAX_AP_VIP_MULTIPLER = 3;
+	private const int VIP_MULTIPLER = 3;
 	private const int VIP_SECONDS=86400;
 	public event Action OnAPValueChanged;
 
@@ -32,16 +32,27 @@ public class ActionPoints : MonoBehaviour
 			pastTime = DateTime.Now;
 		int maxAp = MAX_AP_BASE + _playerCharacter.Level * MAX_AP_LEVEL_INCREASE;
 		if (pastTime < _vipFinishTime)
-			maxAp *= MAX_AP_VIP_MULTIPLER;
+			maxAp *= VIP_MULTIPLER;
 		return maxAp;
 	}
 	
+	private int PastApToAddValue (DateTime pastTime)
+	{
+		int apToAddValue = 1;
+		if (pastTime == null || pastTime > DateTime.Now)
+            pastTime = DateTime.Now;
+
+        if (pastTime < _vipFinishTime)
+            apToAddValue *= VIP_MULTIPLER;
+        return apToAddValue;
+    }
+
 	private void AddPointsByTimer() {
 
 		bool apChanged = false;
 		while (_timeToAddAP<DateTime.Now) {
 			if (_ap< PastMaxValue(_timeToAddAP)) {
-				_ap++;
+				_ap += PastApToAddValue(_timeToAddAP);
 				apChanged = true;
 			}
 			_timeToAddAP=_timeToAddAP.AddSeconds(SECONDS_TO_ADD_AP);
@@ -59,7 +70,13 @@ public class ActionPoints : MonoBehaviour
 		return true;
 	}
 	
-	public void StartVip ()
+	public void Restore ()
+	{
+		if (_ap<MaxValue)
+			_ap = MaxValue;
+	}
+	
+	public void AddVipTime ()
     {
 		if (_vipFinishTime < DateTime.Now)
 			_vipFinishTime = DateTime.Now.AddSeconds(VIP_SECONDS);

@@ -38,6 +38,7 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] private WorldMap _map;
     [SerializeField] private InformationPanelUI _informationPanel;
     [SerializeField] private Localisation _localisatiuon;
+    [SerializeField] private Yandex _yandex;
 
     private string[] _buildingNames;
 
@@ -132,6 +133,26 @@ public class MainMenuUI : MonoBehaviour
             _enterMineButton.interactable = false;
         else
             _enterMineButton.interactable = true;
+    }
+
+    public void AskBuyVIP() {
+        GlobalUserInterface.Instance.AskConfirmation(
+            BuyVIP,
+            "@Confirm VIP",
+            "Buy", 
+            "Cancel", 
+            "Buy VIP status?");
+    }
+
+    private void BuyVIP (bool isConfirmed)
+    {
+        if (isConfirmed == false)
+            return;
+#if UNITY_EDITOR
+        _yandex.VipBoughtCallback(Yandex.INNER_TOKEN);
+        return;
+#endif
+        Yandex.BuyVipExtern();
     }
 
     private void UpdateAP ()

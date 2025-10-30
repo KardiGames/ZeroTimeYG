@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
@@ -8,7 +7,6 @@ public class GlobalUserInterface : MonoBehaviour
 {
     [SerializeField] private BattleManager _battleManager;
     [SerializeField] private BattleUserInterface _battleUI;
-	[SerializeField] private SaveData _saveSystem; //TODO it was for one of the crutches. Delete this after check
     [SerializeField] private TextMeshProUGUI _errorText;
     [SerializeField] private TextMeshProUGUI _blackMessage;
     [SerializeField] private Localisation _localisation;
@@ -18,6 +16,7 @@ public class GlobalUserInterface : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _confirmQuestion;
     [SerializeField] private TextMeshProUGUI _confirmTrueText;
     [SerializeField] private TextMeshProUGUI _confirmFalseText;
+    private event Action<bool> _onPlayerDecided;
 
     public static GlobalUserInterface Instance { get; private set; }
     public BattleManager BattleManager => _battleManager; //TODO This is crutch (( Much better to delete this
@@ -42,5 +41,25 @@ public class GlobalUserInterface : MonoBehaviour
 	{
         _blackMessage.transform.parent.gameObject.SetActive(true);
         _blackMessage.text = _localisation.Translate(message);
+    }
+
+    public void AskConfirmation(Action<bool> onPlayerDecidedAction, string question, string trueAnswer, string falseAnswer, string header="")
+    {
+        if (onPlayerDecidedAction == null)
+            return;
+        _onPlayerDecided=onPlayerDecidedAction;
+        _confirmQuestion.text = _localisation.Translate(question);
+        _confirmTrueText.text = _localisation.Translate(trueAnswer);
+        _confirmFalseText.text = _localisation.Translate(falseAnswer);
+        _confirmHeader.text = _localisation.Translate(header);
+
+        _confirmPanel.SetActive(true);
+    }
+
+    public void GetConfirmation (bool answer)
+    {
+        _confirmPanel.SetActive(false);
+        _onPlayerDecided?.Invoke(answer);
+        _onPlayerDecided = null;
     }
 }

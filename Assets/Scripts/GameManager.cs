@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject _battleMap;
     [SerializeField] private WorldCharacter _player;
 
+    public bool IsOffline => _saveData.IsOffline;
+
     private void Awake()
     {
 		Item.LoadItems();
@@ -47,8 +49,6 @@ public class GameManager : MonoBehaviour
         if (_player.Level == 0 && _player.Experience == 0)
             GlobalUserInterface.Instance.ShowBlackMessage("@Intro");
     }
-
-
 
     public void NesessaryAction () //Action for test button
     {
@@ -92,8 +92,6 @@ public class GameManager : MonoBehaviour
         _player.gameObject.SetActive(true);
         Camera.main.transform.parent = _player.transform;
         Camera.main.transform.localPosition = new Vector3(0, 0, Camera.main.transform.localPosition.z);
-
-        //TODO Add here option to change dead to survived
 
         if (dead)
             if (_player.AP >= ActionPoints.ADDITIONAL_DEATH_AP_COST)

@@ -44,6 +44,7 @@ public class TaskTimer : MonoBehaviour
     }
 
 	public int QueuedTasks => _tasksList.Count;
+	public bool HaveFreeTaskSlot => _tasksList.Count < _maximumTasks;
 
     public void SetupTaskTimer(int maximumTasks = 1, int simultaneously = 1)
     {
@@ -108,7 +109,7 @@ public class TaskTimer : MonoBehaviour
 	public void AddTask (TaskByTimer newTask, bool startImmediately=false) {
 		if (newTask == null) 
 			return;
-		if (_tasksList.Count >= MaximumTasks)
+		if (!HaveFreeTaskSlot)
         {
 			print("Error. You were trying more tasks than Maximum for tasklist");
 			return;

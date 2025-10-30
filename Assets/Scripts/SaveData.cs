@@ -19,6 +19,8 @@ public class SaveData : MonoBehaviour
     private string _filePath = "savefile.txt";
     private bool isBuildingOpen = false;
 
+    public bool IsOffline => _yandexSDKConnector.Offline;
+
     public bool TryLoad () {
     #if UNITY_EDITOR
         return TryLoadFromObject();
