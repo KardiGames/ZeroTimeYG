@@ -99,10 +99,13 @@ public class GameManager : MonoBehaviour
             else
                 _player.ActionPoints.TrySpendAP(_player.AP);
 
-        float mineLevel = Mathf.Max(killPoints, mine.Level);
+        float mineLevel = killPoints;
         if (dead)
             mineLevel = mineLevel / DEATH_POINTS_DIVIDER * _player.Skills.GetSkillMultipler("Dangerous mining");
+        if (mine.Level > mineLevel)
+            mineLevel = (mine.Level + mineLevel) / 2;
         mine.Level = (int)mineLevel;
+
 
         float experience = killPoints;
         if (dead)
