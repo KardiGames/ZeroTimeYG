@@ -61,12 +61,14 @@ public class WorldMap : MonoBehaviour
                 && ((_movePosition.y - _player.transform.position.y) > 0) == (moveVector.y > 0))
             {
                 _player.transform.Translate(moveVector * Time.deltaTime);
+                _mainMenu.UpdateCoordinates();
                 yield return null;
             }
             _player.transform.position = _movePosition;
 			_playerAnimator?.SetBool("Run", false);
             _saveData.SaveCharacter();
             _playerIsMoving = false;
+            _mainMenu.EnterLocation();
 
             if (TryFinishTheGame())
                 _saveData.Save(true);
@@ -276,7 +278,10 @@ public class WorldMap : MonoBehaviour
 			_foundPoints.Add((mapJson.foundPointsXY[i++], mapJson.foundPointsXY[i++]));
 		foreach ((int x, int y) point in _foundPoints)
 			PlaceFoundPointSignOnArea(point.x, point.y);
-		_gameFinisher.FromJson(mapJson.finisher); 
+		_gameFinisher.FromJson(mapJson.finisher);
+        
+        _mainMenu.UpdateCoordinates();
+        _mainMenu.EnterLocation();
     }
 	
 	[Serializable]

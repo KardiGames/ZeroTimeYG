@@ -31,7 +31,7 @@ public class WorldCharacter : MonoBehaviour
 
 	public Skills Skills => _skills;
 	public int X => (int)transform.position.x;
-	public int Y => (int)transform.position.y;	
+	public int Y => (int)transform.position.y;
 	public int AP => _worldAP.Value;
 	public ActionPoints ActionPoints => _worldAP;
 

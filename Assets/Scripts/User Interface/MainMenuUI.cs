@@ -9,6 +9,7 @@ public class MainMenuUI : MonoBehaviour
 {
     [Header("Location buttons")]
     [SerializeField] private GameObject _locationPanel;
+    [SerializeField] private TextMeshProUGUI _coordinatesValues;
     [SerializeField] private Button _factoryButton;
     [SerializeField] private Button _mineButton;
     [SerializeField] private Button _laboratoryButton;
@@ -18,6 +19,8 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] private Button _equipmentButton;
     [SerializeField] private Button _skillsButton;
     [SerializeField] private TextMeshProUGUI _playerAPText;
+    [SerializeField] private TextMeshProUGUI _APTimerText;
+    [SerializeField] private TextMeshProUGUI _VIPUntilText;
 
     [Header("Factory panel")]
     [SerializeField] private Factory _factoryOnGameObject;
@@ -46,7 +49,7 @@ public class MainMenuUI : MonoBehaviour
     {
         if (!_map.AreBuildingsFound(_character.X, _character.Y))
         {
-            GlobalUserInterface.Instance.ShowError("You don't know are there some objects here. Search here before");
+            //GlobalUserInterface.Instance.ShowError("You don't know are there some objects here. Search here before");
             return;
         }
 
@@ -144,6 +147,11 @@ public class MainMenuUI : MonoBehaviour
             "Buy VIP status?");
     }
 
+    public void UpdateCoordinates ()
+    {
+        _coordinatesValues.text = "["+_character.X+"] ["+_character.Y+"]";
+    }
+
     private void BuyVIP (bool isConfirmed)
     {
         if (isConfirmed == false)
@@ -160,10 +168,16 @@ public class MainMenuUI : MonoBehaviour
         _playerAPText.text = _character.AP+ " " + Translate("AP");
     }
 
+    private void UpdateAPText ()
+    {
+        throw new System.NotImplementedException();
+    }
+
     private void OnEnable()
     {
         if (_character.CharacterName != "")
             UpdateAP();
+
         _character.ActionPoints.OnAPValueChanged += UpdateAP;
         _localisatiuon.OnLanguageChangedEvent += UpdateAP;
     }
