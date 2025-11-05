@@ -12,6 +12,7 @@ public class ActionPoints : MonoBehaviour
 	private const int VIP_MULTIPLER = 3;
 	private const int VIP_SECONDS=86400;
 	public event Action OnAPValueChanged;
+	public event Action OnVipTimeChanged;
 
 	[SerializeField] private WorldCharacter _playerCharacter;
 
@@ -25,6 +26,7 @@ public class ActionPoints : MonoBehaviour
 	}}
 
 	public int MaxValue => PastMaxValue(DateTime.Now);
+	public DateTime VipFinishTime => _vipFinishTime;
 
 	private int PastMaxValue (DateTime pastTime)
     {
@@ -74,7 +76,8 @@ public class ActionPoints : MonoBehaviour
 	{
 		if (_ap<MaxValue)
 			_ap = MaxValue;
-	}
+        OnAPValueChanged?.Invoke();
+    }
 	
 	public void AddVipTime ()
     {
@@ -82,6 +85,8 @@ public class ActionPoints : MonoBehaviour
 			_vipFinishTime = DateTime.Now.AddSeconds(VIP_SECONDS);
 		else
 			_vipFinishTime = _vipFinishTime.AddSeconds(VIP_SECONDS);
+		OnVipTimeChanged?.Invoke();
+
     }
 
 	public string ToJson()
@@ -104,6 +109,7 @@ public class ActionPoints : MonoBehaviour
 		print("TTA "+ _timeToAddAP+" VIP "+ _vipFinishTime);
 
 		OnAPValueChanged?.Invoke();
+		OnVipTimeChanged?.Invoke();
 	}
 
 	[Serializable]

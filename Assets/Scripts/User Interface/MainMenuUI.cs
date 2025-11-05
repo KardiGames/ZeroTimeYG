@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class MainMenuUI : MonoBehaviour
 {
@@ -173,19 +174,38 @@ public class MainMenuUI : MonoBehaviour
         throw new System.NotImplementedException();
     }
 
+    private void UpdateVIPText ()
+    {
+        if (_character.ActionPoints.VipFinishTime > DateTime.Now)
+        {
+            _VIPUntilText.text = Translate("VIP status is active until") + "\n" + _character.ActionPoints.VipFinishTime.ToString("dd.MM.yy    HH:mm");
+        } 
+        else
+        {
+            _VIPUntilText.text = Translate("VIP status is not active");
+        }
+    }
+
     private void OnEnable()
     {
         if (_character.CharacterName != "")
+        {
             UpdateAP();
+            UpdateVIPText();
+        }
 
         _character.ActionPoints.OnAPValueChanged += UpdateAP;
         _localisatiuon.OnLanguageChangedEvent += UpdateAP;
+        _character.ActionPoints.OnVipTimeChanged += UpdateVIPText;
+        _localisatiuon.OnLanguageChangedEvent += UpdateVIPText;
     }
 
     private void OnDisable()
     {
         _character.ActionPoints.OnAPValueChanged -= UpdateAP;
         _localisatiuon.OnLanguageChangedEvent -= UpdateAP;
+        _character.ActionPoints.OnVipTimeChanged -= UpdateVIPText;
+        _localisatiuon.OnLanguageChangedEvent -= UpdateVIPText;
     }
 
     private string Translate(string text) =>
