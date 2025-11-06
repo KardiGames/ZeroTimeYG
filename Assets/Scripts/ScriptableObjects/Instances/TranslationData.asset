@@ -750,6 +750,8 @@ MonoBehaviour:
   - _english: VIP status is not active
     _russian: "\u0412\u0418\u041F \u0441\u0442\u0430\u0442\u0443\u0441 \u043D\u0435
       \u0430\u043A\u0442\u0438\u0432\u0435\u043D"
+  - _english: ' AP in '
+    _russian: " \u041E\u0414 \u0447\u0435\u0440\u0435\u0437 "
   _texts:
   - _tag: '@MineHelp'
     _english: 'The ruins of a mine or building where the invaders'' reproduction

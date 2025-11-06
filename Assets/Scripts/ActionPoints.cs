@@ -26,6 +26,19 @@ public class ActionPoints : MonoBehaviour
 	}}
 
 	public int MaxValue => PastMaxValue(DateTime.Now);
+	public int NextIncreaseValue { get
+	{
+		int increase=1;
+		if (DateTime.Now <= _vipFinishTime)
+			increase*=VIP_MULTIPLER;
+
+		return Mathf.Min(increase, MaxValue - _ap);
+	} }
+	public DateTime IncreaseAPTime {get
+		{
+			AddPointsByTimer();
+			return _timeToAddAP;
+		} }
 	public DateTime VipFinishTime => _vipFinishTime;
 
 	private int PastMaxValue (DateTime pastTime)

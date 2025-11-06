@@ -45,6 +45,7 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] private Yandex _yandex;
 
     private string[] _buildingNames;
+    private DateTime _increaseAPTime = new DateTime();
 
     public void EnterLocation ()
     {
@@ -169,9 +170,24 @@ public class MainMenuUI : MonoBehaviour
         _playerAPText.text = _character.AP+ " " + Translate("AP");
     }
 
-    private void UpdateAPText ()
+    private void UpdateAPTimer ()
     {
-        throw new System.NotImplementedException();
+        if (_character.name == "")
+            return;
+
+        if (_increaseAPTime < DateTime.Now)
+            _increaseAPTime = _character.ActionPoints.IncreaseAPTime;
+
+        int nextIncrease = _character.ActionPoints.NextIncreaseValue;
+
+        if (nextIncrease <= 0)
+        {
+            _APTimerText.text = "";
+        }
+        else
+        {
+            _APTimerText.text = "+" + nextIncrease + Translate (" AP in ")+(_increaseAPTime-DateTime.Now).ToString("mm:ss");
+        }
     }
 
     private void UpdateVIPText ()
@@ -198,6 +214,7 @@ public class MainMenuUI : MonoBehaviour
         _localisatiuon.OnLanguageChangedEvent += UpdateAP;
         _character.ActionPoints.OnVipTimeChanged += UpdateVIPText;
         _localisatiuon.OnLanguageChangedEvent += UpdateVIPText;
+        Timer.Instance.EverySecondAction += UpdateAPTimer;
     }
 
     private void OnDisable()
@@ -206,6 +223,7 @@ public class MainMenuUI : MonoBehaviour
         _localisatiuon.OnLanguageChangedEvent -= UpdateAP;
         _character.ActionPoints.OnVipTimeChanged -= UpdateVIPText;
         _localisatiuon.OnLanguageChangedEvent -= UpdateVIPText;
+        Timer.Instance.EverySecondAction -= UpdateAPTimer;
     }
 
     private string Translate(string text) =>
