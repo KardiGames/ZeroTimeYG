@@ -42,6 +42,7 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] private WorldMap _map;
     [SerializeField] private InformationPanelUI _informationPanel;
     [SerializeField] private Localisation _localisatiuon;
+    [SerializeField] private Timer _timer;
     [SerializeField] private Yandex _yandex;
 
     private string[] _buildingNames;
@@ -186,7 +187,7 @@ public class MainMenuUI : MonoBehaviour
         }
         else
         {
-            _APTimerText.text = "+" + nextIncrease + Translate (" AP in ")+(_increaseAPTime-DateTime.Now).ToString("mm:ss");
+            _APTimerText.text = "+" + nextIncrease + Translate (" AP in ")+(_increaseAPTime-DateTime.Now).ToString(@"mm\:ss");
         }
     }
 
@@ -214,7 +215,7 @@ public class MainMenuUI : MonoBehaviour
         _localisatiuon.OnLanguageChangedEvent += UpdateAP;
         _character.ActionPoints.OnVipTimeChanged += UpdateVIPText;
         _localisatiuon.OnLanguageChangedEvent += UpdateVIPText;
-        Timer.Instance.EverySecondAction += UpdateAPTimer;
+        _timer.EverySecondAction += UpdateAPTimer;
     }
 
     private void OnDisable()
@@ -223,7 +224,7 @@ public class MainMenuUI : MonoBehaviour
         _localisatiuon.OnLanguageChangedEvent -= UpdateAP;
         _character.ActionPoints.OnVipTimeChanged -= UpdateVIPText;
         _localisatiuon.OnLanguageChangedEvent -= UpdateVIPText;
-        Timer.Instance.EverySecondAction -= UpdateAPTimer;
+        _timer.EverySecondAction -= UpdateAPTimer;
     }
 
     private string Translate(string text) =>

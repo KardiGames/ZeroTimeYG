@@ -9,7 +9,7 @@ public class Timer : MonoBehaviour
 	
 	private void Awake()
     {
-        if (Instance == null)
+		if (Instance == null)
             Instance = this;
         else if (Instance != this)
             Destroy(this);
