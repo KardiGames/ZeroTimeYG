@@ -25,6 +25,9 @@ public class Yandex : MonoBehaviour
     private static extern void UnityReady();
 
     [DllImport("__Internal")]
+    private static extern void CallLoadingApiReady();
+
+    [DllImport("__Internal")]
     private static extern void SaveExtern(string jsonSave);
 
     [DllImport("__Internal")]
@@ -61,6 +64,7 @@ public class Yandex : MonoBehaviour
         print ("UNITY does LoadGame");
         _gameManager.StartGame();
         ConsumeLostPurchasesExtern();
+        CallLoadingApiReady();
     }
 
     public void StartGameOffline () {
@@ -68,6 +72,7 @@ public class Yandex : MonoBehaviour
         Offline=true;
         _buyVip.interactable = false;
         _gameManager.StartGame();
+        CallLoadingApiReady();
     }
 
     public void SetNewSaveJson(SaveScrObj newSaveJson)

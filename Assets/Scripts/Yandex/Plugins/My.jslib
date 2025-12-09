@@ -1,10 +1,5 @@
 mergeInto(LibraryManager.library, {
 
-  RequestPlayerData: function () {
-    myGameInstance.SendMessage('YandexGameObject', 'SetName', player.getName());
-    myGameInstance.SendMessage('YandexGameObject', 'SetPhoto', player.getPhoto("medium"));
-  },
-
   RequestPlayerName: function () {
     myGameInstance.SendMessage('YandexGameObject', 'SetSkillinfoName', player.getName());
   },
@@ -24,6 +19,10 @@ mergeInto(LibraryManager.library, {
 
   UnityReady: function() {
       console.log('UNITY calls UnityReady on Start');
+  },
+
+  CallLoadingApiReady: function() {
+    ysdk.features.LoadingAPI.ready();
   },
 
   SetScore: function(score){
