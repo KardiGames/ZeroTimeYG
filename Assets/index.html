@@ -42,25 +42,12 @@
 
           initPlayer().then(_player => {
             if (_player.isAuthorized() === false) {
-            // Игрок не авторизован.
-              ysdk.auth.openAuthDialog().then(() => {
-                // Игрок успешно авторизован.
-                initPlayer().then(() => {
-                authCompleted = true;
-                tryStartGame();
-                }).catch(err => {
-                // Ошибка при инициализации объекта Player.
-                console.log('CATCH - не удалось повторно сделать initPlayer после окна авторизации. Запуск оффлайн.');
-                startGameOffline();
-                });
-              }
-              ).catch(() => {
-                console.log('CATCH - ауторизация неудалась. Запуск оффлайн.');
-                startGameOffline();
-              });
+			  // Игрок не авторизован.
+			  console.log ('Авторизация не проведена. Пробуем запустить так.');
+              tryStartGame();
             } else {
               authCompleted = true;
-              console.log ('ELSE - уже ауторизован!!!');
+              console.log ('ELSE - ауторизован!!!');
               tryStartGame();
             }
           }).catch(err => {
@@ -94,7 +81,7 @@
         }
 
         function tryStartGame () {
-          if (myGameInstance == null || authCompleted == false)
+          if (myGameInstance == null || player == false)
             return;
           
           myGameInstance.SendMessage('YandexGameObject', 'SetLanguage', ysdk.environment.i18n.lang);
@@ -107,14 +94,15 @@
               const saveObject = JSON.stringify(jsonString);
               console.log('Trying call LoadGame');                     
               myGameInstance.SendMessage('YandexGameObject', 'LoadGame', saveObject);
-              myGameInstance.SendMessage('YandexGameObject', 'SetSkillinfoName', player.getName());
+			  if (authCompleted===true) {
+				myGameInstance.SendMessage('YandexGameObject', 'SetSkillinfoName', player.getName());
+			  }
             });
           }
         }
 
         function startGameOffline () {
           offlineMode=true;
-          authCompleted=true;
           tryStartGame();
         }
 			
