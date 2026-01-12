@@ -142,9 +142,14 @@ public class MainMenuUI : MonoBehaviour
     }
 
     public void AskBuyVIP() {
+        if (_gameManager.IsOffline || _yandex == null || _yandex.VipPriceText=="")
+        {
+            GlobalUserInterface.Instance.ShowError("You can't buy VIP status now. Try to restart the game.");
+            return;
+        }
         GlobalUserInterface.Instance.AskConfirmation(
             BuyVIP,
-            "@Confirm VIP",
+            Translate("@Confirm VIP")+_yandex.VipPriceText,
             "Buy", 
             "Cancel", 
             "Buy VIP status?");

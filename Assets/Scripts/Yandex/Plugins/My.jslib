@@ -21,7 +21,7 @@ mergeInto(LibraryManager.library, {
       console.log('UNITY calls UnityReady on Start');
   },
 
-  CallLoadingApiReady: function() {
+  CallLoadingApiReadyExtern: function() {
     ysdk.features.LoadingAPI.ready();
   },
 
@@ -76,6 +76,18 @@ mergeInto(LibraryManager.library, {
       })
     ).catch(err => {
       console.log('Unity FAILED get+consume purchases on start');
+    });
+  },
+
+  RequestVipPriceExtern: function () {
+    payments
+      .getCatalog()
+      .then(products => products
+      .forEach(procuct => {
+        myGameInstance.SendMessage('YandexGameObject', 'SetVipPrice', product.price);
+      })
+    ).catch(err => {
+      console.log('Unity FAILED set price+currancy for VIP');
     });
   },
 

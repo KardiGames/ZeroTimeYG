@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using TMPro;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 
 public class Yandex : MonoBehaviour
@@ -25,13 +24,16 @@ public class Yandex : MonoBehaviour
     private static extern void UnityReady();
 
     [DllImport("__Internal")]
-    private static extern void CallLoadingApiReady();
+    private static extern void CallLoadingApiReadyExtern();
 
     [DllImport("__Internal")]
     private static extern void SaveExtern(string jsonSave);
 
     [DllImport("__Internal")]
     private static extern void ShowAdExtern();
+
+    [DllImport("__Internal")]
+    private static extern void RequestVipPriceExtern();
 
     [SerializeField] private GameManager _gameManager;
     [SerializeField] private Localisation _localisation;
@@ -42,13 +44,25 @@ public class Yandex : MonoBehaviour
     [SerializeField] private List<GameObject> _languageButtons;
     private List<int> _spentSlots = new List<int>();
     private event Action<bool> _onAdShown;
-
+    private bool isStartCalled = false;
+    private bool isGameStarted = false;
     public bool SaveCompleted {get; private set;} = true;
     public bool Offline {get; private set;} = true;
     public string SaveJsonData { get; private set; } = "";
+    public string VipPriceText { get; private set; } = "";
 
     public void SetNewCharacterName (string playerName) {
         _nameInput.text = name;
+    }
+    
+    public void SetVipPrice (string vipPrice)
+    {
+        if (VipPriceText != "")
+        {
+            print("UNITY got more then 1 Vip price! Didn't handled it. Error?");
+            return;
+        }
+        VipPriceText = vipPrice;
     }
 
     public void LoadGame (string saveJsonData) {
@@ -64,6 +78,9 @@ public class Yandex : MonoBehaviour
         print ("UNITY does LoadGame");
         _gameManager.StartGame();
         ConsumeLostPurchasesExtern();
+        RequestVipPriceExtern();
+        
+        isGameStarted = true;
         CallLoadingApiReady();
     }
 
@@ -72,6 +89,8 @@ public class Yandex : MonoBehaviour
         Offline=true;
         _buyVip.interactable = false;
         _gameManager.StartGame();
+        
+        isGameStarted = true;
         CallLoadingApiReady();
     }
 
@@ -164,7 +183,7 @@ public class Yandex : MonoBehaviour
             print("Unity VIP token: " + token);
             ConsumeTokenExtern(token);
         }
-
+        _saveData.Save(true);
     }
 
     private void OnEnable()
@@ -174,6 +193,13 @@ public class Yandex : MonoBehaviour
     private void OnDisable()
     {
         Timer.Instance.EveryMinuteAction -= ResetOldestSlots;
+    }
+
+    private void Start()
+    {
+        print("UNITY Start() called");
+        isStartCalled = true;
+        CallLoadingApiReady();
     }
     private bool HaveFreeSaveSlot()
     {
@@ -197,5 +223,13 @@ public class Yandex : MonoBehaviour
         _spentSlots.Add(0);
         if (_spentSlots.Count>MINUTES_TO_RESET)
             _spentSlots.RemoveAt(0);
+    }
+
+    private void CallLoadingApiReady()
+    {
+        if (isGameStarted && isStartCalled)
+        {
+            CallLoadingApiReadyExtern();
+        }
     }
 }
