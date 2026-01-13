@@ -27,7 +27,7 @@
             .then(ysdk => {
                 console.log('Yandex SDK initialized');
                 window.ysdk = ysdk;
-				        initPayments();
+				initPayments();
                 auth();
             });
 
@@ -71,7 +71,8 @@
         }
 		
 		function initPayments() {
-          ysdk.getPayments()
+          console.log('Starting init Payments');
+		  ysdk.getPayments()
             .then(_payments => {
                 payments = _payments;
                 console.log(payments);
@@ -81,7 +82,7 @@
         }
 
         function tryStartGame () {
-          if (myGameInstance == null || player == false)
+          if (myGameInstance === null || player === null)
             return;
           
           myGameInstance.SendMessage('YandexGameObject', 'SetLanguage', ysdk.environment.i18n.lang);

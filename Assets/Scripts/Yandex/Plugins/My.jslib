@@ -65,26 +65,30 @@ mergeInto(LibraryManager.library, {
   },
 
   ConsumeLostPurchasesExtern: function () {
-    payments
+    console.log('Unity is handling lost purchase on start');
+	payments
       .getPurchases()
       .then(purchases => purchases
       .forEach(purchase => {
         var token = purchase.purchaseToken;
-        console.log ('Unity is handling lost purchase on start');
         console.log ('Token:' + token);
         myGameInstance.SendMessage('YandexGameObject', 'VipBoughtCallback', token);
       })
     ).catch(err => {
       console.log('Unity FAILED get+consume purchases on start');
     });
+	console.log('Unity has finished handling lost purchase some how');
   },
 
   RequestVipPriceExtern: function () {
-    payments
+    console.log('Unity has requested vip price');
+	payments
       .getCatalog()
       .then(products => products
       .forEach(procuct => {
-        myGameInstance.SendMessage('YandexGameObject', 'SetVipPrice', product.price);
+        var priceText=product.price;
+		myGameInstance.SendMessage('YandexGameObject', 'SetVipPrice', priceText);
+		console.log('Unity has got '+priceText+' as price text');
       })
     ).catch(err => {
       console.log('Unity FAILED set price+currancy for VIP');
