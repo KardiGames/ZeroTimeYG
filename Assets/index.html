@@ -81,7 +81,7 @@
         }
 
         function tryStartGame () {
-          if (myGameInstance == null || player == false)
+          if (myGameInstance === null || player === null)
             return;
           
           myGameInstance.SendMessage('YandexGameObject', 'SetLanguage', ysdk.environment.i18n.lang);
