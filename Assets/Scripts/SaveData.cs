@@ -51,6 +51,7 @@ public class SaveData : MonoBehaviour
     public void Save (bool force=false) {
         if (_globalMapBuildings.Count==0 || _mapJson=="" || _playerJson == "") {
             GlobalUserInterface.Instance.ShowError ("Saving error! The data is corrupted. Restart the game to avoid data loss.");
+            print("Unity save error desctiption: " + _globalMapBuildings.Count + " buildings, empty mapJson is " + (_mapJson == "") + ", empty playerJson is " + (_playerJson == ""));
             return;
         }
 
@@ -146,11 +147,11 @@ public class SaveData : MonoBehaviour
         Save(true);
     }
 
-    public void SaveCharacter ()
+    public void SaveCharacter (bool force=false)
     {
         _playerJson = _playerCharacter.ToJson();
-        if (!isBuildingOpen)
-            Save();
+        if (!isBuildingOpen || force)
+            Save(force);
     }
     public void LoadCharacter()
     {
@@ -213,15 +214,15 @@ public class SaveData : MonoBehaviour
 	{
 		if (_saveObject==null)
 			return;
-		_saveObject.Save = FormSaveText();
-	}
+        _saveObject.Save = FormSaveText();
+        string logText = "Saved. " + _saveObject.Save.Length + "K";
+    }
 
 
 	
 	private string FormSaveText () {
 	
 		SaveJsonData jsonData = new SaveJsonData() { _globalMapBuildings = _globalMapBuildings, _playerJson= _playerJson, _mapJson= _mapJson};
-        print("Saved " + (JsonUtility.ToJson(jsonData).Length / 1000) + "K");
 		return JsonUtility.ToJson(jsonData);
 	}
 	

@@ -24312,18 +24312,6 @@ MonoBehaviour:
       - m_Target: {fileID: 476735870}
         m_TargetAssemblyTypeName: SaveData, GameAssembly
         m_MethodName: SaveCharacter
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 476735870}
-        m_TargetAssemblyTypeName: SaveData, GameAssembly
-        m_MethodName: Save
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -25620,7 +25608,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gameManager: {fileID: 476735868}
   _localisation: {fileID: 630941250}
-  _saveData: {fileID: 0}
+  _saveData: {fileID: 476735870}
   _nameInput: {fileID: 567210805}
   _buyVip: {fileID: 1496278991}
   _actionPoints: {fileID: 1486608461}

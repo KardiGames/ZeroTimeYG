@@ -144,9 +144,8 @@ public class MainMenuUI : MonoBehaviour
     public void AskBuyVIP() {
         if (_gameManager.IsOffline || _yandex == null || _yandex.VipPriceText=="")
         {
-            //GlobalUserInterface.Instance.ShowError("You can't buy VIP status now. Try to restart the game.");
-            print("Unity failed check for vip price"); //TODO return return below
-            //return;
+            GlobalUserInterface.Instance.ShowError("You can't buy VIP status now. Try to restart the game.");
+            return;
         }
         GlobalUserInterface.Instance.AskConfirmation(
             BuyVIP,

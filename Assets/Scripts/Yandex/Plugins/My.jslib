@@ -51,7 +51,8 @@ mergeInto(LibraryManager.library, {
   },
   
   BuyVipExtern: function () {
-	  payments.purchase({ id: 'vipstatus' })
+	  console.log('Unity is starting purchase. payments is '+(payments!=null));
+    payments.purchase({ id: 'vipstatus' })
 		.then(purchase => {
       var token = purchase.purchaseToken;
       console.log ('Unity is handling purchase. Token:'+token);
@@ -65,7 +66,8 @@ mergeInto(LibraryManager.library, {
   },
 
   ConsumeLostPurchasesExtern: function () {
-    console.log('Unity is handling lost purchase on start');
+    console.log('Unity is handling lost purchase on start. payments is '+(payments!=null));
+    console.log(payments);
 	payments
       .getPurchases()
       .then(purchases => purchases
@@ -81,16 +83,18 @@ mergeInto(LibraryManager.library, {
   },
 
   RequestVipPriceExtern: function () {
-    console.log('Unity has requested vip price');
-	payments
+    console.log('Unity has requested vip price. payments is '+(payments!=null));
+    console.log(payments);
+	  payments
       .getCatalog()
-      .then(products => products
-      .forEach(procuct => {
+      .then(products => {
+        console.log ('products is '+(products != null)+' and has '+(products.length));
+        products.forEach(product => {
         var priceText=product.price;
-		myGameInstance.SendMessage('YandexGameObject', 'SetVipPrice', priceText);
-		console.log('Unity has got '+priceText+' as price text');
-      })
-    ).catch(err => {
+		    myGameInstance.SendMessage('YandexGameObject', 'SetVipPrice', priceText);
+		    console.log('Unity has got '+priceText+' as price text');
+      });
+    }).catch(err => {
       console.log('Unity FAILED set price+currancy for VIP');
     });
   },

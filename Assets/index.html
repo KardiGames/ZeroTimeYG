@@ -24,15 +24,15 @@
     <script>
         YaGames
             .init()
-            .then(ysdk => {
+            .then(_ysdk => {
                 console.log('Yandex SDK initialized');
-                window.ysdk = ysdk;
-				initPayments();
+                window.ysdk = _ysdk;
+				        initPayments();
                 auth();
             });
 
         var player = null;
-		var payments = null;
+		    var payments = null;
         var authCompleted = false;
         var offlineMode = false;
 
@@ -71,13 +71,14 @@
         }
 		
 		function initPayments() {
-          console.log('Starting init Payments');
+          console.log('Starting init Payments. ysdk '+(ysdk != null));
 		  ysdk.getPayments()
             .then(_payments => {
                 payments = _payments;
-                console.log(payments);
+                console.log("payments "+ (payments != null));
             }).catch(err => {
                 console.log('Payments not defined');
+                console.log(err)
             });
         }
 

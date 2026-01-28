@@ -183,7 +183,7 @@ public class Yandex : MonoBehaviour
             print("Unity VIP token: " + token);
             ConsumeTokenExtern(token);
         }
-        _saveData.Save(true);
+        _saveData.SaveCharacter(true);
     }
 
     private void OnEnable()
@@ -200,6 +200,9 @@ public class Yandex : MonoBehaviour
         print("UNITY Start() called");
         isStartCalled = true;
         CallLoadingApiReady();
+#if UNITY_EDITOR
+        VipPriceText="0 $@%";
+#endif
     }
     private bool HaveFreeSaveSlot()
     {
