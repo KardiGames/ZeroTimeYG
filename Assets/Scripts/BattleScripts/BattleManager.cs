@@ -175,7 +175,22 @@ public class BattleManager : MonoBehaviour
             .Select(tuple => tuple.action)
             .ToList();
     }
-    void SpawnEnemies(int enemiesNumberInBattle, float enemiesDifficultyInBattle)
+
+    internal void ExitBattle(bool death=false)
+    {
+        Status = "starting";
+        AllCombatCharacters.ForEach(u => Destroy(u.gameObject));
+        if (death && _gameManager.IsOffline==false)
+            _battleUI.AvoidDeath();
+        else
+            _gameManager.EndBattle(KillPoints, _mine, death);
+    }
+
+    internal void ExitAfterDeathAvoiding (bool stillDead)
+    {
+        _gameManager.EndBattle(KillPoints, _mine, stillDead);
+    }
+    private void SpawnEnemies(int enemiesNumberInBattle, float enemiesDifficultyInBattle)
     {
         float difficultyProgressionSpeed = 0.5f; //must be > 0!!!
         int npcNumberCloseToExpected = 2; //1 - totally random, >1 - closer to expected, <1 - Not warking at all!! ((
@@ -235,12 +250,6 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    internal void ExitBattle(bool death=false)
-    {
-        Status = "starting";
-        AllCombatCharacters.ForEach(u => Destroy(u.gameObject));
-        _gameManager.EndBattle(KillPoints, _mine, death);
-    }
 
     private void PlaceCombatCharacter (WorldCharacter player)
     {

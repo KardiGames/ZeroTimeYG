@@ -4,11 +4,13 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class MainMenuUI : MonoBehaviour
 {
     [Header("Location buttons")]
     [SerializeField] private GameObject _locationPanel;
+    [SerializeField] private TextMeshProUGUI _coordinatesValues;
     [SerializeField] private Button _factoryButton;
     [SerializeField] private Button _mineButton;
     [SerializeField] private Button _laboratoryButton;
@@ -18,6 +20,8 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] private Button _equipmentButton;
     [SerializeField] private Button _skillsButton;
     [SerializeField] private TextMeshProUGUI _playerAPText;
+    [SerializeField] private TextMeshProUGUI _APTimerText;
+    [SerializeField] private TextMeshProUGUI _VIPUntilText;
 
     [Header("Factory panel")]
     [SerializeField] private Factory _factoryOnGameObject;
@@ -38,14 +42,17 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] private WorldMap _map;
     [SerializeField] private InformationPanelUI _informationPanel;
     [SerializeField] private Localisation _localisatiuon;
+    [SerializeField] private Timer _timer;
+    [SerializeField] private Yandex _yandex;
 
     private string[] _buildingNames;
+    private DateTime _increaseAPTime = new DateTime();
 
     public void EnterLocation ()
     {
         if (!_map.AreBuildingsFound(_character.X, _character.Y))
         {
-            GlobalUserInterface.Instance.ShowError("You don't know are there some objects here. Search here before");
+            //GlobalUserInterface.Instance.ShowError("You don't know are there some objects here. Search here before");
             return;
         }
 
@@ -134,23 +141,95 @@ public class MainMenuUI : MonoBehaviour
             _enterMineButton.interactable = true;
     }
 
+    public void AskBuyVIP() {
+        if (_gameManager.IsOffline || _yandex == null || _yandex.VipPriceText=="")
+        {
+            GlobalUserInterface.Instance.ShowError("You can't buy VIP status now. Try to restart the game.");
+            return;
+        }
+        GlobalUserInterface.Instance.AskConfirmation(
+            BuyVIP,
+            Translate("@Confirm VIP")+_yandex.VipPriceText,
+            "Buy", 
+            "Cancel", 
+            "Buy VIP status?");
+    }
+
+    public void UpdateCoordinates ()
+    {
+        _coordinatesValues.text = "["+_character.X+"] ["+_character.Y+"]";
+    }
+
+    private void BuyVIP (bool isConfirmed)
+    {
+        if (isConfirmed == false)
+            return;
+#if UNITY_EDITOR
+        _yandex.VipBoughtCallback(Yandex.INNER_TOKEN);
+        return;
+#endif
+        Yandex.BuyVipExtern();
+    }
+
     private void UpdateAP ()
     {
         _playerAPText.text = _character.AP+ " " + Translate("AP");
     }
 
+    private void UpdateAPTimer ()
+    {
+        if (_character.name == "")
+            return;
+
+        if (_increaseAPTime < DateTime.Now)
+            _increaseAPTime = _character.ActionPoints.IncreaseAPTime;
+
+        int nextIncrease = _character.ActionPoints.NextIncreaseValue;
+
+        if (nextIncrease <= 0)
+        {
+            _APTimerText.text = "";
+        }
+        else
+        {
+            _APTimerText.text = "+" + nextIncrease + Translate (" AP in ")+(_increaseAPTime-DateTime.Now).ToString(@"mm\:ss");
+        }
+    }
+
+    private void UpdateVIPText ()
+    {
+        if (_character.ActionPoints.VipFinishTime > DateTime.Now)
+        {
+            _VIPUntilText.text = Translate("VIP status is active until") + "\n" + _character.ActionPoints.VipFinishTime.ToString("dd.MM.yy    HH:mm");
+        } 
+        else
+        {
+            _VIPUntilText.text = Translate("VIP status is not active");
+        }
+    }
+
     private void OnEnable()
     {
         if (_character.CharacterName != "")
+        {
             UpdateAP();
+            UpdateVIPText();
+        }
+
         _character.ActionPoints.OnAPValueChanged += UpdateAP;
         _localisatiuon.OnLanguageChangedEvent += UpdateAP;
+        _character.ActionPoints.OnVipTimeChanged += UpdateVIPText;
+        _localisatiuon.OnLanguageChangedEvent += UpdateVIPText;
+        _timer.EverySecondAction += UpdateAPTimer;
     }
 
     private void OnDisable()
     {
         _character.ActionPoints.OnAPValueChanged -= UpdateAP;
         _localisatiuon.OnLanguageChangedEvent -= UpdateAP;
+        _character.ActionPoints.OnVipTimeChanged -= UpdateVIPText;
+        _localisatiuon.OnLanguageChangedEvent -= UpdateVIPText;
+        _timer.EverySecondAction -= UpdateAPTimer;
     }
 
     private string Translate(string text) =>

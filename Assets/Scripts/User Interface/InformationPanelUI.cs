@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using System;
 
 public class InformationPanelUI : MonoBehaviour
 {
@@ -18,7 +15,6 @@ public class InformationPanelUI : MonoBehaviour
     [SerializeField] Image _producedItemIcon;
     private Item _blueprintProductionItem;
 
-    // Update is called once per frame
     private void ClearElements()
     {
         _infoText.gameObject.SetActive(false);
@@ -147,7 +143,7 @@ public class InformationPanelUI : MonoBehaviour
         _producedItemIcon.gameObject.SetActive(true);
         _producedItemIcon.sprite = _blueprintProductionItem.Icon;
         _producedItemIcon.color = _blueprintProductionItem.IconColor;
-        _itemInfoText.text = Translate("Produses in factory ") + _blueprintProductionItem.ItemName + " x" + _blueprintProductionItem.Amount + "\n";
+        _itemInfoText.text = Translate("Produses in factory ") + Translate(_blueprintProductionItem.ItemName) + " x" + _blueprintProductionItem.Amount + "\n";
         _itemInfoText.text += Translate("Time to produse: ") + TaskByTimerUI.FormTimerText((int)blueprint.SecondsToFinish) + "\n";
 
         _itemInfoText.text += "\n"+ Translate("Resourses:") +"\n";

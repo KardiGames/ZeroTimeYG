@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject _battleMap;
     [SerializeField] private WorldCharacter _player;
 
+    public bool IsOffline => _saveData.IsOffline;
+
     private void Awake()
     {
 		Item.LoadItems();
@@ -93,18 +95,19 @@ public class GameManager : MonoBehaviour
         Camera.main.transform.parent = _player.transform;
         Camera.main.transform.localPosition = new Vector3(0, 0, Camera.main.transform.localPosition.z);
 
-        //TODO Add here option to change dead to survived
-
         if (dead)
             if (_player.AP >= ActionPoints.ADDITIONAL_DEATH_AP_COST)
                 _player.ActionPoints.TrySpendAP(ActionPoints.ADDITIONAL_DEATH_AP_COST);
             else
                 _player.ActionPoints.TrySpendAP(_player.AP);
 
-        float mineLevel = Mathf.Max(killPoints, mine.Level);
+        float mineLevel = killPoints;
         if (dead)
             mineLevel = mineLevel / DEATH_POINTS_DIVIDER * _player.Skills.GetSkillMultipler("Dangerous mining");
+        if (mine.Level > mineLevel)
+            mineLevel = (mine.Level + mineLevel) / 2;
         mine.Level = (int)mineLevel;
+
 
         float experience = killPoints;
         if (dead)

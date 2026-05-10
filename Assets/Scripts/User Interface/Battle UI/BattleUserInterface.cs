@@ -1,14 +1,16 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class BattleUserInterface : MonoBehaviour
 {
     [SerializeField] private BattleManager _battleManager;
     [SerializeField] private Localisation _localisation;
+    [SerializeField] private Yandex _yandex;
     [SerializeField] private TextMeshProUGUI _actionPointsText;
     [SerializeField] private TextMeshProUGUI _weaponInfoField;
     [SerializeField] private TextMeshProUGUI _playerInfoField;
@@ -16,8 +18,6 @@ public class BattleUserInterface : MonoBehaviour
     [SerializeField] private GameManager _gameManager;
     [SerializeField] private List<Button> _planningButtons;
 
-    public BattleManager BattleManager => _battleManager; //TODO This is crutch (( Much better to delete this
-    
     public void UpdateAP(CombatUnit character) => _actionPointsText.text = character.PlanningAP+" "+Translate("AP");
 
     public void ChangeWeapon()
@@ -161,7 +161,26 @@ public class BattleUserInterface : MonoBehaviour
             button.interactable=interactible;
         _spendApInput.interactable = interactible;
     }
+    public void AvoidDeath()
+    {
+        GlobalUserInterface.Instance.AskConfirmation(
+            OnWatchAdDecisionMade,
+            "Do you want to avoid defeat consequences by watching an advertisement?",
+            "Watch!",
+            "Don't watch"
+            );
+    }
 
-
-    private string Translate(string text) => _localisation.Translate(text);
+    private void OnWatchAdDecisionMade(bool watchAd)
+    {
+        if (watchAd)
+        {
+            _yandex.ShowAdForReward(_battleManager.ExitAfterDeathAvoiding);
+        }
+        else
+        {
+            _battleManager.ExitAfterDeathAvoiding(true);
+        }
+    }
+            private string Translate(string text) => _localisation.Translate(text);
 }

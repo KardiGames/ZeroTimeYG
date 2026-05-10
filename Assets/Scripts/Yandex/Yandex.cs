@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using TMPro;
@@ -6,28 +7,62 @@ using UnityEngine.UI;
 
 public class Yandex : MonoBehaviour
 {
-    public static int SAVE_SIZE_LIMIT = 100;
-    public static int SAVE_SIZE_WARNING = 90;
-    private static int MINUTES_TO_RESET = 5;
-    private static int FREE_SLOTS = 75;
+    public const int SAVE_SIZE_LIMIT = 100;
+    public const int SAVE_SIZE_WARNING = 90;
+    public const string INNER_TOKEN = "Unity editor token";
+    private const int MINUTES_TO_RESET = 5;
+    private const int FREE_SLOTS = 75;
     
+    [DllImport("__Internal")]
+    public static extern void BuyVipExtern();
+    [DllImport("__Internal")]
+    private static extern void ConsumeLostPurchasesExtern();
+    [DllImport("__Internal")]
+    private static extern void ConsumeTokenExtern(string token);
+
     [DllImport("__Internal")]
     private static extern void UnityReady();
 
     [DllImport("__Internal")]
+    private static extern void CallLoadingApiReadyExtern();
+
+    [DllImport("__Internal")]
     private static extern void SaveExtern(string jsonSave);
+
+    [DllImport("__Internal")]
+    private static extern void ShowAdExtern();
+
+    [DllImport("__Internal")]
+    private static extern void RequestVipPriceExtern();
 
     [SerializeField] private GameManager _gameManager;
     [SerializeField] private Localisation _localisation;
+    [SerializeField] private SaveData _saveData;
     [SerializeField] private TextMeshProUGUI _nameInput;
+    [SerializeField] private Button _buyVip;
+    [SerializeField] ActionPoints _actionPoints;
+    [SerializeField] private List<GameObject> _languageButtons;
     private List<int> _spentSlots = new List<int>();
-
+    private event Action<bool> _onAdShown;
+    private bool isStartCalled = false;
+    private bool isGameStarted = false;
     public bool SaveCompleted {get; private set;} = true;
     public bool Offline {get; private set;} = true;
     public string SaveJsonData { get; private set; } = "";
+    public string VipPriceText { get; private set; } = "";
 
     public void SetNewCharacterName (string playerName) {
         _nameInput.text = name;
+    }
+    
+    public void SetVipPrice (string vipPrice)
+    {
+        if (VipPriceText != "")
+        {
+            print("UNITY got more then 1 Vip price! Didn't handled it. Error?");
+            return;
+        }
+        VipPriceText = vipPrice;
     }
 
     public void LoadGame (string saveJsonData) {
@@ -39,14 +74,24 @@ public class Yandex : MonoBehaviour
         }
         Offline=false;
         SaveJsonData=saveJsonData;
+        
         print ("UNITY does LoadGame");
         _gameManager.StartGame();
+        ConsumeLostPurchasesExtern();
+        RequestVipPriceExtern();
+        
+        isGameStarted = true;
+        CallLoadingApiReady();
     }
 
     public void StartGameOffline () {
         print ("UNITY does StartGameOffline");
         Offline=true;
+        _buyVip.interactable = false;
         _gameManager.StartGame();
+        
+        isGameStarted = true;
+        CallLoadingApiReady();
     }
 
     public void SetNewSaveJson(SaveScrObj newSaveJson)
@@ -94,6 +139,51 @@ public class Yandex : MonoBehaviour
         else
             _localisation.CurrentLanguage = "en_en";
             
+        if (_languageButtons!=null)
+        {
+            foreach (var button in _languageButtons)
+                button.SetActive(false);
+        }
+    }
+
+    public void ShowAdForReward(Action<bool> onAdShown)
+    {
+        if (onAdShown == null)
+        {
+            GlobalUserInterface.Instance.ShowError(GlobalUserInterface.Instance.Localisation.Translate("Error #") + "3");
+            return;
+        }
+        _onAdShown= onAdShown;
+        ShowAdExtern();
+    }
+
+    public void AdShownCallback ()
+    {
+        bool stillDead = false;
+        _onAdShown?.Invoke(stillDead);
+        if (_onAdShown == null)
+            print("Unity error. Unixpected AdShownCallback");
+        _onAdShown = null;
+    }
+    public void AdDidntShowCallback ()
+    {
+        bool stillDead = true;
+        if (_onAdShown == null)
+            print("Unity error. Unixpected AdDidntShowCallback");
+        _onAdShown?.Invoke(stillDead);
+        _onAdShown = null;
+    }
+
+    public void VipBoughtCallback (string token)
+    {
+        _actionPoints.AddVipTime();
+        _actionPoints.Restore();
+        if (token != INNER_TOKEN)
+        {
+            print("Unity VIP token: " + token);
+            ConsumeTokenExtern(token);
+        }
+        _saveData.SaveCharacter(true);
     }
 
     private void OnEnable()
@@ -103,6 +193,16 @@ public class Yandex : MonoBehaviour
     private void OnDisable()
     {
         Timer.Instance.EveryMinuteAction -= ResetOldestSlots;
+    }
+
+    private void Start()
+    {
+        print("UNITY Start() called");
+        isStartCalled = true;
+        CallLoadingApiReady();
+#if UNITY_EDITOR
+        VipPriceText="0 $@%";
+#endif
     }
     private bool HaveFreeSaveSlot()
     {
@@ -126,5 +226,13 @@ public class Yandex : MonoBehaviour
         _spentSlots.Add(0);
         if (_spentSlots.Count>MINUTES_TO_RESET)
             _spentSlots.RemoveAt(0);
+    }
+
+    private void CallLoadingApiReady()
+    {
+        if (isGameStarted && isStartCalled)
+        {
+            CallLoadingApiReadyExtern();
+        }
     }
 }

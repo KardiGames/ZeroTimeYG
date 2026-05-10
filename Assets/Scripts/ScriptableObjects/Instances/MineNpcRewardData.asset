@@ -66,8 +66,11 @@ MonoBehaviour:
   - minMineLevel: 0
     rewardItem: {fileID: 11400000, guid: cebdab5c79b1f63448a3ef3f7dad20b0, type: 2}
     rewardCost: 2
-  - minMineLevel: 100
-    rewardItem: {fileID: 11400000, guid: eed6549d3ae898a4a88da95bca3cd311, type: 2}
+  - minMineLevel: 0
+    rewardItem: {fileID: 11400000, guid: 05987e488fb68e34fb41dc1f4c2d745f, type: 2}
+    rewardCost: 10
+  - minMineLevel: 50
+    rewardItem: {fileID: 11400000, guid: 3f3c5d9d167f79a4e8b317d5a8a181b3, type: 2}
     rewardCost: 5
   _weaponT1Reward:
   - minMineLevel: 0
